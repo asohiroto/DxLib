@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="CarRace.vcxproj" Id="f44ca919-2a0d-4054-b8f6-5956d9738bb0" />
+</Solution>
