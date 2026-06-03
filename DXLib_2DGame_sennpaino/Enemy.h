@@ -21,7 +21,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	virtual void Init(Player* pPlayer);
+	virtual void Init(Player* pPlayer, int type);
 
 	/// <summary>
 	/// 更新
@@ -37,6 +37,4 @@ protected:
 
 private:
 	Player* m_pPlayer;
-
-	
 };

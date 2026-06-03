@@ -7,6 +7,7 @@
 class Player : public Character
 {
 public:
+
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>

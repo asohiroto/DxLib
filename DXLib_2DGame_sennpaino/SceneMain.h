@@ -46,4 +46,6 @@ private:
 	std::vector<Enemy*> m_allEnemies; // すべての部隊を管理する配列
 
 	int m_handle;
+	int enemyAmount;
+	int allEnemySoldier;
 };

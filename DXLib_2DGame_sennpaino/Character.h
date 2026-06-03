@@ -1,14 +1,16 @@
-#pragma once
+﻿#pragma once
 #include"Vec2.h"
 #include<vector>
 #include<string>
 
 struct UnitData {
-	int soldierCount;	// 兵数
-	int attack;			// 攻撃力
-	int handle;			// 見た目
-	float speed;		// 行軍速度
-	bool isEnemy;		// 敵か否か
+	int soldierCount = 0;	// 兵数
+	int attack = 0;			// 攻撃力
+	int handle = 0;			// 見た目
+	int attackDistance;		// 攻撃判定距離
+	float attackRange;		// 攻撃範囲
+	float speed = 0;		// 行軍速度
+	bool isEnemy = false;   // 敵か否か
 	std::string name;		// 部隊名
 };
 
@@ -23,6 +25,13 @@ public:
 	float m_angle;  // キャラクターの向いている角度
 
 	Vec2 m_pos;		// 座標
+	Vec2 attackPos;
+	Vec2 attackDir;
+	Vec2 attackDirVer;
+
+	int deathHandle;
+	int attackHandle;
+	int alpha;
 
 	std::vector<UnitData> units; // それぞれの軍の部隊を管理する配列
 
@@ -52,7 +61,7 @@ public:
 	virtual void Draw(float x, float y, float angle, int handle);
 
 	// ユニットデータの取り出しを行う関数
-	UnitData GetUnitData(int index) const { return units[index]; }
+	UnitData& GetUnitData() { return units[0]; }
 
 protected:
 	/// <summary>
