@@ -7,11 +7,6 @@
 
 Player::Player()
 {
-	// 移動先の目印となる旗の画像の読み込み
-	m_handleFlag = LoadGraph("media/fc44.png");
-
-	// 攻撃エリアの画像の読み込み
-	attackHandle = LoadGraph("media/attackArea.png");
 }
 
 Player::~Player()
@@ -22,6 +17,13 @@ Player::~Player()
 
 void Player::Init()
 {
+
+	// 移動先の目印となる旗の画像の読み込み
+	m_handleFlag = LoadGraph("media/fc44.png");
+
+	// 攻撃エリアの画像の読み込み
+	attackHandle = LoadGraph("media/attackArea.png");
+
 	m_pos = Vec2(900.0f, 500.0f);		// 初期位置
 	m_targetPos = m_pos;				// 最初は目的地を初期位置に
 	m_x = 0;							// マウスの座標

@@ -5,13 +5,6 @@
 
 Enemy::Enemy()
 {
-	// 座標のリセット
-	m_pos = Vec2(0, 0);
-
-	// m_pPlayerの初期化（最初はだれも狙っていない状態にする）
-	m_pPlayer = nullptr;
-
-	attackHandle = LoadGraph("media/attackArea.png");
 }
 
 Enemy::~Enemy()
@@ -22,6 +15,15 @@ Enemy::~Enemy()
 
 void Enemy::Init(Player* pPlayer, int type)
 {
+
+	// 座標のリセット
+	m_pos = Vec2(0, 0);
+
+	// m_pPlayerの初期化（最初はだれも狙っていない状態にする）
+	m_pPlayer = nullptr;
+
+	attackHandle = LoadGraph("media/attackArea.png");
+
 	m_angle = 0;						// 向いている角度
 	attackPos = Vec2(-100.0f, -100.0f); // 攻撃範囲の中心座標
 	attackDir = Vec2();					// 攻撃の向き
