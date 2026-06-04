@@ -4,6 +4,7 @@
 #include"Character.h"
 #include"Player.h"
 #include"Enemy.h"
+#include"Castle.h"
 
 class Player;
 class Enemy;
@@ -42,10 +43,16 @@ public:
 
 private:
 	Player* m_pPlayer;
+	Castle* m_pCastle;
 	
-	std::vector<Enemy*> m_allEnemies; // すべての部隊を管理する配列
+	// すべての部隊を管理する配列
+	std::vector<Enemy*> m_allEnemies;
+
+	// 勝利可能フラグ
+	bool victoryFlag;
 
 	int m_handle;
 	int enemyAmount;
 	int allEnemySoldier;
+	int allPlayerSoldier;
 };

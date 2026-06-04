@@ -25,7 +25,6 @@ void Player::Init()
 	attackHandle = LoadGraph("media/attackArea.png");
 
 	m_pos = Vec2(900.0f, 500.0f);		// 初期位置
-	m_targetPos = m_pos;				// 最初は目的地を初期位置に
 	m_x = 0;							// マウスの座標
 	m_y = 0;							//
 	m_angle = 0.0f;						// 向いている角度
@@ -39,9 +38,10 @@ void Player::Init()
 
 	// ------プレイヤー部隊のデータ設定------
 	UnitData king;
-	king.name = std::string("王将");
-	king.soldierCount = 1000;
-	king.attack = 5;
+	king.name = "王将";
+	king.target = "旗";
+	king.soldierCount = 850;
+	king.attack = 3;
 	king.speed = 3.0f;
 	king.attackDistance = 128;
 	king.attackRange = 0.2f;
@@ -130,6 +130,4 @@ void Player::Draw()
 	// 頭上にデータの表示
 	DrawFormatString(m_pos.x - 40, m_pos.y - 60, GetColor(255, 255, 255), " % s : % d人", units[0].name.c_str(), units[0].soldierCount);
 
-
-	DrawFormatString(1160, 20, GetColor(255, 255, 255), "自軍総兵数 : %d人", units[0].soldierCount);
 }

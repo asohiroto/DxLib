@@ -4,14 +4,15 @@
 #include<string>
 
 struct UnitData {
-	int soldierCount = 0;	// 兵数
-	int attack = 0;			// 攻撃力
-	int handle = 0;			// 見た目
-	int attackDistance;		// 攻撃判定距離
-	float attackRange;		// 攻撃範囲
-	float speed = 0;		// 行軍速度
-	bool isEnemy = false;   // 敵か否か
-	std::string name;		// 部隊名
+	int soldierCount;			// 兵数
+	int attack = 0;				// 攻撃力
+	int handle = 0;				// 見た目
+	int attackDistance;			// 攻撃判定距離
+	float attackRange;			// 攻撃範囲
+	float speed = 0;			// 行軍速度
+	bool isEnemy = false;		// 敵か否か
+	std::string target;			// 攻撃対象の名前
+	std::string name;			// 部隊名
 };
 
 /// <summary>

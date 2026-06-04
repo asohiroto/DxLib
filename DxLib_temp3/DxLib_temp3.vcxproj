@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{679dceea-f3c5-462d-a07f-cf28ff647e81}</ProjectGuid>
-    <RootNamespace>DXLib_2DGame_sennpaino</RootNamespace>
+    <ProjectGuid>{b063561a-54a5-4573-95c3-5fb066fdc765}</ProjectGuid>
+    <RootNamespace>DxLib_temp3</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -149,24 +149,11 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Castle.cpp" />
-    <ClCompile Include="Character.cpp" />
-    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Mouse.cpp" />
-    <ClCompile Include="Pad.cpp" />
-    <ClCompile Include="Player.cpp" />
     <ClCompile Include="SceneMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Castle.h" />
-    <ClInclude Include="Character.h" />
-    <ClInclude Include="Enemy.h" />
-    <ClInclude Include="Mouse.h" />
-    <ClInclude Include="Pad.h" />
-    <ClInclude Include="Player.h" />
     <ClInclude Include="SceneMain.h" />
-    <ClInclude Include="Vec2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

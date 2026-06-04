@@ -1,6 +1,7 @@
 #pragma once
 #include"Character.h"
 #include"Player.h"
+#include"Castle.h"
 
 /// <summary>
 /// 敵クラス
@@ -21,12 +22,12 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	virtual void Init(Player* pPlayer, int type);
+	virtual void Init(int type);
 
 	/// <summary>
 	/// 更新
 	/// </summary>
-	virtual void Update() override;
+	virtual void Update(Player* pPlayer, Castle* pCastle);
 
 	/// <summary>
 	/// 描画
@@ -37,4 +38,5 @@ protected:
 
 private:
 	Player* m_pPlayer;
+	Castle* m_pCastle;
 };

@@ -2,6 +2,7 @@
 #include "Enemy.h"
 #include"Character.h"
 #include"Player.h"
+#include"Castle.h"
 
 Enemy::Enemy()
 {
@@ -13,14 +14,11 @@ Enemy::~Enemy()
 	DeleteGraph(units[0].handle);
 }
 
-void Enemy::Init(Player* pPlayer, int type)
+void Enemy::Init(int type)
 {
 
 	// 座標のリセット
 	m_pos = Vec2(0, 0);
-
-	// m_pPlayerの初期化（最初はだれも狙っていない状態にする）
-	m_pPlayer = nullptr;
 
 	attackHandle = LoadGraph("media/attackArea.png");
 
@@ -29,9 +27,6 @@ void Enemy::Init(Player* pPlayer, int type)
 	attackDir = Vec2();					// 攻撃の向き
 	attackDirVer = Vec2();				// 攻撃の向きと垂直に交わるベクトル
 	alpha = 128;						// 攻撃エリアの半透明度
-
-	// 追跡対象となるプレイヤーのポインタを記憶
-	m_pPlayer = pPlayer;
 
 	// 配列の初期化
 	units.clear();
@@ -43,6 +38,7 @@ void Enemy::Init(Player* pPlayer, int type)
 	if (type == 0)
 	{
 		data.name = "桂馬";
+		data.target = "王将";
 		data.soldierCount = 500;
 		data.attack = 1;
 		data.speed = 2.2f;
@@ -56,6 +52,7 @@ void Enemy::Init(Player* pPlayer, int type)
 	if (type == 1)
 	{
 		data.name = "金将";
+		data.target = "城";
 		data.soldierCount = 750;
 		data.attack = 3;
 		data.speed = 1.8f;
@@ -69,6 +66,7 @@ void Enemy::Init(Player* pPlayer, int type)
 	if (type == 2)
 	{
 		data.name = "銀将";
+		data.target = "王将";
 		data.soldierCount = 600;
 		data.attack = 2;
 		data.speed = 2.0f;
@@ -82,11 +80,50 @@ void Enemy::Init(Player* pPlayer, int type)
 	units.push_back(data);
 }
 
-void Enemy::Update()
+void Enemy::Update(Player* pPlayer, Castle* pCastle)
 {
-	// プレイヤーの位置を目的地としベクトルを作成
-	m_targetPos = m_pPlayer->m_pos;
-	Vec2 toTarget = Vec2(m_targetPos.x - m_pos.x, m_targetPos.y - m_pos.y);
+	m_pPlayer = pPlayer;
+	m_pCastle = pCastle;
+
+	UnitData& playerData = m_pPlayer->GetUnitData();
+	UnitData& castleData = m_pCastle->GetUnitData();
+
+	Vec2 targetPos;
+
+	// ターゲットの選択、現在のターゲットが死んでいる場合は、もう一方をターゲットにする。
+	// 両方死んでいる場合は、ターゲットなし（0,0）にする。
+	if (units[0].target == "王将" && playerData.soldierCount > 0)
+	{
+		targetPos = m_pPlayer->m_pos;
+	}
+	else if (units[0].target == "城" && castleData.soldierCount > 0)
+	{
+		targetPos = m_pCastle->m_pos;
+	}
+	else if (units[0].target == "王将" && playerData.soldierCount == 0)
+	{
+		if (castleData.soldierCount > 0)
+		{
+			targetPos = m_pCastle->m_pos;
+		}
+		else
+		{
+			targetPos = Vec2(0, 0);
+		}
+	}
+	else if (units[0].target == "城" && castleData.soldierCount == 0)
+	{
+		if (playerData.soldierCount > 0)
+		{
+			targetPos = m_pPlayer->m_pos;
+		}
+		else
+		{
+			targetPos = Vec2(0, 0);
+		}
+	}
+
+	Vec2 toTarget = Vec2(targetPos.x - m_pos.x, targetPos.y - m_pos.y);
 
 	// プレイヤーのいる角度
 	m_angle = atan2f(toTarget.y, toTarget.x);
@@ -119,7 +156,7 @@ void Enemy::Draw()
 
 	// 敵部隊の描画
 	Character::Draw(m_pos.x, m_pos.y, m_angle, units[0].handle);
-	
+
 	// 頭上にデータの表示
 	DrawFormatString(m_pos.x - 40, m_pos.y - 60, GetColor(255, 0, 0), " % s : % d人", units[0].name.c_str(), units[0].soldierCount);
 }
