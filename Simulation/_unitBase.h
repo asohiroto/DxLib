@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include"Vec2.h"
+#include"AsoDxLib/Vec2.h"
 #include<vector>
 
 class _unitBase
@@ -22,7 +22,7 @@ public:
 		// 見た目
 		int handle;
 		// 建築可能か
-		bool isArchitect;
+		bool canArchitect;
 		// 敵か味方か
 		bool isEnemy;
 		// 経路探索関係-------

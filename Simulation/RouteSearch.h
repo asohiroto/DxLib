@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include"GameDefine.h"
 #include<vector>
-#include"Vec2.h"
+#include"AsoDxLib/Vec2.h"
 
 struct NodeData
 {

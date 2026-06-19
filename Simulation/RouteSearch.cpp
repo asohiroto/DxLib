@@ -93,7 +93,7 @@ RouteSearch::RouteSearch() :
 		y++;
 	}
 	// 【仮】　ゴールの位置を指定
-	_goal = Vec2(GameDefine::NODE_WIDTH - 3, (GameDefine::NODE_HEIGHT / 2) - 1);
+	_goal = Vec2(GameDefine::ENEMY_BASE_X, GameDefine::ENEMY_BASE_Y);
 }
 
 RouteSearch::~RouteSearch()

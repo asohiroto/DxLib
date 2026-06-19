@@ -1,6 +1,7 @@
 ﻿#include "DxLib.h"
 #include"GameDefine.h"
 #include"MainScene.h"
+#include<time.h>
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -16,6 +17,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     {
         return -1;                        // エラーが起きたら直ちに終了
     }
+
+    SRand((int)time(NULL));
 
     MainScene* p_Main = new MainScene;
 

@@ -1,7 +1,7 @@
 ﻿#pragma once
-#include"Unit.h"
+#include"_unitBase.h"
 
-class PlayerUnit : public Unit
+class PlayerUnit : public _unitBase
 {
 public:
 	PlayerUnit();
@@ -14,4 +14,6 @@ public:
 
 	void Draw() override;
 
+private:
+	_unitBase::UnitData _mainUnit;
 };

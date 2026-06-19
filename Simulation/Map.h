@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include"Vec2.h"
+#include"AsoDxLib/Vec2.h"
 #include"GameDefine.h"
 
 /// <summary>

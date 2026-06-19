@@ -2,6 +2,7 @@
 #include"SceneBase.h"
 #include"Map.h"
 #include"RouteSearch.h"
+#include"PlayerUnit.h"
 
 /// <summary>
 /// ゲームシーンクラス
@@ -9,9 +10,6 @@
 class MainScene : public SceneBase
 {
 public:
-	RouteSearch* p_Route;
-	Map* p_Map;
-
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
@@ -36,4 +34,9 @@ public:
 	/// 描画
 	/// </summary>
 	void Draw() override;
+
+private:
+	RouteSearch* p_Route;
+	Map* p_Map;
+	PlayerUnit* p_Player;
 };
