@@ -1,17 +1,16 @@
-﻿#include"DxLib.h"
-#include"Pad.h"
+﻿#pragma once
+#include"DxLib.h"
 
 namespace
 {
-	// 前のフレームのパッド押し下げ状態
 	int lastPad = 0;
-	// このフレームのパッド押し下げ状態
 	int nowPad = 0;
 }
 
 namespace Pad
 {
-	void Pad::Update()
+	// 更新処理
+	void Update()
 	{
 		// 前のフレームに取得したパッド情報を一つ古い状態にする
 		lastPad = nowPad;
@@ -19,13 +18,15 @@ namespace Pad
 		nowPad = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 	}
 
-	bool Pad::IsPress(int key)
+	// 押されているか
+	bool IsPress(int key)
 	{
 		// 現在のフレームで押されている
 		return(nowPad & key);
 	}
 
-	bool Pad::IsTrigger(int key)
+	// 押された瞬間を取得
+	bool IsTrigger(int key)
 	{
 		bool isNow = (nowPad & key);	// 現在のフレーム
 		bool isLast = (lastPad & key);  // 前のフレーム
@@ -34,7 +35,8 @@ namespace Pad
 		return (isNow && !isLast);
 	}
 
-	bool Pad::IsRelease(int key)
+	// 離した瞬間を取得
+	bool IsRelease(int key)
 	{
 		bool isNow = (nowPad & key);	// 現在のフレーム
 		bool isLast = (lastPad & key);	// 前のフレーム

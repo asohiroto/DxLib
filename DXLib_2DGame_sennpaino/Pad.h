@@ -1,10 +1,9 @@
-#pragma once
+﻿#pragma once
 
 namespace Pad
 {
 	// 更新処理
 	void Update();
-
 	// 押されているか
 	bool IsPress(int key);
 

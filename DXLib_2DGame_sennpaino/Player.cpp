@@ -2,8 +2,8 @@
 #include"Player.h"
 #include"Character.h"
 #include"Mouse.h"
-#include"Pad.h"
 #include<string>
+
 
 Player::Player()
 {
@@ -49,6 +49,8 @@ void Player::Init()
 	king.isEnemy = false;
 	units.push_back(king);
 
+
+	printfDx("%d", m_handleFlag);
 
 }
 
@@ -114,7 +116,7 @@ void Player::Draw()
 	// クリックした位置に旗を表示
 	if (flagFlag)
 	{
-		// 画像の中心をクリック地位にするために補正
+		// 画像の中心をクリック位置にするために補正
 		DrawGraph(m_x - 32, m_y - 32, m_handleFlag, TRUE);
 	}
 

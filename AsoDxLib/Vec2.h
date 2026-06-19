@@ -19,8 +19,6 @@ public:
 
 	}
 
-
-
 	// 単項演算子+
 	Vec2 operator+() const
 	{
@@ -159,20 +157,14 @@ public:
 	// 内積を求める
 	float Dot(const Vec2& other) const
 	{
-		float x = x * other.x;
-		float y = y * other.y;
-
-		return x + y;
+		return x * other.x + y * other.y;
 	}
 
 	// 外積を求める
 	// 正ならvec2が左側
 	float Cross(const Vec2& other) const
 	{
-		float x = x * other.y;
-		float y = other.x * y;
-
-		return x - y;
+		return x * other.y - y * other.x;
 	}
 
 	/// <summary>
@@ -188,11 +180,24 @@ public:
 		return target;
 	}
 
-	static Vec2 Lerp(const Vec2& start, const Vec2& goal, int t)
+	/// <summary>
+	/// 線形補間を行う
+	/// </summary>
+	/// <param name="start">始点</param>
+	/// <param name="goal">終点</param>
+	/// <param name="t">率</param>
+	/// <returns></returns>
+	static Vec2 Lerp(const Vec2& start, const Vec2& goal, float t)
 	{
 		if (t <= 0) t = 0;
 		if (t >= 1) t = 1;
 
 		return start + (goal - start) * t;
+	}
+
+	// 対象との距離を返す
+	float DistanceDouble(const Vec2& target) const
+	{
+		return (x * target.x + y * target.y);
 	}
 };

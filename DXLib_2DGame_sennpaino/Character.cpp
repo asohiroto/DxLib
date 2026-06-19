@@ -1,4 +1,4 @@
-#include"DXLib.h"
+﻿#include"DXLib.h"
 #include "Character.h"
 
 Character::Character()
