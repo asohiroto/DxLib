@@ -25,7 +25,7 @@ namespace GameDefine
 	// ノードのサイズ
 	constexpr int NODE_SIZE = 20;
 	// 自軍拠点の座標
-	constexpr float MY_BASE_X = 3, MY_BASE_Y = 17;
+	constexpr float MY_BASE_X = 2, MY_BASE_Y = 17;
 	// 敵軍拠点の座標
 	constexpr float ENEMY_BASE_X = 61, ENEMY_BASE_Y = 17;
 }

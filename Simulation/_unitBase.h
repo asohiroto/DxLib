@@ -20,11 +20,15 @@ public:
 		// 攻撃範囲
 		int attackRange;
 		// 見た目
-		int handle;
+		int color;
 		// 建築可能か
 		bool canArchitect;
 		// 敵か味方か
 		bool isEnemy;
+		// 攻撃中か
+		bool isAttacking;
+		// 到着したか
+		bool isGoal;
 		// 経路探索関係-------
 		// ユニットの進む経路
 		std::vector<Vec2> moveRoute;

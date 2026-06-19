@@ -44,15 +44,22 @@ public:
 
 	void Draw();
 
-private:
-	// ゴールまでの道筋を表示
-	void DrawRoute();
+	// A*による経路探索 (_countTblにスコアを書き込んでいく)
+	void RouteSearchAstar(Vec2 startPos, int startCount, Vec2 goal);
 
+	// 探査した経路を保存する関数 (_countTblを参照してルートを決定する)
+	std::vector<Vec2> GetRouteList(Vec2 startPos, Vec2 goal);
+
+	// ゴールまでの道筋を表示
+	void DrawRoute(Vec2 goal);
+
+public:
+	// 最大探索コストの上限値（この値まで探索を行える）
+	int _moveCount;
+
+private:
 	// 地形情報のクリア
 	void ClearCount();
-
-	// A*による経路探索 (_countTblにスコアを書き込んでいく)
-	void RouteSearchAstar(Vec2 startPos, int startCount);
 
 	// TileType型を受け取って移動コストを返す関数
 	int GetMoveCost(TileType type);
@@ -60,14 +67,9 @@ private:
 	// 数字を受け取って、TileTypeを返す関数
 	TileType GetTileType(int num);
 
+private:
 	// 地形情報（移動コスト）
 	TileType _fieldTbl[GameDefine::NODE_HEIGHT][GameDefine::NODE_WIDTH];
-
-	// 探査した経路を保存する関数 (_countTblを参照してルートを決定する)
-	std::vector<Vec2> GetRouteList(Vec2 startPos);
-
-	// 最大探索コストの上限値（この値まで探索を行える）
-	int _moveCount;
 
 	// 各マス時点での残りの移動コストを記録する（最大を保存）
 	int _countTbl[GameDefine::NODE_HEIGHT][GameDefine::NODE_WIDTH];
@@ -77,7 +79,4 @@ private:
 
 	// フレーム数のカウント
 	int _frameCount;
-
-	// 目的地
-	Vec2 _goal;
 };

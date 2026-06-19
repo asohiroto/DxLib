@@ -3,6 +3,7 @@
 #include"Map.h"
 #include"RouteSearch.h"
 #include"PlayerUnit.h"
+#include"EnemyUnit.h"
 
 /// <summary>
 /// ゲームシーンクラス
@@ -39,4 +40,5 @@ private:
 	RouteSearch* p_Route;
 	Map* p_Map;
 	PlayerUnit* p_Player;
+	EnemyUnit* p_Enemy;
 };

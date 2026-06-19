@@ -1,0 +1,41 @@
+﻿#pragma once
+#include"_unitBase.h"
+#include"RouteSearch.h"
+
+class EnemyUnit : public _unitBase
+{
+public:
+	EnemyUnit();
+	~EnemyUnit();
+	void Init() override;
+	void Update() override;
+	void Draw() override;
+
+private:
+
+	RouteSearch* p_RouteSearch;
+	
+	// 敵の主部隊
+	_unitBase::UnitData _mainEnemy;
+
+	// 敵の副部隊
+	_unitBase::UnitData _subEnemy;
+
+	// 敵の主部隊のピクセル座標
+	Vec2 _mainPosPixel;
+
+	// 敵の主部隊のノード座標
+	Vec2 _mainPosInd;
+
+	// 敵の副部隊のピクセル座標
+	Vec2 _subPosPixel;
+
+	// 敵の副部隊のノード座標
+	Vec2 _subPosInd;
+
+	// 敵の主部隊が動く間隔
+	int _mainMoveTimer;
+
+	// 敵の副部隊が動く間隔
+	int _subMoveTimer;
+};

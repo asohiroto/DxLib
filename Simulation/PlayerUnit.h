@@ -1,12 +1,13 @@
 ﻿#pragma once
 #include"_unitBase.h"
+#include"RouteSearch.h"
 
 class PlayerUnit : public _unitBase
 {
 public:
 	PlayerUnit();
 
-	~PlayerUnit() override;
+	~PlayerUnit();
 
 	void Init() override;
 
@@ -15,5 +16,30 @@ public:
 	void Draw() override;
 
 private:
+
+	RouteSearch* p_RouteSearch;
+
+	// 主部隊
 	_unitBase::UnitData _mainUnit;
+
+	// 副部隊
+	_unitBase::UnitData _subUnit;
+
+	// 主部隊のピクセル座標
+	Vec2 _mainPosPixel;
+
+	// 副部隊のピクセル座標
+	Vec2 _subPosPixel;
+
+	// 主部隊のノード座標
+	Vec2 _mainPosInd;
+
+	// 副部隊のノード座標
+	Vec2 _subPosInd;
+
+	// 主部隊が動く間隔
+	int _mainMoveTimer;
+
+
+	int _subMoveTimer;
 };

@@ -62,9 +62,6 @@
     <ClInclude Include="bennri\Circle.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="bennri\Color.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="bennri\Mouse.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>

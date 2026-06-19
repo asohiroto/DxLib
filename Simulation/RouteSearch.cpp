@@ -4,70 +4,17 @@
 #include<queue>
 #include<sstream>
 #include<fstream>
-
-void RouteSearch::ClearCount()
-{
-	// 全てのノードの移動コストを最小の値で初期化する
-	for (int x = 0; x < GameDefine::NODE_WIDTH; x++)
-	{
-		for (int y = 0; y < GameDefine::NODE_HEIGHT; y++)
-		{
-			_countTbl[y][x] = -1;
-		}
-	}
-}
-
-void RouteSearch::DrawRoute()
-{
-	// ゴールまでの歩数がわからなければ、終了
-	if (_countTbl[(int)_goal.y][(int)_goal.x] < 0) return;
-
-	// 現在チェックしているノードの番号（座標ではない）
-	Vec2 index = _goal;
-
-	while (1)
-	{
-		// indexをスクリーン上の座標に変換し、描画
-		Vec2 pos = index * GameDefine::NODE_SIZE;
-		DrawBox(pos.x, pos.y, pos.x + GameDefine::NODE_SIZE, pos.y + GameDefine::NODE_SIZE, 0xff00ff, true);
-
-		// ひとつ前に探索した時の移動コスト
-		int currentRemaining = _countTbl[(int)index.y][(int)index.x];
-
-		// 上下左右の移動用ベクトルと、次を探索するかのフラグ
-		Vec2 dir[] = { Vec2(1,0), Vec2(-1,0), Vec2(0,1), Vec2(0, -1) };
-		bool foundNext = false;
-
-		// 上下左右の４回分のループ
-		for (int i = 0; i < 4; i++)
-		{
-			// 今から調べる上下左右いずれかのノード
-			Vec2 next = index + dir[i];
-
-			// 範囲外なら探索しない
-			if (next.x < 0 || next.x >= GameDefine::NODE_WIDTH || next.y < 0 || next.y >= GameDefine::NODE_HEIGHT) continue;
-
-			// 地形情報による移動コスト
-			int cost = GetMoveCost(_fieldTbl[(int)index.y][(int)index.x]);
-
-			// 最短経路の確認
-			if (_countTbl[(int)next.y][(int)next.x] == currentRemaining + cost)
-			{
-				index = next;
-				foundNext = true;
-				break;
-			}
-		}
-		if (!foundNext) break;
-	}
-}
+#include"AsoDxLib/color.h"
 
 RouteSearch::RouteSearch() :
 	_countTbl{},
 	_moveCount(640),
 	_funcCount(0),
-	_frameCount(0)
+	_frameCount(0),
+	_fieldTbl()
 {
+	ClearCount();
+
 	// csvファイルの読み込み
 	std::ifstream file("Data/simulation_map.csv");
 	// ファイル内の1行分のデータを入れる変数
@@ -92,8 +39,6 @@ RouteSearch::RouteSearch() :
 		}
 		y++;
 	}
-	// 【仮】　ゴールの位置を指定
-	_goal = Vec2(GameDefine::ENEMY_BASE_X, GameDefine::ENEMY_BASE_Y);
 }
 
 RouteSearch::~RouteSearch()
@@ -120,22 +65,23 @@ void RouteSearch::Update()
 	_funcCount = 0;
 
 	ClearCount();
-	RouteSearchAstar(mouseIndex, _moveCount * 4);
+	//RouteSearchAstar(mouseIndex, _moveCount * 4);
 }
 
 void RouteSearch::Draw()
 {
-	// ゴールの座標変換と、描画
-	int posX = _goal.x * GameDefine::NODE_SIZE;
-	int posY = _goal.y * GameDefine::NODE_SIZE;
-	DrawBox(posX, posY, posX + GameDefine::NODE_SIZE, posY + GameDefine::NODE_SIZE, 0xff00ff, true);
+	int goalPosX = GameDefine::ENEMY_BASE_X * GameDefine::NODE_SIZE;
+	int goalPosY = GameDefine::ENEMY_BASE_Y * GameDefine::NODE_SIZE;
 
-	// 経路が見つかっていれば、その経路を描画
-	if (_countTbl[(int)_goal.y][(int)_goal.x] >= 0) DrawRoute();
+	// ゴールの描画
+	DrawBox(goalPosX, goalPosY, goalPosX + GameDefine::NODE_SIZE, goalPosY + GameDefine::NODE_SIZE, color::RedColor, true);
+
 }
 
-void RouteSearch::RouteSearchAstar(Vec2 startPos, int startCount)
+void RouteSearch::RouteSearchAstar(Vec2 startPos, int startCount, Vec2 goal)
 {
+	ClearCount();
+
 	// 範囲外のチェック
 	if (startPos.x < 0 || startPos.y < 0 || startPos.x >= GameDefine::NODE_WIDTH || startPos.y >= GameDefine::NODE_HEIGHT) return;
 
@@ -143,7 +89,7 @@ void RouteSearch::RouteSearchAstar(Vec2 startPos, int startCount)
 	NodeData n;
 	n.Pos = startPos;
 	n.c = 0;
-	n.h = abs(startPos.x - _goal.x) + abs(startPos.y - _goal.y);
+	n.h = abs(startPos.x - goal.x) + abs(startPos.y - goal.y);
 	n.s = n.c + n.h;
 
 	// sの値で並べ替えを行うキューを作成
@@ -161,7 +107,7 @@ void RouteSearch::RouteSearchAstar(Vec2 startPos, int startCount)
 		que.pop();
 
 		// キューから取り出したノードがゴールなら探索終了
-		if (curr.Pos.y == _goal.y && curr.Pos.x == _goal.x) return;
+		if (curr.Pos.y == goal.y && curr.Pos.x == goal.x) return;
 
 		// 既にここより効率の良いルートで探索済みのノードならスキップ
 		int currentRemainning = startCount - curr.c;
@@ -198,7 +144,7 @@ void RouteSearch::RouteSearchAstar(Vec2 startPos, int startCount)
 			NodeData d;
 			d.Pos = o;
 			d.c = curr.c + moveCost;
-			d.h = abs(o.x - _goal.x) + abs(o.y - _goal.y);
+			d.h = abs(o.x - goal.x) + abs(o.y - goal.y);
 			d.s = d.c + d.h;
 
 			que.push(d);
@@ -234,13 +180,13 @@ TileType RouteSearch::GetTileType(int num)
 	}
 }
 
-std::vector<Vec2> RouteSearch::GetRouteList(Vec2 startPos)
+std::vector<Vec2> RouteSearch::GetRouteList(Vec2 startPos, Vec2 goal)
 {
 	std::vector<Vec2> route;
 
-	if (_countTbl[(int)_goal.y][(int)_goal.x] < 0) return route;
+	if (_countTbl[(int)goal.y][(int)goal.x] < 0) return route;
 
-	Vec2 index = _goal;
+	Vec2 index = goal;
 
 	route.push_back(index);
 
@@ -253,7 +199,7 @@ std::vector<Vec2> RouteSearch::GetRouteList(Vec2 startPos)
 		for (int i = 0; i < 4; i++)
 		{
 			Vec2 next = index + dir[i];
-			if (next.x < 0 || next.x >= GameDefine::NODE_WIDTH || next.y <= 0 || next.y >= GameDefine::NODE_HEIGHT) continue;
+			if (next.x < 0 || next.x >= GameDefine::NODE_WIDTH || next.y <= 0 || next.y > GameDefine::NODE_HEIGHT) continue;
 
 			int cost = GetMoveCost(_fieldTbl[(int)index.y][(int)index.x]);
 			if (_countTbl[(int)next.y][(int)next.x] == currentRemaining + cost)
@@ -273,4 +219,61 @@ std::vector<Vec2> RouteSearch::GetRouteList(Vec2 startPos)
 	std::reverse(route.begin(), route.end());
 
 	return route;
+}
+
+void RouteSearch::ClearCount()
+{
+	// 全てのノードの移動コストを最小の値で初期化する
+	for (int x = 0; x < GameDefine::NODE_WIDTH; x++)
+	{
+		for (int y = 0; y < GameDefine::NODE_HEIGHT; y++)
+		{
+			_countTbl[y][x] = -1;
+		}
+	}
+}
+
+void RouteSearch::DrawRoute(Vec2 goal)
+{
+	// ゴールまでの歩数がわからなければ、終了
+	if (_countTbl[(int)goal.y][(int)goal.x] < 0) return;
+
+	// 現在チェックしているノードの番号（座標ではない）
+	Vec2 index = goal;
+
+	while (1)
+	{
+		// indexをスクリーン上の座標に変換し、描画
+		Vec2 pos = index * GameDefine::NODE_SIZE;
+		DrawBox(pos.x, pos.y, pos.x + GameDefine::NODE_SIZE, pos.y + GameDefine::NODE_SIZE, 0xff00ff, true);
+
+		// ひとつ前に探索した時の移動コスト
+		int currentRemaining = _countTbl[(int)index.y][(int)index.x];
+
+		// 上下左右の移動用ベクトルと、次を探索するかのフラグ
+		Vec2 dir[] = { Vec2(1,0), Vec2(-1,0), Vec2(0,1), Vec2(0, -1) };
+		bool foundNext = false;
+
+		// 上下左右の４回分のループ
+		for (int i = 0; i < 4; i++)
+		{
+			// 今から調べる上下左右いずれかのノード
+			Vec2 next = index + dir[i];
+
+			// 範囲外なら探索しない
+			if (next.x < 0 || next.x >= GameDefine::NODE_WIDTH || next.y < 0 || next.y >= GameDefine::NODE_HEIGHT) continue;
+
+			// 地形情報による移動コスト
+			int cost = GetMoveCost(_fieldTbl[(int)index.y][(int)index.x]);
+
+			// 最短経路の確認
+			if (_countTbl[(int)next.y][(int)next.x] == currentRemaining + cost)
+			{
+				index = next;
+				foundNext = true;
+				break;
+			}
+		}
+		if (!foundNext) break;
+	}
 }
