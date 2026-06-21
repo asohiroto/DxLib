@@ -18,6 +18,7 @@ public:
 private:
 
 	RouteSearch* p_RouteSearch;
+	EnemyUnit* p_EnemyUnit;
 
 	// 主部隊
 	_unitBase::UnitData _mainUnit;

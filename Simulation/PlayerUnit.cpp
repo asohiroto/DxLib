@@ -1,4 +1,5 @@
 ﻿#include"PlayerUnit.h"
+#include"EnemyUnit.h"
 #include"_unitBase.h"
 #include"DxLib.h"
 #include"GameDefine.h"
@@ -6,6 +7,7 @@
 
 PlayerUnit::PlayerUnit() :
 	p_RouteSearch(nullptr),
+	p_EnemyUnit(nullptr),
 	_mainPosPixel(),
 	_mainPosInd(),
 	_subPosPixel(),
@@ -19,11 +21,13 @@ PlayerUnit::PlayerUnit() :
 PlayerUnit::~PlayerUnit()
 {
 	delete p_RouteSearch;
+	delete p_EnemyUnit;
 }
 
 void PlayerUnit::Init()
 {
 	p_RouteSearch = new RouteSearch;
+	p_EnemyUnit = new EnemyUnit;
 
 	// 主部隊の初期化処理---------------------------------------------------------
 
@@ -40,14 +44,10 @@ void PlayerUnit::Init()
 
 	// 主部隊のデータ
 	_mainUnit.pos = _mainPosInd;
-	_mainUnit.hp = 100;
-	_mainUnit.attack = 50;
-	_mainUnit.attackRange = 1;
+	_mainUnit.type = UnitType::Soldier;
+	SetStatusByType(_mainUnit);
 	_mainUnit.color = color::YellowColor;
-	_mainUnit.canArchitect = false;
 	_mainUnit.isEnemy = false;
-	_mainUnit.isAttacking = false;
-	_mainUnit.isGoal = false;
 	_mainUnit.moveRoute = p_RouteSearch->GetRouteList(_mainPosInd, _mainUnit.destPos);
 	_mainUnit.routeIndex = 0;
 
@@ -68,14 +68,10 @@ void PlayerUnit::Init()
 
 	// 主部隊のデータ
 	_subUnit.pos = _subPosInd;
-	_subUnit.hp = 100;
-	_subUnit.attack = 50;
-	_subUnit.attackRange = 1;
+	_subUnit.type = UnitType::Archer;
+	SetStatusByType(_subUnit);
 	_subUnit.color = color::LightGrayColor;
-	_subUnit.canArchitect = false;
 	_subUnit.isEnemy = false;
-	_subUnit.isAttacking = false;
-	_subUnit.isGoal = false;
 	_subUnit.moveRoute = p_RouteSearch->GetRouteList(_subPosInd, _subUnit.destPos);
 	_subUnit.routeIndex = 0;
 
@@ -84,14 +80,17 @@ void PlayerUnit::Init()
 
 void PlayerUnit::Update()
 {
+	// 行動間隔のタイマー
 	_mainMoveTimer++;
 	_subMoveTimer++;
 
+	// ルート探索に基づく、移動処理
 	if (!_mainUnit.moveRoute.empty() && _mainUnit.routeIndex < _mainUnit.moveRoute.size() && !_mainUnit.isAttacking)
 		_mainUnit.pos = _mainUnit.moveRoute[_mainUnit.routeIndex];
 
 	if (!_subUnit.moveRoute.empty() && _subUnit.routeIndex < _subUnit.moveRoute.size() && !_subUnit.isAttacking)
 		_subUnit.pos = _subUnit.moveRoute[_subUnit.routeIndex];
+
 
 	if (_mainMoveTimer > 10 && !_mainUnit.isAttacking)
 	{
