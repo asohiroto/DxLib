@@ -1,25 +1,21 @@
 ﻿#pragma once
 #include"_unitBase.h"
 #include"RouteSearch.h"
+#include"EnemyUnit.h"
 
 class PlayerUnit : public _unitBase
 {
 public:
 	PlayerUnit();
-
 	~PlayerUnit();
-
 	void Init() override;
-
 	void Update() override;
-
 	void Draw() override;
 
 private:
 
 	RouteSearch* p_RouteSearch;
-	EnemyUnit* p_EnemyUnit;
-
+	
 	// 主部隊
 	_unitBase::UnitData _mainUnit;
 
@@ -40,7 +36,11 @@ private:
 
 	// 主部隊が動く間隔
 	int _mainMoveTimer;
-
-
+	
+	// 副部隊が動く間隔
 	int _subMoveTimer;
+
+	void StateMove(UnitData& data) override;
+	void StateIdle(UnitData& data, int& timer) override;
+	void StateArrived(UnitData& data) override;
 };

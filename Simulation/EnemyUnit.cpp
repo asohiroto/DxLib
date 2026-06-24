@@ -1,4 +1,5 @@
 ﻿#include"EnemyUnit.h"
+#include"_unitBase.h"
 #include"DxLib.h"
 #include"AsoDxLib/color.h"
 
@@ -36,16 +37,13 @@ void EnemyUnit::Init()
 
 	// 主部隊のデータ
 	_mainEnemy.pos = _mainPosInd;
-	_mainEnemy.hp = 100;
-	_mainEnemy.attack = 50;
-	_mainEnemy.attackRange = 1;
+	_mainEnemy.type = UnitType::Soldier;
+	_unitBase::SetStatusByType(_mainEnemy);
 	_mainEnemy.color = color::PurpleColor;
-	_mainEnemy.canArchitect = false;
-	_mainEnemy.isEnemy = false;
-	_mainEnemy.isAttacking = false;
-	_mainEnemy.isGoal = false;
+	_mainEnemy.isEnemy = true;
 	_mainEnemy.moveRoute = p_RouteSearch->GetRouteList(_mainPosInd, _mainEnemy.destPos);
 	_mainEnemy.routeIndex = 0;
+	_mainEnemy.state = UnitState::Move;
 
 	//-------------------------------------------------------------------------------
 
@@ -64,16 +62,13 @@ void EnemyUnit::Init()
 
 	// 副部隊のデータ
 	_subEnemy.pos = _subPosInd;
-	_subEnemy.hp = 100;
-	_subEnemy.attack = 50;
-	_subEnemy.attackRange = 1;
+	_subEnemy.type = UnitType::Archer;
+	_unitBase::SetStatusByType(_subEnemy);
 	_subEnemy.color = color::PinkColor;
-	_subEnemy.canArchitect = false;
-	_subEnemy.isEnemy = false;
-	_subEnemy.isAttacking = false;
-	_subEnemy.isGoal = false;
+	_subEnemy.isEnemy = true;
 	_subEnemy.moveRoute = p_RouteSearch->GetRouteList(_subPosInd, _subEnemy.destPos);
 	_subEnemy.routeIndex = 0;
+	_subEnemy.state = UnitState::Move;
 
 	//-------------------------------------------------------------------------------
 }
@@ -83,35 +78,11 @@ void EnemyUnit::Update()
 	_mainMoveTimer++;
 	_subMoveTimer++;
 
-	if (!_mainEnemy.moveRoute.empty() && _mainEnemy.routeIndex < _mainEnemy.moveRoute.size() && !_mainEnemy.isAttacking)
-		_mainEnemy.pos = _mainEnemy.moveRoute[_mainEnemy.routeIndex];
+	if (_mainMoveTimer > 10)
+		SetMoveByState(_mainEnemy, _mainMoveTimer);
 
-	if (!_subEnemy.moveRoute.empty() && _subEnemy.routeIndex < _subEnemy.moveRoute.size() && !_subEnemy.isAttacking)
-		_subEnemy.pos = _subEnemy.moveRoute[_subEnemy.routeIndex];
-
-	if (_mainMoveTimer > 10 && !_mainEnemy.isAttacking)
-	{
-		_mainEnemy.routeIndex++;
-		_mainMoveTimer = 0;
-	}
-
-	if (_subMoveTimer > 10 && !_subEnemy.isAttacking)
-	{
-		_subEnemy.routeIndex++;
-		_subMoveTimer = 0;
-	}
-
-	if (_mainEnemy.pos.x == GameDefine::MY_BASE_X && _mainEnemy.pos.y == GameDefine::MY_BASE_Y && !_mainEnemy.isGoal)
-	{
-		printfDx("main toutyakuda!\n");
-		_mainEnemy.isGoal = true;
-	}
-
-	if (_subEnemy.pos.x == GameDefine::MY_BASE_X && _subEnemy.pos.y == GameDefine::MY_BASE_Y && !_subEnemy.isGoal)
-	{
-		printfDx("sub toutyakuda!\n");
-		_subEnemy.isGoal = true;
-	}
+	if (_subMoveTimer > 10)
+		SetMoveByState(_subEnemy, _subMoveTimer);
 
 	_mainPosPixel = _mainEnemy.pos * GameDefine::NODE_SIZE;
 	_subPosPixel = _subEnemy.pos * GameDefine::NODE_SIZE;
@@ -122,4 +93,31 @@ void EnemyUnit::Draw()
 	DrawBox(_mainPosPixel.x, _mainPosPixel.y, _mainPosPixel.x + GameDefine::NODE_SIZE, _mainPosPixel.y + GameDefine::NODE_SIZE, _mainEnemy.color, true);
 	DrawBox(_subPosPixel.x, _subPosPixel.y, _subPosPixel.x + GameDefine::NODE_SIZE, _subPosPixel.y + GameDefine::NODE_SIZE, _subEnemy.color, true);
 
+}
+
+void EnemyUnit::StateMove(UnitData& data)
+{
+	if (data.moveRoute.empty() || data.routeIndex >= (int)data.moveRoute.size())
+	{
+		data.state = UnitState::Arrived;
+		return;
+	}
+
+	data.pos = data.moveRoute[data.routeIndex];
+
+	data.state = UnitState::Idle;
+}
+
+void EnemyUnit::StateIdle(UnitData& data, int& timer)
+{
+	if (data.pos.x == GameDefine::ENEMY_BASE_X && data.pos.y == GameDefine::ENEMY_BASE_Y) data.state = UnitState::Arrived;
+
+	data.routeIndex++;
+	timer = 0;
+	data.state = UnitState::Move;
+}
+
+void EnemyUnit::StateArrived(UnitData& data)
+{
+	
 }

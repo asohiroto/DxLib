@@ -199,7 +199,7 @@ std::vector<Vec2> RouteSearch::GetRouteList(Vec2 startPos, Vec2 goal)
 		for (int i = 0; i < 4; i++)
 		{
 			Vec2 next = index + dir[i];
-			if (next.x < 0 || next.x >= GameDefine::NODE_WIDTH || next.y <= 0 || next.y > GameDefine::NODE_HEIGHT) continue;
+			if (next.x < 0 || next.x >= GameDefine::NODE_WIDTH || next.y < 0 || next.y >= GameDefine::NODE_HEIGHT) continue;
 
 			int cost = GetMoveCost(_fieldTbl[(int)index.y][(int)index.x]);
 			if (_countTbl[(int)next.y][(int)next.x] == currentRemaining + cost)

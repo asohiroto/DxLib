@@ -2,6 +2,7 @@
 #include"AsoDxLib/Vec2.h"
 #include"UnitState.h"
 #include"UnitType.h"
+#include"DxLib.h"
 #include<vector>
 
 class _unitBase
@@ -12,25 +13,25 @@ public:
 	struct UnitData
 	{
 		// 現在位置
-		Vec2 pos;
+		Vec2 pos = Vec2(0, 0);
 		// 目的地
-		Vec2 destPos;
+		Vec2 destPos = Vec2(0,0);
 		// 体力
-		int hp;
+		int hp = 0;
 		// 攻撃力
-		int attack;
+		int attack = 0;
 		// 攻撃範囲
-		int attackRange;
+		int attackRange = 0;
 		// 見た目
-		int color;
+		int color = 0;
 		// 建築可能か
-		bool canArchitect;
+		bool canArchitect = false;
 		// 敵か味方か
-		bool isEnemy;
+		bool isEnemy = false;
 		// ユニットの状態
-		UnitState state;
+		UnitState state = UnitState::Idle;
 		// 兵科
-		UnitType type;
+		UnitType type = UnitType::Soldier;
 		// 経路探索関係-------
 		// ユニットの進む経路
 		std::vector<Vec2> moveRoute;
@@ -45,6 +46,7 @@ public:
 	virtual void Draw() = 0;
 
 protected:
+
 	// 兵科ごとに能力を変える関数
 	void SetStatusByType(UnitData& data)
 	{
@@ -72,9 +74,39 @@ protected:
 			return;
 
 		default:
-			printfDx("Warning: Unknown UnitType\n");
+			printfDx("Warning: Unknown UnitType");
 			break;
 		}
 	}
 
+	// 状態ごとに行動を変える関数
+	void SetMoveByState(UnitData& data, int& timer)
+	{
+		switch (data.state)
+		{
+		case UnitState::Move:
+			StateMove(data);
+			break;
+
+		case UnitState::Arrived:
+			StateArrived(data);
+			break;
+
+		case UnitState::Idle:
+			StateIdle(data, timer);
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	// ルート探索に基づく移動処理
+	virtual void StateMove(UnitData& data) = 0;
+
+	// 待機処理
+	virtual void StateIdle(UnitData& data, int& timer) = 0;
+
+	// 到着処理
+	virtual void StateArrived(UnitData& data) = 0;
 };

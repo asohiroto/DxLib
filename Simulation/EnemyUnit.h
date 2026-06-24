@@ -38,4 +38,8 @@ private:
 
 	// 敵の副部隊が動く間隔
 	int _subMoveTimer;
+
+	void StateMove(UnitData& data) override;
+	void StateIdle(UnitData& data, int& timer) override;
+	void StateArrived(UnitData& data) override;
 };
