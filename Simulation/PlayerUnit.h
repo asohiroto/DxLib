@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include"_unitBase.h"
 #include"RouteSearch.h"
-#include"EnemyUnit.h"
 
 class PlayerUnit : public _unitBase
 {
@@ -15,12 +14,6 @@ public:
 private:
 
 	RouteSearch* p_RouteSearch;
-	
-	// 主部隊
-	_unitBase::UnitData _mainUnit;
-
-	// 副部隊
-	_unitBase::UnitData _subUnit;
 
 	// 主部隊のピクセル座標
 	Vec2 _mainPosPixel;
@@ -43,4 +36,6 @@ private:
 	void StateMove(UnitData& data) override;
 	void StateIdle(UnitData& data, int& timer) override;
 	void StateArrived(UnitData& data) override;
+	//void StateAttack(UnitData& data) override;
+	//void StateDead(UnitData& data) override;
 };

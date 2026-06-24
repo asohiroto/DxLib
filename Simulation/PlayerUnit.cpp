@@ -1,5 +1,4 @@
 ﻿#include"PlayerUnit.h"
-#include"EnemyUnit.h"
 #include"_unitBase.h"
 #include"DxLib.h"
 #include"GameDefine.h"
@@ -124,5 +123,6 @@ void PlayerUnit::StateIdle(UnitData& data, int& timer)
 
 void PlayerUnit::StateArrived(UnitData& data)
 {
-	printfDx("toutyaku");
+	
 }
+

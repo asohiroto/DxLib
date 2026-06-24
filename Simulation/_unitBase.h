@@ -8,14 +8,13 @@
 class _unitBase
 {
 public:
-
 	// ユニットの持つ情報
 	struct UnitData
 	{
 		// 現在位置
 		Vec2 pos = Vec2(0, 0);
 		// 目的地
-		Vec2 destPos = Vec2(0,0);
+		Vec2 destPos = Vec2(0, 0);
 		// 体力
 		int hp = 0;
 		// 攻撃力
@@ -46,7 +45,6 @@ public:
 	virtual void Draw() = 0;
 
 protected:
-
 	// 兵科ごとに能力を変える関数
 	void SetStatusByType(UnitData& data)
 	{
@@ -109,4 +107,17 @@ protected:
 
 	// 到着処理
 	virtual void StateArrived(UnitData& data) = 0;
+
+	//// 攻撃処理
+	//virtual void StateAttack(UnitData& data) = 0;
+
+	//// 壊滅処理
+	//virtual void StateDead(UnitData& data) = 0;
+
+protected:
+	// 主部隊
+	UnitData _mainUnit;
+	
+	// 副部隊
+	UnitData _subUnit;
 };

@@ -14,12 +14,6 @@ public:
 private:
 
 	RouteSearch* p_RouteSearch;
-	
-	// 敵の主部隊
-	_unitBase::UnitData _mainEnemy;
-
-	// 敵の副部隊
-	_unitBase::UnitData _subEnemy;
 
 	// 敵の主部隊のピクセル座標
 	Vec2 _mainPosPixel;
@@ -42,4 +36,6 @@ private:
 	void StateMove(UnitData& data) override;
 	void StateIdle(UnitData& data, int& timer) override;
 	void StateArrived(UnitData& data) override;
+	//void StateAttack(UnitData& data) override;
+	//void StateDead(UnitData& data) override;
 };
