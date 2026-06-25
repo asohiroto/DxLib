@@ -46,10 +46,8 @@ public:
 
 	// A*による経路探索 (_countTblにスコアを書き込んでいく)
 	void RouteSearchAstar(Vec2 startPos, int startCount, Vec2 goal);
-
 	// 探査した経路を保存する関数 (_countTblを参照してルートを決定する)
 	std::vector<Vec2> GetRouteList(Vec2 startPos, Vec2 goal);
-
 	// ゴールまでの道筋を表示
 	void DrawRoute(Vec2 goal);
 
@@ -60,23 +58,18 @@ public:
 private:
 	// 地形情報のクリア
 	void ClearCount();
-
 	// TileType型を受け取って移動コストを返す関数
 	int GetMoveCost(TileType type);
-
 	// 数字を受け取って、TileTypeを返す関数
 	TileType GetTileType(int num);
 
 private:
 	// 地形情報（移動コスト）
 	TileType _fieldTbl[GameDefine::NODE_HEIGHT][GameDefine::NODE_WIDTH];
-
 	// 各マス時点での残りの移動コストを記録する（最大を保存）
 	int _countTbl[GameDefine::NODE_HEIGHT][GameDefine::NODE_WIDTH];
-
 	// 再帰関数が呼び出された回数
 	int _funcCount;
-
 	// フレーム数のカウント
 	int _frameCount;
 };

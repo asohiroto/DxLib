@@ -5,26 +5,21 @@
 #include"AsoDxLib/Color.h"
 
 PlayerUnit::PlayerUnit() :
-	p_RouteSearch(nullptr),
 	_mainPosPixel(),
 	_mainPosInd(),
 	_subPosPixel(),
-	_subPosInd(),
-	_mainMoveTimer(0),
-	_subMoveTimer(0)
+	_subPosInd()
 {
 
 }
 
 PlayerUnit::~PlayerUnit()
 {
-	delete p_RouteSearch;
+
 }
 
-void PlayerUnit::Init()
+void PlayerUnit::Init(RouteSearch* rs)
 {
-	p_RouteSearch = new RouteSearch;
-	
 	// 主部隊の初期化処理---------------------------------------------------------
 
 	// 【仮】ユニットの初期位置をランダムに設定
@@ -36,15 +31,16 @@ void PlayerUnit::Init()
 	_mainUnit.destPos = Vec2(GameDefine::ENEMY_BASE_X, GameDefine::ENEMY_BASE_Y);
 
 	// 経路探索
-	p_RouteSearch->RouteSearchAstar(_mainPosInd, p_RouteSearch->_moveCount, _mainUnit.destPos);
+	rs->RouteSearchAstar(_mainPosInd, rs->_moveCount, _mainUnit.destPos);
 
 	// 主部隊のデータ
 	_mainUnit.pos = _mainPosInd;
 	_mainUnit.type = UnitType::Soldier;
 	_unitBase::SetStatusByType(_mainUnit);
 	_mainUnit.color = color::YellowColor;
+	_mainUnit.moveTimer = 0;
 	_mainUnit.isEnemy = false;
-	_mainUnit.moveRoute = p_RouteSearch->GetRouteList(_mainPosInd, _mainUnit.destPos);
+	_mainUnit.moveRoute = rs->GetRouteList(_mainPosInd, _mainUnit.destPos);
 	_mainUnit.routeIndex = 0;
 	_mainUnit.state = UnitState::Move;
 
@@ -61,15 +57,16 @@ void PlayerUnit::Init()
 	_subUnit.destPos = Vec2(GameDefine::ENEMY_BASE_X, GameDefine::ENEMY_BASE_Y);
 
 	// 経路探索
-	p_RouteSearch->RouteSearchAstar(_subPosInd, p_RouteSearch->_moveCount, _subUnit.destPos);
+	rs->RouteSearchAstar(_subPosInd, rs->_moveCount, _subUnit.destPos);
 
 	// 主部隊のデータ
 	_subUnit.pos = _subPosInd;
 	_subUnit.type = UnitType::Archer;
 	_unitBase::SetStatusByType(_subUnit);
 	_subUnit.color = color::LightGrayColor;
+	_subUnit.moveTimer = 0;
 	_subUnit.isEnemy = false;
-	_subUnit.moveRoute = p_RouteSearch->GetRouteList(_subPosInd, _subUnit.destPos);
+	_subUnit.moveRoute = rs->GetRouteList(_subPosInd, _subUnit.destPos);
 	_subUnit.routeIndex = 0;
 	_subUnit.state = UnitState::Move;
 
@@ -78,15 +75,8 @@ void PlayerUnit::Init()
 
 void PlayerUnit::Update()
 {
-	// 行動間隔のタイマー
-	_mainMoveTimer++;
-	_subMoveTimer++;
-
-	if (_mainMoveTimer > 10)
-		SetMoveByState(_mainUnit, _mainMoveTimer);
-
-	if (_subMoveTimer > 10)
-		SetMoveByState(_subUnit, _subMoveTimer);
+	_mainUnit.moveTimer++;
+	_subUnit.moveTimer++;
 
 	_mainPosPixel = _mainUnit.pos * GameDefine::NODE_SIZE;
 	_subPosPixel = _subUnit.pos * GameDefine::NODE_SIZE;
@@ -99,30 +89,5 @@ void PlayerUnit::Draw()
 	DrawBox(_subPosPixel.x, _subPosPixel.y, _subPosPixel.x + GameDefine::NODE_SIZE, _subPosPixel.y + GameDefine::NODE_SIZE, _subUnit.color, true);
 }
 
-void PlayerUnit::StateMove(UnitData& data)
-{
-	if (data.moveRoute.empty() || data.routeIndex >= (int)data.moveRoute.size())
-	{
-		data.state = UnitState::Arrived;
-		return;
-	}
 
-	data.pos = data.moveRoute[data.routeIndex];
-
-	data.state = UnitState::Idle;
-}
-
-void PlayerUnit::StateIdle(UnitData& data, int& timer)
-{
-	if (data.pos.x == GameDefine::ENEMY_BASE_X && data.pos.y == GameDefine::ENEMY_BASE_Y) data.state = UnitState::Arrived;
-
-	data.routeIndex++;
-	timer = 0;
-	data.state = UnitState::Move;
-}
-
-void PlayerUnit::StateArrived(UnitData& data)
-{
-	
-}
 

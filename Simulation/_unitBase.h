@@ -2,6 +2,7 @@
 #include"AsoDxLib/Vec2.h"
 #include"UnitState.h"
 #include"UnitType.h"
+#include"RouteSearch.h"
 #include"DxLib.h"
 #include<vector>
 
@@ -23,6 +24,8 @@ public:
 		int attackRange = 0;
 		// 見た目
 		int color = 0;
+		// 行動間隔カウンタ
+		int moveTimer = 0;
 		// 建築可能か
 		bool canArchitect = false;
 		// 敵か味方か
@@ -40,9 +43,13 @@ public:
 
 	_unitBase() = default;
 	virtual ~_unitBase() {};
-	virtual void Init() = 0;
+	virtual void Init(RouteSearch* rs) = 0;
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
+
+	// ユニットデータのゲッター
+	UnitData& GetMainUnit() { return _mainUnit; }
+	UnitData& GetSubUnit() { return _subUnit; }
 
 protected:
 	// 兵科ごとに能力を変える関数
@@ -52,21 +59,21 @@ protected:
 		{
 		case UnitType::Soldier:
 			data.hp = 100;
-			data.attack = 30;
+			data.attack = 15;
 			data.attackRange = 1;
 			data.canArchitect = false;
 			return;
 
 		case UnitType::Archer:
 			data.hp = 60;
-			data.attack = 20;
-			data.attackRange = 3;
+			data.attack = 10;
+			data.attackRange = 2;
 			data.canArchitect = false;
 			return;
 
 		case UnitType::Engineer:
 			data.hp = 30;
-			data.attack = 10;
+			data.attack = 5;
 			data.attackRange = 1;
 			data.canArchitect = true;
 			return;
@@ -77,47 +84,10 @@ protected:
 		}
 	}
 
-	// 状態ごとに行動を変える関数
-	void SetMoveByState(UnitData& data, int& timer)
-	{
-		switch (data.state)
-		{
-		case UnitState::Move:
-			StateMove(data);
-			break;
-
-		case UnitState::Arrived:
-			StateArrived(data);
-			break;
-
-		case UnitState::Idle:
-			StateIdle(data, timer);
-			break;
-
-		default:
-			break;
-		}
-	}
-
-	// ルート探索に基づく移動処理
-	virtual void StateMove(UnitData& data) = 0;
-
-	// 待機処理
-	virtual void StateIdle(UnitData& data, int& timer) = 0;
-
-	// 到着処理
-	virtual void StateArrived(UnitData& data) = 0;
-
-	//// 攻撃処理
-	//virtual void StateAttack(UnitData& data) = 0;
-
-	//// 壊滅処理
-	//virtual void StateDead(UnitData& data) = 0;
-
 protected:
 	// 主部隊
 	UnitData _mainUnit;
-	
+
 	// 副部隊
 	UnitData _subUnit;
 };

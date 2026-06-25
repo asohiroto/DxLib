@@ -2,9 +2,7 @@
 #include"SceneBase.h"
 #include"Map.h"
 #include"RouteSearch.h"
-#include"PlayerUnit.h"
-#include"EnemyUnit.h"
-
+#include"UnitManager.h";
 /// <summary>
 /// ゲームシーンクラス
 /// </summary>
@@ -37,8 +35,7 @@ public:
 	void Draw() override;
 
 private:
-	RouteSearch* p_Route;
+	RouteSearch* p_RouteSearch;
 	Map* p_Map;
-	PlayerUnit* p_Player;
-	EnemyUnit* p_Enemy;
+	UnitManager* p_UnitManager;
 };

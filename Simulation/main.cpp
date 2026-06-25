@@ -11,7 +11,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	SetGraphMode(GameDefine::WIDTH, GameDefine::HEIGHT, GameDefine::DEPTH); // ウィンドウサイズを16：9に
 
-	SetMainWindowText("DxLibTemplate"); // ウィンドウのタイトル表示を変更
+	SetMainWindowText("Simulation"); // ウィンドウのタイトル表示を変更
 
 	if (DxLib_Init() == -1)           // ＤＸライブラリ初期化処理
 	{
