@@ -12,7 +12,6 @@ public:
 	void Draw() override;
 
 private:
-	
 	// 主部隊のピクセル座標
 	Vec2 _mainPosPixel;
 	// 副部隊のピクセル座標

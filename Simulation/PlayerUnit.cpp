@@ -78,13 +78,13 @@ void PlayerUnit::Update()
 	_mainUnit.moveTimer++;
 	_subUnit.moveTimer++;
 
+	// ノード座標をピクセル座標に変換
 	_mainPosPixel = _mainUnit.pos * GameDefine::NODE_SIZE;
 	_subPosPixel = _subUnit.pos * GameDefine::NODE_SIZE;
 }
 
 void PlayerUnit::Draw()
 {
-	//p_RouteSearch->DrawRoute();
 	DrawBox(_mainPosPixel.x, _mainPosPixel.y, _mainPosPixel.x + GameDefine::NODE_SIZE, _mainPosPixel.y + GameDefine::NODE_SIZE, _mainUnit.color, true);
 	DrawBox(_subPosPixel.x, _subPosPixel.y, _subPosPixel.x + GameDefine::NODE_SIZE, _subPosPixel.y + GameDefine::NODE_SIZE, _subUnit.color, true);
 }

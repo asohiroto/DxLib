@@ -7,9 +7,6 @@ struct NodeData
 {
 	// 位置
 	Vec2 Pos;
-	// 建築可能か
-	bool IsArchitect;
-
 	/// <summary>
 	/// 地形情報
 	/// 平地 ０,
@@ -20,7 +17,6 @@ struct NodeData
 	/// 山 ５
 	/// </summary>
 	TileType type;
-
 	// 実コスト　開始地点から現在までの移動歩数
 	int c;
 	// 推定コスト　マンハッタン距離によるゴールまでの推定コスト
@@ -35,13 +31,9 @@ class RouteSearch
 {
 public:
 	RouteSearch();
-
 	~RouteSearch();
-
 	void Init();
-
 	void Update();
-
 	void Draw();
 
 	// A*による経路探索 (_countTblにスコアを書き込んでいく)
@@ -50,6 +42,8 @@ public:
 	std::vector<Vec2> GetRouteList(Vec2 startPos, Vec2 goal);
 	// ゴールまでの道筋を表示
 	void DrawRoute(Vec2 goal);
+	// ノード座標を受け取って地形を返す関数
+	TileType GetNodeData(int nodeX, int nodeY) { return _fieldTbl[nodeY][nodeX]; }
 
 public:
 	// 最大探索コストの上限値（この値まで探索を行える）

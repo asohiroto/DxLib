@@ -6,7 +6,7 @@
 UnitManager::UnitManager() :
 	p_PlayerUnit(nullptr),
 	p_EnemyUnit(nullptr),
-	p_RouteSearch(nullptr)
+	timeStop(false)
 {
 
 }
@@ -16,14 +16,13 @@ UnitManager::~UnitManager()
 
 }
 
-void UnitManager::Init()
+void UnitManager::Init(RouteSearch* rs)
 {
 	p_PlayerUnit = new PlayerUnit;
 	p_EnemyUnit = new EnemyUnit;
-	p_RouteSearch = new RouteSearch;
 
-	p_PlayerUnit->Init(p_RouteSearch);
-	p_EnemyUnit->Init(p_RouteSearch);
+	p_PlayerUnit->Init(rs);
+	p_EnemyUnit->Init(rs);
 
 	_unitList.push_back(&p_PlayerUnit->GetMainUnit());
 	_unitList.push_back(&p_PlayerUnit->GetSubUnit());
@@ -33,13 +32,19 @@ void UnitManager::Init()
 
 void UnitManager::Update()
 {
-	p_PlayerUnit->Update();
-	p_EnemyUnit->Update();
+	if (CheckHitKey(KEY_INPUT_Z)) timeStop = true;
+	if (CheckHitKey(KEY_INPUT_X)) timeStop = false;
 
-	for (auto& unit : _unitList)
+	if (!timeStop)
 	{
-		if (unit->moveTimer > 10)
-			SetMoveByState(*unit, unit->moveTimer);
+		p_PlayerUnit->Update();
+		p_EnemyUnit->Update();
+
+		for (auto& unit : _unitList)
+		{
+			if (unit->moveTimer > 10)
+				SetMoveByState(*unit, unit->moveTimer);
+		}
 	}
 }
 
@@ -105,7 +110,7 @@ void UnitManager::StateAttack(_unitBase::UnitData& data, int& timer)
 		if (unit->state == UnitState::Dead) continue;
 
 		int distance = Distance(&data, unit);
-	
+
 		if (distance <= data.attackRange && data.state != UnitState::Dead && unit->state != UnitState::Dead)
 		{
 			unit->hp -= data.attack;

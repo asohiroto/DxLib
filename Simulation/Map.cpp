@@ -51,7 +51,6 @@ void Map::LoadMapData()
 		{
 			_chipData[y][x] = std::stoi(field);
 			x++;
-
 		}
 		y++;
 	}

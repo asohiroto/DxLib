@@ -22,7 +22,7 @@ void MainScene::Init()
 
 	p_Map->Init();
 	p_RouteSearch->Init();
-	p_UnitManager->Init();
+	p_UnitManager->Init(p_RouteSearch);
 }
 
 void MainScene::Update()

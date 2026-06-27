@@ -9,7 +9,7 @@ class UnitManager
 public:
 	UnitManager();
 	~UnitManager();
-	void Init();
+	void Init(RouteSearch* rs);
 	void Update();
 	void Draw();
 	
@@ -35,5 +35,6 @@ public:
 private:
 	PlayerUnit* p_PlayerUnit;
 	EnemyUnit* p_EnemyUnit;
-	RouteSearch* p_RouteSearch;
+
+	bool timeStop = false;
 };

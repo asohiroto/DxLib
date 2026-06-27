@@ -162,6 +162,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="StartScene.cpp" />
+    <ClCompile Include="UIManager.cpp" />
+    <ClCompile Include="UIManager.h" />
     <ClCompile Include="UnitManager.cpp" />
   </ItemGroup>
   <ItemGroup>

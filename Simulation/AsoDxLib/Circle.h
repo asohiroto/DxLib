@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include"AsoDxLib/Vec2.h"
+#include"Vec2.h"
 
 class Circle
 {
@@ -21,6 +21,7 @@ public:
 
 	}
 
+	// 円の当たり判定
 	bool OnTriggerCircle(const Circle& circle)
 	{
 		float distance = centerPos.DistanceDouble(circle.centerPos);

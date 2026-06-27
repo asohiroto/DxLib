@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+// 地形情報
 enum class TileType
 {
 	Plain		= 0,

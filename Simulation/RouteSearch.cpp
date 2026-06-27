@@ -65,7 +65,6 @@ void RouteSearch::Update()
 	_funcCount = 0;
 
 	ClearCount();
-	//RouteSearchAstar(mouseIndex, _moveCount * 4);
 }
 
 void RouteSearch::Draw()

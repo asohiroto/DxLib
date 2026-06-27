@@ -41,6 +41,7 @@ public:
 		int routeIndex;
 	};
 
+public:
 	_unitBase() = default;
 	virtual ~_unitBase() {};
 	virtual void Init(RouteSearch* rs) = 0;
@@ -50,6 +51,9 @@ public:
 	// ユニットデータのゲッター
 	UnitData& GetMainUnit() { return _mainUnit; }
 	UnitData& GetSubUnit() { return _subUnit; }
+	// 各ユニットの座標のゲッター
+	Vec2 GetPosMain() { return _mainUnit.pos; }
+	Vec2 GetPosSub() { return _subUnit.pos; }
 
 protected:
 	// 兵科ごとに能力を変える関数
@@ -87,7 +91,6 @@ protected:
 protected:
 	// 主部隊
 	UnitData _mainUnit;
-
 	// 副部隊
 	UnitData _subUnit;
 };
