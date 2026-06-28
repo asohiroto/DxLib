@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include"AsoDxLib/Vec2.h"
-#include"AsoDxLib/Mouse.h"
 #include"_unitBase.h"
 #include"PlayerUnit.h"
 #include"EnemyUnit.h"

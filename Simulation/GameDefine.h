@@ -14,9 +14,9 @@ enum class TileType
 namespace GameDefine
 {
 	// 画面の横幅
-	constexpr int WIDTH = 1280;
+	constexpr int WIDTH = 1600;
 	// 画面の縦幅
-	constexpr int HEIGHT = 720;
+	constexpr int HEIGHT = 900;
 	// ビット深度
 	constexpr int DEPTH = 32;
 	// ノードの列の最大数
