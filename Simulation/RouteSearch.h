@@ -44,22 +44,22 @@ public:
 	void DrawRoute(Vec2 goal);
 	// ノード座標を受け取って地形を返す関数
 	TileType GetNodeData(int nodeX, int nodeY) { return _fieldTbl[nodeY][nodeX]; }
+	// TileType型を受け取って移動コストを返す関数
+	int GetMoveCost(TileType type);
 
 public:
 	// 最大探索コストの上限値（この値まで探索を行える）
 	int _moveCount;
+	// 地形情報（移動コスト）
+	TileType _fieldTbl[GameDefine::NODE_HEIGHT][GameDefine::NODE_WIDTH];
 
 private:
 	// 地形情報のクリア
 	void ClearCount();
-	// TileType型を受け取って移動コストを返す関数
-	int GetMoveCost(TileType type);
 	// 数字を受け取って、TileTypeを返す関数
 	TileType GetTileType(int num);
 
 private:
-	// 地形情報（移動コスト）
-	TileType _fieldTbl[GameDefine::NODE_HEIGHT][GameDefine::NODE_WIDTH];
 	// 各マス時点での残りの移動コストを記録する（最大を保存）
 	int _countTbl[GameDefine::NODE_HEIGHT][GameDefine::NODE_WIDTH];
 	// 再帰関数が呼び出された回数

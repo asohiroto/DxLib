@@ -17,7 +17,7 @@ private:
 	// クリック位置のピクセル座標をノード座標に変換する関数
 	Vec2 ChangePixelToIndex(Vec2 mousePos);
 	// クリック位置からユニットデータを取得する関数
-	_unitBase::UnitData* GetUnitDataFromPos(Vec2 mousePos);
+	_unitBase::UnitData* GetUnitDataFromPos(Vec2 mousePos) const;
 	// ユニットデータを描画する関数
 	void DrawUnitData(_unitBase::UnitData data);
 

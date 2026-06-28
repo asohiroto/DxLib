@@ -22,6 +22,10 @@ public:
 		int attack = 0;
 		// 攻撃範囲
 		int attackRange = 0;
+		// スタミナ
+		int stamina;
+		// 最大体力
+		int maxStamina;
 		// 見た目
 		int color = 0;
 		// 行動間隔カウンタ
@@ -30,6 +34,8 @@ public:
 		bool canArchitect = false;
 		// 敵か味方か
 		bool isEnemy = false;
+		// 行動終了しているか
+		bool isMoveFinished = false;
 		// ユニットの状態
 		UnitState state = UnitState::Idle;
 		// 兵科
@@ -65,6 +71,8 @@ protected:
 			data.hp = 100;
 			data.attack = 15;
 			data.attackRange = 1;
+			data.stamina = 6;
+			data.maxStamina = data.stamina;
 			data.canArchitect = false;
 			return;
 
@@ -72,6 +80,8 @@ protected:
 			data.hp = 60;
 			data.attack = 10;
 			data.attackRange = 2;
+			data.stamina = 5;
+			data.maxStamina = data.stamina;
 			data.canArchitect = false;
 			return;
 
@@ -79,6 +89,8 @@ protected:
 			data.hp = 30;
 			data.attack = 5;
 			data.attackRange = 1;
+			data.stamina = 7;
+			data.maxStamina = data.stamina;
 			data.canArchitect = true;
 			return;
 

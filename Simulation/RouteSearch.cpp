@@ -214,7 +214,6 @@ std::vector<Vec2> RouteSearch::GetRouteList(Vec2 startPos, Vec2 goal)
 		if (index.x == startPos.x && index.y == startPos.y) break;
 		if (!foundNext) break;
 	}
-
 	std::reverse(route.begin(), route.end());
 
 	return route;

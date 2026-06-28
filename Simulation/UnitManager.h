@@ -10,11 +10,11 @@ public:
 	UnitManager();
 	~UnitManager();
 	void Init(RouteSearch* rs);
-	void Update();
+	void Update(RouteSearch* rs);
 	void Draw();
 	
 	// 移動処理
-	void StateMove(_unitBase::UnitData& data, int& timer);
+	void StateMove(_unitBase::UnitData& data, int& timer, RouteSearch* rs);
 	// 待機処理
 	void StateIdle(_unitBase::UnitData& data, int& timer);
 	// 到着処理
@@ -26,7 +26,7 @@ public:
 	// ２ユニット間のマンハッタン距離を返す関数
 	int Distance(_unitBase::UnitData* player, _unitBase::UnitData* enemy);
 	// 状態ごとに行動を変える関数
-	void SetMoveByState(_unitBase::UnitData& data, int& timer);
+	void SetMoveByState(_unitBase::UnitData& data, int& timer, RouteSearch* rs);
 
 public:
 	// 全ユニットを管理する可変長リスト
@@ -36,5 +36,5 @@ private:
 	PlayerUnit* p_PlayerUnit;
 	EnemyUnit* p_EnemyUnit;
 
-	bool timeStop = false;
+	bool _timeStop = false;
 };

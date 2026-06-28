@@ -1,19 +1,18 @@
 ﻿#include"UnitManager.h"
-#include"PlayerUnit.h"
-#include"EnemyUnit.h"
 #include"AsoDxLib/Color.h"
 
 UnitManager::UnitManager() :
 	p_PlayerUnit(nullptr),
 	p_EnemyUnit(nullptr),
-	timeStop(false)
+	_timeStop(false)
 {
 
 }
 
 UnitManager::~UnitManager()
 {
-
+	delete p_PlayerUnit;
+	delete p_EnemyUnit;
 }
 
 void UnitManager::Init(RouteSearch* rs)
@@ -30,12 +29,12 @@ void UnitManager::Init(RouteSearch* rs)
 	_unitList.push_back(&p_EnemyUnit->GetSubUnit());
 }
 
-void UnitManager::Update()
+void UnitManager::Update(RouteSearch* rs)
 {
-	if (CheckHitKey(KEY_INPUT_Z)) timeStop = true;
-	if (CheckHitKey(KEY_INPUT_X)) timeStop = false;
+	if (CheckHitKey(KEY_INPUT_Z)) _timeStop = true;
+	if (CheckHitKey(KEY_INPUT_X)) _timeStop = false;
 
-	if (!timeStop)
+	if (!_timeStop)
 	{
 		p_PlayerUnit->Update();
 		p_EnemyUnit->Update();
@@ -43,7 +42,7 @@ void UnitManager::Update()
 		for (auto& unit : _unitList)
 		{
 			if (unit->moveTimer > 10)
-				SetMoveByState(*unit, unit->moveTimer);
+				SetMoveByState(*unit, unit->moveTimer, rs);
 		}
 	}
 }
@@ -54,7 +53,7 @@ void UnitManager::Draw()
 	p_EnemyUnit->Draw();
 }
 
-void UnitManager::StateMove(_unitBase::UnitData& data, int& timer)
+void UnitManager::StateMove(_unitBase::UnitData& data, int& timer, RouteSearch* rs)
 {
 	timer = 0;
 	if (data.moveRoute.empty() || data.routeIndex >= (int)data.moveRoute.size())
@@ -63,9 +62,19 @@ void UnitManager::StateMove(_unitBase::UnitData& data, int& timer)
 		return;
 	}
 
-	data.pos = data.moveRoute[data.routeIndex];
+	int moveCost = rs->GetMoveCost(rs->_fieldTbl[(int)data.moveRoute[data.routeIndex].y][(int)data.moveRoute[data.routeIndex].x]);
 
-	data.state = UnitState::Idle;
+	if ((data.stamina - moveCost) >= 0)
+	{
+		data.pos = data.moveRoute[data.routeIndex];
+		data.routeIndex++;
+		data.stamina -= moveCost;
+	}
+	else
+	{
+		data.isMoveFinished = true;
+		data.state = UnitState::Idle;
+	}
 }
 
 void UnitManager::StateIdle(_unitBase::UnitData& data, int& timer)
@@ -76,8 +85,6 @@ void UnitManager::StateIdle(_unitBase::UnitData& data, int& timer)
 		data.state = UnitState::Arrived;
 		return;
 	}
-
-	data.routeIndex++;
 
 	for (auto& unit : _unitList)
 	{
@@ -136,12 +143,12 @@ int UnitManager::Distance(_unitBase::UnitData* player, _unitBase::UnitData* enem
 	return disX + disY;
 }
 
-void UnitManager::SetMoveByState(_unitBase::UnitData& data, int& timer)
+void UnitManager::SetMoveByState(_unitBase::UnitData& data, int& timer, RouteSearch* rs)
 {
 	switch (data.state)
 	{
 	case UnitState::Move:
-		StateMove(data, timer);
+		StateMove(data, timer, rs);
 		break;
 
 	case UnitState::Arrived:

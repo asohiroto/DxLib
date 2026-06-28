@@ -42,7 +42,7 @@ Vec2 UIManager::ChangePixelToIndex(Vec2 mousePos)
 	return mouseIndex;
 }
 
-_unitBase::UnitData* UIManager::GetUnitDataFromPos(Vec2 mousePos)
+_unitBase::UnitData* UIManager::GetUnitDataFromPos(Vec2 mousePos) const
 {
 	if (p_PlayerUnit->GetPosMain() == mousePos) return &(p_PlayerUnit->GetMainUnit());
 	else if (p_PlayerUnit->GetPosSub() == mousePos) return &(p_PlayerUnit->GetSubUnit());
