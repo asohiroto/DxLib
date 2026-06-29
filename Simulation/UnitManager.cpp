@@ -1,10 +1,11 @@
 ﻿#include"UnitManager.h"
 #include"AsoDxLib/Color.h"
+#include"AsoDxLib/Mouse.h"
 
 UnitManager::UnitManager() :
 	p_PlayerUnit(nullptr),
 	p_EnemyUnit(nullptr),
-	_timeStop(false)
+	_finishCount(0)
 {
 
 }
@@ -27,23 +28,58 @@ void UnitManager::Init(RouteSearch* rs)
 	_unitList.push_back(&p_PlayerUnit->GetSubUnit());
 	_unitList.push_back(&p_EnemyUnit->GetMainUnit());
 	_unitList.push_back(&p_EnemyUnit->GetSubUnit());
+
+	_finishCount = 0;
 }
 
-void UnitManager::Update(RouteSearch* rs)
+void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
 {
-	if (CheckHitKey(KEY_INPUT_Z)) _timeStop = true;
-	if (CheckHitKey(KEY_INPUT_X)) _timeStop = false;
+	Mouse::Update();
+	if (Mouse::IsTrigger(MOUSE_INPUT_LEFT)) tm->TurnChange();
 
-	if (!_timeStop)
+	p_PlayerUnit->Update();
+	p_EnemyUnit->Update();
+
+	switch (tm->GetNowTurn())
 	{
-		p_PlayerUnit->Update();
-		p_EnemyUnit->Update();
+	case TurnManager::TurnState::PlayerSelectTurn:
+		for (auto& unit : _unitList)
+		{
+			unit->stamina = unit->maxStamina;
+		}
+
+		break;
+
+	case TurnManager::TurnState::SelectResultTurn:
+		_finishCount = 0;
 
 		for (auto& unit : _unitList)
 		{
 			if (unit->moveTimer > 10)
-				SetMoveByState(*unit, unit->moveTimer, rs);
+				if (!unit->isEnemy)
+					SetMoveByState(*unit, unit->moveTimer, rs, tm);
 		}
+
+		if (_finishCount > 1) tm->TurnChange();
+
+		break;
+
+	case TurnManager::TurnState::EnemyTurn:
+		_finishCount = 0;
+
+		for (auto& unit : _unitList)
+		{
+			if (unit->moveTimer > 10)
+				if (unit->isEnemy)
+					SetMoveByState(*unit, unit->moveTimer, rs, tm);
+		}
+
+		if (_finishCount > 1) tm->TurnChange();
+
+		break;
+
+	default:
+		break;
 	}
 }
 
@@ -72,18 +108,8 @@ void UnitManager::StateMove(_unitBase::UnitData& data, int& timer, RouteSearch* 
 	}
 	else
 	{
-		data.isMoveFinished = true;
+		_finishCount++;
 		data.state = UnitState::Idle;
-	}
-}
-
-void UnitManager::StateIdle(_unitBase::UnitData& data, int& timer)
-{
-	timer = 0;
-	if (data.pos.x == GameDefine::ENEMY_BASE_X && data.pos.y == GameDefine::ENEMY_BASE_Y)
-	{
-		data.state = UnitState::Arrived;
-		return;
 	}
 
 	for (auto& unit : _unitList)
@@ -97,8 +123,31 @@ void UnitManager::StateIdle(_unitBase::UnitData& data, int& timer)
 			return;
 		}
 	}
+}
 
-	data.state = UnitState::Move;
+void UnitManager::StateIdle(_unitBase::UnitData& data, int& timer, TurnManager* tm)
+{
+	timer = 0;
+	if (data.pos.x == GameDefine::ENEMY_BASE_X && data.pos.y == GameDefine::ENEMY_BASE_Y)
+	{
+		data.state = UnitState::Arrived;
+		return;
+	}
+
+	if (!data.isEnemy)
+	{
+		if (tm->GetNowTurn() == TurnManager::TurnState::SelectResultTurn)
+		{
+			data.state = UnitState::Move;
+		}
+	}
+	else
+	{
+		if (tm->GetNowTurn() == TurnManager::TurnState::EnemyTurn)
+		{
+			data.state = UnitState::Move;
+		}
+	}
 }
 
 void UnitManager::StateArrived(_unitBase::UnitData& data, int& timer)
@@ -143,7 +192,7 @@ int UnitManager::Distance(_unitBase::UnitData* player, _unitBase::UnitData* enem
 	return disX + disY;
 }
 
-void UnitManager::SetMoveByState(_unitBase::UnitData& data, int& timer, RouteSearch* rs)
+void UnitManager::SetMoveByState(_unitBase::UnitData& data, int& timer, RouteSearch* rs, TurnManager* tm)
 {
 	switch (data.state)
 	{
@@ -156,7 +205,7 @@ void UnitManager::SetMoveByState(_unitBase::UnitData& data, int& timer, RouteSea
 		break;
 
 	case UnitState::Idle:
-		StateIdle(data, timer);
+		StateIdle(data, timer, tm);
 		break;
 
 	case UnitState::Attack:

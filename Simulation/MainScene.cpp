@@ -35,7 +35,7 @@ void MainScene::Update()
 {
 	p_Map->Update();
 	p_RouteSearch->Update();
-	p_UnitManager->Update(p_RouteSearch);
+	p_UnitManager->Update(p_RouteSearch, p_TurnManager);
 	p_TurnManager->Update();
 }
 

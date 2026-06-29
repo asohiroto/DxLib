@@ -5,54 +5,24 @@
 #include<string>
 
 TurnManager::TurnManager() :
-	_nowTurn(TurnState::PlayerSelectTurn),
-	_finishCount(0),
-	p_UnitManager(nullptr)
+	_nowTurn(TurnState::PlayerSelectTurn)
 {
 
 }
 
 TurnManager::~TurnManager()
 {
-	delete p_UnitManager;
+
 }
 
 void TurnManager::Init()
 {
 	_nowTurn = TurnState::PlayerSelectTurn;
-	_finishCount = 0;
-	p_UnitManager = new UnitManager;
 }
 
 void TurnManager::Update()
 {
-	if (CheckHitKey(KEY_INPUT_SPACE)) TurnChange();
-
-	switch (_nowTurn)
-	{
-	case TurnState::PlayerSelectTurn:
-		
-		for (auto& unit : p_UnitManager->_unitList)
-		{
-			if (unit->isMoveFinished) _finishCount += 1;
-			if (_finishCount > 4) TurnChange();
-		}
-
-		_finishCount = 0;
-
-		break;
-
-	case TurnState::SelectResultTurn:
-		//
-		break;
-
-	case TurnState::EnemyTurn:
-		//
-		break;
-
-	default:
-		break;
-	}
+	
 }
 
 void TurnManager::Draw()

@@ -34,8 +34,6 @@ public:
 		bool canArchitect = false;
 		// 敵か味方か
 		bool isEnemy = false;
-		// 行動終了しているか
-		bool isMoveFinished = false;
 		// ユニットの状態
 		UnitState state = UnitState::Idle;
 		// 兵科

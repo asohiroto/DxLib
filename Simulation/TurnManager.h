@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include"UnitManager.h"
 
 class TurnManager
 {
@@ -31,7 +30,4 @@ private:
 private:
 	// 現在のターン
 	TurnState _nowTurn;
-	// いくつのユニットが行動を完了したか
-	int _finishCount;
-	UnitManager* p_UnitManager;
 };

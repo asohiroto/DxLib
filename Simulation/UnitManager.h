@@ -2,6 +2,7 @@
 #include"PlayerUnit.h"
 #include"EnemyUnit.h"
 #include"RouteSearch.h"
+#include"TurnManager.h"
 #include"_unitBase.h"
 
 class UnitManager
@@ -10,13 +11,13 @@ public:
 	UnitManager();
 	~UnitManager();
 	void Init(RouteSearch* rs);
-	void Update(RouteSearch* rs);
+	void Update(RouteSearch* rs, TurnManager* tm);
 	void Draw();
 	
 	// 移動処理
 	void StateMove(_unitBase::UnitData& data, int& timer, RouteSearch* rs);
 	// 待機処理
-	void StateIdle(_unitBase::UnitData& data, int& timer);
+	void StateIdle(_unitBase::UnitData& data, int& timer, TurnManager* tm);
 	// 到着処理
 	void StateArrived(_unitBase::UnitData& data, int& timer);
 	// 攻撃処理
@@ -26,7 +27,7 @@ public:
 	// ２ユニット間のマンハッタン距離を返す関数
 	int Distance(_unitBase::UnitData* player, _unitBase::UnitData* enemy);
 	// 状態ごとに行動を変える関数
-	void SetMoveByState(_unitBase::UnitData& data, int& timer, RouteSearch* rs);
+	void SetMoveByState(_unitBase::UnitData& data, int& timer, RouteSearch* rs, TurnManager* tm);
 
 public:
 	// 全ユニットを管理する可変長リスト
@@ -36,5 +37,7 @@ private:
 	PlayerUnit* p_PlayerUnit;
 	EnemyUnit* p_EnemyUnit;
 
-	bool _timeStop = false;
+	// 何ユニットが行動終了したか
+	int _finishCount;
+
 };
