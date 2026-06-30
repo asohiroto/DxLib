@@ -4,6 +4,7 @@
 #include"RouteSearch.h"
 #include"UnitManager.h";
 #include"TurnManager.h"
+#include"UIManager.h"
 
 class MainScene : public SceneBase
 {
@@ -19,4 +20,5 @@ private:
 	Map* p_Map;
 	UnitManager* p_UnitManager;
 	TurnManager* p_TurnManager;
+	UIManager* p_UIManager;
 };

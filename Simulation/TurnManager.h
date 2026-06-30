@@ -23,6 +23,10 @@ public:
 	// 現在のターンを取得するゲッター
 	TurnState GetNowTurn() const {return _nowTurn ; }
 
+public:
+	// 現在のターン数
+	int _turnCount;
+
 private:
 	// 現在のターンを表示する関数
 	void DrawTurnState();

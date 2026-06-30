@@ -13,7 +13,7 @@ public:
 	void Init(RouteSearch* rs);
 	void Update(RouteSearch* rs, TurnManager* tm);
 	void Draw();
-	
+
 	// 移動処理
 	void StateMove(_unitBase::UnitData& data, int& timer, RouteSearch* rs);
 	// 待機処理
@@ -28,6 +28,10 @@ public:
 	int Distance(_unitBase::UnitData* player, _unitBase::UnitData* enemy);
 	// 状態ごとに行動を変える関数
 	void SetMoveByState(_unitBase::UnitData& data, int& timer, RouteSearch* rs, TurnManager* tm);
+	// プレイヤーユニットクラスのゲッター
+	PlayerUnit* GetPlayerPointer() { return p_PlayerUnit; }
+	// エネミーユニットクラスのゲッター
+	EnemyUnit* GetEnemyPointer() { return p_EnemyUnit; }
 
 public:
 	// 全ユニットを管理する可変長リスト

@@ -55,16 +55,7 @@ void RouteSearch::Update()
 {
 	_frameCount++;
 
-	// マウスの座標
-	int mouseX, mouseY;
-	GetMousePoint(&mouseX, &mouseY);
-
-	// マウスの座標をそれぞれのノードの番号に変換する
-	Vec2 mouseIndex = Vec2(mouseX / GameDefine::NODE_SIZE, mouseY / GameDefine::NODE_SIZE);
-
 	_funcCount = 0;
-
-	ClearCount();
 }
 
 void RouteSearch::Draw()

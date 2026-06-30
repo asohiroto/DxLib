@@ -88,6 +88,12 @@ public:
 		return *this;
 	}
 
+	bool operator==(Vec2 vec)
+	{
+		if (x == vec.x && y == vec.y) return true;
+		else return false;
+	}
+
 	// ベクトルの長さの二乗を求める
 	float sqLength() const
 	{

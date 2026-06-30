@@ -1,35 +1,56 @@
 ﻿#include"UIManager.h"
 #include"GameDefine.h"
-#include"PlayerUnit.h"
-#include"EnemyUnit.h"
+#include"AsoDxLib/Mouse.h"
+#include"AsoDxLib/Color.h"
 
-UIManager::UIManager() : 
-	p_PlayerUnit(nullptr),
-	p_EnemyUnit(nullptr)
+UIManager::UIManager() :
+	_targetSet(false),
+	_mousePosX(0),
+	_mousePosY(0),
+	_unitTemp(nullptr)
 {
 
 }
 
 UIManager::~UIManager()
 {
-	delete p_PlayerUnit;
-	delete p_EnemyUnit;
+
 }
 
 void UIManager::Init()
 {
-	p_PlayerUnit = new PlayerUnit;
-	p_EnemyUnit = new EnemyUnit;
+
 }
 
-void UIManager::Update()
+void UIManager::Update(PlayerUnit* pu, EnemyUnit* eu, RouteSearch* rs, TurnManager* tm)
 {
+	GetMousePoint(&_mousePosX, &_mousePosY);
+	_nodeIndex = ChangePixelToIndex(Vec2((float)_mousePosX, (float)_mousePosY));
 
+	if (tm->GetNowTurn() == TurnManager::TurnState::PlayerSelectTurn)
+	{
+		if (Mouse::IsTrigger(MOUSE_INPUT_LEFT) && !_targetSet)
+		{
+			_unitTemp = GetUnitDataFromPos(_nodeIndex, pu, eu);
+			_targetSet = true;
+		}
+		else if (Mouse::IsTrigger(MOUSE_INPUT_LEFT) && _targetSet)
+		{
+			_unitTemp->destPos = _nodeIndex;
+			rs->RouteSearchAstar(_unitTemp->pos, rs->_moveCount, _unitTemp->destPos);
+			_unitTemp->moveRoute = rs->GetRouteList(_unitTemp->pos, _unitTemp->destPos);
+			_unitTemp->routeIndex = 0;
+			_targetSet = false;
+		}
+	}
 }
 
 void UIManager::Draw()
 {
-
+	DrawFormatString(0, (GameDefine::NODE_HEIGHT + 1) * GameDefine::NODE_SIZE, color::WhiteColor, "%d,  %d", _mousePosX, _mousePosY);
+	DrawFormatString(0, (GameDefine::NODE_HEIGHT + 2) * GameDefine::NODE_SIZE, color::WhiteColor, "%f,  %f", _nodeIndex.x, _nodeIndex.y);
+	
+	// if(_targetSet) DrawFormatString(0, (GameDefine::NODE_HEIGHT + 2) * GameDefine::NODE_SIZE, color::WhiteColor, )
 }
 
 Vec2 UIManager::ChangePixelToIndex(Vec2 mousePos)
@@ -42,11 +63,11 @@ Vec2 UIManager::ChangePixelToIndex(Vec2 mousePos)
 	return mouseIndex;
 }
 
-_unitBase::UnitData* UIManager::GetUnitDataFromPos(Vec2 mousePos) const
+_unitBase::UnitData* UIManager::GetUnitDataFromPos(Vec2 mousePos, PlayerUnit* pu, EnemyUnit* eu) const
 {
-	if (p_PlayerUnit->GetPosMain() == mousePos) return &(p_PlayerUnit->GetMainUnit());
-	else if (p_PlayerUnit->GetPosSub() == mousePos) return &(p_PlayerUnit->GetSubUnit());
-	else if (p_EnemyUnit->GetPosMain() == mousePos) return &(p_EnemyUnit->GetMainUnit());
-	else if (p_EnemyUnit->GetPosSub() == mousePos) return &(p_EnemyUnit->GetSubUnit());
+	if (pu->GetPosMain() == mousePos) return &(pu->GetMainUnit());
+	else if (pu->GetPosSub() == mousePos) return &(pu->GetSubUnit());
+	else if (eu->GetPosMain() == mousePos) return &(eu->GetMainUnit());
+	else if (eu->GetPosSub() == mousePos) return &(eu->GetSubUnit());
 	else return nullptr;
 }

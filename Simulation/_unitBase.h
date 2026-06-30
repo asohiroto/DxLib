@@ -34,6 +34,8 @@ public:
 		bool canArchitect = false;
 		// 敵か味方か
 		bool isEnemy = false;
+		// 攻撃済みか
+		bool hasAttacked = false;
 		// ユニットの状態
 		UnitState state = UnitState::Idle;
 		// 兵科
@@ -67,18 +69,18 @@ protected:
 		{
 		case UnitType::Soldier:
 			data.hp = 100;
-			data.attack = 15;
+			data.attack = 25;
 			data.attackRange = 1;
-			data.stamina = 6;
+			data.stamina = 10;
 			data.maxStamina = data.stamina;
 			data.canArchitect = false;
 			return;
 
 		case UnitType::Archer:
 			data.hp = 60;
-			data.attack = 10;
+			data.attack = 30;
 			data.attackRange = 2;
-			data.stamina = 5;
+			data.stamina = 12;
 			data.maxStamina = data.stamina;
 			data.canArchitect = false;
 			return;

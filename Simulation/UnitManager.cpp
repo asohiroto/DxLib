@@ -35,7 +35,7 @@ void UnitManager::Init(RouteSearch* rs)
 void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
 {
 	Mouse::Update();
-	if (Mouse::IsTrigger(MOUSE_INPUT_LEFT)) tm->TurnChange();
+	if (Mouse::IsTrigger(MOUSE_INPUT_RIGHT)) tm->TurnChange();
 
 	p_PlayerUnit->Update();
 	p_EnemyUnit->Update();
@@ -46,8 +46,40 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
 		for (auto& unit : _unitList)
 		{
 			unit->stamina = unit->maxStamina;
-		}
+			unit->hasAttacked = false;
 
+			if (unit->state == UnitState::Arrived) unit->state = UnitState::Idle;
+
+			if (unit->state == UnitState::Idle)
+			{
+				// 攻撃する相手がいるか
+				bool canAttack = false;
+
+				for (auto& data : _unitList)
+				{
+					if (unit == data) continue;
+					if (unit->isEnemy == data->isEnemy) continue;
+					if (data->state == UnitState::Dead) continue;
+
+					int distance = Distance(unit, data);
+
+					if (distance <= unit->attackRange && unit->state != UnitState::Dead && data->state != UnitState::Dead)
+					{
+						canAttack = true;
+						break;
+					}
+				}
+
+				if (canAttack)
+				{
+					unit->state = UnitState::Attack;
+				}
+				else
+				{
+					unit->state = UnitState::Move;
+				}
+			}
+		}
 		break;
 
 	case TurnManager::TurnState::SelectResultTurn:
@@ -55,13 +87,25 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
 
 		for (auto& unit : _unitList)
 		{
-			if (unit->moveTimer > 10)
-				if (!unit->isEnemy)
+			if (!unit->isEnemy)
+			{
+				if (unit->state == UnitState::Dead)
+				{
 					SetMoveByState(*unit, unit->moveTimer, rs, tm);
+				}
+				else if (unit->moveTimer > 10)
+				{
+					SetMoveByState(*unit, unit->moveTimer, rs, tm);
+				}
+
+				if (unit->state == UnitState::Idle || unit->state == UnitState::Arrived || unit->state == UnitState::Dead)
+				{
+					_finishCount++;
+				}
+			}
 		}
 
 		if (_finishCount > 1) tm->TurnChange();
-
 		break;
 
 	case TurnManager::TurnState::EnemyTurn:
@@ -69,13 +113,29 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
 
 		for (auto& unit : _unitList)
 		{
-			if (unit->moveTimer > 10)
-				if (unit->isEnemy)
+			if (unit->isEnemy)
+			{
+				if (unit->state == UnitState::Dead)
+				{
 					SetMoveByState(*unit, unit->moveTimer, rs, tm);
+				}
+				else if (unit->moveTimer > 10)
+				{
+					SetMoveByState(*unit, unit->moveTimer, rs, tm);
+				}
+
+				if (unit->state == UnitState::Idle || unit->state == UnitState::Arrived || unit->state == UnitState::Dead)
+				{
+					_finishCount++;
+				}
+			}
 		}
 
-		if (_finishCount > 1) tm->TurnChange();
-
+		if (_finishCount > 1)
+		{
+			tm->TurnChange();
+			tm->_turnCount++;
+		}
 		break;
 
 	default:
@@ -108,16 +168,17 @@ void UnitManager::StateMove(_unitBase::UnitData& data, int& timer, RouteSearch* 
 	}
 	else
 	{
-		_finishCount++;
 		data.state = UnitState::Idle;
 	}
 
 	for (auto& unit : _unitList)
 	{
 		if (&data == unit) continue;
+		if (unit->state == UnitState::Dead) continue;
 
 		int distance = Distance(&data, unit);
-		if (distance <= data.attackRange && data.isEnemy != unit->isEnemy)
+
+		if (distance <= data.attackRange && data.isEnemy != unit->isEnemy && data.state != UnitState::Dead)
 		{
 			data.state = UnitState::Attack;
 			return;
@@ -133,21 +194,6 @@ void UnitManager::StateIdle(_unitBase::UnitData& data, int& timer, TurnManager* 
 		data.state = UnitState::Arrived;
 		return;
 	}
-
-	if (!data.isEnemy)
-	{
-		if (tm->GetNowTurn() == TurnManager::TurnState::SelectResultTurn)
-		{
-			data.state = UnitState::Move;
-		}
-	}
-	else
-	{
-		if (tm->GetNowTurn() == TurnManager::TurnState::EnemyTurn)
-		{
-			data.state = UnitState::Move;
-		}
-	}
 }
 
 void UnitManager::StateArrived(_unitBase::UnitData& data, int& timer)
@@ -158,7 +204,15 @@ void UnitManager::StateArrived(_unitBase::UnitData& data, int& timer)
 void UnitManager::StateAttack(_unitBase::UnitData& data, int& timer)
 {
 	timer = 0;
+
+	if (data.hasAttacked == true)
+	{
+		data.state = UnitState::Idle;
+		return;
+	}
+
 	printfDx("交戦中！\n");
+
 	for (auto& unit : _unitList)
 	{
 		if (&data == unit) continue;
@@ -170,12 +224,17 @@ void UnitManager::StateAttack(_unitBase::UnitData& data, int& timer)
 		if (distance <= data.attackRange && data.state != UnitState::Dead && unit->state != UnitState::Dead)
 		{
 			unit->hp -= data.attack;
+			data.hasAttacked = true;
 
-			if (data.hp < 0) data.state = UnitState::Dead;
+			if (unit->hp <= 0)
+			{
+				unit->state = UnitState::Dead;
+			}
+			data.state = UnitState::Idle;
 			return;
 		}
 	}
-	data.state = UnitState::Move;
+	data.state = UnitState::Idle;
 }
 
 void UnitManager::StateDead(_unitBase::UnitData& data, int& timer)

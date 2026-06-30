@@ -21,6 +21,7 @@ public:
 
 	}
 
+	// 円の当たり判定
 	bool OnTriggerCircle(const Circle& circle)
 	{
 		float distance = centerPos.DistanceDouble(circle.centerPos);

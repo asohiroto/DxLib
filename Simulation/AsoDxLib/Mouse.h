@@ -1,24 +1,20 @@
 ﻿#pragma once
 #include"DxLib.h"
 
-namespace
-{
-	int nowMouse = 0;
-	int lastMouse = 0;
-}
-
 namespace Mouse
 {
+	inline int nowMouse = 0;
+	inline int lastMouse = 0;
 
 	// 更新処理
-	void Update()
+	static inline void Update()
 	{
 		lastMouse = nowMouse;		// 前の入力を現在の入力にする
 		nowMouse = GetMouseInput(); // 最新の入力を取得 
 	}
 
 	// 押されているか
-	bool IsPress(int key)
+	static inline bool IsPress(int key)
 	{
 		bool isNow = (nowMouse & key);
 
@@ -26,7 +22,7 @@ namespace Mouse
 	}
 
 	// クリックされた瞬間を取得
-	bool IsTrigger(int key)
+	static inline bool IsTrigger(int key)
 	{
 		bool isNow = (nowMouse & key);   // 今押されているか
 		bool isLast = (lastMouse & key); // １フレーム前に押されていたか
@@ -35,7 +31,7 @@ namespace Mouse
 	}
 
 	// 離した瞬間を取得
-	bool IsRelease(int key)
+	static inline bool IsRelease(int key)
 	{
 		bool isNow = (nowMouse & key);
 		bool isLast = (lastMouse & key);

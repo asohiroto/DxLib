@@ -5,7 +5,8 @@
 #include<string>
 
 TurnManager::TurnManager() :
-	_nowTurn(TurnState::PlayerSelectTurn)
+	_nowTurn(TurnState::PlayerSelectTurn),
+	_turnCount(0)
 {
 
 }
@@ -18,6 +19,7 @@ TurnManager::~TurnManager()
 void TurnManager::Init()
 {
 	_nowTurn = TurnState::PlayerSelectTurn;
+	_turnCount = 1;
 }
 
 void TurnManager::Update()
@@ -73,4 +75,5 @@ void TurnManager::DrawTurnState()
 	}
 
 	DrawFormatString((GameDefine::NODE_WIDTH + 1) * GameDefine::NODE_SIZE, 0, color::WhiteColor, turnName.c_str(), true);
+	DrawFormatString((GameDefine::NODE_WIDTH + 1) * GameDefine::NODE_SIZE, 20, color::WhiteColor, "%d ターン目", _turnCount, true);
 }
