@@ -170,6 +170,7 @@
   <ItemGroup>
     <ClInclude Include="AsoDxLib\Circle.h" />
     <ClInclude Include="AsoDxLib\Color.h" />
+    <ClInclude Include="AsoDxLib\Keyboard.h" />
     <ClInclude Include="AsoDxLib\LibIncluder.h" />
     <ClInclude Include="AsoDxLib\Mouse.h" />
     <ClInclude Include="AsoDxLib\Pad.h" />

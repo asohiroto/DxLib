@@ -1,6 +1,6 @@
 ﻿#include"UnitManager.h"
 #include"AsoDxLib/Color.h"
-#include"AsoDxLib/Mouse.h"
+#include"AsoDxLib/Keyboard.h"
 
 UnitManager::UnitManager() :
 	p_PlayerUnit(nullptr),
@@ -34,8 +34,7 @@ void UnitManager::Init(RouteSearch* rs)
 
 void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
 {
-	Mouse::Update();
-	if (Mouse::IsTrigger(MOUSE_INPUT_RIGHT)) tm->TurnChange();
+	Keyboard::Update();
 
 	p_PlayerUnit->Update();
 	p_EnemyUnit->Update();
@@ -43,6 +42,8 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
 	switch (tm->GetNowTurn())
 	{
 	case TurnManager::TurnState::PlayerSelectTurn:
+		if (Keyboard::IsTrigger(KEY_INPUT_SPACE)) tm->TurnChange();
+
 		for (auto& unit : _unitList)
 		{
 			unit->stamina = unit->maxStamina;
@@ -154,6 +155,7 @@ void UnitManager::StateMove(_unitBase::UnitData& data, int& timer, RouteSearch* 
 	timer = 0;
 	if (data.moveRoute.empty() || data.routeIndex >= (int)data.moveRoute.size())
 	{
+		printfDx("到着\n");
 		data.state = UnitState::Arrived;
 		return;
 	}

@@ -24,6 +24,8 @@ void UIManager::Init()
 
 void UIManager::Update(PlayerUnit* pu, EnemyUnit* eu, RouteSearch* rs, TurnManager* tm)
 {
+	Mouse::Update();
+
 	GetMousePoint(&_mousePosX, &_mousePosY);
 	_nodeIndex = ChangePixelToIndex(Vec2((float)_mousePosX, (float)_mousePosY));
 
@@ -36,10 +38,21 @@ void UIManager::Update(PlayerUnit* pu, EnemyUnit* eu, RouteSearch* rs, TurnManag
 		}
 		else if (Mouse::IsTrigger(MOUSE_INPUT_LEFT) && _targetSet)
 		{
-			_unitTemp->destPos = _nodeIndex;
-			rs->RouteSearchAstar(_unitTemp->pos, rs->_moveCount, _unitTemp->destPos);
-			_unitTemp->moveRoute = rs->GetRouteList(_unitTemp->pos, _unitTemp->destPos);
-			_unitTemp->routeIndex = 0;
+			if (_unitTemp != nullptr)
+			{
+				_unitTemp->destPos = _nodeIndex;
+				rs->RouteSearchAstar(_unitTemp->pos, rs->_moveCount, _unitTemp->destPos);
+				_unitTemp->moveRoute = rs->GetRouteList(_unitTemp->pos, _unitTemp->destPos);
+				_unitTemp->routeIndex = 0;
+				_targetSet = false;
+			}
+			else
+			{
+				_targetSet = false;
+			}
+		}
+		else if (Mouse::IsTrigger(MOUSE_INPUT_RIGHT) && _targetSet)
+		{
 			_targetSet = false;
 		}
 	}
@@ -49,7 +62,7 @@ void UIManager::Draw()
 {
 	DrawFormatString(0, (GameDefine::NODE_HEIGHT + 1) * GameDefine::NODE_SIZE, color::WhiteColor, "%d,  %d", _mousePosX, _mousePosY);
 	DrawFormatString(0, (GameDefine::NODE_HEIGHT + 2) * GameDefine::NODE_SIZE, color::WhiteColor, "%f,  %f", _nodeIndex.x, _nodeIndex.y);
-	
+
 	// if(_targetSet) DrawFormatString(0, (GameDefine::NODE_HEIGHT + 2) * GameDefine::NODE_SIZE, color::WhiteColor, )
 }
 

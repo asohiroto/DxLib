@@ -1,16 +1,13 @@
 ﻿#pragma once
 #include"DxLib.h"
 
-namespace
-{
-	int lastPad = 0;
-	int nowPad = 0;
-}
-
 namespace Pad
 {
+	inline int lastPad = 0;
+	inline int nowPad = 0;
+
 	// 更新処理
-	void Update()
+	static inline void Update()
 	{
 		// 前のフレームに取得したパッド情報を一つ古い状態にする
 		lastPad = nowPad;
@@ -19,14 +16,14 @@ namespace Pad
 	}
 
 	// 押されているか
-	bool IsPress(int key)
+	static inline bool IsPress(int key)
 	{
 		// 現在のフレームで押されている
 		return(nowPad & key);
 	}
 
 	// 押された瞬間を取得
-	bool IsTrigger(int key)
+	static inline bool IsTrigger(int key)
 	{
 		bool isNow = (nowPad & key);	// 現在のフレーム
 		bool isLast = (lastPad & key);  // 前のフレーム
@@ -36,7 +33,7 @@ namespace Pad
 	}
 
 	// 離した瞬間を取得
-	bool IsRelease(int key)
+	static inline bool IsRelease(int key)
 	{
 		bool isNow = (nowPad & key);	// 現在のフレーム
 		bool isLast = (lastPad & key);	// 前のフレーム

@@ -107,5 +107,8 @@
     <ClInclude Include="TurnManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="AsoDxLib\Keyboard.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
