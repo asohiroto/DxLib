@@ -5,7 +5,8 @@
 UnitManager::UnitManager() :
 	p_PlayerUnit(nullptr),
 	p_EnemyUnit(nullptr),
-	_finishCount(0)
+	_finishCount(0),
+	_occupiedMap(true)
 {
 
 }
@@ -24,6 +25,7 @@ void UnitManager::Init(RouteSearch* rs)
 	p_PlayerUnit->Init(rs);
 	p_EnemyUnit->Init(rs);
 
+	// _unitListにユニットのポインタを追加
 	_unitList.push_back(&p_PlayerUnit->GetMainUnit());
 	_unitList.push_back(&p_PlayerUnit->GetSubUnit());
 	_unitList.push_back(&p_EnemyUnit->GetMainUnit());
@@ -44,8 +46,10 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
 	case TurnManager::TurnState::PlayerSelectTurn:
 		if (Keyboard::IsTrigger(KEY_INPUT_SPACE)) tm->TurnChange();
 
+
 		for (auto& unit : _unitList)
 		{
+			// 行動開始前にスタミナを回復する
 			unit->stamina = unit->maxStamina;
 			unit->hasAttacked = false;
 
@@ -56,6 +60,7 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
 				// 攻撃する相手がいるか
 				bool canAttack = false;
 
+				// 攻撃範囲内に敵がいるかを確認
 				for (auto& data : _unitList)
 				{
 					if (unit == data) continue;
@@ -81,11 +86,18 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
 				}
 			}
 		}
+
+		/*memset(_occupiedMap, false, sizeof(_occupiedMap));
+		for (auto& unit : _unitList)
+			if (unit->state != UnitState::Dead)
+				_occupiedMap[(int)unit->pos.y][(int)unit->pos.x] = true;*/
+
 		break;
 
 	case TurnManager::TurnState::SelectResultTurn:
 		_finishCount = 0;
 
+		// 行動中のユニットの状態を更新
 		for (auto& unit : _unitList)
 		{
 			if (!unit->isEnemy)
@@ -94,7 +106,7 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
 				{
 					SetMoveByState(*unit, unit->moveTimer, rs, tm);
 				}
-				else if (unit->moveTimer > 10)
+				else if (unit->moveTimer > GameDefine::MOVE_SPAN)
 				{
 					SetMoveByState(*unit, unit->moveTimer, rs, tm);
 				}
@@ -112,6 +124,7 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
 	case TurnManager::TurnState::EnemyTurn:
 		_finishCount = 0;
 
+		// 行動中のユニットの状態を更新
 		for (auto& unit : _unitList)
 		{
 			if (unit->isEnemy)
@@ -120,7 +133,7 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
 				{
 					SetMoveByState(*unit, unit->moveTimer, rs, tm);
 				}
-				else if (unit->moveTimer > 10)
+				else if (unit->moveTimer > GameDefine::MOVE_SPAN)
 				{
 					SetMoveByState(*unit, unit->moveTimer, rs, tm);
 				}
@@ -146,13 +159,21 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
 
 void UnitManager::Draw()
 {
-	p_PlayerUnit->Draw();
-	p_EnemyUnit->Draw();
+	int row = 0;
+
+	for (auto& unit : _unitList)
+	{
+		if (unit->state != UnitState::Dead)
+			DrawBox((unit->pos.x) * GameDefine::NODE_SIZE, (unit->pos.y) * GameDefine::NODE_SIZE, (unit->pos.x + 1) * GameDefine::NODE_SIZE, (unit->pos.y + 1) * GameDefine::NODE_SIZE, unit->color, true);
+		DrawFormatString(0, row, 0xffffff, "%d", unit->stamina);
+		row += 20;
+	}
 }
 
 void UnitManager::StateMove(_unitBase::UnitData& data, int& timer, RouteSearch* rs)
 {
 	timer = 0;
+	// 経路が空、またはルートのインデックスが範囲外の場合、到着状態に遷移
 	if (data.moveRoute.empty() || data.routeIndex >= (int)data.moveRoute.size())
 	{
 		printfDx("到着\n");
@@ -162,9 +183,22 @@ void UnitManager::StateMove(_unitBase::UnitData& data, int& timer, RouteSearch* 
 
 	int moveCost = rs->GetMoveCost(rs->_fieldTbl[(int)data.moveRoute[data.routeIndex].y][(int)data.moveRoute[data.routeIndex].x]);
 
+	// スタミナが足りる場合のみ移動
 	if ((data.stamina - moveCost) >= 0)
 	{
-		data.pos = data.moveRoute[data.routeIndex];
+		Vec2 nextPos = data.moveRoute[data.routeIndex];
+
+		if (_occupiedMap[(int)nextPos.y][(int)nextPos.x])
+		{
+			data.state = UnitState::Idle;
+			return;
+		}
+
+		// 移動先のマスを予約済みにする
+		_occupiedMap[(int)nextPos.y][(int)nextPos.x] = true;
+		_occupiedMap[(int)data.pos.y][(int)data.pos.x] = false;
+
+		data.pos = nextPos;
 		data.routeIndex++;
 		data.stamina -= moveCost;
 	}
@@ -173,6 +207,7 @@ void UnitManager::StateMove(_unitBase::UnitData& data, int& timer, RouteSearch* 
 		data.state = UnitState::Idle;
 	}
 
+	// 移動後に攻撃範囲内に敵がいるか確認
 	for (auto& unit : _unitList)
 	{
 		if (&data == unit) continue;
@@ -206,7 +241,7 @@ void UnitManager::StateArrived(_unitBase::UnitData& data, int& timer)
 void UnitManager::StateAttack(_unitBase::UnitData& data, int& timer)
 {
 	timer = 0;
-
+	// 攻撃済みの場合は待機状態に遷移
 	if (data.hasAttacked == true)
 	{
 		data.state = UnitState::Idle;
@@ -214,7 +249,7 @@ void UnitManager::StateAttack(_unitBase::UnitData& data, int& timer)
 	}
 
 	printfDx("交戦中！\n");
-
+	// 攻撃範囲内に敵がいるか確認
 	for (auto& unit : _unitList)
 	{
 		if (&data == unit) continue;
@@ -225,6 +260,7 @@ void UnitManager::StateAttack(_unitBase::UnitData& data, int& timer)
 
 		if (distance <= data.attackRange && data.state != UnitState::Dead && unit->state != UnitState::Dead)
 		{
+			// 攻撃処理
 			unit->hp -= data.attack;
 			data.hasAttacked = true;
 
@@ -242,7 +278,7 @@ void UnitManager::StateAttack(_unitBase::UnitData& data, int& timer)
 void UnitManager::StateDead(_unitBase::UnitData& data, int& timer)
 {
 	timer = 0;
-	data.color = color::BlackColor;
+	_occupiedMap[(int)data.pos.y][(int)data.pos.x] = false;
 }
 
 int UnitManager::Distance(_unitBase::UnitData* player, _unitBase::UnitData* enemy)

@@ -162,8 +162,8 @@ TileType RouteSearch::GetTileType(int num)
 	switch (num)
 	{
 	case 0: return TileType::Plain;
-	case 1: return TileType::MyBase;
-	case 2: return TileType::River;
+	case 1: return TileType::River;
+	case 2: return TileType::MyBase;
 	case 3: return TileType::Forest;
 	case 4: return TileType::EnemyBase;
 	case 5: return TileType::Mountain;
@@ -173,7 +173,7 @@ TileType RouteSearch::GetTileType(int num)
 std::vector<Vec2> RouteSearch::GetRouteList(Vec2 startPos, Vec2 goal)
 {
 	std::vector<Vec2> route;
-
+	// ゴールまでの歩数がわからなければ、終了
 	if (_countTbl[(int)goal.y][(int)goal.x] < 0) return route;
 
 	Vec2 index = goal;
@@ -182,16 +182,21 @@ std::vector<Vec2> RouteSearch::GetRouteList(Vec2 startPos, Vec2 goal)
 
 	while (1)
 	{
+		// ひとつ前に探索した時の移動コスト
 		int currentRemaining = _countTbl[(int)index.y][(int)index.x];
+		// 上下左右の移動用ベクトル
 		Vec2 dir[] = { Vec2(1, 0), Vec2(-1, 0), Vec2(0,1), Vec2(0,-1) };
+		// 次を探索するかのフラグ
 		bool foundNext = false;
-
+		// 上下左右の４回分のループ
 		for (int i = 0; i < 4; i++)
 		{
 			Vec2 next = index + dir[i];
+			// 範囲外なら探索しない
 			if (next.x < 0 || next.x >= GameDefine::NODE_WIDTH || next.y < 0 || next.y >= GameDefine::NODE_HEIGHT) continue;
-
+			// 地形情報による移動コスト
 			int cost = GetMoveCost(_fieldTbl[(int)index.y][(int)index.x]);
+			// 最短経路の確認
 			if (_countTbl[(int)next.y][(int)next.x] == currentRemaining + cost)
 			{
 				index = next;
@@ -202,9 +207,11 @@ std::vector<Vec2> RouteSearch::GetRouteList(Vec2 startPos, Vec2 goal)
 				break;
 			}
 		}
+		// スタート地点まで戻ったら終了
 		if (index.x == startPos.x && index.y == startPos.y) break;
 		if (!foundNext) break;
 	}
+	// ルートを逆順にする
 	std::reverse(route.begin(), route.end());
 
 	return route;

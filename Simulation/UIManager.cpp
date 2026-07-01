@@ -26,13 +26,22 @@ void UIManager::Update(PlayerUnit* pu, EnemyUnit* eu, RouteSearch* rs, TurnManag
 {
 	Mouse::Update();
 
+	// マウスの座標を取得
 	GetMousePoint(&_mousePosX, &_mousePosY);
 	_nodeIndex = ChangePixelToIndex(Vec2((float)_mousePosX, (float)_mousePosY));
 
+	// ターンがプレイヤー選択ターンの時のみ、マウス入力を受け付ける
 	if (tm->GetNowTurn() == TurnManager::TurnState::PlayerSelectTurn)
 	{
+		// 左クリックでユニットを選択、再度左クリックで目的地を設定
 		if (Mouse::IsTrigger(MOUSE_INPUT_LEFT) && !_targetSet)
 		{
+			if (GameDefine::NODE_WIDTH * GameDefine::NODE_SIZE <= _mousePosX <= GameDefine::NODE_HEIGHT * GameDefine::NODE_SIZE, GameDefine::NODE_WIDTH * GameDefine::NODE_SIZE + 200
+				&& GameDefine::NODE_HEIGHT * GameDefine::NODE_SIZE <= _mousePosY <= GameDefine::NODE_HEIGHT * GameDefine::NODE_SIZE + 40)
+			{
+
+			}
+
 			_unitTemp = GetUnitDataFromPos(_nodeIndex, pu, eu);
 			_targetSet = true;
 		}
@@ -46,6 +55,7 @@ void UIManager::Update(PlayerUnit* pu, EnemyUnit* eu, RouteSearch* rs, TurnManag
 				_unitTemp->routeIndex = 0;
 				_targetSet = false;
 			}
+			// 右クリックで選択を解除
 			else
 			{
 				_targetSet = false;
@@ -62,6 +72,9 @@ void UIManager::Draw()
 {
 	DrawFormatString(0, (GameDefine::NODE_HEIGHT + 1) * GameDefine::NODE_SIZE, color::WhiteColor, "%d,  %d", _mousePosX, _mousePosY);
 	DrawFormatString(0, (GameDefine::NODE_HEIGHT + 2) * GameDefine::NODE_SIZE, color::WhiteColor, "%f,  %f", _nodeIndex.x, _nodeIndex.y);
+
+	DrawBox(GameDefine::NODE_WIDTH * GameDefine::NODE_SIZE, GameDefine::NODE_HEIGHT * GameDefine::NODE_SIZE, GameDefine::NODE_WIDTH * GameDefine::NODE_SIZE + 200, GameDefine::NODE_HEIGHT * GameDefine::NODE_SIZE + 40, color::OrangeColor, true);
+	DrawFormatString(GameDefine::NODE_WIDTH * GameDefine::NODE_SIZE + 65, GameDefine::NODE_HEIGHT * GameDefine::NODE_SIZE + 10, 0x000000, "NextTurn");
 
 	// if(_targetSet) DrawFormatString(0, (GameDefine::NODE_HEIGHT + 2) * GameDefine::NODE_SIZE, color::WhiteColor, )
 }

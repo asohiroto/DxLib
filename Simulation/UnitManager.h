@@ -43,5 +43,7 @@ private:
 
 	// 何ユニットが行動終了したか
 	int _finishCount;
+	// 予約済みグリッド
+	bool _occupiedMap[GameDefine::NODE_HEIGHT][GameDefine::NODE_WIDTH];
 
 };

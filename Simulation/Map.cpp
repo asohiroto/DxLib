@@ -66,6 +66,7 @@ void Map::DrawMapChip()
 			pos.x = x * GameDefine::NODE_SIZE;
 			pos.y = y * GameDefine::NODE_SIZE;
 
+			// 画面外のチップは描画しない
 			if (pos.x < 0 - GameDefine::NODE_SIZE) continue;
 			if (pos.x > GameDefine::WIDTH) continue;
 			if (pos.y < 0 - GameDefine::NODE_SIZE) continue;
@@ -73,10 +74,12 @@ void Map::DrawMapChip()
 
 			int chipNo = _chipData[y][x];
 
+			// チップ番号から描画する画像の座標を計算
 			Vec2 src;
 			src.x = GameDefine::NODE_SIZE * (chipNo % 6);
 			src.y = GameDefine::NODE_SIZE * (chipNo / 6);
 
+			// 画像を描画
 			DrawRectRotaGraph(
 				static_cast<int>(pos.x + GameDefine::NODE_SIZE * 0.5f),
 				static_cast<int>(pos.y + GameDefine::NODE_SIZE * 0.5f),

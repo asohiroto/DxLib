@@ -62,7 +62,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		// 画面の左上（座標 20, 20）に白色でFPSを表示
 		DrawFormatString(20, 20, GetColor(255, 255, 255), "FPS: %d", currentFps);
-
 		DrawFormatString(20, 40, GetColor(255, 255, 255), "Total Frames: %d", totalFrames);
 
 		// 裏画面と表画面を入れ替える
