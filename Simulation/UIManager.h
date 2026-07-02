@@ -15,7 +15,7 @@ public:
 	~UIManager();
 	void Init();
 	void Update(PlayerUnit* pu, EnemyUnit* eu, RouteSearch* rs, TurnManager* tm, UnitManager* unm);
-	void Draw();
+	void Draw(RouteSearch* rs);
 	// クリック位置のピクセル座標をノード座標に変換する関数
 	Vec2 ChangePixelToIndex(Vec2 mousePos);
 

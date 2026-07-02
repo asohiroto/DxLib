@@ -19,7 +19,8 @@ private:
 	_unitBase::UnitData* SpawnUnit(UnitType unit, RouteSearch* rs);
 	// 引数のユニットのステータスを、指定のクラスのものに変更する関数
 	void ChangeStatusByType(UnitType unit, _unitBase::UnitData& data);
-
+	// 兵科を表示する関数
+	void DrawType(_unitBase::UnitData* data, int color);
 private:
 	// マウスの位置
 	int _mousePosX, _mousePosY;

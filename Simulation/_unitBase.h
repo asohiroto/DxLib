@@ -66,6 +66,7 @@ public:
 	// 各ユニットの座標のゲッター
 	Vec2 GetPosMain() { return _mainUnit.pos; }
 	Vec2 GetPosSub() { return _subUnit.pos; }
+
 	// 兵科ごとに能力を変える関数
 	void SetStatusByType(UnitData& data)
 	{
@@ -106,6 +107,7 @@ public:
 			break;
 		}
 	}
+
 	// 兵科を表示する関数
 	void DrawType(UnitData& data, int color)
 	{

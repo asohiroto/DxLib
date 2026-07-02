@@ -31,7 +31,7 @@ void BaseManager::Update(RouteSearch* rs, UIManager* um, UnitManager* unm)
 {
 	GetMousePoint(&_mousePosX, &_mousePosY);
 
-	for (auto& unit : _unitTemp)
+	for (auto unit : _unitTemp)
 	{
 		unit->moveTimer++;
 	}
@@ -96,6 +96,14 @@ void BaseManager::Draw()
 		DrawBox(ACTION_X, ACTION_Y + (2 * ACTION_HEIGHT / 3), ACTION_X + ACTION_WIDTH, ACTION_Y + (3 * ACTION_HEIGHT / 3), color::BlackColor, false);
 		DrawString(ACTION_X + 30, ACTION_Y + (2 * ACTION_HEIGHT / 3) + 20, "Produce Engineer", color::BlackColor);
 	}
+
+	for (auto unit : _unitTemp)
+	{
+		if (unit->state != UnitState::Dead)
+		{
+			DrawType(unit, color::BlackColor);
+		}
+	}
 }
 
 _unitBase::UnitData* BaseManager::SpawnUnit(UnitType unit, RouteSearch* rs)
@@ -106,7 +114,7 @@ _unitBase::UnitData* BaseManager::SpawnUnit(UnitType unit, RouteSearch* rs)
 
 	unitTemp->destPos = Vec2(ENEMY_BASE_X, ENEMY_BASE_Y);
 	rs->RouteSearchAstar(posInd, rs->_moveCount, unitTemp->destPos);
-	
+
 	unitTemp->name = "自軍追加部隊";
 	unitTemp->pos = posInd;
 	unitTemp->type = unit;
@@ -117,7 +125,7 @@ _unitBase::UnitData* BaseManager::SpawnUnit(UnitType unit, RouteSearch* rs)
 	unitTemp->moveRoute = rs->GetRouteList(posInd, unitTemp->destPos);
 	unitTemp->routeIndex = 0;
 	unitTemp->state = UnitState::Move;
-	
+
 	return unitTemp;
 }
 
@@ -136,7 +144,7 @@ void BaseManager::ChangeStatusByType(UnitType unit, _unitBase::UnitData& data)
 		return;
 
 	case UnitType::Archer:
-		data.typeName = "archer";
+		data.typeName = "Archer";
 		data.hp = 60;
 		data.attack = 30;
 		data.attackRange = 2;
@@ -159,4 +167,27 @@ void BaseManager::ChangeStatusByType(UnitType unit, _unitBase::UnitData& data)
 		printfDx("Warning: Unknown UnitType");
 		break;
 	}
+}
+
+void BaseManager::DrawType(_unitBase::UnitData* data, int color)
+{
+	std::string typeInit;
+
+	switch (data->type)
+	{
+	case UnitType::Soldier:
+		typeInit = "歩";
+		break;
+	case UnitType::Archer:
+		typeInit = "弓";
+		break;
+	case UnitType::Engineer:
+		typeInit = "工";
+		break;
+	default:
+		typeInit = "?";
+		break;
+	}
+
+	DrawString(data->pos.x * NODE_SIZE, data->pos.y * NODE_SIZE, typeInit.c_str(), color);
 }

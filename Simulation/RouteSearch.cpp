@@ -70,6 +70,8 @@ void RouteSearch::Draw()
 
 }
 
+
+
 void RouteSearch::RouteSearchAstar(Vec2 startPos, int startCount, Vec2 goal)
 {
 	ClearCount();
@@ -243,7 +245,7 @@ void RouteSearch::DrawRoute(Vec2 goal)
 	{
 		// indexをスクリーン上の座標に変換し、描画
 		Vec2 pos = index * NODE_SIZE;
-		DrawBox(pos.x, pos.y, pos.x + NODE_SIZE, pos.y + NODE_SIZE, 0xff00ff, true);
+		DrawBox(pos.x, pos.y, pos.x + NODE_SIZE, pos.y + NODE_SIZE, color::YellowColor, true);
 
 		// ひとつ前に探索した時の移動コスト
 		int currentRemaining = _countTbl[(int)index.y][(int)index.x];

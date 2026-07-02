@@ -62,6 +62,7 @@ void UIManager::Update(PlayerUnit* pu, EnemyUnit* eu, RouteSearch* rs, TurnManag
 			{
 				_targetSet = false;
 			}
+
 			if (_unitTemp == nullptr)
 			{
 				_targetSet = false;
@@ -70,17 +71,27 @@ void UIManager::Update(PlayerUnit* pu, EnemyUnit* eu, RouteSearch* rs, TurnManag
 	}
 }
 
-void UIManager::Draw()
+void UIManager::Draw(RouteSearch* rs)
 {
 	DrawFormatString(0, (NODE_HEIGHT + 1) * NODE_SIZE, color::WhiteColor, "%d,  %d", _mousePosX, _mousePosY);
 	DrawFormatString(0, (NODE_HEIGHT + 2) * NODE_SIZE, color::WhiteColor, "%f,  %f", _nodeIndex.x, _nodeIndex.y);
 	DrawUnitData(_unitTemp);
+
+	if (_targetSet)
+	{
+		rs->RouteSearchAstar(_unitTemp->pos, rs->_moveCount, Vec2(_mousePosX / NODE_SIZE, _mousePosY / NODE_SIZE));
+		rs->DrawRoute(Vec2(_mousePosX / NODE_SIZE, _mousePosY / NODE_SIZE));
+	}
 
 	if (_targetSet && _unitTemp != nullptr)
 	{
 		DrawBox(SELECTING_X, SELECTING_Y, SELECTING_X + SELLECTING_WIDTH, SELECTING_Y + SELLECTING_HEIGHT, color::CyanColor, true);
 		DrawString(SELECTING_X, SELECTING_Y, "Selecting...", color::BlackColor);
 	}
+
+	// マウスの選択中グリッドを強調
+	if (_mousePosX <= MAP_WIDTH && _mousePosY <= MAP_HEIGHT)
+		DrawBox((_mousePosX / NODE_SIZE) * NODE_SIZE, (_mousePosY / NODE_SIZE) * NODE_SIZE, ((_mousePosX + NODE_SIZE) / NODE_SIZE) * NODE_SIZE, ((_mousePosY + NODE_SIZE) / NODE_SIZE) * NODE_SIZE, color::RedColor, false);
 }
 
 Vec2 UIManager::ChangePixelToIndex(Vec2 mousePos)
