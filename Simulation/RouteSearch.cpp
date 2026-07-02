@@ -70,8 +70,6 @@ void RouteSearch::Draw()
 
 }
 
-
-
 void RouteSearch::RouteSearchAstar(Vec2 startPos, int startCount, Vec2 goal)
 {
 	ClearCount();

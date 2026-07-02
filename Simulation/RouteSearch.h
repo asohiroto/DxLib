@@ -35,7 +35,7 @@ public:
 	void Init();
 	void Update();
 	void Draw();
-	
+
 
 	// A*による経路探索 (_countTblにスコアを書き込んでいく)
 	void RouteSearchAstar(Vec2 startPos, int startCount, Vec2 goal);

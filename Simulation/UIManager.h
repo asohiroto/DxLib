@@ -30,10 +30,17 @@ private:
 private:
 	// 目標設定中フラグ
 	bool _targetSet = false;
+	// 目標設定モード用フラグ
+	bool _targetSettingMode = false;
 	// マウスの位置
 	int _mousePosX, _mousePosY;
 	// ノード座標系のマウス位置
 	Vec2 _nodeIndex;
 	// 選択したユニット
 	_unitBase::UnitData* _unitTemp;
+	// 情報表示するために選択したユニット
+	_unitBase::UnitData* _unit;
+	// セレクトボタンに表示するテキスト
+	std::string _buttonText;
+
 };

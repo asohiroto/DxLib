@@ -40,6 +40,13 @@ void UnitManager::Init(RouteSearch* rs)
 	_finishCount = 0;
 	_playerCount = 0;
 	_enemyCount = 0;
+
+	_myBaseHpMax = 150;
+	_enemyBaseHpMax = 150;
+	_myBaseHpNow = _myBaseHpMax;
+	_enemyBaseHpNow = _enemyBaseHpMax;
+	_myBaseAttack = 20;
+	_enemyBaseAttack = 20;
 }
 
 void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
@@ -59,7 +66,6 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
 		{
 			if ((NODE_WIDTH * NODE_SIZE) <= _mousePosX && _mousePosX <= (NODE_WIDTH * NODE_SIZE + 200) && (NODE_HEIGHT * NODE_SIZE) <= _mousePosY && _mousePosY <= (NODE_HEIGHT * NODE_SIZE + 40))
 			{
-
 				tm->TurnChange();
 			}
 		}
@@ -129,6 +135,35 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
 					_finishCount++;
 				}
 			}
+
+			/*Vec2 nextPos;
+
+			if (!unit->isEnemy && !unit->hasAttacked)
+			{
+				for (int i = 0; i <= unit->attackRange; i++)
+				{
+					if (unit->routeIndex + i >= (int)unit->moveRoute.size()) break;
+
+					nextPos = unit->moveRoute[unit->routeIndex + i];
+
+					if (rs->GetNodeData(nextPos.x, nextPos.y) == TileType::EnemyBase)
+					{
+						printfDx("攻撃中\n");
+
+						unit->hp -= _enemyBaseAttack;
+						_enemyBaseHpNow -= unit->attack;
+
+						unit->hasAttacked = true;
+
+						if (_enemyBaseHpNow <= 0)
+						{
+							printfDx("破壊\n");
+						}
+
+						break;
+					}
+				}
+			}*/
 		}
 
 		if (_finishCount >= _playerCount) tm->TurnChange();
@@ -159,6 +194,35 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
 					_finishCount++;
 				}
 			}
+
+			/*Vec2 nextPos;
+
+			if (unit->isEnemy && !unit->hasAttacked)
+			{
+				for (int i = 0; i <= unit->attackRange; i++)
+				{
+					if (unit->routeIndex + i >= (int)unit->moveRoute.size()) break;
+
+					nextPos = unit->moveRoute[unit->routeIndex + i];
+
+					if (rs->GetNodeData(nextPos.x, nextPos.y) == TileType::MyBase)
+					{
+						printfDx("攻撃中\n");
+
+						unit->hp -= _myBaseAttack;
+						_myBaseHpNow -= unit->attack;
+
+						unit->hasAttacked = true;
+
+						if (_myBaseHpNow <= 0)
+						{
+							printfDx("破壊\n");
+						}
+
+						break;
+					}
+				}
+			}*/
 		}
 
 		if (_finishCount >= _enemyCount)
@@ -196,7 +260,7 @@ void UnitManager::Draw(TurnManager* tm)
 	if (tm->GetNowTurn() == TurnManager::TurnState::PlayerSelectTurn)
 	{
 		turnButton = "Next Turn";
-		addSpaceX = 65;
+		addSpaceX = 55;
 		addSpaceY = 10;
 	}
 	else
@@ -228,6 +292,12 @@ void UnitManager::StateMove(_unitBase::UnitData& data, int& timer, RouteSearch* 
 	if ((data.stamina - moveCost) >= 0)
 	{
 		Vec2 nextPos = data.moveRoute[data.routeIndex];
+
+		if (nextPos.x == data.pos.x && nextPos.y == data.pos.y)
+		{
+			data.routeIndex++;
+			return; // 次のフレームで実際の次のマスへ移動開始
+		}
 
 		if (_occupiedMap[(int)nextPos.y][(int)nextPos.x])
 		{

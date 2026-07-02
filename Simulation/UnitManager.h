@@ -51,5 +51,10 @@ private:
 	int _playerCount;
 	// 現在存在する敵ユニットの数
 	int _enemyCount;
-
+	// 現在の拠点の体力
+	int _myBaseHpNow, _enemyBaseHpNow;
+	// 拠点の最大体力
+	int _myBaseHpMax, _enemyBaseHpMax;
+	// 拠点の攻撃力
+	int _myBaseAttack, _enemyBaseAttack;
 };

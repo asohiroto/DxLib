@@ -164,7 +164,7 @@ void BaseManager::ChangeStatusByType(UnitType unit, _unitBase::UnitData& data)
 		return;
 
 	default:
-		printfDx("Warning: Unknown UnitType");
+		printfDx("Warning : Unknown UnitType");
 		break;
 	}
 }

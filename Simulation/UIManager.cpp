@@ -8,9 +8,12 @@ using namespace GameDefine;
 
 UIManager::UIManager() :
 	_targetSet(false),
+	_targetSettingMode(false),
 	_mousePosX(0),
 	_mousePosY(0),
-	_unitTemp(nullptr)
+	_unitTemp(nullptr),
+	_unit(nullptr),
+	_buttonText()
 {
 
 }
@@ -22,7 +25,12 @@ UIManager::~UIManager()
 
 void UIManager::Init()
 {
-
+	_targetSet = false;
+	_targetSettingMode = false;
+	_mousePosX = 0;
+	_mousePosY = 0;
+	_unitTemp = nullptr;
+	_unit = nullptr;
 }
 
 void UIManager::Update(PlayerUnit* pu, EnemyUnit* eu, RouteSearch* rs, TurnManager* tm, UnitManager* unm)
@@ -34,38 +42,61 @@ void UIManager::Update(PlayerUnit* pu, EnemyUnit* eu, RouteSearch* rs, TurnManag
 	// ターンがプレイヤー選択ターンの時のみ、マウス入力を受け付ける
 	if (tm->GetNowTurn() == TurnManager::TurnState::PlayerSelectTurn)
 	{
+		if (Mouse::IsTrigger(MOUSE_INPUT_LEFT))
+		{
+			_unit = GetUnitDataFromPos(_nodeIndex, pu, eu, unm);
+		}
+
+		if (_mousePosX >= SELECTING_X && _mousePosY >= SELECTING_Y && _mousePosX <= SELECTING_X + SELLECTING_WIDTH && _mousePosY <= SELECTING_Y + SELLECTING_HEIGHT)
+		{
+			if (Mouse::IsTrigger(MOUSE_INPUT_LEFT) && !_targetSet && !_targetSettingMode)
+			{
+				_targetSettingMode = true;
+			}
+		}
+
 		if (_mousePosX <= (NODE_WIDTH * NODE_SIZE) && _mousePosY <= (NODE_HEIGHT * NODE_SIZE))
 		{
-			// 左クリックでユニットを選択、再度左クリックで目的地を設定
-			if (Mouse::IsTrigger(MOUSE_INPUT_LEFT) && !_targetSet)
+			if (_targetSettingMode)
 			{
-				_unitTemp = GetUnitDataFromPos(_nodeIndex, pu, eu, unm);
-				_targetSet = true;
-			}
-			else if (Mouse::IsTrigger(MOUSE_INPUT_LEFT) && _targetSet)
-			{
-				if (_unitTemp != nullptr)
+				// 左クリックでユニットを選択、再度左クリックで目的地を設定
+				if (Mouse::IsTrigger(MOUSE_INPUT_LEFT) && !_targetSet)
 				{
-					_unitTemp->destPos = _nodeIndex;
-					rs->RouteSearchAstar(_unitTemp->pos, rs->_moveCount, _unitTemp->destPos);
-					_unitTemp->moveRoute = rs->GetRouteList(_unitTemp->pos, _unitTemp->destPos);
-					_unitTemp->routeIndex = 0;
-					_targetSet = false;
+					_unitTemp = GetUnitDataFromPos(_nodeIndex, pu, eu, unm);
+					_targetSet = true;
 				}
-				// 右クリックで選択を解除
-				else
+				else if (Mouse::IsTrigger(MOUSE_INPUT_LEFT) && _targetSet)
 				{
-					_targetSet = false;
+					if (_unitTemp != nullptr)
+					{
+						_unitTemp->destPos = _nodeIndex;
+						rs->RouteSearchAstar(_unitTemp->pos, rs->_moveCount, _unitTemp->destPos);
+						_unitTemp->moveRoute = rs->GetRouteList(_unitTemp->pos, _unitTemp->destPos);
+						_unitTemp->routeIndex = 0;
+						_unitTemp->state = UnitState::Move;
+						_unitTemp = nullptr;
+						_targetSet = false;
+						_targetSettingMode = false;
+					}
+					// 右クリックで選択を解除
+					else
+					{
+						_unitTemp = nullptr;
+						_targetSet = false;
+						_targetSettingMode = false;
+					}
 				}
-			}
-			else if (Mouse::IsTrigger(MOUSE_INPUT_RIGHT) && _targetSet)
-			{
-				_targetSet = false;
-			}
+				else if (Mouse::IsTrigger(MOUSE_INPUT_RIGHT) && _targetSet)
+				{
+					_unitTemp = nullptr;
+					_targetSet = false;
+					_targetSettingMode = false;
+				}
 
-			if (_unitTemp == nullptr)
-			{
-				_targetSet = false;
+				if (_unitTemp == nullptr)
+				{
+					_targetSet = false;
+				}
 			}
 		}
 	}
@@ -75,19 +106,25 @@ void UIManager::Draw(RouteSearch* rs)
 {
 	DrawFormatString(0, (NODE_HEIGHT + 1) * NODE_SIZE, color::WhiteColor, "%d,  %d", _mousePosX, _mousePosY);
 	DrawFormatString(0, (NODE_HEIGHT + 2) * NODE_SIZE, color::WhiteColor, "%f,  %f", _nodeIndex.x, _nodeIndex.y);
-	DrawUnitData(_unitTemp);
+	DrawUnitData(_unit);
 
-	if (_targetSet)
+	if (_targetSet && _unitTemp != nullptr)
 	{
 		rs->RouteSearchAstar(_unitTemp->pos, rs->_moveCount, Vec2(_mousePosX / NODE_SIZE, _mousePosY / NODE_SIZE));
 		rs->DrawRoute(Vec2(_mousePosX / NODE_SIZE, _mousePosY / NODE_SIZE));
 	}
 
-	if (_targetSet && _unitTemp != nullptr)
+	if (!_targetSettingMode)
 	{
-		DrawBox(SELECTING_X, SELECTING_Y, SELECTING_X + SELLECTING_WIDTH, SELECTING_Y + SELLECTING_HEIGHT, color::CyanColor, true);
-		DrawString(SELECTING_X, SELECTING_Y, "Selecting...", color::BlackColor);
+		_buttonText = "Change Target";
 	}
+	else if (_targetSettingMode)
+	{
+		_buttonText = "Selecting...";
+	}
+
+	DrawBox(SELECTING_X, SELECTING_Y, SELECTING_X + SELLECTING_WIDTH, SELECTING_Y + SELLECTING_HEIGHT, color::CyanColor, true);
+	DrawFormatString(SELECTING_X + 40, SELECTING_Y, color::BlackColor, _buttonText.c_str());
 
 	// マウスの選択中グリッドを強調
 	if (_mousePosX <= MAP_WIDTH && _mousePosY <= MAP_HEIGHT)
@@ -149,7 +186,7 @@ void UIManager::DrawData(Vec2 pos, std::string name, Vec2 unitPos, std::string t
 {
 	DrawBox(pos.x, pos.y, pos.x + DATA_WIDTH, pos.y + DATA_HEIGHT, color::WhiteColor, true);
 	DrawFormatString(pos.x + 10, pos.y, color::BlackColor, name.c_str());
-	DrawFormatString(pos.x + 10, pos.y + 20, color::BlackColor, "Destination : %d, %d", unitPos.x, unitPos.y);
+	DrawFormatString(pos.x + 10, pos.y + 20, color::BlackColor, "Destination : %.0f, %.0f", unitPos.x, unitPos.y);
 	DrawFormatString(pos.x + 10, pos.y + 40, color::BlackColor, type.c_str());
 	DrawFormatString(pos.x + 10, pos.y + 60, color::BlackColor, "Hp : %d", hp);
 	DrawFormatString(pos.x + 10, pos.y + 80, color::BlackColor, "AttackDamage : %d", attack);
