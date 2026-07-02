@@ -48,7 +48,7 @@ void MainScene::Draw()
 {
 	p_Map->Draw();
 	p_RouteSearch->Draw();
-	p_UnitManager->Draw();
 	p_TurnManager->Draw();
+	p_UnitManager->Draw(p_TurnManager);
 	p_UIManager->Draw();
 }

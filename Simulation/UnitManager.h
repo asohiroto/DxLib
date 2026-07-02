@@ -12,7 +12,7 @@ public:
 	~UnitManager();
 	void Init(RouteSearch* rs);
 	void Update(RouteSearch* rs, TurnManager* tm);
-	void Draw();
+	void Draw(TurnManager* tm);
 
 	// 移動処理
 	void StateMove(_unitBase::UnitData& data, int& timer, RouteSearch* rs);
@@ -45,5 +45,11 @@ private:
 	int _finishCount;
 	// 予約済みグリッド
 	bool _occupiedMap[GameDefine::NODE_HEIGHT][GameDefine::NODE_WIDTH];
+	// マウスの位置
+	int _mousePosX, _mousePosY;
+	// 現在存在する味方ユニットの数
+	int _playerCount;
+	// 現在存在する敵ユニットの数
+	int _enemyCount;
 
 };

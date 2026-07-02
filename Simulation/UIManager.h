@@ -5,6 +5,7 @@
 #include"EnemyUnit.h"
 #include"RouteSearch.h"
 #include"TurnManager.h"
+#include"UnitManager.h"
 #include<string>
 
 class UIManager
@@ -22,7 +23,9 @@ private:
 	// クリック位置からユニットデータを取得する関数
 	_unitBase::UnitData* GetUnitDataFromPos(Vec2 mousePos, PlayerUnit* pu, EnemyUnit* eu) const;
 	// ユニットデータを描画する関数
-	void DrawUnitData(_unitBase::UnitData data);
+	void DrawUnitData(_unitBase::UnitData* data);
+	// 引数のデータをいい感じに描画する関数
+	void DrawData(Vec2 pos, std::string name, Vec2 unitPos, std::string type, int hp, int attack);
 
 private:
 	// 目標設定中フラグ

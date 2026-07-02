@@ -149,6 +149,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BaseManager.cpp" />
     <ClCompile Include="EnemyUnit.cpp" />
     <ClCompile Include="PlayerUnit.cpp" />
     <ClCompile Include="RouteSearch.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="AsoDxLib\Mouse.h" />
     <ClInclude Include="AsoDxLib\Pad.h" />
     <ClInclude Include="AsoDxLib\Vec2.h" />
+    <ClInclude Include="BaseManager.h" />
     <ClInclude Include="EnemyUnit.h" />
     <ClInclude Include="GameDefine.h" />
     <ClInclude Include="MainScene.h" />
@@ -185,6 +187,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="PlayerUnit.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="SceneBase.h" />
     <ClInclude Include="StartScene.h" />
     <ClInclude Include="TurnManager.h" />
@@ -192,6 +195,9 @@
     <ClInclude Include="UnitState.h" />
     <ClInclude Include="UnitType.h" />
     <ClInclude Include="_unitBase.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Simulation.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

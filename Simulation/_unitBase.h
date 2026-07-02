@@ -1,10 +1,12 @@
 ﻿#pragma once
 #include"AsoDxLib/Vec2.h"
+#include"AsoDxLib/Color.h"
 #include"UnitState.h"
 #include"UnitType.h"
 #include"RouteSearch.h"
 #include"DxLib.h"
 #include<vector>
+#include<string>
 
 class _unitBase
 {
@@ -12,6 +14,10 @@ public:
 	// ユニットの持つ情報
 	struct UnitData
 	{
+		// 部隊名
+		std::string name;
+		// 兵科名
+		std::string typeName;
 		// 現在位置
 		Vec2 pos = Vec2(0, 0);
 		// 目的地
@@ -24,14 +30,14 @@ public:
 		int attackRange = 0;
 		// スタミナ
 		int stamina;
-		// 最大体力
+		// 最大スタミナ
 		int maxStamina;
 		// 見た目
 		int color = 0;
 		// 行動間隔カウンタ
 		int moveTimer = 0;
 		// 建築可能か
-		bool canArchitect = false;
+		bool canBuilding = false;
 		// 敵か味方か
 		bool isEnemy = false;
 		// 攻撃済みか
@@ -68,36 +74,61 @@ protected:
 		switch (data.type)
 		{
 		case UnitType::Soldier:
+			data.typeName = "Soldier";
 			data.hp = 100;
 			data.attack = 25;
 			data.attackRange = 1;
 			data.stamina = 10;
 			data.maxStamina = data.stamina;
-			data.canArchitect = false;
+			data.canBuilding = false;
 			return;
 
 		case UnitType::Archer:
+			data.typeName = "archer";
 			data.hp = 60;
 			data.attack = 30;
 			data.attackRange = 2;
 			data.stamina = 12;
 			data.maxStamina = data.stamina;
-			data.canArchitect = false;
+			data.canBuilding = false;
 			return;
 
 		case UnitType::Engineer:
+			data.typeName = "Engineer";
 			data.hp = 30;
 			data.attack = 5;
 			data.attackRange = 1;
 			data.stamina = 7;
 			data.maxStamina = data.stamina;
-			data.canArchitect = true;
+			data.canBuilding = true;
 			return;
 
 		default:
 			printfDx("Warning: Unknown UnitType");
 			break;
 		}
+	}
+	// 兵科を表示する関数
+	void DrawType(UnitData& data, int color)
+	{
+		std::string typeInit;
+
+		switch (data.type)
+		{
+		case UnitType::Soldier:
+			typeInit = "歩";
+			break;
+		case UnitType::Archer:
+			typeInit = "弓";
+			break;
+		case UnitType::Engineer:
+			typeInit = "工";
+			break;
+		default:
+			typeInit = "?";
+			break;
+		}
+		DrawString(data.pos.x * GameDefine::NODE_SIZE, data.pos.y * GameDefine::NODE_SIZE, typeInit.c_str(), color);
 	}
 
 protected:

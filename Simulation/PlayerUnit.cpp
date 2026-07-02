@@ -34,6 +34,7 @@ void PlayerUnit::Init(RouteSearch* rs)
 	rs->RouteSearchAstar(_mainPosInd, rs->_moveCount, _mainUnit.destPos);
 
 	// 主部隊のデータ
+	_mainUnit.name = "自軍主部隊";
 	_mainUnit.pos = _mainPosInd;
 	_mainUnit.type = UnitType::Soldier;
 	_unitBase::SetStatusByType(_mainUnit);
@@ -60,10 +61,11 @@ void PlayerUnit::Init(RouteSearch* rs)
 	rs->RouteSearchAstar(_subPosInd, rs->_moveCount, _subUnit.destPos);
 
 	// 主部隊のデータ
+	_subUnit.name = "自軍副部隊";
 	_subUnit.pos = _subPosInd;
 	_subUnit.type = UnitType::Archer;
 	_unitBase::SetStatusByType(_subUnit);
-	_subUnit.color = color::LightGrayColor;
+	_subUnit.color = color::YellowColor;
 	_subUnit.moveTimer = 0;
 	_subUnit.isEnemy = false;
 	_subUnit.moveRoute = rs->GetRouteList(_subPosInd, _subUnit.destPos);
@@ -85,7 +87,10 @@ void PlayerUnit::Update()
 
 void PlayerUnit::Draw()
 {
-
+	if (_mainUnit.state != UnitState::Dead)
+		DrawType(_mainUnit, color::BlackColor);
+	if (_subUnit.state != UnitState::Dead)
+		DrawType(_subUnit, color::BlackColor);
 }
 
 

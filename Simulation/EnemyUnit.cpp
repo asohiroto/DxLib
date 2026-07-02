@@ -31,10 +31,11 @@ void EnemyUnit::Init(RouteSearch* rs)
 	rs->RouteSearchAstar(_mainPosInd, rs->_moveCount, _mainUnit.destPos);
 
 	// 主部隊のデータ
+	_mainUnit.name = "敵軍主部隊";
 	_mainUnit.pos = _mainPosInd;
 	_mainUnit.type = UnitType::Soldier;
 	_unitBase::SetStatusByType(_mainUnit);
-	_mainUnit.color = color::PurpleColor;
+	_mainUnit.color = color::RedColor;
 	_mainUnit.moveTimer = 0;
 	_mainUnit.isEnemy = true;
 	_mainUnit.moveRoute = rs->GetRouteList(_mainPosInd, _mainUnit.destPos);
@@ -57,10 +58,11 @@ void EnemyUnit::Init(RouteSearch* rs)
 	rs->RouteSearchAstar(_subPosInd, rs->_moveCount, _subUnit.destPos);
 
 	// 副部隊のデータ
+	_subUnit.name = "敵軍副部隊";
 	_subUnit.pos = _subPosInd;
 	_subUnit.type = UnitType::Archer;
 	_unitBase::SetStatusByType(_subUnit);
-	_subUnit.color = color::PinkColor;
+	_subUnit.color = color::RedColor;
 	_subUnit.moveTimer = 0;
 	_subUnit.isEnemy = true;
 	_subUnit.moveRoute = rs->GetRouteList(_subPosInd, _subUnit.destPos);
@@ -81,8 +83,9 @@ void EnemyUnit::Update()
 
 void EnemyUnit::Draw()
 {
-	DrawBox(_mainPosPixel.x, _mainPosPixel.y, _mainPosPixel.x + GameDefine::NODE_SIZE, _mainPosPixel.y + GameDefine::NODE_SIZE, _mainUnit.color, true);
-	DrawBox(_subPosPixel.x, _subPosPixel.y, _subPosPixel.x + GameDefine::NODE_SIZE, _subPosPixel.y + GameDefine::NODE_SIZE, _subUnit.color, true);
-
+	if (_mainUnit.state != UnitState::Dead)
+		DrawType(_mainUnit, color::WhiteColor);
+	if (_subUnit.state != UnitState::Dead)
+		DrawType(_subUnit, color::WhiteColor);
 }
 

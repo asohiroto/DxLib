@@ -1,12 +1,16 @@
 ﻿#include"UnitManager.h"
-#include"AsoDxLib/Color.h"
+#include"AsoDxLib/Mouse.h"
 #include"AsoDxLib/Keyboard.h"
+#include"AsoDxLib/Color.h"
+#include<string>
 
 UnitManager::UnitManager() :
 	p_PlayerUnit(nullptr),
 	p_EnemyUnit(nullptr),
 	_finishCount(0),
-	_occupiedMap(true)
+	_occupiedMap(true),
+	_playerCount(0),
+	_enemyCount(0)
 {
 
 }
@@ -32,11 +36,14 @@ void UnitManager::Init(RouteSearch* rs)
 	_unitList.push_back(&p_EnemyUnit->GetSubUnit());
 
 	_finishCount = 0;
+	_playerCount = 0;
+	_enemyCount = 0;
 }
 
 void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
 {
 	Keyboard::Update();
+	Mouse::Update();
 
 	p_PlayerUnit->Update();
 	p_EnemyUnit->Update();
@@ -44,8 +51,17 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
 	switch (tm->GetNowTurn())
 	{
 	case TurnManager::TurnState::PlayerSelectTurn:
-		if (Keyboard::IsTrigger(KEY_INPUT_SPACE)) tm->TurnChange();
+		GetMousePoint(&_mousePosX, &_mousePosY);
 
+		if (Mouse::IsTrigger(MOUSE_INPUT_LEFT))
+		{
+			if ((GameDefine::NODE_WIDTH * GameDefine::NODE_SIZE) <= _mousePosX && _mousePosX <= (GameDefine::NODE_WIDTH * GameDefine::NODE_SIZE + 200)
+					&& (GameDefine::NODE_HEIGHT * GameDefine::NODE_SIZE) <= _mousePosY && _mousePosY <= (GameDefine::NODE_HEIGHT * GameDefine::NODE_SIZE + 40))
+			{
+
+				tm->TurnChange();
+			}
+		}
 
 		for (auto& unit : _unitList)
 		{
@@ -87,11 +103,6 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
 			}
 		}
 
-		/*memset(_occupiedMap, false, sizeof(_occupiedMap));
-		for (auto& unit : _unitList)
-			if (unit->state != UnitState::Dead)
-				_occupiedMap[(int)unit->pos.y][(int)unit->pos.x] = true;*/
-
 		break;
 
 	case TurnManager::TurnState::SelectResultTurn:
@@ -102,6 +113,7 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
 		{
 			if (!unit->isEnemy)
 			{
+				_playerCount++;
 				if (unit->state == UnitState::Dead)
 				{
 					SetMoveByState(*unit, unit->moveTimer, rs, tm);
@@ -118,7 +130,9 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
 			}
 		}
 
-		if (_finishCount > 1) tm->TurnChange();
+		if (_finishCount >= _playerCount) tm->TurnChange();
+
+		_playerCount = 0;
 		break;
 
 	case TurnManager::TurnState::EnemyTurn:
@@ -129,6 +143,7 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
 		{
 			if (unit->isEnemy)
 			{
+				_enemyCount++;
 				if (unit->state == UnitState::Dead)
 				{
 					SetMoveByState(*unit, unit->moveTimer, rs, tm);
@@ -145,11 +160,13 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
 			}
 		}
 
-		if (_finishCount > 1)
+		if (_finishCount >= _enemyCount)
 		{
 			tm->TurnChange();
 			tm->_turnCount++;
 		}
+
+		_enemyCount = 0;
 		break;
 
 	default:
@@ -157,9 +174,12 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
 	}
 }
 
-void UnitManager::Draw()
+void UnitManager::Draw(TurnManager* tm)
 {
 	int row = 0;
+	std::string turnButton;
+	int addSpaceX;
+	int addSpaceY;
 
 	for (auto& unit : _unitList)
 	{
@@ -168,6 +188,25 @@ void UnitManager::Draw()
 		DrawFormatString(0, row, 0xffffff, "%d", unit->stamina);
 		row += 20;
 	}
+
+	p_PlayerUnit->Draw();
+	p_EnemyUnit->Draw();
+
+	if (tm->GetNowTurn() == TurnManager::TurnState::PlayerSelectTurn)
+	{
+		turnButton = "Next Turn";
+		addSpaceX = 65;
+		addSpaceY = 10;
+	}
+	else
+	{
+		turnButton = "Turn Transition...";
+		addSpaceX = 20;
+		addSpaceY = 10;
+	}
+
+	DrawBox(GameDefine::NODE_WIDTH * GameDefine::NODE_SIZE, GameDefine::NODE_HEIGHT * GameDefine::NODE_SIZE, GameDefine::NODE_WIDTH * GameDefine::NODE_SIZE + 200, GameDefine::NODE_HEIGHT * GameDefine::NODE_SIZE + 40, color::OrangeColor, true);
+	DrawFormatString(GameDefine::NODE_WIDTH * GameDefine::NODE_SIZE + addSpaceX, GameDefine::NODE_HEIGHT * GameDefine::NODE_SIZE + addSpaceY, 0x000000, turnButton.c_str());
 }
 
 void UnitManager::StateMove(_unitBase::UnitData& data, int& timer, RouteSearch* rs)
