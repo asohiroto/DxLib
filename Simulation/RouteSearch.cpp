@@ -6,6 +6,8 @@
 #include<fstream>
 #include"AsoDxLib/color.h"
 
+using namespace GameDefine;
+
 RouteSearch::RouteSearch() :
 	_countTbl{},
 	_moveCount(640),
@@ -22,7 +24,7 @@ RouteSearch::RouteSearch() :
 
 	int y = 0;
 	// ファイルから1行分筒読み込んでいき、最大数に達するまで繰り返す
-	while (std::getline(file, line) && y < GameDefine::NODE_HEIGHT)
+	while (std::getline(file, line) && y < NODE_HEIGHT)
 	{
 		// 先頭から参照できるようにする
 		std::istringstream stream(line);
@@ -31,7 +33,7 @@ RouteSearch::RouteSearch() :
 
 		int x = 0;
 		// 「,」による区切りごとに、1つのデータとして読み込んでいく
-		while (getline(stream, field, ',') && x < GameDefine::NODE_WIDTH)
+		while (getline(stream, field, ',') && x < NODE_WIDTH)
 		{
 			// fieldに格納された整数データをGetTileTypeを通して、地形データへと変換する
 			_fieldTbl[y][x] = GetTileType(std::stoi(field));
@@ -60,11 +62,11 @@ void RouteSearch::Update()
 
 void RouteSearch::Draw()
 {
-	int goalPosX = GameDefine::ENEMY_BASE_X * GameDefine::NODE_SIZE;
-	int goalPosY = GameDefine::ENEMY_BASE_Y * GameDefine::NODE_SIZE;
+	int goalPosX = ENEMY_BASE_X * NODE_SIZE;
+	int goalPosY = ENEMY_BASE_Y * NODE_SIZE;
 
 	// ゴールの描画
-	DrawBox(goalPosX, goalPosY, goalPosX + GameDefine::NODE_SIZE, goalPosY + GameDefine::NODE_SIZE, color::RedColor, true);
+	DrawBox(goalPosX, goalPosY, goalPosX + NODE_SIZE, goalPosY + NODE_SIZE, color::RedColor, true);
 
 }
 
@@ -73,7 +75,7 @@ void RouteSearch::RouteSearchAstar(Vec2 startPos, int startCount, Vec2 goal)
 	ClearCount();
 
 	// 範囲外のチェック
-	if (startPos.x < 0 || startPos.y < 0 || startPos.x >= GameDefine::NODE_WIDTH || startPos.y >= GameDefine::NODE_HEIGHT) return;
+	if (startPos.x < 0 || startPos.y < 0 || startPos.x >= NODE_WIDTH || startPos.y >= NODE_HEIGHT) return;
 
 	// 開始地点のノード
 	NodeData n;
@@ -115,7 +117,7 @@ void RouteSearch::RouteSearchAstar(Vec2 startPos, int startCount, Vec2 goal)
 			Vec2 o = curr.Pos + dir[i];
 
 			// 範囲外チェック
-			if (o.x < 0 || o.x >= GameDefine::NODE_WIDTH || o.y < 0 || o.y >= GameDefine::NODE_HEIGHT) continue;
+			if (o.x < 0 || o.x >= NODE_WIDTH || o.y < 0 || o.y >= NODE_HEIGHT) continue;
 
 			// 必要な移動コストを算出
 			int moveCost = GetMoveCost(_fieldTbl[(int)o.y][(int)o.x]);
@@ -193,7 +195,7 @@ std::vector<Vec2> RouteSearch::GetRouteList(Vec2 startPos, Vec2 goal)
 		{
 			Vec2 next = index + dir[i];
 			// 範囲外なら探索しない
-			if (next.x < 0 || next.x >= GameDefine::NODE_WIDTH || next.y < 0 || next.y >= GameDefine::NODE_HEIGHT) continue;
+			if (next.x < 0 || next.x >= NODE_WIDTH || next.y < 0 || next.y >= NODE_HEIGHT) continue;
 			// 地形情報による移動コスト
 			int cost = GetMoveCost(_fieldTbl[(int)index.y][(int)index.x]);
 			// 最短経路の確認
@@ -220,9 +222,9 @@ std::vector<Vec2> RouteSearch::GetRouteList(Vec2 startPos, Vec2 goal)
 void RouteSearch::ClearCount()
 {
 	// 全てのノードの移動コストを最小の値で初期化する
-	for (int x = 0; x < GameDefine::NODE_WIDTH; x++)
+	for (int x = 0; x < NODE_WIDTH; x++)
 	{
-		for (int y = 0; y < GameDefine::NODE_HEIGHT; y++)
+		for (int y = 0; y < NODE_HEIGHT; y++)
 		{
 			_countTbl[y][x] = -1;
 		}
@@ -240,8 +242,8 @@ void RouteSearch::DrawRoute(Vec2 goal)
 	while (1)
 	{
 		// indexをスクリーン上の座標に変換し、描画
-		Vec2 pos = index * GameDefine::NODE_SIZE;
-		DrawBox(pos.x, pos.y, pos.x + GameDefine::NODE_SIZE, pos.y + GameDefine::NODE_SIZE, 0xff00ff, true);
+		Vec2 pos = index * NODE_SIZE;
+		DrawBox(pos.x, pos.y, pos.x + NODE_SIZE, pos.y + NODE_SIZE, 0xff00ff, true);
 
 		// ひとつ前に探索した時の移動コスト
 		int currentRemaining = _countTbl[(int)index.y][(int)index.x];
@@ -257,7 +259,7 @@ void RouteSearch::DrawRoute(Vec2 goal)
 			Vec2 next = index + dir[i];
 
 			// 範囲外なら探索しない
-			if (next.x < 0 || next.x >= GameDefine::NODE_WIDTH || next.y < 0 || next.y >= GameDefine::NODE_HEIGHT) continue;
+			if (next.x < 0 || next.x >= NODE_WIDTH || next.y < 0 || next.y >= NODE_HEIGHT) continue;
 
 			// 地形情報による移動コスト
 			int cost = GetMoveCost(_fieldTbl[(int)index.y][(int)index.x]);

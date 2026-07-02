@@ -14,14 +14,14 @@ public:
 	UIManager();
 	~UIManager();
 	void Init();
-	void Update(PlayerUnit* pu, EnemyUnit* eu, RouteSearch* rs, TurnManager* tm);
+	void Update(PlayerUnit* pu, EnemyUnit* eu, RouteSearch* rs, TurnManager* tm, UnitManager* unm);
 	void Draw();
-
-private:
 	// クリック位置のピクセル座標をノード座標に変換する関数
 	Vec2 ChangePixelToIndex(Vec2 mousePos);
+
+private:
 	// クリック位置からユニットデータを取得する関数
-	_unitBase::UnitData* GetUnitDataFromPos(Vec2 mousePos, PlayerUnit* pu, EnemyUnit* eu) const;
+	_unitBase::UnitData* GetUnitDataFromPos(Vec2 mousePos, PlayerUnit* pu, EnemyUnit* eu, UnitManager* unm) const;
 	// ユニットデータを描画する関数
 	void DrawUnitData(_unitBase::UnitData* data);
 	// 引数のデータをいい感じに描画する関数

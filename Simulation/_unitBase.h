@@ -29,9 +29,9 @@ public:
 		// 攻撃範囲
 		int attackRange = 0;
 		// スタミナ
-		int stamina;
+		int stamina = 0;
 		// 最大スタミナ
-		int maxStamina;
+		int maxStamina = 0;
 		// 見た目
 		int color = 0;
 		// 行動間隔カウンタ
@@ -50,11 +50,11 @@ public:
 		// ユニットの進む経路
 		std::vector<Vec2> moveRoute;
 		// ルートの中の位置
-		int routeIndex;
+		int routeIndex = 0;
 	};
 
 public:
-	_unitBase() = default;
+	_unitBase() {};
 	virtual ~_unitBase() {};
 	virtual void Init(RouteSearch* rs) = 0;
 	virtual void Update() = 0;
@@ -66,8 +66,6 @@ public:
 	// 各ユニットの座標のゲッター
 	Vec2 GetPosMain() { return _mainUnit.pos; }
 	Vec2 GetPosSub() { return _subUnit.pos; }
-
-protected:
 	// 兵科ごとに能力を変える関数
 	void SetStatusByType(UnitData& data)
 	{

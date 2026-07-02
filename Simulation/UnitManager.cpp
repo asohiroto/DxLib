@@ -4,6 +4,8 @@
 #include"AsoDxLib/Color.h"
 #include<string>
 
+using namespace GameDefine;
+
 UnitManager::UnitManager() :
 	p_PlayerUnit(nullptr),
 	p_EnemyUnit(nullptr),
@@ -55,8 +57,7 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
 
 		if (Mouse::IsTrigger(MOUSE_INPUT_LEFT))
 		{
-			if ((GameDefine::NODE_WIDTH * GameDefine::NODE_SIZE) <= _mousePosX && _mousePosX <= (GameDefine::NODE_WIDTH * GameDefine::NODE_SIZE + 200)
-					&& (GameDefine::NODE_HEIGHT * GameDefine::NODE_SIZE) <= _mousePosY && _mousePosY <= (GameDefine::NODE_HEIGHT * GameDefine::NODE_SIZE + 40))
+			if ((NODE_WIDTH * NODE_SIZE) <= _mousePosX && _mousePosX <= (NODE_WIDTH * NODE_SIZE + 200) && (NODE_HEIGHT * NODE_SIZE) <= _mousePosY && _mousePosY <= (NODE_HEIGHT * NODE_SIZE + 40))
 			{
 
 				tm->TurnChange();
@@ -118,7 +119,7 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
 				{
 					SetMoveByState(*unit, unit->moveTimer, rs, tm);
 				}
-				else if (unit->moveTimer > GameDefine::MOVE_SPAN)
+				else if (unit->moveTimer > MOVE_SPAN)
 				{
 					SetMoveByState(*unit, unit->moveTimer, rs, tm);
 				}
@@ -148,7 +149,7 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
 				{
 					SetMoveByState(*unit, unit->moveTimer, rs, tm);
 				}
-				else if (unit->moveTimer > GameDefine::MOVE_SPAN)
+				else if (unit->moveTimer > MOVE_SPAN)
 				{
 					SetMoveByState(*unit, unit->moveTimer, rs, tm);
 				}
@@ -184,7 +185,7 @@ void UnitManager::Draw(TurnManager* tm)
 	for (auto& unit : _unitList)
 	{
 		if (unit->state != UnitState::Dead)
-			DrawBox((unit->pos.x) * GameDefine::NODE_SIZE, (unit->pos.y) * GameDefine::NODE_SIZE, (unit->pos.x + 1) * GameDefine::NODE_SIZE, (unit->pos.y + 1) * GameDefine::NODE_SIZE, unit->color, true);
+			DrawBox((unit->pos.x) * NODE_SIZE, (unit->pos.y) * NODE_SIZE, (unit->pos.x + 1) * NODE_SIZE, (unit->pos.y + 1) * NODE_SIZE, unit->color, true);
 		DrawFormatString(0, row, 0xffffff, "%d", unit->stamina);
 		row += 20;
 	}
@@ -205,8 +206,9 @@ void UnitManager::Draw(TurnManager* tm)
 		addSpaceY = 10;
 	}
 
-	DrawBox(GameDefine::NODE_WIDTH * GameDefine::NODE_SIZE, GameDefine::NODE_HEIGHT * GameDefine::NODE_SIZE, GameDefine::NODE_WIDTH * GameDefine::NODE_SIZE + 200, GameDefine::NODE_HEIGHT * GameDefine::NODE_SIZE + 40, color::OrangeColor, true);
-	DrawFormatString(GameDefine::NODE_WIDTH * GameDefine::NODE_SIZE + addSpaceX, GameDefine::NODE_HEIGHT * GameDefine::NODE_SIZE + addSpaceY, 0x000000, turnButton.c_str());
+	DrawBox(TURNBUTTON_X, TURNBUTTON_Y, TURNBUTTON_X + TURNBUTTON_WIDTH, TURNBUTTON_Y + TURNBUTTON_HEIGHT, color::OrangeColor, true);
+
+	DrawFormatString(TURNBUTTON_X + addSpaceX, TURNBUTTON_Y + addSpaceY, 0x000000, turnButton.c_str());
 }
 
 void UnitManager::StateMove(_unitBase::UnitData& data, int& timer, RouteSearch* rs)

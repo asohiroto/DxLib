@@ -1,5 +1,8 @@
 ﻿#pragma once
-
+#include"RouteSearch.h"
+#include"UIManager.h"
+#include"UnitManager.h"
+#include"GameDefine.h"
 
 class BaseManager
 {
@@ -7,7 +10,23 @@ public:
 	BaseManager();
 	~BaseManager();
 	void Init();
-	void Update();
+	void Update(RouteSearch* rs, UIManager* um, UnitManager* unm);
 	void Draw();
-};
+public:
 
+private:
+	// ユニットを生産する関数
+	_unitBase::UnitData* SpawnUnit(UnitType unit, RouteSearch* rs);
+	// 引数のユニットのステータスを、指定のクラスのものに変更する関数
+	void ChangeStatusByType(UnitType unit, _unitBase::UnitData& data);
+
+private:
+	// マウスの位置
+	int _mousePosX, _mousePosY;
+	// 選択したマスの地形保存用
+	TileType _tileTemp;
+	// アクションメニューを開くか
+	bool _actionFlag = false;
+	// 生成するユニットの保存用
+	std::vector<_unitBase::UnitData*> _unitTemp;
+};

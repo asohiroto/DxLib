@@ -4,6 +4,8 @@
 #include"AsoDxLib/Color.h"
 #include<string>
 
+using namespace GameDefine;
+
 UIManager::UIManager() :
 	_targetSet(false),
 	_mousePosX(0),
@@ -23,7 +25,7 @@ void UIManager::Init()
 
 }
 
-void UIManager::Update(PlayerUnit* pu, EnemyUnit* eu, RouteSearch* rs, TurnManager* tm)
+void UIManager::Update(PlayerUnit* pu, EnemyUnit* eu, RouteSearch* rs, TurnManager* tm, UnitManager* unm)
 {
 	// マウスの座標を取得
 	GetMousePoint(&_mousePosX, &_mousePosY);
@@ -32,12 +34,12 @@ void UIManager::Update(PlayerUnit* pu, EnemyUnit* eu, RouteSearch* rs, TurnManag
 	// ターンがプレイヤー選択ターンの時のみ、マウス入力を受け付ける
 	if (tm->GetNowTurn() == TurnManager::TurnState::PlayerSelectTurn)
 	{
-		if (_mousePosX <= (GameDefine::NODE_WIDTH * GameDefine::NODE_SIZE) && _mousePosY <= (GameDefine::NODE_HEIGHT * GameDefine::NODE_SIZE))
+		if (_mousePosX <= (NODE_WIDTH * NODE_SIZE) && _mousePosY <= (NODE_HEIGHT * NODE_SIZE))
 		{
 			// 左クリックでユニットを選択、再度左クリックで目的地を設定
 			if (Mouse::IsTrigger(MOUSE_INPUT_LEFT) && !_targetSet)
 			{
-				_unitTemp = GetUnitDataFromPos(_nodeIndex, pu, eu);
+				_unitTemp = GetUnitDataFromPos(_nodeIndex, pu, eu, unm);
 				_targetSet = true;
 			}
 			else if (Mouse::IsTrigger(MOUSE_INPUT_LEFT) && _targetSet)
@@ -60,40 +62,47 @@ void UIManager::Update(PlayerUnit* pu, EnemyUnit* eu, RouteSearch* rs, TurnManag
 			{
 				_targetSet = false;
 			}
+			if (_unitTemp == nullptr)
+			{
+				_targetSet = false;
+			}
 		}
 	}
 }
 
 void UIManager::Draw()
 {
-	DrawFormatString(0, (GameDefine::NODE_HEIGHT + 1) * GameDefine::NODE_SIZE, color::WhiteColor, "%d,  %d", _mousePosX, _mousePosY);
-	DrawFormatString(0, (GameDefine::NODE_HEIGHT + 2) * GameDefine::NODE_SIZE, color::WhiteColor, "%f,  %f", _nodeIndex.x, _nodeIndex.y);
+	DrawFormatString(0, (NODE_HEIGHT + 1) * NODE_SIZE, color::WhiteColor, "%d,  %d", _mousePosX, _mousePosY);
+	DrawFormatString(0, (NODE_HEIGHT + 2) * NODE_SIZE, color::WhiteColor, "%f,  %f", _nodeIndex.x, _nodeIndex.y);
 	DrawUnitData(_unitTemp);
 
-	if (_targetSet)
+	if (_targetSet && _unitTemp != nullptr)
 	{
-		DrawBox(GameDefine::NODE_WIDTH * GameDefine::NODE_SIZE, 400, GameDefine::NODE_WIDTH * GameDefine::NODE_SIZE + 200, 420, color::CyanColor, true);
-		DrawString(GameDefine::NODE_WIDTH * GameDefine::NODE_SIZE, 400, "Selecting...", color::BlackColor);
+		DrawBox(SELECTING_X, SELECTING_Y, SELECTING_X + SELLECTING_WIDTH, SELECTING_Y + SELLECTING_HEIGHT, color::CyanColor, true);
+		DrawString(SELECTING_X, SELECTING_Y, "Selecting...", color::BlackColor);
 	}
 }
 
 Vec2 UIManager::ChangePixelToIndex(Vec2 mousePos)
 {
-	int mouseIndX = (int)(mousePos.x / GameDefine::NODE_SIZE);
-	int mouseIndY = (int)(mousePos.y / GameDefine::NODE_SIZE);
+	int mouseIndX = (int)(mousePos.x / NODE_SIZE);
+	int mouseIndY = (int)(mousePos.y / NODE_SIZE);
 
 	Vec2 mouseIndex = Vec2((float)mouseIndX, (float)mouseIndY);
 
 	return mouseIndex;
 }
 
-_unitBase::UnitData* UIManager::GetUnitDataFromPos(Vec2 mousePos, PlayerUnit* pu, EnemyUnit* eu) const
+_unitBase::UnitData* UIManager::GetUnitDataFromPos(Vec2 mousePos, PlayerUnit* pu, EnemyUnit* eu, UnitManager* unm) const
 {
-	if (pu->GetPosMain() == mousePos) return &(pu->GetMainUnit());
-	else if (pu->GetPosSub() == mousePos) return &(pu->GetSubUnit());
-	else if (eu->GetPosMain() == mousePos) return &(eu->GetMainUnit());
-	else if (eu->GetPosSub() == mousePos) return &(eu->GetSubUnit());
-	else return nullptr;
+	for (auto& unit : unm->_unitList)
+	{
+		if (mousePos == unit->pos)
+		{
+			return unit;
+		}
+	}
+	return nullptr;
 }
 
 void UIManager::DrawUnitData(_unitBase::UnitData* data)
@@ -121,13 +130,13 @@ void UIManager::DrawUnitData(_unitBase::UnitData* data)
 		tempAttack = data->attack;
 	}
 
-	DrawData(Vec2(GameDefine::NODE_WIDTH * GameDefine::NODE_SIZE, 200), tempName, tempPos, tempType, tempHp, tempAttack);
+	DrawData(Vec2(GameDefine::DATA_X, GameDefine::DATA_Y), tempName, tempPos, tempType, tempHp, tempAttack);
 
 }
 
 void UIManager::DrawData(Vec2 pos, std::string name, Vec2 unitPos, std::string type, int hp, int attack)
 {
-	DrawBox(pos.x, pos.y, pos.x + 200, pos.y + 100, color::WhiteColor, true);
+	DrawBox(pos.x, pos.y, pos.x + DATA_WIDTH, pos.y + DATA_HEIGHT, color::WhiteColor, true);
 	DrawFormatString(pos.x + 10, pos.y, color::BlackColor, name.c_str());
 	DrawFormatString(pos.x + 10, pos.y + 20, color::BlackColor, "Destination : %d, %d", unitPos.x, unitPos.y);
 	DrawFormatString(pos.x + 10, pos.y + 40, color::BlackColor, type.c_str());

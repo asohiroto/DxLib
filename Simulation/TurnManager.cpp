@@ -4,6 +4,8 @@
 #include"AsoDxLib/color.h"
 #include<string>
 
+using namespace GameDefine;
+
 TurnManager::TurnManager() :
 	_nowTurn(TurnState::PlayerSelectTurn),
 	_turnCount(0)
@@ -74,6 +76,6 @@ void TurnManager::DrawTurnState()
 		break;
 	}
 
-	DrawFormatString((GameDefine::NODE_WIDTH + 1) * GameDefine::NODE_SIZE, 0, color::WhiteColor, turnName.c_str(), true);
-	DrawFormatString((GameDefine::NODE_WIDTH + 1) * GameDefine::NODE_SIZE, 20, color::WhiteColor, "%d ターン目", _turnCount, true);
+	DrawFormatString((NODE_WIDTH + 1) * NODE_SIZE, 0, color::WhiteColor, turnName.c_str(), true);
+	DrawFormatString((NODE_WIDTH + 1) * NODE_SIZE, 20, color::WhiteColor, "%d ターン目", _turnCount, true);
 }

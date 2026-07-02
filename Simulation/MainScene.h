@@ -5,6 +5,7 @@
 #include"UnitManager.h";
 #include"TurnManager.h"
 #include"UIManager.h"
+#include"Basemanager.h"
 
 class MainScene : public SceneBase
 {
@@ -21,4 +22,5 @@ private:
 	UnitManager* p_UnitManager;
 	TurnManager* p_TurnManager;
 	UIManager* p_UIManager;
+	BaseManager* p_BaseManager;
 };

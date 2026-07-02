@@ -4,6 +4,8 @@
 #include"GameDefine.h"
 #include"AsoDxLib/Color.h"
 
+using namespace GameDefine;
+
 PlayerUnit::PlayerUnit() :
 	_mainPosPixel(),
 	_mainPosInd(),
@@ -23,12 +25,12 @@ void PlayerUnit::Init(RouteSearch* rs)
 	// 主部隊の初期化処理---------------------------------------------------------
 
 	// 【仮】ユニットの初期位置をランダムに設定
-	int x1 = GetRand((GameDefine::NODE_WIDTH / 2) - 1);
-	int y1 = GetRand(GameDefine::NODE_HEIGHT - 1);
+	int x1 = GetRand((NODE_WIDTH / 2) - 1);
+	int y1 = GetRand(NODE_HEIGHT - 1);
 
 	_mainPosInd = Vec2(x1, y1);
 
-	_mainUnit.destPos = Vec2(GameDefine::ENEMY_BASE_X, GameDefine::ENEMY_BASE_Y);
+	_mainUnit.destPos = Vec2(ENEMY_BASE_X, ENEMY_BASE_Y);
 
 	// 経路探索
 	rs->RouteSearchAstar(_mainPosInd, rs->_moveCount, _mainUnit.destPos);
@@ -50,12 +52,12 @@ void PlayerUnit::Init(RouteSearch* rs)
 	// 副部隊の初期化処理---------------------------------------------------------
 
 	// 【仮】ユニットの初期位置をランダムに設定
-	int x2 = GetRand((GameDefine::NODE_WIDTH / 2) - 1);
-	int y2 = GetRand(GameDefine::NODE_HEIGHT - 1);
+	int x2 = GetRand((NODE_WIDTH / 2) - 1);
+	int y2 = GetRand(NODE_HEIGHT - 1);
 
 	_subPosInd = Vec2(x2, y2);
 
-	_subUnit.destPos = Vec2(GameDefine::ENEMY_BASE_X, GameDefine::ENEMY_BASE_Y);
+	_subUnit.destPos = Vec2(ENEMY_BASE_X, ENEMY_BASE_Y);
 
 	// 経路探索
 	rs->RouteSearchAstar(_subPosInd, rs->_moveCount, _subUnit.destPos);
@@ -81,8 +83,8 @@ void PlayerUnit::Update()
 	_subUnit.moveTimer++;
 
 	// ノード座標をピクセル座標に変換
-	_mainPosPixel = _mainUnit.pos * GameDefine::NODE_SIZE;
-	_subPosPixel = _subUnit.pos * GameDefine::NODE_SIZE;
+	_mainPosPixel = _mainUnit.pos * NODE_SIZE;
+	_subPosPixel = _subUnit.pos * NODE_SIZE;
 }
 
 void PlayerUnit::Draw()
