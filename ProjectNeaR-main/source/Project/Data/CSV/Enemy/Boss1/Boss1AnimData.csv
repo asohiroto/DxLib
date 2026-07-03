@@ -1,0 +1,16 @@
+﻿状態,武器,アニメーション
+Idle,None,RobotArmature|Idle
+Walk,None,RobotArmature|Walk
+Run,None,RobotArmature|Run
+Hit,None,RobotArmature|HitRecieve_1
+HitAir,None,RobotArmature|HitAir
+Fall,None,RobotArmature|Fall
+FallHitAir,None,RobotArmature|HitAirFall
+PunchAttack,None,RobotArmature|Punch
+JumpAttack,None,RobotArmature|JumpAttack
+JumpAttackComb,None,RobotArmature|JumpAttackComb
+KickRightAttack,None,RobotArmature|KickRight
+KickLeftAttack,None,RobotArmature|KickLeft
+ShootAttack,None,RobotArmature|Shoot
+Down,None,RobotArmature|Down
+Death,None,RobotArmature|Death

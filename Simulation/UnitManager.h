@@ -21,7 +21,7 @@ public:
 	// 到着処理
 	void StateArrived(_unitBase::UnitData& data, int& timer);
 	// 攻撃処理
-	void StateAttack(_unitBase::UnitData& data, int& timer);
+	void StateAttack(_unitBase::UnitData& data, int& timer, RouteSearch* rs);
 	// 壊滅処理
 	void StateDead(_unitBase::UnitData& data, int& timer);
 	// ２ユニット間のマンハッタン距離を返す関数
@@ -57,4 +57,6 @@ private:
 	int _myBaseHpMax, _enemyBaseHpMax;
 	// 拠点の攻撃力
 	int _myBaseAttack, _enemyBaseAttack;
+	// 次に移動するグリッド
+	Vec2 _nextPos;
 };

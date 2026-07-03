@@ -1,0 +1,11 @@
+﻿状態,武器,アニメーション
+Idle,None,Boss|Idle
+Start,None,Boss|Start
+Song,None,Boss|Song
+MoveAttack,None,Boss|MoveAttack
+MeleeAttack,None,Boss|MeleeAttack
+Hit,None,Boss|Hit
+HitAir,None,Boss|Hit
+Down,None,Boss|Down
+Death,None,Boss|Dead
+Dance1,None,Boss|Dance1

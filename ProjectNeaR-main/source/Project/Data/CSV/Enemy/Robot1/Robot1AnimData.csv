@@ -1,0 +1,12 @@
+﻿状態,武器,アニメーション
+Idle,None,Robot|Idle
+Walk,None,Robot|Walk
+Run,None,Robot|Run
+Hit,None,Robot|Hit
+HitAir,None,Robot|Hit_Air
+Fall,None,Robot|Fall
+FallHitAir,None,Robot|Hit_AirFall
+Punch,None,Robot|Punch
+PunchRush,None,Robot|PunchRush
+Down,None,Robot|Down
+Death,None,Robot|Death

@@ -63,7 +63,15 @@ void UIManager::Update(PlayerUnit* pu, EnemyUnit* eu, RouteSearch* rs, TurnManag
 				if (Mouse::IsTrigger(MOUSE_INPUT_LEFT) && !_targetSet)
 				{
 					_unitTemp = GetUnitDataFromPos(_nodeIndex, pu, eu, unm);
-					_targetSet = true;
+
+					if (!_unitTemp->isEnemy)
+					{
+						_targetSet = true;
+					}
+					else if (_unitTemp->isEnemy)
+					{
+						_targetSettingMode = false;
+					}
 				}
 				else if (Mouse::IsTrigger(MOUSE_INPUT_LEFT) && _targetSet)
 				{

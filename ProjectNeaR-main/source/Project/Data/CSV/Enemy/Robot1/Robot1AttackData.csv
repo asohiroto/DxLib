@@ -1,0 +1,6 @@
+﻿攻撃の名前,多段ヒットか,攻撃タイプ,威力,攻撃の重さ,アーマー,ノックバックの大きさ,上方向の力,発生フレーム,持続フレーム,半径,長さ,前進速度,前進フレーム,アニメーションの名前,次の攻撃の名前,攻撃の基準位置,キャンセルフレーム,ヒットストップフレーム,ヒットストップの揺れ,ヒットエフェクト,攻撃エフェクト,発生SE,ヒットSE,攻撃ボイス,パラメータ1,パラメータ2,パラメータ3,パラメータ4
+Attack1,FALSE,5,100,2,0,20,0,50,10,50,0,10,10,Punch,None,Owner,160,5,5,WhiteHit,Punch,Swing,Hit,Attack1,33,0,0,0
+Attack2,TRUE,5,70,2,0,30,0,70,20,70,0,2,100,PunchRush,Attack2_2,Owner,160,5,5,WhiteHit,PunchRush,Swing,Hit,Attack2,10,0,0,0
+Attack2_2,TRUE,5,70,2,0,30,0,90,20,70,0,10,100,PunchRush,Attack2_3,Owner,160,5,5,WhiteHit,PunchRush,Swing,Hit,Attack2,29,0,0,0
+Attack2_3,TRUE,5,70,2,0,30,0,110,20,70,0,10,100,PunchRush,Attack2_4,Owner,160,5,5,WhiteHit,PunchRush,Swing,Hit,Attack2,10,0,0,0
+Attack2_4,FALSE,5,70,2,0,30,0,130,20,70,0,10,100,PunchRush,None,Owner,160,5,5,WhiteHit,PunchRush,Swing,Hit,Attack2,29,0,0,0

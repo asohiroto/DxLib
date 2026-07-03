@@ -1,0 +1,6 @@
+﻿攻撃距離,攻撃の名前
+Melee,RightAttack
+Melee,LeftAttack
+Melee,BothAttack
+Melee,Shot
+LongRange,Shot

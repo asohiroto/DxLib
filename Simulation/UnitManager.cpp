@@ -51,9 +51,6 @@ void UnitManager::Init(RouteSearch* rs)
 
 void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
 {
-	Keyboard::Update();
-	Mouse::Update();
-
 	p_PlayerUnit->Update();
 	p_EnemyUnit->Update();
 
@@ -99,6 +96,30 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
 					}
 				}
 
+				for (int i = 0; i < unit->attackRange; i++)
+				{
+					if (unit->routeIndex + i >= (int)unit->moveRoute.size()) break;
+
+					_nextPos = unit->moveRoute[unit->routeIndex + i];
+
+					if (!unit->isEnemy && !unit->hasAttacked && unit->state != UnitState::Dead)
+					{
+						if (rs->GetNodeData(_nextPos.x, _nextPos.y) == TileType::EnemyBase || rs->GetNodeData(unit->pos.x, unit->pos.y) == TileType::EnemyBase)
+						{
+							unit->state = UnitState::Attack;
+							canAttack = true;
+						}
+					}
+					else if (unit->isEnemy && !unit->hasAttacked && unit->state != UnitState::Dead)
+					{
+						if (rs->GetNodeData(_nextPos.x, _nextPos.y) == TileType::MyBase || rs->GetNodeData(unit->pos.x, unit->pos.y) == TileType::MyBase)
+						{
+							unit->state = UnitState::Attack;
+							canAttack = true;
+						}
+					}
+				}
+
 				if (canAttack)
 				{
 					unit->state = UnitState::Attack;
@@ -135,35 +156,6 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
 					_finishCount++;
 				}
 			}
-
-			/*Vec2 nextPos;
-
-			if (!unit->isEnemy && !unit->hasAttacked)
-			{
-				for (int i = 0; i <= unit->attackRange; i++)
-				{
-					if (unit->routeIndex + i >= (int)unit->moveRoute.size()) break;
-
-					nextPos = unit->moveRoute[unit->routeIndex + i];
-
-					if (rs->GetNodeData(nextPos.x, nextPos.y) == TileType::EnemyBase)
-					{
-						printfDx("攻撃中\n");
-
-						unit->hp -= _enemyBaseAttack;
-						_enemyBaseHpNow -= unit->attack;
-
-						unit->hasAttacked = true;
-
-						if (_enemyBaseHpNow <= 0)
-						{
-							printfDx("破壊\n");
-						}
-
-						break;
-					}
-				}
-			}*/
 		}
 
 		if (_finishCount >= _playerCount) tm->TurnChange();
@@ -194,35 +186,6 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
 					_finishCount++;
 				}
 			}
-
-			/*Vec2 nextPos;
-
-			if (unit->isEnemy && !unit->hasAttacked)
-			{
-				for (int i = 0; i <= unit->attackRange; i++)
-				{
-					if (unit->routeIndex + i >= (int)unit->moveRoute.size()) break;
-
-					nextPos = unit->moveRoute[unit->routeIndex + i];
-
-					if (rs->GetNodeData(nextPos.x, nextPos.y) == TileType::MyBase)
-					{
-						printfDx("攻撃中\n");
-
-						unit->hp -= _myBaseAttack;
-						_myBaseHpNow -= unit->attack;
-
-						unit->hasAttacked = true;
-
-						if (_myBaseHpNow <= 0)
-						{
-							printfDx("破壊\n");
-						}
-
-						break;
-					}
-				}
-			}*/
 		}
 
 		if (_finishCount >= _enemyCount)
@@ -278,6 +241,7 @@ void UnitManager::Draw(TurnManager* tm)
 void UnitManager::StateMove(_unitBase::UnitData& data, int& timer, RouteSearch* rs)
 {
 	timer = 0;
+
 	// 経路が空、またはルートのインデックスが範囲外の場合、到着状態に遷移
 	if (data.moveRoute.empty() || data.routeIndex >= (int)data.moveRoute.size())
 	{
@@ -332,6 +296,31 @@ void UnitManager::StateMove(_unitBase::UnitData& data, int& timer, RouteSearch* 
 			return;
 		}
 	}
+
+
+	for (int i = 0; i < data.attackRange; i++)
+	{
+		if (data.routeIndex + i >= (int)data.moveRoute.size()) break;
+
+		_nextPos = data.moveRoute[data.routeIndex + i];
+
+		if (!data.isEnemy && !data.hasAttacked && data.state != UnitState::Dead)
+		{
+			if (rs->GetNodeData(_nextPos.x, _nextPos.y) == TileType::EnemyBase || rs->GetNodeData(data.pos.x, data.pos.y) == TileType::EnemyBase)
+			{
+				data.state = UnitState::Attack;
+			}
+		}
+		else if (data.isEnemy && !data.hasAttacked && data.state != UnitState::Dead)
+		{
+			if (rs->GetNodeData(_nextPos.x, _nextPos.y) == TileType::MyBase || rs->GetNodeData(data.pos.x, data.pos.y) == TileType::MyBase)
+			{
+				data.state = UnitState::Attack;
+			}
+		}
+
+		break;
+	}
 }
 
 void UnitManager::StateIdle(_unitBase::UnitData& data, int& timer, TurnManager* tm)
@@ -349,7 +338,7 @@ void UnitManager::StateArrived(_unitBase::UnitData& data, int& timer)
 	timer = 0;
 }
 
-void UnitManager::StateAttack(_unitBase::UnitData& data, int& timer)
+void UnitManager::StateAttack(_unitBase::UnitData& data, int& timer, RouteSearch* rs)
 {
 	timer = 0;
 	// 攻撃済みの場合は待機状態に遷移
@@ -359,7 +348,6 @@ void UnitManager::StateAttack(_unitBase::UnitData& data, int& timer)
 		return;
 	}
 
-	printfDx("交戦中！\n");
 	// 攻撃範囲内に敵がいるか確認
 	for (auto& unit : _unitList)
 	{
@@ -371,6 +359,8 @@ void UnitManager::StateAttack(_unitBase::UnitData& data, int& timer)
 
 		if (distance <= data.attackRange && data.state != UnitState::Dead && unit->state != UnitState::Dead)
 		{
+			printfDx("交戦中！\n");
+
 			// 攻撃処理
 			unit->hp -= data.attack;
 			data.hasAttacked = true;
@@ -383,6 +373,52 @@ void UnitManager::StateAttack(_unitBase::UnitData& data, int& timer)
 			return;
 		}
 	}
+
+
+	for (int i = 0; i < data.attackRange; i++)
+	{
+		if (data.routeIndex + i >= (int)data.moveRoute.size()) break;
+
+		_nextPos = data.moveRoute[data.routeIndex + i];
+
+		if (!data.isEnemy && !data.hasAttacked && _enemyBaseHpNow > 0)
+		{
+			if (rs->GetNodeData(_nextPos.x, _nextPos.y) == TileType::EnemyBase || rs->GetNodeData(data.pos.x, data.pos.y) == TileType::EnemyBase)
+			{
+				printfDx("攻撃中\n");
+
+				data.hp -= _enemyBaseAttack;
+				_enemyBaseHpNow -= data.attack;
+
+				data.hasAttacked = true;
+
+				if (_enemyBaseHpNow <= 0)
+				{
+					printfDx("破壊\n");
+				}
+				data.state = UnitState::Idle;
+			}
+		}
+		else if (data.isEnemy && !data.hasAttacked && _myBaseHpNow > 0)
+		{
+			if (rs->GetNodeData(_nextPos.x, _nextPos.y) == TileType::MyBase || rs->GetNodeData(data.pos.x, data.pos.y) == TileType::MyBase)
+			{
+				printfDx("攻撃中\n");
+
+				data.hp -= _myBaseAttack;
+				_myBaseHpNow -= data.attack;
+
+				data.hasAttacked = true;
+
+				if (_myBaseHpNow <= 0)
+				{
+					printfDx("破壊\n");
+				}
+				data.state = UnitState::Idle;
+			}
+		}
+	}
+
 	data.state = UnitState::Idle;
 }
 
@@ -417,7 +453,7 @@ void UnitManager::SetMoveByState(_unitBase::UnitData& data, int& timer, RouteSea
 		break;
 
 	case UnitState::Attack:
-		StateAttack(data, timer);
+		StateAttack(data, timer, rs);
 		break;
 
 	case UnitState::Dead:

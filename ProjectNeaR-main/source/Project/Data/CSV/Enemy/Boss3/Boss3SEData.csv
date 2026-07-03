@@ -1,0 +1,12 @@
+﻿SE名,パス
+Shot,Enemy/Laser
+Missile,Enemy/Missile
+Tackle,Enemy/Tackle
+Head,Enemy/Head
+Laser,Enemy/Laser
+Hit1,Hit/Hit_P2
+Hit2,Hit/Hit_B1
+Hit3,Hit/Hit_B2
+Warning,Enemy/Warning
+Dead,Enemy/Bomb1
+KO,Enemy/BossDead

@@ -150,7 +150,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BaseManager.cpp" />
+    <ClCompile Include="ClearScene.cpp" />
     <ClCompile Include="EnemyUnit.cpp" />
+    <ClCompile Include="GameOverScene.cpp" />
     <ClCompile Include="PlayerUnit.cpp" />
     <ClCompile Include="RouteSearch.cpp" />
     <ClCompile Include="RouteSearch.h" />
@@ -162,6 +164,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="SceneChange.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="StartScene.cpp" />
     <ClCompile Include="TurnManager.cpp" />
     <ClCompile Include="UIManager.cpp" />
@@ -177,8 +181,10 @@
     <ClInclude Include="AsoDxLib\Pad.h" />
     <ClInclude Include="AsoDxLib\Vec2.h" />
     <ClInclude Include="BaseManager.h" />
+    <ClInclude Include="ClearScene.h" />
     <ClInclude Include="EnemyUnit.h" />
     <ClInclude Include="GameDefine.h" />
+    <ClInclude Include="GameOverScene.h" />
     <ClInclude Include="MainScene.h" />
     <ClInclude Include="Map.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -189,6 +195,9 @@
     <ClInclude Include="PlayerUnit.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SceneBase.h" />
+    <ClInclude Include="SceneChange.h" />
+    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SceneName.h" />
     <ClInclude Include="StartScene.h" />
     <ClInclude Include="TurnManager.h" />
     <ClInclude Include="UnitManager.h" />

@@ -1,0 +1,10 @@
+﻿攻撃距離,攻撃の名前
+Melee,MeleeAttack
+Melee,Beam
+Melee,Bullet
+Melee,MissileAttack
+Melee,MoveAttack
+LongRange,Beam
+LongRange,Bullet
+LongRange,MissileAttack
+LongRange,MoveAttack

@@ -1,0 +1,11 @@
+﻿SE名,パス
+Swing,Enemy/Swing
+Shot,Enemy/Shot
+Bomb2,Enemy/Bomb2
+HIt1,Hit/Hit_P2
+HIt2,Hit/Hit_P3
+Hit3,Hit/Hit_B2
+Warning,Enemy/Warning
+Dead,Enemy/Bomb1
+KO,Enemy/BossDead
+Move,Enemy/Footsteps5

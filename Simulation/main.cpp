@@ -1,6 +1,8 @@
 ﻿#include "DxLib.h"
 #include"GameDefine.h"
-#include"MainScene.h"
+#include"SceneManager.h"
+#include"AsoDxLib/Mouse.h"
+#include"AsoDxLib/Keyboard.h"
 #include<time.h>
 
 // プログラムは WinMain から始まります
@@ -20,9 +22,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	SRand((int)time(NULL));
 
-	MainScene* p_Main = new MainScene;
-
-	p_Main->Init();
+	SceneManager* p_SceneManager = new SceneManager;
+	p_SceneManager->Init();
 
 	SetDrawScreen(DX_SCREEN_BACK); // 裏画面に描画
 
@@ -30,15 +31,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	{
 		ClearDrawScreen(); // 画面をまっさらにする
 
-		p_Main->Update();
-		p_Main->Draw();
+		Mouse::Update();
+		Keyboard::Update();
+
+		p_SceneManager->Update();
+		p_SceneManager->Draw();
 
 		ScreenFlip(); // 裏画面を表面に
 
 		if (CheckHitKey(KEY_INPUT_ESCAPE)) return -1;
 	}
 
-	delete p_Main;
 
 	WaitKey();                                // キー入力待ち
 

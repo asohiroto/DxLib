@@ -1,0 +1,15 @@
+﻿名前,ID,アクタータイプ,座標X,座標Y,座標Z,回転X,回転Y,回転Z,大きさX,大きさY,大きさZ,モデルのパス,優先度,ゲームタグ,当たり判定無視,トリガー,重力を受ける,コリジョンの半径,コリジョンの高さ,パスをまとめたパス
+DBK_Concete_Floor_Full,11,Stage,15,-2,-15,2.504478E-06,0,0,10,10,10,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Wall_Full,9,Stage,15,-1,-15,2.504478E-06,0,0,10,5,3,Stage2/DBK_Concete_Wall_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Wall_Full,4,Stage,15,-1,44.36,2.504478E-06,0,0,10,5,3,Stage2/DBK_Concete_Wall_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Wall_Full,14,Stage,15,-1,-15,0,90,0,10,5,3,Stage2/DBK_Concete_Wall_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Wall_Full,15,Stage,-15,-1,-15,0,90,0,10,5,3,Stage2/DBK_Concete_Wall_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full,16,Stage,15,-2,15,2.504478E-06,0,0,10,10,10,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Wall_Full,3,Stage,15,-1,15,0,90,0,10,5,3,Stage2/DBK_Concete_Wall_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Wall_Full,5,Stage,-15,-1,15,0,90,0,10,5,3,Stage2/DBK_Concete_Wall_Full,Static,Object,1,1,0,0,0,None
+Plane,18,Stage,14.4,0,24.9,90,270,0,10,5,5,Collision/Plane,Static,Object,0,0,0,0,0,None
+Plane,6,Stage,0,0,-15,90,0,0,5,5,5,Collision/Plane,Static,Object,0,0,0,0,0,None
+Plane,10,Stage,0,0,43.76,270,0,0,5,5,5,Collision/Plane,Static,Object,0,0,0,0,0,None
+Plane,12,Stage,0,0,10.5,0,0,0,3,5,7,Collision/Plane,Static,Object,0,0,0,0,0,None
+Plane,13,Stage,-15,0,24.9,90,90,0,10,5,5,Collision/Plane,Static,Object,0,0,0,0,0,None
+Sky1,1,Stage,0,0,0,0,0,0,5,5,5,Sky/Sky_Daylight01,Static,Sky,1,1,0,0,0,None

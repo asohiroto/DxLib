@@ -1,0 +1,12 @@
+﻿状態,武器,アニメーション
+Idle,None,Boss|Walk
+Hit,None,Boss|Hit
+HitAir,None,Boss|Hit
+Down,None,Boss|Down
+Death,None,Boss|Dead
+Back,None,Boss|BackWall
+Walk,None,Boss|Walk
+Attack1,None,Boss|Attack1
+Attack2,None,Boss|Attack2
+Attack3,None,Boss|Attack3
+Attack4,None,Boss|Attack4

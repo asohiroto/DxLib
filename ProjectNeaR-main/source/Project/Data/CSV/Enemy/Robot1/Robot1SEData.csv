@@ -1,0 +1,6 @@
+﻿SE名,パス
+Swing,Enemy/Swing
+Hit,Hit/Hit_P1
+Warning,Enemy/Warning
+Dead,Enemy/Bomb1
+Move,Enemy/Footsteps1

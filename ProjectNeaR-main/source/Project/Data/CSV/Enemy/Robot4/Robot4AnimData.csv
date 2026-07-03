@@ -1,0 +1,12 @@
+﻿状態,武器,アニメーション
+Idle,None,Armature|Idle
+Walk,None,Armature|Walk
+Run,None,Armature|Walk
+Hit,None,Armature|Hit
+HitAir,None,Armature|Hit
+Fall,None,Armature|Idle
+FallHitAir,None,Armature|Idle
+Attack1,None,Armature|Attack1
+Attack2,None,Armature|Attack2
+Down,None,Armature|Down
+Death,None,Armature|Dead

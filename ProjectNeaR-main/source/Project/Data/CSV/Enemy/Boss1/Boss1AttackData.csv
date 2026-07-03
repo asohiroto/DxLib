@@ -1,0 +1,12 @@
+﻿攻撃の名前,多段ヒットか,攻撃タイプ,威力,攻撃の重さ,アーマー,ノックバックの大きさ,上方向の力,発生フレーム,持続フレーム,半径,長さ,前進速度,前進フレーム,アニメーションの名前,次の攻撃の名前,攻撃の基準位置,キャンセルフレーム,ヒットストップフレーム,ヒットストップの揺れ,ヒットエフェクト,攻撃エフェクト,発生SE,ヒットSE,攻撃ボイス,パラメータ1,パラメータ2,パラメータ3,パラメータ4
+Punch,FALSE,1,100,3,3,50,0,40,20,200,200,0,10,PunchAttack,None,Owner,80,5,5,WhiteHit,None,Swing,Hit1,Attack,27,29,0,0
+KickRight,FALSE,5,100,3,3,50,0,40,10,500,0,0,10,KickRightAttack,None,Owner,80,5,5,WhiteHit,None,Swing,Hit1,Attack,53,0,0,0
+KickLeft,FALSE,5,100,3,3,50,0,40,10,500,0,0,10,KickLeftAttack,None,Owner,80,5,5,WhiteHit,None,Swing,Hit1,Attack,48,0,0,0
+Shoot,TRUE,2,100,3,3,50,0,50,100,100,0,0,80,ShootAttack,Shoot_2,Owner,80,5,5,WhiteHit,EnemyBulletBlueBoss,Shot,Hit3,Attack,60,20,0,0
+Shoot_2,TRUE,2,100,3,3,50,0,60,100,100,0,0,80,ShootAttack,Shoot_3,Owner,80,5,5,WhiteHit,EnemyBulletBlueBoss,Shot,Hit3,Attack,60,20,0,0
+Shoot_3,TRUE,2,100,3,3,50,0,70,100,100,0,0,80,ShootAttack,Shoot_4,Owner,80,5,5,WhiteHit,EnemyBulletBlueBoss,Shot,Hit3,Attack,60,20,0,0
+Shoot_4,FALSE,2,100,3,3,50,0,80,100,100,0,0,80,ShootAttack,None,Owner,80,5,5,WhiteHit,EnemyBulletBlueBoss,Shot,Hit3,Attack,60,20,0,0
+JumpAttack,FALSE,5,100,3,3,50,0,60,10,800,0,2,20,JumpAttack,None,Owner,100,5,5,WhiteHit,fire_boss,Bomb2,Hit2,Attack,0,0,0,0
+JumpAttackComb,TRUE,5,100,3,3,50,0,80,10,800,0,0,0,JumpAttackComb,JumpAttackComb_2,Owner,180,5,5,WhiteHit,fire_boss,Bomb2,Hit2,Attack,0,0,0,0
+JumpAttackComb_2,TRUE,5,100,3,3,50,0,120,10,800,0,0,0,JumpAttackComb,JumpAttackComb_3,Owner,180,5,5,WhiteHit,fire_boss,Bomb2,Hit2,Attack,0,0,0,0
+JumpAttackComb_3,FALSE,5,100,3,3,50,0,150,10,800,0,0,0,JumpAttackComb,None,Owner,180,5,5,WhiteHit,fire_boss,Bomb2,Hit2,Attack,0,0,0,0

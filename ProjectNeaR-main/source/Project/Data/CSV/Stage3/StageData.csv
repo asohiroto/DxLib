@@ -1,0 +1,5 @@
+﻿名前,ID,アクタータイプ,座標X,座標Y,座標Z,回転X,回転Y,回転Z,大きさX,大きさY,大きさZ,モデルのパス,優先度,ゲームタグ,当たり判定無視,トリガー,重力を受ける,コリジョンの半径,コリジョンの高さ,パスをまとめたパス
+Cylinder,1,Stage,0,0,0,0,0,0,40,1,40,Collision/Cylinder,Static,Object,0,0,0,0,0,None
+Sand,3,Stage,0,0,0,0,0,0,100,1,100,Stage3/Sand,Static,Object,1,1,0,0,0,SandStorm
+Cylinder_re,2,Stage,0,15,0,0,0,0,20,20,20,Collision/Cylinder_re,Static,Object,0,0,0,0,0,None
+Sky4,7,Stage,-14.07575,9.109707,16.73303,0,0,0,5,5,5,Sky/Sky_cloud,Static,Sky,1,1,0,0,0,None

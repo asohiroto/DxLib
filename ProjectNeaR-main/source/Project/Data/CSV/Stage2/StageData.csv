@@ -1,0 +1,314 @@
+﻿名前,ID,アクタータイプ,座標X,座標Y,座標Z,回転X,回転Y,回転Z,大きさX,大きさY,大きさZ,モデルのパス,優先度,ゲームタグ,当たり判定無視,トリガー,重力を受ける,コリジョンの半径,コリジョンの高さ,パスをまとめたパス
+Sky4,131,Stage,-14.07575,9.109707,16.73303,0,0,0,5,5,5,Sky/Sky_cloud,Static,Sky,1,1,0,0,0,None
+DBK_Concete_Floor_Full (1),4,Stage,7.5,0,15,2.504478E-06,0,0,5,2,5,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (2),5,Stage,7.5,0,30,2.504478E-06,0,0,5,2,5,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (3),103,Stage,7.5,0,45,2.504478E-06,0,0,5,2,5,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (17),292,Stage,7.5,0,225,2.504478E-06,0,0,5,2,5,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (18),127,Stage,7.5,0,240,2.504478E-06,0,0,5,2,5,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (19),231,Stage,7.5,0,255,2.504478E-06,0,0,5,2,5,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (20),68,Stage,15,0,270,2.504478E-06,0,0,10,2,5,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (21),243,Stage,-15,0.01,270.08,0,45,0,10,2,5,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (22),31,Stage,36.2,0.01,291.27,0,315,0,10,2,5,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (5),261,Stage,7.5,0,105,2.504478E-06,0,0,5,2,5,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (6),18,Stage,7.5,2,120,2.504478E-06,0,0,5,2,5,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (13),208,Stage,12,3.99,140,2.504478E-06,0,0,2,2,2,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (48),144,Stage,0,-2.5,138.22,2.504478E-06,0,0,1,10,1,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (14),119,Stage,-2.68,5.84,149.05,2.504478E-06,0,0,2,2,2,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (15),134,Stage,2.78,10.13,155.55,2.504478E-06,0,0,2,2,2,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (9),155,Stage,12.5,-3,133.28,2.504478E-06,0,0,8,2,12,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (7),153,Stage,7.5,2,120,90,0,0,5,2,5,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (23),43,Stage,9,15,15,90,0,0,6,2,5,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (28),195,Stage,25.5,15,59.6,90,0,0,6,2,5,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (34),176,Stage,25.5,15,104.6,90,0,0,6,2,5,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (38),66,Stage,25.5,-12,135,270,0,0,6,2,9,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (46),178,Stage,25.5,-5,225,270,0,0,6,2,15,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (42),173,Stage,29.1,12,181.5,270,0,0,6,2,9,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (39),281,Stage,-7.2,-12,135,270,0,0,6,2,9,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (47),2,Stage,-7.2,-5,225,270,0,0,6,2,15,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (43),109,Stage,-11.1,12,181.5,270,0,0,6,2,9,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (29),279,Stage,-25.5,15,60,90,180,0,6,2,5,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (35),222,Stage,-25.1,15,105,90,180,0,6,2,5,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (24),187,Stage,7.5,15,15,90,90,0,6,2,5,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (25),191,Stage,7.5,15,33,90,90,0,9,2,5,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (36),46,Stage,7.5,15,105,90,90,0,10,2,5,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (30),48,Stage,22.5,15,60,90,90,0,9,2,5,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (32),183,Stage,-22.5,15,60,90,90,0,9,2,5,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (31),128,Stage,22.5,15,87,90,90,0,6,2,5,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (33),304,Stage,-22.5,15,87,90,90,0,6,2,5,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (26),1,Stage,-7.5,15,15,90,90,0,6,2,5,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (27),149,Stage,-7.5,15,33,90,90,0,9,2,5,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (37),230,Stage,-7.5,15,105,90,90,0,10,2,5,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (40),17,Stage,-11.5,35,133.5,90,90,0,16,2,15,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (41),70,Stage,11.5,35,181.5,90,270,0,16,2,15,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (44),334,Stage,23,40,224.7,90,270,0,16,2,15,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (45),287,Stage,-23,40,224.93,90,270,0,16,2,15,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (8),157,Stage,7.5,-13,135,270,0,0,5,2,5,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (10),28,Stage,12,12.03,166.8,2.504478E-06,0,0,8,2,5,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (11),184,Stage,12.5,12.03,166.8,90,0,0,8,2,5,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (12),332,Stage,22.5,-2.97,181.8,270,0,0,15,2,5,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (4),254,Stage,22.5,0,60,2.504478E-06,0,0,15,2,15,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concete_Floor_Full (16),52,Stage,22.5,0,180,2.504478E-06,0,0,15,2,15,Stage2/DBK_Concete_Floor_Full,Static,Object,1,1,0,0,0,None
+DBK_Concrete_Pillar_A,235,Stage,-0.24,-4.54,158.41,2.504478E-06,0,0,5,5,5,Stage2/DBK_Concrete_Pillar_A,Static,Object,1,1,0,0,0,None
+DBK_Concrete_Pillar_A (1),268,Stage,-5.46,-8.81,152.17,2.504478E-06,0,0,5,5,5,Stage2/DBK_Concrete_Pillar_A,Static,Object,1,1,0,0,0,None
+DBK_Concrete_Pillar_A (2),34,Stage,8.78,-10.63,143.38,2.504478E-06,0,0,5,5,5,Stage2/DBK_Concrete_Pillar_A,Static,Object,1,1,0,0,0,None
+DBK_Concrete_Pillar_A,90,Stage,-7,0,104.69,2.504478E-06,0,0,5,5,5,Stage2/DBK_Concrete_Pillar_A,Static,Object,1,1,0,0,0,None
+DBK_Concrete_Pillar_A (3),54,Stage,-7,0,134.88,2.504478E-06,0,0,5,5,5,Stage2/DBK_Concrete_Pillar_A,Static,Object,1,1,0,0,0,None
+DBK_Concrete_Pillar_A (1),35,Stage,7,0,104.69,2.504478E-06,0,0,5,5,5,Stage2/DBK_Concrete_Pillar_A,Static,Object,1,1,0,0,0,None
+DBK_Concrete_Pillar_A (4),181,Stage,7,0,134.88,2.504478E-06,0,0,5,5,5,Stage2/DBK_Concrete_Pillar_A,Static,Object,1,1,0,0,0,None
+Plane,212,Stage,0,0.4,61.7,0,0,0,5,1,13,Collision/Plane,Static,Object,0,0,0,0,0,None
+Plane (1),295,Stage,0,-2.6,150.5,0,0,0,5,1,5,Collision/Plane,Static,Object,0,0,0,0,0,None
+Plane (4),147,Stage,0,2.4,127.49,0,0,0,2,1,1.5,Collision/Plane,Static,Object,0,0,0,0,0,None
+Plane (5),74,Stage,0,-0.1,120,270,0,0,2,1,0.5,Collision/Plane,Static,Object,0,0,0,0,0,None
+Plane (6),286,Stage,0,-0.1,135,90,0,0,3,1,0.5,Collision/Plane,Static,Object,0,0,0,0,0,None
+Plane (7),133,Stage,12.5,5,135,0,90,90,2,1,1,Collision/Plane,Static,Object,0,0,0,0,0,None
+Plane (23),140,Stage,21.1,19.89,181.5,0,90,90,4,1,2,Collision/Plane,Static,Object,0,0,0,0,0,None
+Plane (24),151,Stage,-21.1,19.89,181.5,0,90,90,4,1,2,Collision/Plane,Static,Object,0,0,0,0,0,None
+Plane (25),23,Stage,-23,19.89,201.57,90,90,0,5,1,4,Collision/Plane,Static,Object,0,0,0,0,0,None
+Plane (26),102,Stage,22.6,19.89,201.57,90,270,0,5,1,4,Collision/Plane,Static,Object,0,0,0,0,0,None
+Plane (27),277,Stage,38,13.2,267.3,90,270,0,10,1,10,Collision/Plane,Static,Object,0,0,0,0,0,None
+Plane (28),213,Stage,-44.6,13.2,265.7,90,90,0,10,1,10,Collision/Plane,Static,Object,0,0,0,0,0,None
+Plane (9),19,Stage,17.5,5,104.6,270,0,0,2,1,2,Collision/Plane,Static,Object,0,0,0,0,0,None
+Plane (8),238,Stage,-12.1,5,135,0,90,90,2,1,1,Collision/Plane,Static,Object,0,0,0,0,0,None
+Plane (10),40,Stage,-17.1,5,104.6,270,0,0,2,1,2,Collision/Plane,Static,Object,0,0,0,0,0,None
+Plane (12),12,Stage,0,5,15.4,0,90,90,2,1,2,Collision/Plane,Static,Object,0,0,0,0,0,None
+Plane (13),98,Stage,-7.1,5,35,90,90,0,5,1,2,Collision/Plane,Static,Object,0,0,0,0,0,None
+Plane (14),25,Stage,7.5,5,35,90,270,0,5,1,2,Collision/Plane,Static,Object,0,0,0,0,0,None
+Plane (15),300,Stage,17.5,5,60,0,90,90,2,1,2,Collision/Plane,Static,Object,0,0,0,0,0,None
+Plane (16),205,Stage,-17.1,5,60,0,90,90,2,1,2,Collision/Plane,Static,Object,0,0,0,0,0,None
+Plane (17),105,Stage,-22.1,5,83.77,90,90,0,5,1,2,Collision/Plane,Static,Object,0,0,0,0,0,None
+Plane (18),164,Stage,22.5,5,83.77,90,270,0,5,1,2,Collision/Plane,Static,Object,0,0,0,0,0,None
+Plane (21),333,Stage,11.1,10,156.5,90,270,0,5,1,5,Collision/Plane,Static,Object,0,0,0,0,0,None
+Plane (22),82,Stage,-11.1,10,156.5,90,90,0,5,1,5,Collision/Plane,Static,Object,0,0,0,0,0,None
+Plane (19),20,Stage,7.5,5,120,90,270,0,3,1,2,Collision/Plane,Static,Object,0,0,0,0,0,None
+Plane (20),57,Stage,-7.1,5,120,90,90,0,3,1,2,Collision/Plane,Static,Object,0,0,0,0,0,None
+Plane (2),194,Stage,0,0.4,199.58,0,0,0,5,1,5,Collision/Plane,Static,Object,0,0,0,0,0,None
+Plane (11),199,Stage,0,12.43,174.3,0,0,0,3,1,1.5,Collision/Plane,Static,Object,0,0,0,0,0,None
+Cube,271,Stage,-7,5,104.6,0,0,0,2.5,20,2.5,Collision/Cube,Static,Object,0,0,0,0,0,None
+Cube (2),122,Stage,-7,5,134.79,0,0,0,2.5,20,2.5,Collision/Cube,Static,Object,0,0,0,0,0,None
+Cube (1),69,Stage,7,5,104.6,0,0,0,2.5,20,2.5,Collision/Cube,Static,Object,0,0,0,0,0,None
+Cube (3),250,Stage,7,5,134.79,0,0,0,2.5,20,2.5,Collision/Cube,Static,Object,0,0,0,0,0,None
+Cube,86,Stage,0,6.4,181.5,0,0,0,50,12,1,Collision/Cube,Static,Object,0,0,0,0,0,None
+Cube (12),198,Stage,0,2.4,167.3,0,0,0,50,20,1,Collision/Cube,Static,Object,0,0,0,0,0,None
+Cube (1),303,Stage,32.5,20,224.8,0,0,0,50,40,0.5,Collision/Cube,Static,Object,0,0,0,0,0,None
+Cube (4),89,Stage,-32.5,20,224.8,0,0,0,50,40,0.5,Collision/Cube,Static,Object,0,0,0,0,0,None
+Cube,10,Stage,0,0.15,249,0,0,0,15,0.5,50,Collision/Cube,Static,Object,0,0,0,0,0,None
+Cube (5),326,Stage,0,0.15,277.5,0,90,0,15,0.5,30,Collision/Cube,Static,Object,0,0,0,0,0,None
+Cube (6),197,Stage,20.32,0.15,285.97,0,45,0,15,0.5,30,Collision/Cube,Static,Object,0,0,0,0,0,None
+Cube (7),177,Stage,-20.2,0.15,285.99,0,315,0,15,0.5,30,Collision/Cube,Static,Object,0,0,0,0,0,None
+Cube,322,Stage,8.77,-0.91,143.27,0,0,0,2.5,10,2.5,Collision/Cube,Static,Object,0,0,0,0,0,None
+Cube (13),72,Stage,-1.56,-2.98,139.69,0,0,0,3,5,3,Collision/Cube,Static,Object,0,0,0,0,0,None
+Cube (8),255,Stage,-5.41,1,152.17,0,0,0,2.5,10,2.5,Collision/Cube,Static,Object,0,0,0,0,0,None
+Cube (11),141,Stage,-0.19,2.97,158.4,0,0,0,2.5,15,2.5,Collision/Cube,Static,Object,0,0,0,0,0,None
+Cube (1),223,Stage,8.519,4.15,142.99,0,0,0,5,0.5,6,Collision/Cube,Static,Object,0,0,0,0,0,None
+Cube (9),116,Stage,-5.65,6,152.02,0,0,0,6,0.5,6,Collision/Cube,Static,Object,0,0,0,0,0,None
+Cube (10),233,Stage,-0.21,10.29,158.54,0,0,0,6,0.5,6,Collision/Cube,Static,Object,0,0,0,0,0,None
+water,81,Stage,5,-2.8,256.82,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,24,Stage,5,-2.8,313.78,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,112,Stage,5,-2.8,323.47,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,60,Stage,5,-2.8,332.5,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,38,Stage,5,-2.8,342.5,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,44,Stage,24.94,-2.8,256.82,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,85,Stage,24.94,-2.8,313.78,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,59,Stage,24.94,-2.8,323.47,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,200,Stage,24.94,-2.8,332.5,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,317,Stage,24.94,-2.8,342.5,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,206,Stage,-13.78,-2.8,256.82,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,75,Stage,-13.78,-2.8,313.78,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,163,Stage,-13.78,-2.8,323.47,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,168,Stage,-13.78,-2.8,332.5,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,232,Stage,-13.78,-2.8,342.5,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,78,Stage,-32.8,-2.8,256.82,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,204,Stage,-32.8,-2.8,313.78,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,146,Stage,-32.8,-2.8,323.47,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,316,Stage,-32.8,-2.8,332.5,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,26,Stage,-32.8,-2.8,342.5,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,110,Stage,42.2,-2.8,256.82,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,136,Stage,52.1,-2.8,256.82,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,114,Stage,42.2,-2.8,313.78,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,288,Stage,52.1,-2.8,313.78,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,269,Stage,42.2,-2.8,323.47,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,257,Stage,52.1,-2.8,323.47,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,290,Stage,42.2,-2.8,332.5,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,274,Stage,52.1,-2.8,332.5,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,259,Stage,42.2,-2.8,342.5,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,236,Stage,52.1,-2.8,342.5,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,165,Stage,5,-2.8,227.92,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,29,Stage,5,-2.8,284.88,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,3,Stage,24.94,-2.8,227.92,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,291,Stage,24.94,-2.8,284.88,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,252,Stage,-13.78,-2.8,227.92,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,148,Stage,-13.78,-2.8,284.88,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,298,Stage,-32.8,-2.8,227.92,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,284,Stage,-32.8,-2.8,284.88,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,32,Stage,42.2,-2.8,227.92,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,221,Stage,52.1,-2.8,227.92,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,71,Stage,42.2,-2.8,284.88,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,186,Stage,52.1,-2.8,284.88,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,305,Stage,5,-2.8,246.9,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,209,Stage,5,-2.8,303.86,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,51,Stage,24.94,-2.8,246.9,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,216,Stage,24.94,-2.8,303.86,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,299,Stage,-13.78,-2.8,246.9,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,323,Stage,-13.78,-2.8,303.86,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,312,Stage,-32.8,-2.8,246.9,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,65,Stage,-32.8,-2.8,303.86,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,313,Stage,42.2,-2.8,246.9,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,242,Stage,52.1,-2.8,246.9,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,139,Stage,42.2,-2.8,303.86,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,265,Stage,52.1,-2.8,303.86,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,111,Stage,5,-2.8,218,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,218,Stage,5,-2.8,274.96,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,318,Stage,24.94,-2.8,218,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,302,Stage,24.94,-2.8,274.96,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,275,Stage,-13.78,-2.8,218,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,120,Stage,-13.78,-2.8,274.96,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,246,Stage,-32.8,-2.8,218,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,37,Stage,-32.8,-2.8,274.96,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,251,Stage,42.2,-2.8,218,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,241,Stage,52.1,-2.8,218,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,311,Stage,42.2,-2.8,274.96,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,106,Stage,52.1,-2.8,274.96,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,113,Stage,5,-2.8,237.64,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,125,Stage,5,-2.8,294.6,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,171,Stage,24.94,-2.8,237.64,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,227,Stage,24.94,-2.8,294.6,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,262,Stage,-13.78,-2.8,237.64,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,253,Stage,-13.78,-2.8,294.6,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,156,Stage,-32.8,-2.8,237.64,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,121,Stage,-32.8,-2.8,294.6,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,207,Stage,42.2,-2.8,237.64,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,107,Stage,52.1,-2.8,237.64,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,220,Stage,42.2,-2.8,294.6,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,215,Stage,52.1,-2.8,294.6,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,63,Stage,5,-2.8,208.74,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,145,Stage,5,-2.8,265.7,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,67,Stage,24.94,-2.8,208.74,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,190,Stage,24.94,-2.8,265.7,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,278,Stage,-13.78,-2.8,208.74,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,282,Stage,-13.78,-2.8,265.7,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,42,Stage,-32.8,-2.8,208.74,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,39,Stage,-32.8,-2.8,265.7,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,55,Stage,42.2,-2.8,208.74,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,280,Stage,52.1,-2.8,208.74,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,138,Stage,42.2,-2.8,265.7,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,93,Stage,52.1,-2.8,265.7,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,179,Stage,-5,-2.8,256.75,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,283,Stage,-5,-2.8,313.71,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,158,Stage,-5,-2.8,323.4,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,324,Stage,-5,-2.8,332.43,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,76,Stage,-5,-2.8,342.43,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,126,Stage,14.94,-2.8,256.75,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,189,Stage,14.94,-2.8,313.71,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,258,Stage,14.94,-2.8,323.4,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,247,Stage,14.94,-2.8,332.43,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,273,Stage,14.94,-2.8,342.43,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,47,Stage,-23.78,-2.8,256.75,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,96,Stage,-23.78,-2.8,313.71,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,150,Stage,-23.78,-2.8,323.4,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,225,Stage,-23.78,-2.8,332.43,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,7,Stage,-23.78,-2.8,342.43,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,224,Stage,-42.8,-2.8,256.75,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,182,Stage,-52.5,-2.8,256.75,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,9,Stage,-61.9,-2.8,256.75,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,330,Stage,-67.8,-2.8,256.75,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,8,Stage,-42.8,-2.8,313.71,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,276,Stage,-52.5,-2.8,313.71,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,118,Stage,-61.9,-2.8,313.71,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,104,Stage,-67.8,-2.8,313.71,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,244,Stage,-42.8,-2.8,323.4,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,143,Stage,-52.5,-2.8,323.4,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,307,Stage,-61.9,-2.8,323.4,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,234,Stage,-67.8,-2.8,323.4,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,117,Stage,-42.8,-2.8,332.43,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,185,Stage,-52.5,-2.8,332.43,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,77,Stage,-61.9,-2.8,332.43,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,175,Stage,-67.8,-2.8,332.43,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,84,Stage,-42.8,-2.8,342.43,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,53,Stage,-52.5,-2.8,342.43,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,33,Stage,-61.9,-2.8,342.43,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,192,Stage,-67.8,-2.8,342.43,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,169,Stage,32.2,-2.8,256.75,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,211,Stage,32.2,-2.8,313.71,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,142,Stage,32.2,-2.8,323.4,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,56,Stage,32.2,-2.8,332.43,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,267,Stage,32.2,-2.8,342.43,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,159,Stage,-5,-2.8,227.85,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,210,Stage,-5,-2.8,284.81,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,162,Stage,14.94,-2.8,227.85,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,108,Stage,14.94,-2.8,284.81,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,92,Stage,-23.78,-2.8,227.85,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,14,Stage,-23.78,-2.8,284.81,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,331,Stage,-42.8,-2.8,227.85,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,130,Stage,-52.5,-2.8,227.85,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,201,Stage,-61.9,-2.8,227.85,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,260,Stage,-67.8,-2.8,227.85,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,270,Stage,-42.8,-2.8,284.81,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,91,Stage,-52.5,-2.8,284.81,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,152,Stage,-61.9,-2.8,284.81,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,11,Stage,-67.8,-2.8,284.81,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,154,Stage,32.2,-2.8,227.85,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,314,Stage,32.2,-2.8,284.81,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,196,Stage,-5,-2.8,246.83,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,327,Stage,-5,-2.8,303.79,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,308,Stage,14.94,-2.8,246.83,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,80,Stage,14.94,-2.8,303.79,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,94,Stage,-23.78,-2.8,246.83,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,294,Stage,-23.78,-2.8,303.79,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,240,Stage,-42.8,-2.8,246.83,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,214,Stage,-52.5,-2.8,246.83,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,249,Stage,-61.9,-2.8,246.83,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,73,Stage,-67.8,-2.8,246.83,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,245,Stage,-42.8,-2.8,303.79,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,132,Stage,-52.5,-2.8,303.79,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,301,Stage,-61.9,-2.8,303.79,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,293,Stage,-67.8,-2.8,303.79,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,6,Stage,32.2,-2.8,246.83,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,263,Stage,32.2,-2.8,303.79,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,161,Stage,-5,-2.8,217.93,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,248,Stage,-5,-2.8,274.89,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,129,Stage,14.94,-2.8,217.93,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,309,Stage,14.94,-2.8,274.89,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,237,Stage,-23.78,-2.8,217.93,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,315,Stage,-23.78,-2.8,274.89,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,256,Stage,-42.8,-2.8,217.93,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,21,Stage,-52.5,-2.8,217.93,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,202,Stage,-61.9,-2.8,217.93,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,124,Stage,-67.8,-2.8,217.93,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,329,Stage,-42.8,-2.8,274.89,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,174,Stage,-52.5,-2.8,274.89,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,30,Stage,-61.9,-2.8,274.89,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,13,Stage,-67.8,-2.8,274.89,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,321,Stage,32.2,-2.8,217.93,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,272,Stage,32.2,-2.8,274.89,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,228,Stage,-5,-2.8,237.57,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,328,Stage,-5,-2.8,294.53,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,172,Stage,14.94,-2.8,237.57,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,203,Stage,14.94,-2.8,294.53,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,15,Stage,-23.78,-2.8,237.57,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,266,Stage,-23.78,-2.8,294.53,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,166,Stage,-42.8,-2.8,237.57,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,83,Stage,-52.5,-2.8,237.57,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,137,Stage,-61.9,-2.8,237.57,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,264,Stage,-67.8,-2.8,237.57,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,325,Stage,-42.8,-2.8,294.53,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,62,Stage,-52.5,-2.8,294.53,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,64,Stage,-61.9,-2.8,294.53,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,193,Stage,-67.8,-2.8,294.53,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,319,Stage,32.2,-2.8,237.57,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,289,Stage,32.2,-2.8,294.53,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,296,Stage,-5,-2.8,208.67,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,79,Stage,-5,-2.8,265.63,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,58,Stage,14.94,-2.8,208.67,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,320,Stage,14.94,-2.8,265.63,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,229,Stage,-23.78,-2.8,208.67,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,285,Stage,-23.78,-2.8,265.63,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,97,Stage,-42.8,-2.8,208.67,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,310,Stage,-52.5,-2.8,208.67,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,123,Stage,-61.9,-2.8,208.67,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,160,Stage,-67.8,-2.8,208.67,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,50,Stage,-42.8,-2.8,265.63,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,61,Stage,-52.5,-2.8,265.63,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,41,Stage,-61.9,-2.8,265.63,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,27,Stage,-67.8,-2.8,265.63,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,306,Stage,32.2,-2.8,208.67,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None
+water,100,Stage,32.2,-2.8,265.63,0,0,0,10,10,10,Stage1/water,Static,Object,1,1,0,0,0,None

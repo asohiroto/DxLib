@@ -1,0 +1,7 @@
+﻿攻撃距離,攻撃の名前
+Melee,Punch
+LongRange,KickRight
+LongRange,KickLeft
+LongRange,Shoot
+Melee,JumpAttack
+Melee,JumpAttackComb

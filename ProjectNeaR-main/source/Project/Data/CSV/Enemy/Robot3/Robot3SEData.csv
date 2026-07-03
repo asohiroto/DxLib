@@ -1,0 +1,6 @@
+﻿SE名,パス
+Head,Enemy/Head
+Hit,Hit/Hit_P3
+Warning,Enemy/Warning
+Dead,Enemy/Bomb1
+Move,Enemy/Footsteps3

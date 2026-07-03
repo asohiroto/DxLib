@@ -1,0 +1,26 @@
+﻿攻撃の名前,多段ヒットか,攻撃タイプ,威力,攻撃の重さ,アーマー,ノックバックの大きさ,上方向の力,発生フレーム,持続フレーム,半径,長さ,前進速度,前進フレーム,アニメーションの名前,次の攻撃の名前,攻撃の基準位置,キャンセルフレーム,ヒットストップフレーム,ヒットストップの揺れ,ヒットエフェクト,攻撃エフェクト,発生SE,ヒットSE,攻撃ボイス ,パラメータ1,パラメータ2,パラメータ3,パラメータ4
+Attack1,FALSE,2,200,3,3,300,0,140,100,30,0,0,135,Attack1,None,Owner,100,5,5,RedHit,EnemyBulletBlueBoss,Shot,None,Attack1,47,30,0,0
+Attack2,FALSE,7,300,3,3,300,0,140,10,100,3000,0,135,Attack2,None,Owner,100,5,5,RedHit,Beam1,Beam,None,Attack2,4,0,0,0
+Attack3,FALSE,1,300,3,3,300,0,140,40,100,3000,0,135,Attack3,None,Owner,100,5,5,RedHit,Beam2,Beam,None,Attack1,10,11,0,0
+Attack4,TRUE,2,150,3,3,300,0,100,200,30,0,0,150,Attack4,Attack4_2,Owner,100,5,5,RedHit,EnemyBulletRed,Shot,None,Attack2,11,10,1,1
+Attack4_2,TRUE,2,150,3,3,300,0,105,200,50,0,0,150,Attack5,Attack4_3,Owner,100,5,5,RedHit,EnemyBulletBlue,Shot,None,Attack2,35,10,0,1
+Attack4_3,TRUE,2,150,3,3,300,0,110,200,50,0,0,150,Attack6,Attack4_4,Owner,100,5,5,RedHit,EnemyBulletBlue,Shot,None,Attack2,11,20,0,1
+Attack4_4,TRUE,2,150,3,3,300,0,115,200,30,0,0,150,Attack7,Attack4_5,Owner,100,5,5,RedHit,EnemyBulletRed,Shot,None,Attack2,35,20,1,1
+Attack4_5,TRUE,2,150,3,3,300,0,120,200,30,0,0,150,Attack8,Attack4_6,Owner,100,5,5,RedHit,EnemyBulletRed,Shot,None,Attack2,11,20,1,1
+Attack4_6,TRUE,2,150,3,3,300,0,125,200,30,0,0,150,Attack9,Attack4_7,Owner,100,5,5,RedHit,EnemyBulletRed,Shot,None,Attack2,35,20,1,1
+Attack4_7,TRUE,6,150,3,3,300,0,130,200,20,0,0,150,Attack10,Attack4_8,Owner,100,5,5,RedHit,Missile,Missile,None,Attack2,11,10,0.7,50
+Attack4_8,TRUE,6,150,3,3,300,0,135,200,20,0,0,150,Attack11,Attack4_9,Owner,100,5,5,RedHit,Missile,Missile,None,Attack2,11,20,0.7,30
+Attack4_9,TRUE,6,150,3,3,300,0,140,200,20,0,0,150,Attack12,Attack4_10,Owner,100,5,5,RedHit,Missile,Missile,None,Attack2,11,10,0.7,50
+Attack4_10,TRUE,6,150,3,3,300,0,145,200,20,0,0,150,Attack13,Attack4_11,Owner,100,5,5,RedHit,Missile,Missile,None,Attack2,11,20,0.7,30
+Attack4_11,FALSE,6,150,3,3,300,0,150,200,20,0,0,150,Attack14,Attack4_12,Owner,100,5,5,RedHit,Missile,Missile,None,Attack2,11,30,0.7,20
+Attack5,TRUE,6,150,3,3,300,0,140,200,20,0,0,150,Attack1,Attack5_2,Owner,100,5,5,RedHit,RapidMissile,Missile,None,Attack1,11,30,0.8,40
+Attack5_2,TRUE,6,150,3,3,300,0,145,200,20,0,0,150,Attack1,Attack5_3,Owner,100,5,5,RedHit,RapidMissile,Missile,None,Attack1,11,30,0.8,40
+Attack5_3,TRUE,6,150,3,3,300,0,150,200,20,0,0,150,Attack1,Attack5_4,Owner,100,5,5,RedHit,RapidMissile,Missile,None,Attack1,11,30,0.8,40
+Attack5_4,TRUE,6,150,3,3,300,0,155,200,20,0,0,150,Attack1,Attack5_5,Owner,100,5,5,RedHit,RapidMissile,Missile,None,Attack1,11,30,0.8,40
+Attack5_5,TRUE,6,150,3,3,300,0,160,200,20,0,0,150,Attack1,Attack5_6,Owner,100,5,5,RedHit,RapidMissile,Missile,None,Attack1,11,30,0.8,40
+Attack5_6,TRUE,6,150,3,3,300,0,165,200,20,0,0,150,Attack1,Attack5_7,Owner,100,5,5,RedHit,RapidMissile,Missile,None,Attack1,11,30,0.8,40
+Attack5_7,TRUE,6,150,3,3,300,0,170,200,20,0,0,150,Attack1,Attack5_8,Owner,100,5,5,RedHit,RapidMissile,Missile,None,Attack1,11,30,0.8,40
+Attack5_8,TRUE,6,150,3,3,300,0,175,200,20,0,0,150,Attack1,Attack5_9,Owner,100,5,5,RedHit,RapidMissile,Missile,None,Attack1,11,30,0.8,40
+Attack5_9,TRUE,6,150,3,3,300,0,180,200,20,0,0,150,Attack1,Attack5_10,Owner,100,5,5,RedHit,RapidMissile,Missile,None,Attack1,11,30,0.8,40
+Attack5_10,TRUE,6,150,3,3,300,0,185,200,20,0,0,150,Attack1,Attack5_11,Owner,100,5,5,RedHit,RapidMissile,Missile,None,Attack1,11,30,0.6,40
+Attack5_11,FALSE,6,150,3,3,300,0,190,200,20,0,0,150,Attack1,None,Owner,100,5,5,RedHit,RapidMissile,Missile,None,Attack1,11,30,0.6,40

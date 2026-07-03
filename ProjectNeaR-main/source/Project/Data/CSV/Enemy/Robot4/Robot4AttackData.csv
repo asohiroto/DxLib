@@ -1,0 +1,4 @@
+﻿攻撃の名前,多段ヒットか,攻撃タイプ,威力,攻撃の重さ,アーマー,ノックバックの大きさ,上方向の力,発生フレーム,持続フレーム,半径,長さ,前進速度,前進フレーム,アニメーションの名前,次の攻撃の名前,攻撃の基準位置,キャンセルフレーム,ヒットストップフレーム,ヒットストップの揺れ,ヒットエフェクト,攻撃エフェクト,発生SE,ヒットSE,攻撃ボイス,パラメータ1,パラメータ2,パラメータ3,パラメータ4
+Attack1,FALSE,1,150,2,1,80,0,50,10,50,300,0,10,Attack1,None,Owner,80,5,5,SparkHitEffect_Diagonal2,Slash/SlashEffect_Diagonal1_Re,Slash,Hit,Attack1,27,24,0,0
+Attack2,TRUE,1,100,2,1,20,0,60,10,50,250,0,10,Attack2,Attack2_2,Owner,80,5,5,SparkHitEffect,Slash/SlashEffect_Thrust2,Slash,Hit,Attack1,27,24,0,0
+Attack2_2,FALSE,1,100,2,1,100,0,110,10,50,250,0,10,Attack2,None,Owner,80,5,5,SparkHitEffect,Slash/SlashEffect_Thrust2,Slash,Hit,Attack1,27,24,0,0

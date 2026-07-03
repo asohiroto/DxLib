@@ -13,6 +13,7 @@ public:
 	MainScene();
 	~MainScene() override;
 	void Init() override;
+	void End() override;
 	void Update() override;
 	void Draw() override;
 

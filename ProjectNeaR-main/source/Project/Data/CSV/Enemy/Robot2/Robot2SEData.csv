@@ -1,0 +1,7 @@
+﻿SE名,パス
+Shot,Enemy/Shot
+Hit1,Hit/Hit_B1
+Hit2,Hit/Hit_B2
+Warning,Enemy/Warning
+Dead,Enemy/Bomb1
+Move,Enemy/Footsteps2

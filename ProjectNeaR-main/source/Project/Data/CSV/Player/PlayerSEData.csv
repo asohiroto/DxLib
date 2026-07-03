@@ -1,0 +1,12 @@
+﻿SE名,パス
+SwordSwing,Player/SwordSwing
+BigSwordSwing,Player/BigSwordSwing
+Hit_S1,Hit/Hit_S1
+Hit_S2,Hit/Hit_S2
+Hit_S3,Hit/Hit_S3
+Hit_S4,Hit/Hit_S4
+JustAvoid,Player/JustAvoid
+Walk,Player/Footsteps
+Run,Player/Footsteps_Short
+Jump,Player/Footsteps
+Heal,Player/Heal
