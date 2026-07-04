@@ -22,7 +22,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	SRand((int)time(NULL));
 
-	SceneManager* p_SceneManager = new SceneManager;
+	std::unique_ptr<SceneManager>p_SceneManager = std::make_unique<SceneManager>();
 	p_SceneManager->Init();
 
 	SetDrawScreen(DX_SCREEN_BACK); // 裏画面に描画

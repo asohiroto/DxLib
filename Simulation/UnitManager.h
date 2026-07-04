@@ -1,17 +1,21 @@
 ﻿#pragma once
-#include"PlayerUnit.h"
-#include"EnemyUnit.h"
-#include"RouteSearch.h"
-#include"TurnManager.h"
+#include<vector>
 #include"_unitBase.h"
+
+class PlayerUnit;
+class EnemyUnit;
+class RouteSearch;
+class TurnManager;
+class SceneManager;
+class SceneBase;
 
 class UnitManager
 {
 public:
 	UnitManager();
 	~UnitManager();
-	void Init(RouteSearch* rs);
-	void Update(RouteSearch* rs, TurnManager* tm);
+	void Init(RouteSearch* rs, SceneManager& _sceneManager);
+	void Update(RouteSearch* rs, TurnManager* tm, SceneManager& sm);
 	void Draw(TurnManager* tm);
 
 	// 移動処理
@@ -21,13 +25,13 @@ public:
 	// 到着処理
 	void StateArrived(_unitBase::UnitData& data, int& timer);
 	// 攻撃処理
-	void StateAttack(_unitBase::UnitData& data, int& timer, RouteSearch* rs);
+	void StateAttack(_unitBase::UnitData& data, int& timer, RouteSearch* rs, SceneManager& sm);
 	// 壊滅処理
 	void StateDead(_unitBase::UnitData& data, int& timer);
 	// ２ユニット間のマンハッタン距離を返す関数
 	int Distance(_unitBase::UnitData* player, _unitBase::UnitData* enemy);
 	// 状態ごとに行動を変える関数
-	void SetMoveByState(_unitBase::UnitData& data, int& timer, RouteSearch* rs, TurnManager* tm);
+	void SetMoveByState(_unitBase::UnitData& data, int& timer, RouteSearch* rs, TurnManager* tm, SceneManager& sm);
 	// プレイヤーユニットクラスのゲッター
 	PlayerUnit* GetPlayerPointer() { return p_PlayerUnit; }
 	// エネミーユニットクラスのゲッター
@@ -40,6 +44,7 @@ public:
 private:
 	PlayerUnit* p_PlayerUnit;
 	EnemyUnit* p_EnemyUnit;
+	SceneBase* p_SceneBase;
 
 	// 何ユニットが行動終了したか
 	int _finishCount;

@@ -3,7 +3,7 @@
 class ClearScene : public SceneBase
 {
 public:
-	ClearScene();
+	ClearScene(SceneManager& _sceneManager);
 	~ClearScene() override;
 	void Init() override;
 	void End() override;

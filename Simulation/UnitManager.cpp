@@ -2,11 +2,20 @@
 #include"AsoDxLib/Mouse.h"
 #include"AsoDxLib/Keyboard.h"
 #include"AsoDxLib/Color.h"
+#include"PlayerUnit.h"
+#include"EnemyUnit.h"
+#include"RouteSearch.h"
+#include"TurnManager.h"
+#include"SceneManager.h"
+#include"ClearScene.h"
+#include"GameOverScene.h"
+#include"SceneBase.h"
 #include<string>
 
 using namespace GameDefine;
 
 UnitManager::UnitManager() :
+	p_SceneBase(nullptr),
 	p_PlayerUnit(nullptr),
 	p_EnemyUnit(nullptr),
 	_finishCount(0),
@@ -21,12 +30,14 @@ UnitManager::~UnitManager()
 {
 	delete p_PlayerUnit;
 	delete p_EnemyUnit;
+	delete p_SceneBase;
 }
 
-void UnitManager::Init(RouteSearch* rs)
+void UnitManager::Init(RouteSearch* rs, SceneManager& _sceneManager)
 {
 	p_PlayerUnit = new PlayerUnit;
 	p_EnemyUnit = new EnemyUnit;
+	p_SceneBase = new SceneBase(_sceneManager);
 
 	p_PlayerUnit->Init(rs);
 	p_EnemyUnit->Init(rs);
@@ -49,7 +60,7 @@ void UnitManager::Init(RouteSearch* rs)
 	_enemyBaseAttack = 20;
 }
 
-void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
+void UnitManager::Update(RouteSearch* rs, TurnManager* tm, SceneManager& sm)
 {
 	p_PlayerUnit->Update();
 	p_EnemyUnit->Update();
@@ -144,11 +155,11 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
 				_playerCount++;
 				if (unit->state == UnitState::Dead)
 				{
-					SetMoveByState(*unit, unit->moveTimer, rs, tm);
+					SetMoveByState(*unit, unit->moveTimer, rs, tm, sm);
 				}
 				else if (unit->moveTimer > MOVE_SPAN)
 				{
-					SetMoveByState(*unit, unit->moveTimer, rs, tm);
+					SetMoveByState(*unit, unit->moveTimer, rs, tm, sm);
 				}
 
 				if (unit->state == UnitState::Idle || unit->state == UnitState::Arrived || unit->state == UnitState::Dead)
@@ -174,11 +185,11 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm)
 				_enemyCount++;
 				if (unit->state == UnitState::Dead)
 				{
-					SetMoveByState(*unit, unit->moveTimer, rs, tm);
+					SetMoveByState(*unit, unit->moveTimer, rs, tm, sm);
 				}
 				else if (unit->moveTimer > MOVE_SPAN)
 				{
-					SetMoveByState(*unit, unit->moveTimer, rs, tm);
+					SetMoveByState(*unit, unit->moveTimer, rs, tm, sm);
 				}
 
 				if (unit->state == UnitState::Idle || unit->state == UnitState::Arrived || unit->state == UnitState::Dead)
@@ -338,7 +349,7 @@ void UnitManager::StateArrived(_unitBase::UnitData& data, int& timer)
 	timer = 0;
 }
 
-void UnitManager::StateAttack(_unitBase::UnitData& data, int& timer, RouteSearch* rs)
+void UnitManager::StateAttack(_unitBase::UnitData& data, int& timer, RouteSearch* rs, SceneManager& sm)
 {
 	timer = 0;
 	// 攻撃済みの場合は待機状態に遷移
@@ -395,6 +406,8 @@ void UnitManager::StateAttack(_unitBase::UnitData& data, int& timer, RouteSearch
 				if (_enemyBaseHpNow <= 0)
 				{
 					printfDx("破壊\n");
+					sm.ChangeScene(std::make_shared<ClearScene>(sm));
+					break;
 				}
 				data.state = UnitState::Idle;
 			}
@@ -413,6 +426,8 @@ void UnitManager::StateAttack(_unitBase::UnitData& data, int& timer, RouteSearch
 				if (_myBaseHpNow <= 0)
 				{
 					printfDx("破壊\n");
+					sm.ChangeScene(std::make_shared<GameOverScene>(sm));
+					break;
 				}
 				data.state = UnitState::Idle;
 			}
@@ -436,7 +451,7 @@ int UnitManager::Distance(_unitBase::UnitData* player, _unitBase::UnitData* enem
 	return disX + disY;
 }
 
-void UnitManager::SetMoveByState(_unitBase::UnitData& data, int& timer, RouteSearch* rs, TurnManager* tm)
+void UnitManager::SetMoveByState(_unitBase::UnitData& data, int& timer, RouteSearch* rs, TurnManager* tm, SceneManager& sm)
 {
 	switch (data.state)
 	{
@@ -453,7 +468,7 @@ void UnitManager::SetMoveByState(_unitBase::UnitData& data, int& timer, RouteSea
 		break;
 
 	case UnitState::Attack:
-		StateAttack(data, timer, rs);
+		StateAttack(data, timer, rs, sm);
 		break;
 
 	case UnitState::Dead:

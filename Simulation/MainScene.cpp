@@ -1,7 +1,8 @@
 ﻿#include"MainScene.h"
 #include"Map.h"
 
-MainScene::MainScene() :
+MainScene::MainScene(SceneManager& _sceneManager) :
+	SceneBase(_sceneManager),
 	p_Map(nullptr),
 	p_RouteSearch(nullptr),
 	p_UnitManager(nullptr),
@@ -33,7 +34,7 @@ void MainScene::Init()
 
 	p_Map->Init();
 	p_RouteSearch->Init();
-	p_UnitManager->Init(p_RouteSearch);
+	p_UnitManager->Init(p_RouteSearch, _sceneManager);
 	p_TurnManager->Init();
 	p_UIManager->Init();
 	p_BaseManager->Init();
@@ -53,7 +54,7 @@ void MainScene::Update()
 {
 	p_Map->Update();
 	p_RouteSearch->Update();
-	p_UnitManager->Update(p_RouteSearch, p_TurnManager);
+	p_UnitManager->Update(p_RouteSearch, p_TurnManager, _sceneManager);
 	p_TurnManager->Update();
 	p_UIManager->Update(p_UnitManager->GetPlayerPointer(), p_UnitManager->GetEnemyPointer(), p_RouteSearch, p_TurnManager, p_UnitManager);
 	p_BaseManager->Update(p_RouteSearch, p_UIManager, p_UnitManager);

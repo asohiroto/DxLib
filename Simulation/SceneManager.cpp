@@ -1,9 +1,10 @@
 ﻿#include "SceneManager.h"
 #include"SceneBase.h"
+#include"StartScene.h"
 
 SceneManager::SceneManager()
 {
-
+	ChangeScene(std::make_shared<StartScene>(*this));
 }
 
 SceneManager::~SceneManager()

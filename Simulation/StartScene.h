@@ -1,10 +1,12 @@
 ﻿#pragma once
 #include"SceneBase.h"
 
+class SceneManager;
+
 class StartScene : public SceneBase
 {
 public:
-	StartScene();
+	StartScene(SceneManager& _sceneManager);
 	~StartScene() override;
 	void Init() override;
 	void End() override;

@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include"SceneName.h"
 #include<memory>
 #include<list>
 

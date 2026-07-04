@@ -10,7 +10,7 @@
 class MainScene : public SceneBase
 {
 public:
-	MainScene();
+	MainScene(SceneManager& _sceneManager);
 	~MainScene() override;
 	void Init() override;
 	void End() override;

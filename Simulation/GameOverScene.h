@@ -4,7 +4,7 @@
 class GameOverScene : public SceneBase
 {
 public:
-	GameOverScene();
+	GameOverScene(SceneManager& _sceneManager);
 	~GameOverScene()override;
 	void Init() override;
 	void End() override;

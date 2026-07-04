@@ -2,10 +2,15 @@
 #include"DxLib.h"
 #include"GameDefine.h"
 #include"AsoDxLib/Mouse.h"
+#include"MainScene.h"
+#include"ClearScene.h"
+#include"GameOverScene.h"
+#include"SceneManager.h"
 
 using namespace GameDefine;
 
-StartScene::StartScene() :
+StartScene::StartScene(SceneManager& _sceneManager) :
+	SceneBase(_sceneManager),
 	_mousePosX(0),
 	_mousePosY(0)
 {
@@ -22,6 +27,11 @@ void StartScene::Init()
 
 }
 
+void StartScene::End()
+{
+
+}
+
 void StartScene::Update()
 {
 	GetMousePoint(&_mousePosX, &_mousePosY);
@@ -30,7 +40,7 @@ void StartScene::Update()
 	{
 		if (_mousePosX >= WIDTH / 2 - 150 && _mousePosY >= HEIGHT / 2 - 20 && _mousePosX <= WIDTH / 2 + 150 && _mousePosY <= HEIGHT / 2 + 20)
 		{
-			ChangeScene(SceneName::MainScene);
+			_sceneManager.ChangeScene(std::make_shared<MainScene>(_sceneManager));
 		}
 	}
 }

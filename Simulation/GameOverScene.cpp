@@ -1,6 +1,7 @@
 ﻿#include "GameOverScene.h"
 
-GameOverScene::GameOverScene()
+GameOverScene::GameOverScene(SceneManager& _sceneManager) :
+	SceneBase(_sceneManager)
 {
 
 }
