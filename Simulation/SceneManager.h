@@ -24,5 +24,6 @@ private:
 	using SceneStack_T = std::list<std::shared_ptr<SceneBase>>;
 	// 現在のシーンのポインタ
 	SceneStack_T _nowScene;
+	std::shared_ptr<SceneBase> _nextScene;
 };
 

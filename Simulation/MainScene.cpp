@@ -42,12 +42,7 @@ void MainScene::Init()
 
 void MainScene::End()
 {
-	delete p_Map;
-	delete p_RouteSearch;
-	delete p_UnitManager;
-	delete p_TurnManager;
-	delete p_UIManager;
-	delete p_BaseManager;
+
 }
 
 void MainScene::Update()
