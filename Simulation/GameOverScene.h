@@ -10,5 +10,8 @@ public:
 	void End() override;
 	void Update() override;
 	void Draw() override;
+
+private:
+	int _mousePosX, _mousePosY;
 };
 
