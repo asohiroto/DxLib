@@ -1,4 +1,5 @@
 ﻿#pragma once
+#pragma once
 #include "GameObject.h"
 
 class Player :
@@ -14,8 +15,6 @@ public:
 private:
 	int _modelH = -1;
 	int _animH = -1;
-	VECTOR _pos;
 	VECTOR _move;
-	
 };
 

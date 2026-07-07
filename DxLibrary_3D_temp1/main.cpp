@@ -1,13 +1,4 @@
-﻿#include"SceneGame.h"
-#include"Input.h"
-#include <DxLib.h>
-#include<memory>
-
-namespace
-{
-	constexpr LONGLONG kTargetFrameRate = 60;
-	constexpr LONGLONG kTimePerFrame = 1000000 / kTargetFrameRate;
-}
+﻿#include "DxLib.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -28,28 +19,25 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		return -1;			// エラーが起きたら直ちに終了
 	}
 
-	std::unique_ptr<SceneGame> p_SceneGame = std::make_unique<SceneGame>();
-	p_SceneGame->Init();
-
-	Input& _input = Input::GetInstance();
-
-	bool isQuit = false;
-
 	// フルスクリーン切り替え時におかしくならないように
 	SetChangeScreenModeGraphicsSystemResetFlag(false);
+
 	// Zバッファの設定
 	//Zバッファを使用する
 	SetUseZBuffer3D(true);
+
 	//Zバッファに書き込みを行う
 	SetWriteZBuffer3D(true);
+
 	//ポリゴンのバックカリングを使用する
 	SetUseBackCulling(true);
+
 	// ダブルバッファモード
 	SetDrawScreen(DX_SCREEN_BACK);
 
 
 	// ゲームループ
-	while (ProcessMessage() != -1 && !isQuit)
+	while (ProcessMessage() != -1)
 	{
 		// このフレームの開始時刻を覚えておく
 		LONGLONG start = GetNowHiPerformanceCount();
@@ -57,10 +45,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// 描画を行う前に画面をクリアする
 		ClearDrawScreen();
 
-		_input.Update();
-		p_SceneGame->Update();
-
-		p_SceneGame->Draw();
 
 		// 画面が切り替わるのを待つ
 		ScreenFlip();
@@ -68,13 +52,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// escキーでゲーム終了
 		if (CheckHitKey(KEY_INPUT_ESCAPE))
 		{
-			isQuit = true;
+			break;
 		}
 
 		// FPS60に固定する
-		while (GetNowHiPerformanceCount() - start < kTimePerFrame)
+		while (GetNowHiPerformanceCount() - start < 16667)
 		{
-			continue;
 			// 16.66ミリ秒(16667マイクロ秒)経過するまで待つ
 		}
 	}
