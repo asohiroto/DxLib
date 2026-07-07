@@ -28,6 +28,7 @@ void Camera::Init()
 
 void Camera::Update(std::shared_ptr<Player> pPlayer)
 {
+	p_Input->Update();
 	// 注視点
 	VECTOR targetPos = VGet(0.0f, 0.0f, 0.0f);
 
@@ -36,13 +37,25 @@ void Camera::Update(std::shared_ptr<Player> pPlayer)
 	{
 		targetPos = pPlayer->GetPos();
 	}
-	
+
 	// カメラ位置
 	VECTOR cameraPos = targetPos;
 
-	_cameraYaw += CAMERA_YAW_SPEED * std::
+	// 入力に応じて水平、垂直方向にカメラの回転角度を決定
+	_cameraYaw += CAMERA_YAW_SPEED * std::clamp(static_cast<float>(p_Input->GetRightStickX()), -1.0f, 1.0f);
+	_cameraPitch += -CAMERA_PITCH_SPEED * std::clamp(static_cast<float> (p_Input->GetRightStickY()), -1.0f, 1.0f);
+	// カメラの垂直方向の回転限界
+	_cameraPitch = std::clamp(_cameraPitch, -CAMERA_PITCH_LIMIT, CAMERA_PITCH_LIMIT);
 
+	// カメラの回転方向を決定
+	float x = cameraPos.x + _cameraDistance * cosf(_cameraPitch) * sinf(_cameraYaw);
+	float y = cameraPos.y + _cameraDistance * cosf(_cameraPitch);
+	float z = cameraPos.z + _cameraDistance * cosf(_cameraPitch) * sinf(_cameraYaw);
 
+	// 実際に代入
+	cameraPos.x = x;
+	cameraPos.y = y;
+	cameraPos.z = z;
 
-	SetCameraPositionAndTargetAndUpVec()
+	SetCameraPositionAndTargetAndUpVec(cameraPos, targetPos, VGet(0.0f, 1.0f, 0.0f));
 }

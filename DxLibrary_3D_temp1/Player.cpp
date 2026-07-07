@@ -17,7 +17,7 @@ void Player::Init()
 {
 	_modelH = MV1LoadModel("data/Player.mv1");
 	// 安全策
-	assert(!_modelH);
+	assert(_modelH != -1);
 }
 
 void Player::Update()
@@ -53,5 +53,6 @@ void Player::Update()
 
 void Player::Draw()
 {
-	MV1DrawModel(_modelH);
+	int temp = MV1DrawModel(_modelH);
+	int temp2 = temp;
 }

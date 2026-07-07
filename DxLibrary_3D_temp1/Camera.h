@@ -13,7 +13,7 @@ public:
 	void Update(std::shared_ptr<Player> pPlayer);
 
 private:
-	// カメラとの距離
+	// 描画距離
 	float _cameraDistance;
 	// 水平方向の角度
 	float _cameraYaw;

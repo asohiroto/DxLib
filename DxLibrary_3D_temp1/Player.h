@@ -1,4 +1,5 @@
 ﻿#pragma once
+#pragma once
 #include "Character.h"
 #include<DxLib.h>
 
