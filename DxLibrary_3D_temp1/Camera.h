@@ -12,6 +12,8 @@ public:
 	void Init();
 	void Update(std::shared_ptr<Player> pPlayer);
 
+	// カメラの水平方向の角度を渡す
+	float GetCameraYaw() const { return _cameraYaw; }
 private:
 	// 描画距離
 	float _cameraDistance;

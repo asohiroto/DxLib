@@ -14,7 +14,8 @@ public:
 	void Init() override;
 	void Update() override;
 	void Draw() override;
-
+	// 足元にグリッドを表示する
+	void DrawGrid() const;
 private:
 	// プレイヤークラスの共有ポインタ
 	std::shared_ptr<Player> p_Player;

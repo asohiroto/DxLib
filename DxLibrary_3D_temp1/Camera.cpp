@@ -49,8 +49,8 @@ void Camera::Update(std::shared_ptr<Player> pPlayer)
 
 	// カメラの回転方向を決定
 	float x = cameraPos.x + _cameraDistance * cosf(_cameraPitch) * sinf(_cameraYaw);
-	float y = cameraPos.y + _cameraDistance * cosf(_cameraPitch);
-	float z = cameraPos.z + _cameraDistance * cosf(_cameraPitch) * sinf(_cameraYaw);
+	float y = cameraPos.y + _cameraDistance * sinf(_cameraPitch);
+	float z = cameraPos.z + _cameraDistance * cosf(_cameraPitch) * cosf(_cameraYaw);
 
 	// 実際に代入
 	cameraPos.x = x;
