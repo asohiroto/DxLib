@@ -28,5 +28,6 @@ private:
 	MATRIX _modelRotMatrix;
 	// インプットクラスの共有ポインタ
 	std::shared_ptr<Input> p_Input;
+	float _angle;
 };
 

@@ -66,13 +66,14 @@ void Player::Update(float cameraAngle)
 		_movementY = 10.0f;
 	}
 
-	_movementDirection.y = _movementY;
-
 	if (VSize(_movementDirection) > 0.0f)
 	{
-		float angle = atan2f(_movementDirection.x, _movementDirection.z) + DX_PI_F;
-		MV1SetRotationXYZ(_modelH, VGet(0.0f, angle, 0.0f));
+		_angle = atan2f(_movementDirection.x, _movementDirection.z) + DX_PI_F;
 	}
+
+	_movementDirection.y = _movementY;
+
+	MV1SetRotationXYZ(_modelH, VGet(0.0f, _angle, 0.0f));
 
 	// 位置を更新
 	_pos = VAdd(_pos, _movementDirection);
