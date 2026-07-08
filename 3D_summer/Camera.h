@@ -15,6 +15,7 @@ public:
 	void Draw(int playerNum);
 	// カメラの水平方向の角度を渡す
 	float GetCameraYaw() const { return _cameraYaw; }
+
 private:
 	// 水平方向の角度
 	float _cameraYaw;

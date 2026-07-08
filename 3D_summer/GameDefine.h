@@ -16,7 +16,7 @@ namespace GameDefine
 	// カメラの垂直方向の速度
 	constexpr float CAMERA_PITCH_SPEED = 0.04f;
 	// カメラの垂直方向の回転制限
-	constexpr float CAMERA_PITCH_LIMIT = 1.5f;
+	constexpr float CAMERA_PITCH_LIMIT = 1.2f;
 	// 描画距離
 	constexpr float CAMERA_DISTANCE = -1750.0f;
 	// 注視点の高さの補整度

@@ -36,6 +36,7 @@ public:
 	void SetVec(VECTOR vec) { _vec = vec; }
 	bool IsGrounded() { return _isGrounded; }
 	void SetGrounded(bool isGrounded) { _isGrounded = isGrounded; }
+
 protected:
 	VECTOR _pos{ 0.0f, 0.0f, 0.0f };
 	VECTOR _vec{ 0.0f, 0.0f, 0.0f };

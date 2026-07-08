@@ -58,19 +58,14 @@ void SceneGame::Draw()
 	p_Player->Draw();
 	p_PlayerSub->Draw();
 
-#ifdef _DEBUG
 	DrawGrid();
-
-#endif // DEBUG
 
 	// プレイヤー２用の画面表示処理
 	p_CameraSub->Draw(2);
 	p_Player->Draw();
 	p_PlayerSub->Draw();
 
-#ifdef _DEBUG
 	DrawGrid();
-#endif // DEBUG
 
 
 	// 二つの画面を合わせて一つの画面に表示させる
@@ -79,7 +74,6 @@ void SceneGame::Draw()
 	// 仕切り線（画面中央の縦線）
 	DrawLine(WIDTH / 2, 0, WIDTH / 2, HEIGHT, 0xffff00, 3);
 
-#ifdef _DEBUG
 	// 画面判別用
 	DrawString(7, 10, "Player : 1", 0xffffff);
 	DrawString((WIDTH / 2) + 10, 10, "Player : 2", 0xffffff);
@@ -92,7 +86,6 @@ void SceneGame::Draw()
 	DrawFormatString((WIDTH / 2) + 10, 50, 0xffffff, "         Y : %.2f", p_PlayerSub->GetPos().y);
 	DrawFormatString((WIDTH / 2) + 10, 70, 0xffffff, "         Z : %.2f", p_PlayerSub->GetPos().z);
 
-#endif // DEBUG
 }
 
 void SceneGame::DrawGrid() const
