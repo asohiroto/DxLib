@@ -27,7 +27,9 @@ private:
 	VECTOR _targetPos;
 	// 線形補完後の向き
 	VECTOR _smoothedForward;
-
+	// カメラの線形補間度
 	float _cameraLerpRate;
+
+	bool _changedCameraMode;
 };
 

@@ -12,7 +12,9 @@ Camera::Camera() :
 	_cameraPitch(0.5f),
 	_cameraPos(VGet(0.0f, 0.0f, 0.0f)),
 	_targetPos(VGet(0.0f, 0.0f, 0.0f)),
-	_smoothedForward(VGet(0.0f, 0.0f, 0.0f))
+	_smoothedForward(VGet(0.0f, 0.0f, 0.0f)),
+	_cameraLerpRate(0),
+	_changedCameraMode(false)
 {
 
 }
@@ -34,31 +36,48 @@ void Camera::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Input> pInp
 	// 注視点
 	VECTOR targetPos = VGet(0.0f, 0.0f, 0.0f);
 
+	if (pInput->IsTrigger(PAD_INPUT_B))
+	{
+		if (_changedCameraMode)
+		{
+			_changedCameraMode = false;
+		}
+		else if (!_changedCameraMode)
+		{
+			_changedCameraMode = true;
+		}
+	}
+
 	// プレイヤーが存在していることを確認してから、注視点をプレイヤーの座標に
 	if (pPlayer != nullptr)
 	{
 		targetPos = pPlayer->GetPos();
-		targetPos.y += CAMERA_TARGET_HEIGHT;
 
-
-		// プレイヤーの向いている角度を保存し、補整前の向きを取得
-		float playerAngle = pPlayer->GetAngle();
-		VECTOR rowForward = VGet(sinf(playerAngle), 0, cosf(playerAngle));
-
-		if (pInput->GetLeftStickX() != 0 || pInput->GetLeftStickY() != 0)
+		// カメラモードによって切り替え
+		if (_changedCameraMode)
 		{
-			_cameraLerpRate = 0.03f;
+			targetPos.y += CAMERA_TARGET_HEIGHT;
+
+
+			// プレイヤーの向いている角度を保存し、補整前の向きを取得
+			float playerAngle = pPlayer->GetAngle();
+			VECTOR rowForward = VGet(sinf(playerAngle), 0, cosf(playerAngle));
+
+			if (pInput->GetLeftStickX() != 0 || pInput->GetLeftStickY() != 0)
+			{
+				_cameraLerpRate = 0.03f;
+			}
+
+			// 線形補完用の計算
+			_smoothedForward = VAdd
+			(
+				VScale(_smoothedForward, 1.0f - _cameraLerpRate),
+				VScale(rowForward, _cameraLerpRate)
+			);
+
+			// targetPosに反映
+			targetPos = VAdd(targetPos, VScale(_smoothedForward, CAMERA_TARGET_FORWARD_OFFSET));
 		}
-
-		// 線形補完用の計算
-		_smoothedForward = VAdd
-		(
-			VScale(_smoothedForward, 1.0f - _cameraLerpRate),
-			VScale(rowForward, _cameraLerpRate)
-		);
-
-		// targetPosに反映
-		targetPos = VAdd(targetPos, VScale(_smoothedForward, CAMERA_TARGET_FORWARD_OFFSET));
 	}
 
 	// 入力に応じて水平、垂直方向にカメラの回転角度を決定
@@ -98,4 +117,6 @@ void Camera::Draw(int playerNum)
 	default:
 		break;
 	}
+
+	DrawFormatString(3, 100, 0xffffff, "CameraMode : %d", _changedCameraMode);
 }
