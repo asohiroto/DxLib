@@ -46,8 +46,8 @@ void Camera::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Input> pInp
 		// 線形補完用の計算
 		_smoothedForward = VAdd
 		(
-			VScale(_smoothedForward, 1.0f - CAMERA_FORWARD_LERP_RATE),
-			VScale(rowForward, CAMERA_FORWARD_LERP_RATE)
+			VScale(_smoothedForward, 1.0f - _cameraLerpRate),
+			VScale(rowForward, _cameraLerpRate)
 		);
 
 		// targetPosに反映

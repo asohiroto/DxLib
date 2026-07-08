@@ -23,8 +23,8 @@ namespace GameDefine
 	constexpr float CAMERA_TARGET_HEIGHT = -150.0f;
 	// 注視点をプレイヤーの向いている向きに補整
 	constexpr float CAMERA_TARGET_FORWARD_OFFSET = -150.0f;
-	// カメラの注視点切り替え用線形補完度
-	constexpr float CAMERA_FORWARD_LERP_RATE = 0.05f;
+	//// カメラの注視点切り替え用線形補完度
+	//constexpr float CAMERA_FORWARD_LERP_RATE = 0.05f;
 
 	// デバッグ用の表示---------------------------------------
 	// 足元に表示するグリッドの大きさ

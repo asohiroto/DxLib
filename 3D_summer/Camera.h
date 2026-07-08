@@ -16,6 +16,8 @@ public:
 	// カメラの水平方向の角度を渡す
 	float GetCameraYaw() const { return _cameraYaw; }
 
+	float SetLerpRate(int rate) { if (_cameraLerpRate <= 1.0f)_cameraLerpRate += rate; }
+
 private:
 	// 水平方向の角度
 	float _cameraYaw;
@@ -27,5 +29,7 @@ private:
 	VECTOR _targetPos;
 	// 線形補完後の向き
 	VECTOR _smoothedForward;
+
+	float _cameraLerpRate = 0.1f;
 };
 
