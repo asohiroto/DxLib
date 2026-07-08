@@ -1,6 +1,4 @@
 ﻿#include "DxLib.h"
-#include"SceneGame.h"
-#include<memory>
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -37,8 +35,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// ダブルバッファモード
 	SetDrawScreen(DX_SCREEN_BACK);
 
-	std::unique_ptr<SceneGame> p_SceneGame = std::make_unique<SceneGame>();
-	p_SceneGame->Init();
 
 	// ゲームループ
 	while (ProcessMessage() != -1)
@@ -49,8 +45,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// 描画を行う前に画面をクリアする
 		ClearDrawScreen();
 
-		p_SceneGame->Update();
-		p_SceneGame->Draw();
 
 		// 画面が切り替わるのを待つ
 		ScreenFlip();

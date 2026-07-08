@@ -5,7 +5,7 @@ class Input
 public:
 	Input();
 	virtual ~Input();
-	void Init();
+	void Init(int padNum);
 	void Update();
 	// 押した瞬間を取得
 	bool IsTrigger(int key);
@@ -16,6 +16,9 @@ public:
 	// 右スティックの入力値を取得
 	int GetRightStickX() const { return _rx; }
 	int GetRightStickY() const { return _ry; }
+	// 左スティックの入力値を取得
+	int GetLeftStickX() const { return _lx; }
+	int GetLeftStickY() const { return _ly; }
 
 private:
 	// 前フレームの入力状態
@@ -24,6 +27,12 @@ private:
 	int _nowPad;
 	// 右スティックのx方向の入力状態
 	int _rx;
-	// 右スティックのy方向入力状態
+	// 右スティックのy方向の入力状態
 	int _ry;
+	// 左スティックのx方向の入力状態
+	int _lx;
+	// 左スティックのy方向の入力状態
+	int _ly;
+	// 現在使用中のパッド
+	int _usePadNum;
 };

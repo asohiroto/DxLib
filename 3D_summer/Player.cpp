@@ -1,8 +1,12 @@
 ﻿#include "Player.h"
 #include"Character.h"
 #include"Input.h"
+#include"GameDefine.h"
 #include<cassert>
 #include<cmath>
+#include<algorithm>
+
+using namespace GameDefine;
 
 Player::Player() :
 	_movementY(0.0f),
@@ -24,19 +28,16 @@ void Player::Init()
 	_modelH = MV1LoadModel("data/Player.mv1");
 	// 安全策
 	assert(_modelH != -1);
-
-	p_Input = std::make_shared<Input>();
 }
 
-void Player::Update(float cameraAngle)
+void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput)
 {
-	p_Input->Update();
 	// コントローラーの入力値の保存先
 	int analogX = 0;
 	int analogZ = 0;
 
-	// スティックの入力検知
-	GetJoypadAnalogInput(&analogX, &analogZ, DX_INPUT_PAD1);
+	analogX = pInput->GetLeftStickX();
+	analogZ = pInput->GetLeftStickY();
 
 	// 移動量に代入
 	_move = VGet(analogX, 0.0f, -analogZ);
@@ -59,30 +60,39 @@ void Player::Update(float cameraAngle)
 	_rotMatrix = MGetRotY(cameraAngle);
 	_movementDirection = VTransform(_move, _rotMatrix);
 
-	_movementY -= 1.0f;
+	// 重力をかける
+	_movementY -= GRAVITY_ACCEL;
 
-	if (p_Input->IsTrigger(PAD_INPUT_A) && _pos.y <= 0.0f)
+	// 地上にいるときに、Aを押すとジャンプ
+	if (pInput->IsTrigger(PAD_INPUT_A) && _pos.y <= 0.0f)
 	{
-		_movementY = 10.0f;
+		_movementY = JUMP_SPEED;
 	}
 
+	// モデルが向く方向を定める
 	if (VSize(_movementDirection) > 0.0f)
 	{
 		_angle = atan2f(_movementDirection.x, _movementDirection.z) + DX_PI_F;
 	}
 
+	// Y軸方向への移動力を決定
 	_movementDirection.y = _movementY;
 
+	// angleのほうを向かせる
 	MV1SetRotationXYZ(_modelH, VGet(0.0f, _angle, 0.0f));
 
 	// 位置を更新
 	_pos = VAdd(_pos, _movementDirection);
 
+	// 地上にいるとき
 	if (_pos.y <= 0.0f)
 	{
 		_movementY = 0.0f;
 		_pos.y = 0.0f;
 	}
+
+	_pos.x = std::clamp(static_cast<int>(_pos.x), -static_cast<int>(GRID_SIZE * GRID_NUM / 2), static_cast<int>(GRID_SIZE * GRID_NUM / 2));
+	_pos.z = std::clamp(static_cast<int>(_pos.z), -static_cast<int>(GRID_SIZE * GRID_NUM / 2), static_cast<int>(GRID_SIZE * GRID_NUM / 2));
 
 	MV1SetPosition(_modelH, _pos);
 }

@@ -5,7 +5,10 @@ Input::Input() :
 	_lastPad(0),
 	_nowPad(0),
 	_rx(0),
-	_ry(0)
+	_ry(0),
+	_lx(0),
+	_ly(0), 
+	_usePadNum()
 {
 
 }
@@ -15,19 +18,20 @@ Input::~Input()
 
 }
 
-void Input::Init()
+void Input::Init(int padNum)
 {
-
+	_usePadNum = padNum;
 }
 
 void Input::Update()
 {
 	// 入力状況の更新
 	_lastPad = _nowPad;
-	_nowPad = GetJoypadInputState(DX_INPUT_PAD1);
+	_nowPad = GetJoypadInputState(_usePadNum);
 
 	// 入力値の取得
-	GetJoypadAnalogInputRight(&_rx, &_ry, DX_INPUT_PAD1);
+	GetJoypadAnalogInputRight(&_rx, &_ry, _usePadNum);
+	GetJoypadAnalogInput(&_lx, &_ly, _usePadNum);
 }
 
 bool Input::IsTrigger(int key)

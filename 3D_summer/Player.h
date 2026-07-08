@@ -12,8 +12,10 @@ public:
 	Player();
 	~Player() override;
 	void Init() override;
-	void Update(float cameraAngle);
+	void Update(float cameraAngle, std::shared_ptr<Input> pInput) override;
 	void Draw() override;
+
+	float GetAngle() const { return _angle; }
 
 private:
 	// Y軸方向の移動
@@ -26,8 +28,7 @@ private:
 	MATRIX _rotMatrix;
 	// モデルの回転行列
 	MATRIX _modelRotMatrix;
-	// インプットクラスの共有ポインタ
-	std::shared_ptr<Input> p_Input;
+	// モデルが向く角度
 	float _angle;
 };
 
