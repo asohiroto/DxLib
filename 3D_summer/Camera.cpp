@@ -29,6 +29,8 @@ void Camera::Init()
 
 void Camera::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Input> pInput)
 {
+	_cameraLerpRate = 0;
+
 	// 注視点
 	VECTOR targetPos = VGet(0.0f, 0.0f, 0.0f);
 
@@ -43,6 +45,11 @@ void Camera::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Input> pInp
 		float playerAngle = pPlayer->GetAngle();
 		VECTOR rowForward = VGet(sinf(playerAngle), 0, cosf(playerAngle));
 
+		if (pInput->GetLeftStickX() != 0 || pInput->GetLeftStickY() != 0)
+		{
+			_cameraLerpRate = 0.03f;
+		}
+
 		// 線形補完用の計算
 		_smoothedForward = VAdd
 		(
@@ -53,8 +60,6 @@ void Camera::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Input> pInp
 		// targetPosに反映
 		targetPos = VAdd(targetPos, VScale(_smoothedForward, CAMERA_TARGET_FORWARD_OFFSET));
 	}
-	// カメラ位置
-	VECTOR cameraPos = targetPos;
 
 	// 入力に応じて水平、垂直方向にカメラの回転角度を決定
 	_cameraYaw += CAMERA_YAW_SPEED * std::clamp(static_cast<float>(pInput->GetRightStickX()), -1.0f, 1.0f);
@@ -63,15 +68,12 @@ void Camera::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Input> pInp
 	// カメラの垂直方向の回転限界
 	_cameraPitch = std::clamp(_cameraPitch, -CAMERA_PITCH_LIMIT, -0.4f);
 
-	// カメラの回転方向を決定
-	float x = cameraPos.x + CAMERA_DISTANCE * cosf(_cameraPitch) * sinf(_cameraYaw);
-	float y = cameraPos.y + CAMERA_DISTANCE * sinf(_cameraPitch);
-	float z = cameraPos.z + CAMERA_DISTANCE * cosf(_cameraPitch) * cosf(_cameraYaw);
+	VECTOR cameraPos = VGet(0.0f, 0.0f, 0.0f);
 
-	// 実際に代入
-	cameraPos.x = x;
-	cameraPos.y = y;
-	cameraPos.z = z;
+	// カメラの回転方向を決定
+	cameraPos.x = targetPos.x + CAMERA_DISTANCE * cosf(_cameraPitch) * sinf(_cameraYaw);
+	cameraPos.y = targetPos.y + CAMERA_DISTANCE * sinf(_cameraPitch);
+	cameraPos.z = targetPos.z + CAMERA_DISTANCE * cosf(_cameraPitch) * cosf(_cameraYaw);
 
 	_cameraPos = cameraPos;
 	_targetPos = targetPos;

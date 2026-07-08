@@ -14,7 +14,7 @@ public:
 	void Init() override;
 	void Update(float cameraAngle, std::shared_ptr<Input> pInput) override;
 	void Draw() override;
-
+	// カメラの角度を取得する
 	float GetAngle() const { return _angle; }
 
 private:
