@@ -29,9 +29,9 @@ void SceneGame::Init()
 	p_InputSub = std::make_shared<Input>();
 	p_InputSub->Init(DX_INPUT_PAD2);
 	p_Player = std::make_shared<Player>();
-	p_Player->Init();
+	p_Player->Init(1);
 	p_PlayerSub = std::make_shared<Player>();
-	p_PlayerSub->Init();
+	p_PlayerSub->Init(2);
 	p_Camera = std::make_shared<Camera>();
 	p_Camera->Init();
 	p_CameraSub = std::make_shared<Camera>();
@@ -57,14 +57,14 @@ void SceneGame::Draw()
 	p_Camera->Draw(1);
 	p_Player->Draw();
 	p_PlayerSub->Draw();
-
+	DrawCircle(WIDTH / 4, HEIGHT / 2, 2, 0xffffff, true);
 	DrawGrid();
 
 	// プレイヤー２用の画面表示処理
 	p_CameraSub->Draw(2);
 	p_Player->Draw();
 	p_PlayerSub->Draw();
-
+	DrawCircle((WIDTH / 4) * 3, HEIGHT / 2, 2, 0xffffff, true);
 	DrawGrid();
 
 

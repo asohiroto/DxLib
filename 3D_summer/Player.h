@@ -4,6 +4,7 @@
 #include<memory>
 
 class Input;
+class PlayerMove;
 
 class Player :
 	public Character
@@ -11,7 +12,7 @@ class Player :
 public:
 	Player();
 	~Player() override;
-	void Init() override;
+	void Init(int Id);
 	void Update(float cameraAngle, std::shared_ptr<Input> pInput) override;
 	void Draw() override;
 	// カメラの角度を取得する
@@ -30,5 +31,7 @@ private:
 	MATRIX _modelRotMatrix;
 	// モデルが向く角度
 	float _angle;
+
+	std::shared_ptr<PlayerMove> p_PlayerMove;
 };
 

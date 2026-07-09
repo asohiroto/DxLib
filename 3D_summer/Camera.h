@@ -17,6 +17,16 @@ public:
 	float GetCameraYaw() const { return _cameraYaw; }
 
 private:
+	/// <summary>
+	/// 球面線形補間をさせる関数
+	/// </summary>
+	/// <param name="p0">出発点（正規化済み）</param>
+	/// <param name="p1">到着点（正規化済み）</param>
+	/// <param name="t">線形補間度</param>
+	/// <returns></returns>
+	VECTOR Slerp(VECTOR p0, VECTOR p1, float t);
+
+private:
 	// 水平方向の角度
 	float _cameraYaw;
 	// 垂直方向の角度
@@ -29,7 +39,16 @@ private:
 	VECTOR _smoothedForward;
 	// カメラの線形補間度
 	float _cameraLerpRate;
-
+	// カメラモードがいずれか
 	bool _changedCameraMode;
+	// 1フレーム目の処理用
+	bool _initialize;
+	// 操作感確認用
+	bool _isTest;
+	// 現在フレームでのカメラの位置からターゲットまでのベクトル
+	VECTOR _nowDir;
+	// Slerp後のベクトル
+	VECTOR _slerpedDir;
+
 };
 
