@@ -42,8 +42,8 @@ void SceneGame::Update()
 {
 	p_Input->Update();
 	p_InputSub->Update();
-	p_Player->Update(p_Camera->GetCameraYaw(), p_Input);
-	p_PlayerSub->Update(p_CameraSub->GetCameraYaw(), p_InputSub);
+	p_Player->Update(p_Camera->GetCameraYaw(), p_Input, p_PlayerSub);
+	p_PlayerSub->Update(p_CameraSub->GetCameraYaw(), p_InputSub, p_Player);
 	p_Camera->Update(p_Player, p_Input);
 	p_CameraSub->Update(p_PlayerSub, p_InputSub);
 }

@@ -37,12 +37,12 @@ namespace GameDefine
 	constexpr int GRID_NUM = 20;
 
 	// プレイヤーの挙動---------------------------------------
-	// 重力加速度
-	constexpr float GRAVITY_ACCEL = 3.0f;
-	// ジャンプ時の初速度
-	constexpr float JUMP_SPEED = 30.0f;
 	// 移動速度
 	constexpr float MOVE_SPEED = 10.0f;
+	// 最大回避距離
+	constexpr float DODGE_DISTANCE = 200.0f;
+	// 回避速度
+	constexpr float DODGE_SPEED = 40.0f;
 
 	// ゲームパッド用の設定-----------------------------------
 	// スティックのデッドゾーン

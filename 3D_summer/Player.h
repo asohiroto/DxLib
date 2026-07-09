@@ -4,7 +4,6 @@
 #include<memory>
 
 class Input;
-class PlayerMove;
 
 class Player :
 	public Character
@@ -13,7 +12,7 @@ public:
 	Player();
 	~Player() override;
 	void Init(int Id);
-	void Update(float cameraAngle, std::shared_ptr<Input> pInput) override;
+	void Update(float cameraAngle, std::shared_ptr<Input> pInput, std::shared_ptr<Player> pOther);
 	void Draw() override;
 	// カメラの角度を取得する
 	float GetAngle() const { return _angle; }
@@ -31,7 +30,13 @@ private:
 	MATRIX _modelRotMatrix;
 	// モデルが向く角度
 	float _angle;
-
-	std::shared_ptr<PlayerMove> p_PlayerMove;
-};
+	// 回避中か
+	bool _isDodge;
+	// 現在の回避量
+	float _dodgeMovement;
+	// 回避秒数（回避距離算出に使用）
+	int _dodgeCount;
+	// 回避の方向
+	VECTOR _dodgeDir;
+}; 
 
