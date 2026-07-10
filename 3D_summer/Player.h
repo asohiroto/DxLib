@@ -45,6 +45,8 @@ private:
 
 	VECTOR _weakCollPos;
 
-	VECTOR _posTemp;
+	VECTOR _moveTemp;
+
+	int idTemp;
 };
 

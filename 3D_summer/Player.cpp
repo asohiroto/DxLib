@@ -31,13 +31,15 @@ void Player::Init(int id)
 	// プレイヤーに応じてモデルを変化
 	if (id == 1)
 	{
-		_modelH = MV1LoadModel("data/PlayerModel.mv1");
+		_modelH = MV1LoadModel("data/gunjin.mv1");
 		_pos = VGet(500.0f, 0.0f, 200.0f);
+		idTemp = id;
 	}
 	else if (id == 2)
 	{
-		_modelH = MV1LoadModel("data/PlayerSubModel.mv1");
+		_modelH = MV1LoadModel("data/gunjin.mv1");
 		_pos = VGet(-500.0f, 0.0f, -200.0f);
+		idTemp = id;
 	}
 
 	MV1SetScale(_modelH, VGet(3.0f, 3.0f, 3.0f));
@@ -78,6 +80,14 @@ void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput, std::share
 
 	// カメラの回転角から行列を作成し、移動方向をカメラ基準に変換
 	_rotMatrix = MGetRotY(cameraAngle);
+	if (idTemp == 1)
+	{
+		DrawFormatString(10, 300, 0xffffff, "%.2f", cameraAngle);
+	}
+	else
+	{
+		DrawFormatString(900, 300, 0xffffff, "%.2f", cameraAngle);
+	}
 	_movementDirection = VTransform(_move, _rotMatrix);
 
 	// 位置を更新
@@ -144,19 +154,23 @@ void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput, std::share
 
 	_attackCount++;
 
-	if (analogX > STICK_DEAD_ZONE || analogZ > STICK_DEAD_ZONE) _posTemp = _movementDirection;
+	if (analogX > STICK_DEAD_ZONE || analogZ > STICK_DEAD_ZONE) _moveTemp = _movementDirection;
 
-	_weakCollPos = VAdd(VAdd(_pos, VScale(_posTemp, 20.0f)), VGet(0.0f, 400.0f, 0.0f));
+	VECTOR aso = VScale(_moveTemp, 20.0f);
+	VECTOR aso2 = VAdd(_pos, aso);
+	VECTOR aso3 = VAdd(aso2, VGet(0.0f, 400.0f, 0.0f));
 
-	if (pInput->IsTrigger(PAD_INPUT_X) && !_isAttacking)
+
+	_weakCollPos = aso3;
+
+	if (pInput->IsPress(PAD_INPUT_X) && !_isAttacking)
 	{
 		_attackCount = 0;
-		printfDx("panti");
 
 		_isAttacking = true;
 	}
 
-	if (_isAttacking && _attackCount >= 60)
+	if (_isAttacking && _attackCount >= 10)
 	{
 		_isAttacking = false;
 	}
@@ -200,4 +214,6 @@ void Player::Draw()
 		DrawSphere3D(_weakCollPos, 100.0f, 24, 0xffffff, 0xffffff, false);
 	}
 
+	VECTOR aso = VScale(_moveTemp, 40.0f);
+	DrawLine3D(_moveTemp, aso, GetColor(255, 255, 255));
 }
