@@ -38,5 +38,13 @@ private:
 	int _dodgeCount;
 	// 回避の方向
 	VECTOR _dodgeDir;
-}; 
+
+	int _attackCount;
+
+	bool _isAttacking = false;
+
+	VECTOR _weakCollPos;
+
+	VECTOR _posTemp;
+};
 

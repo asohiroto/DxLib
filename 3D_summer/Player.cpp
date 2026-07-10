@@ -15,7 +15,8 @@ Player::Player() :
 	_rotMatrix(),
 	_modelRotMatrix(),
 	_angle(0.0f),
-	_isDodge(false)
+	_isDodge(false),
+	_dodgeDir()
 {
 
 }
@@ -117,7 +118,7 @@ void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput, std::share
 		_dodgeMovement = 0.0f;
 		_dodgeCount = 0;
 		// 回避先の設定
-		VECTOR dodgePoint = VScale(_move, DODGE_DISTANCE);
+		VECTOR dodgePoint = VScale(_movementDirection, DODGE_DISTANCE);
 		// 回避方向の設定
 		_dodgeDir = VNorm(VSub(dodgePoint, _pos));
 		_isDodge = true;
@@ -141,7 +142,24 @@ void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput, std::share
 
 	// 攻撃関連の処理-------------------------------------------------------------
 
+	_attackCount++;
 
+	if (analogX > STICK_DEAD_ZONE || analogZ > STICK_DEAD_ZONE) _posTemp = _movementDirection;
+
+	_weakCollPos = VAdd(VAdd(_pos, VScale(_posTemp, 20.0f)), VGet(0.0f, 400.0f, 0.0f));
+
+	if (pInput->IsTrigger(PAD_INPUT_X) && !_isAttacking)
+	{
+		_attackCount = 0;
+		printfDx("panti");
+
+		_isAttacking = true;
+	}
+
+	if (_isAttacking && _attackCount >= 60)
+	{
+		_isAttacking = false;
+	}
 
 
 	//----------------------------------------------------------------------------
@@ -175,4 +193,11 @@ void Player::Draw()
 		0xff0000, 0xff0000,
 		false
 	);
+
+
+	if (_isAttacking && _attackCount < 60)
+	{
+		DrawSphere3D(_weakCollPos, 100.0f, 24, 0xffffff, 0xffffff, false);
+	}
+
 }
