@@ -1,5 +1,8 @@
 ﻿#include "BaseManager.h"
 #include"GameDefine.h"
+#include"RouteSearch.h"
+#include"UIManager.h"
+#include"UnitManager.h"
 #include"AsoDxLib/Mouse.h"
 
 using namespace GameDefine;
@@ -50,7 +53,7 @@ void BaseManager::Update(RouteSearch* rs, UIManager* um, UnitManager* unm)
 		}
 	}
 
-	if (_actionFlag)
+	if (_actionFlag && !um->IsTargetSet())
 	{
 		if (Mouse::IsTrigger(MOUSE_INPUT_LEFT))
 		{
@@ -68,7 +71,7 @@ void BaseManager::Update(RouteSearch* rs, UIManager* um, UnitManager* unm)
 			}
 			else if (_mousePosX >= ACTION_X && _mousePosY >= ACTION_Y + (2 * ACTION_HEIGHT / 3) && _mousePosX <= ACTION_X + ACTION_WIDTH && _mousePosY <= ACTION_Y + (3 * ACTION_HEIGHT / 3))
 			{
-				_unitTemp.push_back(SpawnUnit(UnitType::Engineer, rs));
+				_unitTemp.push_back(SpawnUnit(UnitType::Scout, rs));
 				unm->_unitList.push_back(_unitTemp.back());
 				_actionFlag = false;
 			}
@@ -80,9 +83,9 @@ void BaseManager::Update(RouteSearch* rs, UIManager* um, UnitManager* unm)
 	}
 }
 
-void BaseManager::Draw()
+void BaseManager::Draw(UIManager* um)
 {
-	if (_actionFlag)
+	if (_actionFlag && !um->IsTargetSet())
 	{
 		// ベース部分の描画
 		DrawBox(ACTION_X, ACTION_Y, ACTION_X + ACTION_WIDTH, ACTION_Y + ACTION_HEIGHT, color::WhiteColor, true);
@@ -94,7 +97,7 @@ void BaseManager::Draw()
 		DrawString(ACTION_X + 30, ACTION_Y + (ACTION_HEIGHT / 3) + 20, "Produce Archer", color::BlackColor);
 		// 工兵の生産用ボタンの描画
 		DrawBox(ACTION_X, ACTION_Y + (2 * ACTION_HEIGHT / 3), ACTION_X + ACTION_WIDTH, ACTION_Y + (3 * ACTION_HEIGHT / 3), color::BlackColor, false);
-		DrawString(ACTION_X + 30, ACTION_Y + (2 * ACTION_HEIGHT / 3) + 20, "Produce Engineer", color::BlackColor);
+		DrawString(ACTION_X + 30, ACTION_Y + (2 * ACTION_HEIGHT / 3) + 20, "Produce Scout", color::BlackColor);
 	}
 
 	for (auto unit : _unitTemp)
@@ -140,7 +143,6 @@ void BaseManager::ChangeStatusByType(UnitType unit, _unitBase::UnitData& data)
 		data.attackRange = 1;
 		data.stamina = 10;
 		data.maxStamina = data.stamina;
-		data.canBuilding = false;
 		return;
 
 	case UnitType::Archer:
@@ -150,17 +152,15 @@ void BaseManager::ChangeStatusByType(UnitType unit, _unitBase::UnitData& data)
 		data.attackRange = 2;
 		data.stamina = 12;
 		data.maxStamina = data.stamina;
-		data.canBuilding = false;
 		return;
 
-	case UnitType::Engineer:
-		data.typeName = "Engineer";
+	case UnitType::Scout:
+		data.typeName = "Scout";
 		data.hp = 30;
 		data.attack = 5;
 		data.attackRange = 1;
-		data.stamina = 7;
+		data.stamina = 20;
 		data.maxStamina = data.stamina;
-		data.canBuilding = true;
 		return;
 
 	default:
@@ -181,8 +181,8 @@ void BaseManager::DrawType(_unitBase::UnitData* data, int color)
 	case UnitType::Archer:
 		typeInit = "弓";
 		break;
-	case UnitType::Engineer:
-		typeInit = "工";
+	case UnitType::Scout:
+		typeInit = "斥";
 		break;
 	default:
 		typeInit = "?";

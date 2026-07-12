@@ -4,5 +4,5 @@ enum class UnitType
 {
 	Soldier,
 	Archer,
-	Engineer
+	Scout
 };

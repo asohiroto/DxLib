@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include"_unitBase.h"
-#include"RouteSearch.h"
+
+class RouteSearch;
 
 class EnemyUnit : public _unitBase
 {

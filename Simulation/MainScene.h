@@ -1,11 +1,12 @@
 ﻿#pragma once
 #include"SceneBase.h"
-#include"Map.h"
-#include"RouteSearch.h"
-#include"UnitManager.h";
-#include"TurnManager.h"
-#include"UIManager.h"
-#include"Basemanager.h"
+
+class RouteSearch;
+class Map;
+class UnitManager;
+class TurnManager;
+class UIManager;
+class BaseManager;
 
 class MainScene : public SceneBase
 {

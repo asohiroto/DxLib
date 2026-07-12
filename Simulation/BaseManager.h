@@ -1,8 +1,10 @@
 ﻿#pragma once
-#include"RouteSearch.h"
-#include"UIManager.h"
-#include"UnitManager.h"
 #include"GameDefine.h"
+#include"_unitBase.h"
+
+class RouteSearch;
+class UIManager;
+class UnitManager;
 
 class BaseManager
 {
@@ -11,7 +13,7 @@ public:
 	~BaseManager();
 	void Init();
 	void Update(RouteSearch* rs, UIManager* um, UnitManager* unm);
-	void Draw();
+	void Draw(UIManager* um);
 public:
 
 private:

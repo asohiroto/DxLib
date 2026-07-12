@@ -1,14 +1,13 @@
 ﻿#pragma once
 #include"AsoDxLib/Vec2.h"
-#include"_unitBase.h"
-#include"PlayerUnit.h"
-#include"EnemyUnit.h"
-#include"RouteSearch.h"
-#include"TurnManager.h"
-#include"UnitManager.h"
 #include<string>
+#include"_unitBase.h"
 
-
+class PlayerUnit;
+class EnemyUnit;
+class RouteSearch;
+class TurnManager;
+class UnitManager;
 
 class UIManager
 {
@@ -20,6 +19,8 @@ public:
 	void Draw(RouteSearch* rs);
 	// クリック位置のピクセル座標をノード座標に変換する関数
 	Vec2 ChangePixelToIndex(Vec2 mousePos);
+	// ターゲットセット状態のゲッター
+	bool IsTargetSet() { return _targetSet; }
 
 private:
 	// クリック位置からユニットデータを取得する関数

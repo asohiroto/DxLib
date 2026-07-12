@@ -1,4 +1,9 @@
 ﻿#include"MainScene.h"
+#include"RouteSearch.h"
+#include"UnitManager.h";
+#include"TurnManager.h"
+#include"UIManager.h"
+#include"Basemanager.h"
 #include"Map.h"
 
 MainScene::MainScene(SceneManager& _sceneManager) :
@@ -62,5 +67,5 @@ void MainScene::Draw()
 	p_RouteSearch->Draw();
 	p_UIManager->Draw(p_RouteSearch);
 	p_UnitManager->Draw(p_TurnManager);
-	p_BaseManager->Draw();
+	p_BaseManager->Draw(p_UIManager);
 }

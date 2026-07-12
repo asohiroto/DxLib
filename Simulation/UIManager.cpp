@@ -2,6 +2,11 @@
 #include"GameDefine.h"
 #include"AsoDxLib/Mouse.h"
 #include"AsoDxLib/Color.h"
+#include"PlayerUnit.h"
+#include"EnemyUnit.h"
+#include"RouteSearch.h"
+#include"TurnManager.h"
+#include"UnitManager.h"
 #include<string>
 
 using namespace GameDefine;

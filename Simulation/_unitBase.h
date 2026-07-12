@@ -36,8 +36,6 @@ public:
 		int color = 0;
 		// 行動間隔カウンタ
 		int moveTimer = 0;
-		// 建築可能か
-		bool canBuilding = false;
 		// 敵か味方か
 		bool isEnemy = false;
 		// 攻撃済みか
@@ -79,7 +77,6 @@ public:
 			data.attackRange = 1;
 			data.stamina = 10;
 			data.maxStamina = data.stamina;
-			data.canBuilding = false;
 			return;
 
 		case UnitType::Archer:
@@ -89,17 +86,15 @@ public:
 			data.attackRange = 2;
 			data.stamina = 12;
 			data.maxStamina = data.stamina;
-			data.canBuilding = false;
 			return;
 
-		case UnitType::Engineer:
-			data.typeName = "Engineer";
+		case UnitType::Scout:
+			data.typeName = "Scout";
 			data.hp = 30;
 			data.attack = 5;
 			data.attackRange = 1;
-			data.stamina = 7;
+			data.stamina = 20;
 			data.maxStamina = data.stamina;
-			data.canBuilding = true;
 			return;
 
 		default:
@@ -121,8 +116,8 @@ public:
 		case UnitType::Archer:
 			typeInit = "弓";
 			break;
-		case UnitType::Engineer:
-			typeInit = "工";
+		case UnitType::Scout:
+			typeInit = "斥";
 			break;
 		default:
 			typeInit = "?";

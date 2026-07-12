@@ -2,6 +2,7 @@
 #include"_unitBase.h"
 #include"DxLib.h"
 #include"AsoDxLib/color.h"
+#include"RouteSearch.h"
 
 using namespace GameDefine;
 
