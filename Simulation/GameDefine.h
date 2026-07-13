@@ -3,12 +3,12 @@
 // 地形情報
 enum class TileType
 {
-	Plain		= 0,
-	MyBase		= 1,
-	River		= 2,
-	Forest		= 3,
-	EnemyBase	= 4,
-	Mountain	= 5
+	Plain = 0,
+	MyBase = 1,
+	River = 2,
+	Forest = 3,
+	EnemyBase = 4,
+	Mountain = 5
 };
 
 namespace GameDefine
@@ -20,7 +20,7 @@ namespace GameDefine
 	constexpr int HEIGHT = 900;
 	// ビット深度
 	constexpr int DEPTH = 32;
-	
+
 	// マップ関係--------------------------------------------
 	// ノードの列の最大数
 	constexpr int NODE_HEIGHT = 36;
@@ -74,4 +74,6 @@ namespace GameDefine
 	// ユニット関係-----------------------------------------
 	// 行動間隔
 	constexpr int MOVE_SPAN = 10;
+	// ユニット生成間隔
+	constexpr int SPAWN_SPAN = 4;
 }

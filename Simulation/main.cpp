@@ -26,6 +26,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	p_SceneManager->Init();
 
 	SetDrawScreen(DX_SCREEN_BACK); // 裏画面に描画
+	ChangeFont("Malgun Gothic");
 
 	while (ProcessMessage() == 0)
 	{

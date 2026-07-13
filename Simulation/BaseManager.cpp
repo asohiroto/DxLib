@@ -4,6 +4,7 @@
 #include"UIManager.h"
 #include"UnitManager.h"
 #include"AsoDxLib/Mouse.h"
+#include"TurnManager.h"
 
 using namespace GameDefine;
 
@@ -30,9 +31,31 @@ void BaseManager::Init()
 
 }
 
-void BaseManager::Update(RouteSearch* rs, UIManager* um, UnitManager* unm)
+void BaseManager::Update(RouteSearch* rs, UIManager* um, UnitManager* unm, TurnManager* tm)
 {
 	GetMousePoint(&_mousePosX, &_mousePosY);
+
+	if (tm->GetNowTurn() == TurnManager::TurnState::PlayerSelectTurn)
+	{
+		if (_isEneSpawn)
+		{
+			_isEneSpawn = false;
+		}
+
+		if (!_isCounted)
+		{
+			_reSpawnCount++;
+			_isCounted = true;
+		}
+	}
+
+	if (tm->GetNowTurn() == TurnManager::TurnState::SelectResultTurn)
+	{
+		if (_isCounted)
+		{
+			_isCounted = false;
+		}
+	}
 
 	for (auto unit : _unitTemp)
 	{
@@ -46,7 +69,7 @@ void BaseManager::Update(RouteSearch* rs, UIManager* um, UnitManager* unm)
 			Vec2 _mouseNodePos = um->ChangePixelToIndex(Vec2(_mousePosX, _mousePosY));
 			_tileTemp = rs->GetNodeData(_mouseNodePos.x, _mouseNodePos.y);
 
-			if (_tileTemp == TileType::MyBase)
+			if (_tileTemp == TileType::MyBase && _reSpawnCount >= SPAWN_SPAN)
 			{
 				_actionFlag = true;
 			}
@@ -62,24 +85,42 @@ void BaseManager::Update(RouteSearch* rs, UIManager* um, UnitManager* unm)
 				_unitTemp.push_back(SpawnUnit(UnitType::Soldier, rs));
 				unm->_unitList.push_back(_unitTemp.back());
 				_actionFlag = false;
+				_reSpawnCount = 0;
 			}
 			else if (_mousePosX >= ACTION_X && _mousePosY >= ACTION_Y + (ACTION_HEIGHT / 3) && _mousePosX <= ACTION_X + ACTION_WIDTH && _mousePosY <= ACTION_Y + (2 * ACTION_HEIGHT / 3))
 			{
 				_unitTemp.push_back(SpawnUnit(UnitType::Archer, rs));
 				unm->_unitList.push_back(_unitTemp.back());
 				_actionFlag = false;
+				_reSpawnCount = 0;
 			}
 			else if (_mousePosX >= ACTION_X && _mousePosY >= ACTION_Y + (2 * ACTION_HEIGHT / 3) && _mousePosX <= ACTION_X + ACTION_WIDTH && _mousePosY <= ACTION_Y + (3 * ACTION_HEIGHT / 3))
 			{
 				_unitTemp.push_back(SpawnUnit(UnitType::Scout, rs));
 				unm->_unitList.push_back(_unitTemp.back());
 				_actionFlag = false;
+				_reSpawnCount = 0;
 			}
 		}
 		else if (Mouse::IsTrigger(MOUSE_INPUT_RIGHT))
 		{
 			_actionFlag = false;
 		}
+	}
+
+	if (tm->GetTurnCount() % 3 == 0 && !_isEneSpawn && tm->GetNowTurn() == TurnManager::TurnState::EnemyTurn)
+	{
+		int unitType = GetRand(2);
+
+		if (unitType == 0)
+			_unitTemp.push_back(SpawnEnemyUnit(UnitType::Soldier, rs));
+		else if (unitType == 1)
+			_unitTemp.push_back(SpawnEnemyUnit(UnitType::Archer, rs));
+		else if (unitType == 2)
+			_unitTemp.push_back(SpawnEnemyUnit(UnitType::Scout, rs));
+
+		unm->_unitList.push_back(_unitTemp.back());
+		_isEneSpawn = true;
 	}
 }
 
@@ -104,9 +145,15 @@ void BaseManager::Draw(UIManager* um)
 	{
 		if (unit->state != UnitState::Dead)
 		{
-			DrawType(unit, color::BlackColor);
+			if (!unit->isEnemy)
+				DrawType(unit, color::BlackColor);
+			else if (unit->isEnemy)
+				DrawType(unit, color::WhiteColor);
+
 		}
 	}
+
+	DrawFormatString(MAP_WIDTH, 700, 0xfffff, "%d", _reSpawnCount);
 }
 
 _unitBase::UnitData* BaseManager::SpawnUnit(UnitType unit, RouteSearch* rs)
@@ -125,6 +172,29 @@ _unitBase::UnitData* BaseManager::SpawnUnit(UnitType unit, RouteSearch* rs)
 	unitTemp->color = color::YellowColor;
 	unitTemp->moveTimer = 0;
 	unitTemp->isEnemy = false;
+	unitTemp->moveRoute = rs->GetRouteList(posInd, unitTemp->destPos);
+	unitTemp->routeIndex = 0;
+	unitTemp->state = UnitState::Move;
+
+	return unitTemp;
+}
+
+_unitBase::UnitData* BaseManager::SpawnEnemyUnit(UnitType unit, RouteSearch* rs)
+{
+	_unitBase::UnitData* unitTemp = new _unitBase::UnitData;
+
+	Vec2 posInd = Vec2(ENEMY_BASE_X, ENEMY_BASE_Y);
+
+	unitTemp->destPos = Vec2(MY_BASE_X, MY_BASE_Y);
+	rs->RouteSearchAstar(posInd, rs->_moveCount, unitTemp->destPos);
+
+	unitTemp->name = "敵軍追加部隊";
+	unitTemp->pos = posInd;
+	unitTemp->type = unit;
+	ChangeStatusByType(unit, *unitTemp);
+	unitTemp->color = color::RedColor;
+	unitTemp->moveTimer = 0;
+	unitTemp->isEnemy = true;
 	unitTemp->moveRoute = rs->GetRouteList(posInd, unitTemp->destPos);
 	unitTemp->routeIndex = 0;
 	unitTemp->state = UnitState::Move;

@@ -21,7 +21,9 @@ public:
 	// ターンを変更する関数
 	void TurnChange();
 	// 現在のターンを取得するゲッター
-	TurnState GetNowTurn() const {return _nowTurn ; }
+	TurnState GetNowTurn() const { return _nowTurn; }
+	// 現在のターン数を取得するゲッター
+	int GetTurnCount() const { return _turnCount; }
 
 public:
 	// 現在のターン数

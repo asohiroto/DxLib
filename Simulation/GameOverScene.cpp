@@ -48,6 +48,6 @@ void GameOverScene::Draw()
 {
 	DrawBox(WIDTH / 2 - 150, HEIGHT / 2 - 20, WIDTH / 2 + 150, HEIGHT / 2 + 20, 0xffffff, true);
 	DrawFormatString(WIDTH / 2 - 150 + 80, HEIGHT / 2 - 10, 0x000000, "Back To Start");
-	DrawFormatString(WIDTH / 2 - 150 + 80, HEIGHT / 2 - 10 - 50, 0xffffff, "Game Clear!!");
+	DrawFormatString(WIDTH / 2 - 150 + 80, HEIGHT / 2 - 10 - 50, 0xffffff, "Game Over...");
 
 }

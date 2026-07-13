@@ -57,7 +57,7 @@ void MainScene::Update()
 	p_UnitManager->Update(p_RouteSearch, p_TurnManager, _sceneManager);
 	p_TurnManager->Update();
 	p_UIManager->Update(p_UnitManager->GetPlayerPointer(), p_UnitManager->GetEnemyPointer(), p_RouteSearch, p_TurnManager, p_UnitManager);
-	p_BaseManager->Update(p_RouteSearch, p_UIManager, p_UnitManager);
+	p_BaseManager->Update(p_RouteSearch, p_UIManager, p_UnitManager, p_TurnManager);
 }
 
 void MainScene::Draw()
