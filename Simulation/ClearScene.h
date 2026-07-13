@@ -13,5 +13,6 @@ public:
 
 private:
 	int _mousePosX, _mousePosY;
+	int _bgH;
 };
 

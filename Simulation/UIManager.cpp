@@ -125,8 +125,6 @@ void UIManager::Update(PlayerUnit* pu, EnemyUnit* eu, RouteSearch* rs, TurnManag
 
 void UIManager::Draw(RouteSearch* rs)
 {
-	DrawFormatString(0, (NODE_HEIGHT + 1) * NODE_SIZE, color::WhiteColor, "%d,  %d", _mousePosX, _mousePosY);
-	DrawFormatString(0, (NODE_HEIGHT + 2) * NODE_SIZE, color::WhiteColor, "%f,  %f", _nodeIndex.x, _nodeIndex.y);
 	DrawUnitData(_unit);
 
 	if (_targetSet && _unitTemp != nullptr)

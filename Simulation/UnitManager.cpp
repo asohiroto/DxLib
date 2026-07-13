@@ -68,6 +68,16 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm, SceneManager& sm)
 	p_PlayerUnit->Update();
 	p_EnemyUnit->Update();
 
+	if (CheckHitKey(KEY_INPUT_SPACE))
+	{
+		sm.ChangeScene(std::make_shared<ClearScene>(sm));
+	}
+
+	if (CheckHitKey(KEY_INPUT_RETURN))
+	{
+		sm.ChangeScene(std::make_shared<GameOverScene>(sm));
+	}
+
 	switch (tm->GetNowTurn())
 	{
 	case TurnManager::TurnState::PlayerSelectTurn:
@@ -235,8 +245,10 @@ void UnitManager::Draw(TurnManager* tm)
 			DrawRectGraph((unit->pos.x) * NODE_SIZE, (unit->pos.y) * NODE_SIZE, x, y, 20, 20, _unitsH, true);
 
 		}
-		DrawFormatString(0, row, 0xffffff, "%d", unit->stamina);
-		row += 20;
+
+		//DrawFormatString(0, row, 0xffffff, "%d", unit->stamina);
+		//row += 20;
+
 	}
 
 	p_PlayerUnit->Draw();

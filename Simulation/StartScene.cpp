@@ -81,16 +81,21 @@ void StartScene::Draw()
 
 	int x = (int)_scrollX;
 
+	SetFontSize(250);
+	DrawFormatString(20, 20, color::DarkGrayColor, "- 攻めろ！-");
+	SetFontSize(100);
+	DrawFormatString(WIDTH / 2 - 70 + 5, HEIGHT / 2 + 200 + 5 + _ctsY1, color::BlackColor, "Click To Start →");
+	SetFontSize(20);
+
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 125);
 	DrawGraph(x, 0, _cloudH, true);
 	DrawGraph(x + _cloudWid, 0, _cloudH, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 
 	SetFontSize(100);
-	DrawFormatString(WIDTH / 2 - 70 + 5, HEIGHT / 2 + 200 + 5 + _ctsY1, color::BlackColor, "Click To Start");
-	DrawFormatString(WIDTH / 2 - 70, HEIGHT / 2 + 200 + _ctsY2, color::YellowColor, "Click To Start");
+	DrawFormatString(WIDTH / 2 - 70, HEIGHT / 2 + 200 + _ctsY2, color::YellowColor, "Click To Start →");
+
 	SetFontSize(250);
-	DrawFormatString(20, 20, color::BlackColor, "- 攻めろ！-");
 	DrawFormatString(30, 30, color::RedColor, "- 攻めろ！-");
 	SetFontSize(20);
 }
