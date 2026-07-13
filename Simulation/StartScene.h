@@ -15,4 +15,11 @@ public:
 
 private:
 	int _mousePosX, _mousePosY;
+	int _bgH;
+	int _fadeInAlpha;
+	int _startCount;
+	int _ctsY1, _ctsY2;
+	int _cloudH;
+	int _cloudWid;
+	int _scrollX;
 };

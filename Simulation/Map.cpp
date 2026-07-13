@@ -10,7 +10,7 @@ using namespace GameDefine;
 Map::Map() :
 	_mapHandle(0)
 {
-	_mapHandle = LoadGraph("Data/matome.bmp");
+	_mapHandle = LoadGraph("Data/マップ素材.png");
 
 	LoadMapData();
 }
@@ -79,18 +79,18 @@ void Map::DrawMapChip()
 			// チップ番号から描画する画像の座標を計算
 			Vec2 src;
 			src.x = NODE_SIZE * (chipNo % 6);
-			src.y = NODE_SIZE * (chipNo / 6);
+			src.y = 0;
 
 			// 画像を描画
 			DrawRectRotaGraph(
-				static_cast<int>(pos.x + NODE_SIZE * 0.5f),static_cast<int>(pos.y + NODE_SIZE * 0.5f),
-				src.x, src.y,NODE_SIZE, NODE_SIZE,
+				static_cast<int>(pos.x + NODE_SIZE * 0.5f), static_cast<int>(pos.y + NODE_SIZE * 0.5f),
+				src.x, src.y, NODE_SIZE, NODE_SIZE,
 				1.0f, 0.0f,
 				_mapHandle, true
 			);
 
-			DrawLine(x * NODE_SIZE, 0, x * NODE_SIZE, HEIGHT, 0x000000, true);
-			DrawLine(0, y * NODE_SIZE, WIDTH, y * NODE_SIZE, 0x000000, true);
+			DrawLine(x * NODE_SIZE, 0, x * NODE_SIZE, (y + 1) * NODE_SIZE, 0x000000, true);
+			DrawLine(0, y * NODE_SIZE, (x + 1) * NODE_SIZE, y * NODE_SIZE, 0x000000, true);
 		}
 	}
 }

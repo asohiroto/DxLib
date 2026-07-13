@@ -64,10 +64,6 @@ void RouteSearch::Draw()
 {
 	int goalPosX = ENEMY_BASE_X * NODE_SIZE;
 	int goalPosY = ENEMY_BASE_Y * NODE_SIZE;
-
-	// ゴールの描画
-	DrawBox(goalPosX, goalPosY, goalPosX + NODE_SIZE, goalPosY + NODE_SIZE, color::RedColor, true);
-
 }
 
 void RouteSearch::RouteSearchAstar(Vec2 startPos, int startCount, Vec2 goal)

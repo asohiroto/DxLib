@@ -89,10 +89,10 @@ void PlayerUnit::Update()
 
 void PlayerUnit::Draw()
 {
-	if (_mainUnit.state != UnitState::Dead)
-		DrawType(_mainUnit, color::BlackColor);
-	if (_subUnit.state != UnitState::Dead)
-		DrawType(_subUnit, color::BlackColor);
+	//if (_mainUnit.state != UnitState::Dead)
+	//	DrawType(_mainUnit, color::BlackColor);
+	//if (_subUnit.state != UnitState::Dead)
+	//	DrawType(_subUnit, color::BlackColor);
 }
 
 

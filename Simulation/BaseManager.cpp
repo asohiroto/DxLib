@@ -141,7 +141,7 @@ void BaseManager::Draw(UIManager* um)
 		DrawString(ACTION_X + 30, ACTION_Y + (2 * ACTION_HEIGHT / 3) + 20, "Produce Scout", color::BlackColor);
 	}
 
-	for (auto unit : _unitTemp)
+	/*for (auto unit : _unitTemp)
 	{
 		if (unit->state != UnitState::Dead)
 		{
@@ -151,7 +151,7 @@ void BaseManager::Draw(UIManager* um)
 				DrawType(unit, color::WhiteColor);
 
 		}
-	}
+	}*/
 
 	DrawFormatString(MAP_WIDTH, 700, 0xfffff, "%d", _reSpawnCount);
 }
@@ -239,25 +239,25 @@ void BaseManager::ChangeStatusByType(UnitType unit, _unitBase::UnitData& data)
 	}
 }
 
-void BaseManager::DrawType(_unitBase::UnitData* data, int color)
-{
-	std::string typeInit;
-
-	switch (data->type)
-	{
-	case UnitType::Soldier:
-		typeInit = "歩";
-		break;
-	case UnitType::Archer:
-		typeInit = "弓";
-		break;
-	case UnitType::Scout:
-		typeInit = "斥";
-		break;
-	default:
-		typeInit = "?";
-		break;
-	}
-
-	DrawString(data->pos.x * NODE_SIZE, data->pos.y * NODE_SIZE, typeInit.c_str(), color);
-}
+//void BaseManager::DrawType(_unitBase::UnitData* data, int color)
+//{
+//	std::string typeInit;
+//
+//	switch (data->type)
+//	{
+//	case UnitType::Soldier:
+//		typeInit = "歩";
+//		break;
+//	case UnitType::Archer:
+//		typeInit = "弓";
+//		break;
+//	case UnitType::Scout:
+//		typeInit = "斥";
+//		break;
+//	default:
+//		typeInit = "?";
+//		break;
+//	}
+//
+//	DrawString(data->pos.x * NODE_SIZE, data->pos.y * NODE_SIZE, typeInit.c_str(), color);
+//}

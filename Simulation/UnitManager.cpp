@@ -20,7 +20,8 @@ UnitManager::UnitManager() :
 	_finishCount(0),
 	_occupiedMap(true),
 	_playerCount(0),
-	_enemyCount(0)
+	_enemyCount(0),
+	_unitsH(-1)
 {
 
 }
@@ -30,10 +31,13 @@ UnitManager::~UnitManager()
 	delete p_PlayerUnit;
 	delete p_EnemyUnit;
 	delete p_SceneBase;
+	DeleteGraph(_unitsH);
 }
 
 void UnitManager::Init(RouteSearch* rs, SceneManager& _sceneManager)
 {
+	_unitsH = LoadGraph("data/ユニット.png");
+
 	p_PlayerUnit = new PlayerUnit;
 	p_EnemyUnit = new EnemyUnit;
 	p_SceneBase = new SceneBase(_sceneManager);
@@ -222,7 +226,15 @@ void UnitManager::Draw(TurnManager* tm)
 	for (auto& unit : _unitList)
 	{
 		if (unit->state != UnitState::Dead)
-			DrawBox((unit->pos.x) * NODE_SIZE, (unit->pos.y) * NODE_SIZE, (unit->pos.x + 1) * NODE_SIZE, (unit->pos.y + 1) * NODE_SIZE, unit->color, true);
+		{
+			int num = GetUnitNum(unit);
+
+			int x = 20 * num;
+			int y = 0;
+
+			DrawRectGraph((unit->pos.x) * NODE_SIZE, (unit->pos.y) * NODE_SIZE, x, y, 20, 20, _unitsH, true);
+
+		}
 		DrawFormatString(0, row, 0xffffff, "%d", unit->stamina);
 		row += 20;
 	}
@@ -476,5 +488,26 @@ void UnitManager::SetMoveByState(_unitBase::UnitData& data, int& timer, RouteSea
 
 	default:
 		break;
+	}
+}
+
+int UnitManager::GetUnitNum(_unitBase::UnitData* unit)
+{
+	switch (unit->type)
+	{
+	case UnitType::Soldier:
+		if (unit->isEnemy) return 0;
+		else if (!unit->isEnemy) return 3;
+
+	case UnitType::Archer:
+		if (unit->isEnemy) return 1;
+		else if (!unit->isEnemy) return 4;
+
+	case UnitType::Scout:
+		if (unit->isEnemy) return 2;
+		else if (!unit->isEnemy) return 5;
+
+	default:
+		return -1;
 	}
 }

@@ -13,7 +13,8 @@ MainScene::MainScene(SceneManager& _sceneManager) :
 	p_UnitManager(nullptr),
 	p_TurnManager(nullptr),
 	p_UIManager(nullptr),
-	p_BaseManager(nullptr)
+	p_BaseManager(nullptr),
+	_bgH(-1)
 {
 
 }
@@ -30,6 +31,8 @@ MainScene::~MainScene()
 
 void MainScene::Init()
 {
+	_bgH = LoadGraph("data/MainBg.jpg");
+
 	p_Map = new Map;
 	p_RouteSearch = new RouteSearch;
 	p_UnitManager = new UnitManager;
@@ -47,7 +50,7 @@ void MainScene::Init()
 
 void MainScene::End()
 {
-
+	DeleteGraph(_bgH);
 }
 
 void MainScene::Update()
@@ -62,10 +65,13 @@ void MainScene::Update()
 
 void MainScene::Draw()
 {
+	DrawGraph(0, 0, _bgH, false);
+
 	p_Map->Draw();
 	p_TurnManager->Draw();
 	p_RouteSearch->Draw();
 	p_UIManager->Draw(p_RouteSearch);
 	p_UnitManager->Draw(p_TurnManager);
 	p_BaseManager->Draw(p_UIManager);
+
 }

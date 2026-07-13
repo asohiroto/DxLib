@@ -37,6 +37,8 @@ public:
 	// エネミーユニットクラスのゲッター
 	EnemyUnit* GetEnemyPointer() { return p_EnemyUnit; }
 
+	int GetUnitNum(_unitBase::UnitData* unit);
+
 public:
 	// 全ユニットを管理する可変長リスト
 	std::vector<_unitBase::UnitData*> _unitList;
@@ -64,4 +66,6 @@ private:
 	int _myBaseAttack, _enemyBaseAttack;
 	// 次に移動するグリッド
 	Vec2 _nextPos;
+
+	int _unitsH;
 };

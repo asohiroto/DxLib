@@ -86,9 +86,9 @@ void EnemyUnit::Update()
 
 void EnemyUnit::Draw()
 {
-	if (_mainUnit.state != UnitState::Dead)
-		DrawType(_mainUnit, color::WhiteColor);
-	if (_subUnit.state != UnitState::Dead)
-		DrawType(_subUnit, color::WhiteColor);
+	//if (_mainUnit.state != UnitState::Dead)
+	//	DrawType(_mainUnit, color::WhiteColor);
+	//if (_subUnit.state != UnitState::Dead)
+	//	DrawType(_subUnit, color::WhiteColor);
 }
 

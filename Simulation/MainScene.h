@@ -25,4 +25,6 @@ private:
 	TurnManager* p_TurnManager;
 	UIManager* p_UIManager;
 	BaseManager* p_BaseManager;
+
+	int _bgH;
 };
