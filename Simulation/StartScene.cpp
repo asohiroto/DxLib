@@ -21,7 +21,9 @@ StartScene::StartScene(SceneManager& _sceneManager) :
 	_ctsY2(0),
 	_cloudH(-1),
 	_cloudWid(0),
-	_scrollX(0)
+	_scrollX(0),
+	_logoH(-1),
+	_logoSH(-1)
 {
 
 }
@@ -36,6 +38,8 @@ void StartScene::Init()
 {
 	_bgH = LoadGraph("data/タイトル.png");
 	_cloudH = LoadGraph("data/Cloud2.png");
+	_logoH = LoadGraph("data/ロゴ.png");
+	_logoSH = LoadGraph("data/ロゴ影.png");
 	_cloudWid = 1613;
 	_scrollX = 0;
 }
@@ -82,23 +86,17 @@ void StartScene::Draw()
 
 	int x = (int)_scrollX;
 
-	SetFontSize(250);
-	DrawFormatString(20, 20, color::DarkGrayColor, "- 攻めろ！-");
-	SetFontSize(100);
-	DrawFormatString(WIDTH / 2 - 70 + 5, HEIGHT / 2 + 200 + 5 + _ctsY1, color::BlackColor, "Click To Start →");
-	SetFontSize(20);
+	DrawGraph(30, 20, _logoSH, true);
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 160);
 	DrawGraph(x, 0, _cloudH, true);
 	DrawGraph(x + _cloudWid, 0, _cloudH, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 
+	DrawGraph(20, 10, _logoH, true);
+
 	SetFontSize(100);
 	DrawFormatString(WIDTH / 2 - 70, HEIGHT / 2 + 200 + _ctsY2, color::YellowColor, "Click To Start →");
-
-	SetFontSize(250);
-	DrawFormatString(30, 30, color::CyanColor, "- 攻めろ！-");
-	SetFontSize(20);
 
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 

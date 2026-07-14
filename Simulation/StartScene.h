@@ -22,4 +22,6 @@ private:
 	int _cloudH;
 	int _cloudWid;
 	int _scrollX;
+	int _logoH;
+	int _logoSH;
 };
