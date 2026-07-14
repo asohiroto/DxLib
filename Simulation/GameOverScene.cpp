@@ -13,7 +13,10 @@ GameOverScene::GameOverScene(SceneManager& _sceneManager) :
 	SceneBase(_sceneManager),
 	_mousePosX(0),
 	_mousePosY(0),
-	_bgH(-1)
+	_bgH(-1),
+	_count(0),
+	_over1Y(0),
+	_over2Y(0)
 {
 
 }
@@ -35,15 +38,18 @@ void GameOverScene::End()
 
 void GameOverScene::Update()
 {
+	_count++;
+
+	_over1Y = (int)(sin(_count * 0.1) * 5);
+	_over2Y = (int)(sin((_count * 0.1) + 0.2) * 5);
+
 	GetMousePoint(&_mousePosX, &_mousePosY);
 
 	if (Mouse::IsTrigger(MOUSE_INPUT_LEFT))
 	{
-		if (_mousePosX >= WIDTH / 2 - 150 && _mousePosY >= HEIGHT / 2 - 20 && _mousePosX <= WIDTH / 2 + 150 && _mousePosY <= HEIGHT / 2 + 20)
-		{
-			_sceneManager.ChangeScene(std::make_shared<StartScene>(_sceneManager));
-		}
+		_sceneManager.ChangeScene(std::make_shared<StartScene>(_sceneManager));
 	}
+
 }
 
 void GameOverScene::Draw()
@@ -51,8 +57,8 @@ void GameOverScene::Draw()
 	DrawGraph(0, 0, _bgH, true);
 
 	SetFontSize(250);
-	DrawFormatString(30, 30, color::BlackColor, "Game Over...");
-	DrawFormatString(20, 20, color::DarkRedColor, "Game Over...");
+	DrawFormatString(30, 30 + _over1Y, color::BlackColor, "Game Over...");
+	DrawFormatString(20, 20 + _over2Y, color::DarkRedColor, "Game Over...");
 
 	SetFontSize(80);
 	DrawFormatString(WIDTH / 2 - 70, HEIGHT / 2 - 10, color::DarkGrayColor, "Click to Restart...?");

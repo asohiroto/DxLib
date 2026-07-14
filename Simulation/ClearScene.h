@@ -14,5 +14,8 @@ public:
 private:
 	int _mousePosX, _mousePosY;
 	int _bgH;
+	int _count;
+	int _arrow1X, _arrow2X;
+	int _clear1Y, _clear2Y;
 };
 

@@ -85,7 +85,7 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm, SceneManager& sm)
 
 		if (Mouse::IsTrigger(MOUSE_INPUT_LEFT))
 		{
-			if ((NODE_WIDTH * NODE_SIZE) <= _mousePosX && _mousePosX <= (NODE_WIDTH * NODE_SIZE + 200) && (NODE_HEIGHT * NODE_SIZE) <= _mousePosY && _mousePosY <= (NODE_HEIGHT * NODE_SIZE + 40))
+			if (TURNBUTTON_X <= _mousePosX && _mousePosX <= TURNBUTTON_X + TURNBUTTON_WIDTH && TURNBUTTON_Y <= _mousePosY && _mousePosY <= TURNBUTTON_Y + TURNBUTTON_HEIGHT)
 			{
 				tm->TurnChange();
 			}
@@ -93,6 +93,8 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm, SceneManager& sm)
 
 		for (auto& unit : _unitList)
 		{
+			if (unit->hp <= 0) unit->state = UnitState::Dead;
+
 			// 行動開始前にスタミナを回復する
 			unit->stamina = unit->maxStamina;
 			unit->hasAttacked = false;
@@ -147,6 +149,8 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm, SceneManager& sm)
 				if (canAttack)
 				{
 					unit->state = UnitState::Attack;
+					DrawBox(unit->pos.x * NODE_SIZE, unit->pos.y * NODE_SIZE, (unit->pos.x + 1) * NODE_SIZE, (unit->pos.y + 1) * NODE_SIZE, color::RedColor, false, 3);
+
 				}
 				else
 				{
@@ -239,16 +243,15 @@ void UnitManager::Draw(TurnManager* tm)
 		{
 			int num = GetUnitNum(unit);
 
-			int x = 20 * num;
+			int x = 25 * num;
 			int y = 0;
 
-			DrawRectGraph((unit->pos.x) * NODE_SIZE, (unit->pos.y) * NODE_SIZE, x, y, 20, 20, _unitsH, true);
+			DrawRectGraph((unit->pos.x) * NODE_SIZE, (unit->pos.y) * NODE_SIZE, x, y, 25, 25, _unitsH, true);
 
+			DrawBox((unit->pos.x) * NODE_SIZE - 10, (unit->pos.y) * NODE_SIZE - 10, (unit->pos.x + 1) * NODE_SIZE + 10, (unit->pos.y) * NODE_SIZE - 2, color::RedColor, true);
+			DrawBox((unit->pos.x) * NODE_SIZE - 10, (unit->pos.y) * NODE_SIZE - 10, (unit->pos.x) * NODE_SIZE + (35 * unit->hp / unit->maxHp), (unit->pos.y) * NODE_SIZE - 2, color::GreenColor, true);
+			DrawBox((unit->pos.x) * NODE_SIZE - 10, (unit->pos.y) * NODE_SIZE - 10, (unit->pos.x + 1) * NODE_SIZE + 10, (unit->pos.y) * NODE_SIZE - 2, color::BlackColor, false);
 		}
-
-		//DrawFormatString(0, row, 0xffffff, "%d", unit->stamina);
-		//row += 20;
-
 	}
 
 	p_PlayerUnit->Draw();
@@ -279,7 +282,7 @@ void UnitManager::StateMove(_unitBase::UnitData& data, int& timer, RouteSearch* 
 	// 経路が空、またはルートのインデックスが範囲外の場合、到着状態に遷移
 	if (data.moveRoute.empty() || data.routeIndex >= (int)data.moveRoute.size())
 	{
-		printfDx("到着\n");
+		//printfDx("到着\n");
 		data.state = UnitState::Arrived;
 		return;
 	}
@@ -393,7 +396,7 @@ void UnitManager::StateAttack(_unitBase::UnitData& data, int& timer, RouteSearch
 
 		if (distance <= data.attackRange && data.state != UnitState::Dead && unit->state != UnitState::Dead)
 		{
-			printfDx("交戦中！\n");
+			//printfDx("交戦中！\n");
 
 			// 攻撃処理
 			unit->hp -= data.attack;
@@ -408,7 +411,6 @@ void UnitManager::StateAttack(_unitBase::UnitData& data, int& timer, RouteSearch
 		}
 	}
 
-
 	for (int i = 0; i < data.attackRange; i++)
 	{
 		if (data.routeIndex + i >= (int)data.moveRoute.size()) break;
@@ -419,7 +421,7 @@ void UnitManager::StateAttack(_unitBase::UnitData& data, int& timer, RouteSearch
 		{
 			if (rs->GetNodeData(_nextPos.x, _nextPos.y) == TileType::EnemyBase || rs->GetNodeData(data.pos.x, data.pos.y) == TileType::EnemyBase)
 			{
-				printfDx("攻撃中\n");
+				//printfDx("攻撃中\n");
 
 				data.hp -= _enemyBaseAttack;
 				_enemyBaseHpNow -= data.attack;
@@ -428,7 +430,7 @@ void UnitManager::StateAttack(_unitBase::UnitData& data, int& timer, RouteSearch
 
 				if (_enemyBaseHpNow <= 0)
 				{
-					printfDx("破壊\n");
+					//printfDx("破壊\n");
 					sm.ChangeScene(std::make_shared<ClearScene>(sm));
 					break;
 				}
@@ -439,7 +441,7 @@ void UnitManager::StateAttack(_unitBase::UnitData& data, int& timer, RouteSearch
 		{
 			if (rs->GetNodeData(_nextPos.x, _nextPos.y) == TileType::MyBase || rs->GetNodeData(data.pos.x, data.pos.y) == TileType::MyBase)
 			{
-				printfDx("攻撃中\n");
+				//printfDx("攻撃中\n");
 
 				data.hp -= _myBaseAttack;
 				_myBaseHpNow -= data.attack;
@@ -448,7 +450,7 @@ void UnitManager::StateAttack(_unitBase::UnitData& data, int& timer, RouteSearch
 
 				if (_myBaseHpNow <= 0)
 				{
-					printfDx("破壊\n");
+					//printfDx("破壊\n");
 					sm.ChangeScene(std::make_shared<GameOverScene>(sm));
 					break;
 				}

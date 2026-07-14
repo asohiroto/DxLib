@@ -34,7 +34,7 @@ StartScene::~StartScene()
 
 void StartScene::Init()
 {
-	_bgH = LoadGraph("data/タイトルイメージ.jpg");
+	_bgH = LoadGraph("data/タイトル.png");
 	_cloudH = LoadGraph("data/Cloud2.png");
 	_cloudWid = 1613;
 	_scrollX = 0;
@@ -59,9 +59,9 @@ void StartScene::Update()
 	_ctsY1 = (int)(sin(_startCount * 0.1) * 10);
 	_ctsY2 = (int)(sin((_startCount * 0.1) + 0.2) * 12);
 
-	if (_startCount <= 51)
+	if (_startCount <= 85)
 	{
-		_fadeInAlpha = _startCount * 5;
+		_fadeInAlpha = _startCount * 3;
 	}
 
 	GetMousePoint(&_mousePosX, &_mousePosY);
@@ -74,6 +74,7 @@ void StartScene::Update()
 
 void StartScene::Draw()
 {
+
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, _fadeInAlpha);
 	DrawBox(0, 0, WIDTH, HEIGHT, 0x000000, true);
 
@@ -87,7 +88,7 @@ void StartScene::Draw()
 	DrawFormatString(WIDTH / 2 - 70 + 5, HEIGHT / 2 + 200 + 5 + _ctsY1, color::BlackColor, "Click To Start →");
 	SetFontSize(20);
 
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 125);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 160);
 	DrawGraph(x, 0, _cloudH, true);
 	DrawGraph(x + _cloudWid, 0, _cloudH, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
@@ -96,6 +97,9 @@ void StartScene::Draw()
 	DrawFormatString(WIDTH / 2 - 70, HEIGHT / 2 + 200 + _ctsY2, color::YellowColor, "Click To Start →");
 
 	SetFontSize(250);
-	DrawFormatString(30, 30, color::RedColor, "- 攻めろ！-");
+	DrawFormatString(30, 30, color::CyanColor, "- 攻めろ！-");
 	SetFontSize(20);
+
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
+
 }

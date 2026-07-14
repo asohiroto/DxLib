@@ -28,7 +28,7 @@ private:
 	// ユニットデータを描画する関数
 	void DrawUnitData(_unitBase::UnitData* data);
 	// 引数のデータをいい感じに描画する関数
-	void DrawData(Vec2 pos, std::string name, Vec2 unitPos, std::string type, int hp, int attack);
+	void DrawData(Vec2 pos, std::string name, Vec2 unitPos, std::string type, int hp, int maxHp, int attack);
 
 private:
 	// 目標設定中フラグ
@@ -46,4 +46,7 @@ private:
 	// セレクトボタンに表示するテキスト
 	std::string _buttonText;
 
+	bool _isData;
+
+	int _flagH;
 };

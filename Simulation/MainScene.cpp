@@ -68,10 +68,9 @@ void MainScene::Draw()
 	DrawGraph(0, 0, _bgH, false);
 
 	p_Map->Draw();
-	p_TurnManager->Draw();
 	p_RouteSearch->Draw();
-	p_UIManager->Draw(p_RouteSearch);
-	p_UnitManager->Draw(p_TurnManager);
+	p_TurnManager->Draw();
 	p_BaseManager->Draw(p_UIManager);
-
+	p_UnitManager->Draw(p_TurnManager);
+	p_UIManager->Draw(p_RouteSearch);
 }

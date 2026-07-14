@@ -26,6 +26,8 @@ private:
 	void ChangeStatusByType(UnitType unit, _unitBase::UnitData& data);
 	// 兵科を表示する関数
 	//void DrawType(_unitBase::UnitData* data, int color);
+
+	void DrawSpawnSpan();
 private:
 	// マウスの位置
 	int _mousePosX, _mousePosY;

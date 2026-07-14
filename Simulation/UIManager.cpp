@@ -18,14 +18,16 @@ UIManager::UIManager() :
 	_mousePosY(0),
 	_unitTemp(nullptr),
 	_unit(nullptr),
-	_buttonText()
+	_buttonText(),
+	_isData(false),
+	_flagH(-1)
 {
 
 }
 
 UIManager::~UIManager()
 {
-
+	DeleteGraph(_flagH);
 }
 
 void UIManager::Init()
@@ -36,6 +38,7 @@ void UIManager::Init()
 	_mousePosY = 0;
 	_unitTemp = nullptr;
 	_unit = nullptr;
+	_flagH = LoadGraph("data/DestinationFlag.png");
 }
 
 void UIManager::Update(PlayerUnit* pu, EnemyUnit* eu, RouteSearch* rs, TurnManager* tm, UnitManager* unm)
@@ -52,6 +55,11 @@ void UIManager::Update(PlayerUnit* pu, EnemyUnit* eu, RouteSearch* rs, TurnManag
 			_unit = GetUnitDataFromPos(_nodeIndex, pu, eu, unm);
 		}
 
+		if (Mouse::IsTrigger(MOUSE_INPUT_RIGHT))
+		{
+			_isData = false;
+		}
+
 		if (_mousePosX >= SELECTING_X && _mousePosY >= SELECTING_Y && _mousePosX <= SELECTING_X + SELLECTING_WIDTH && _mousePosY <= SELECTING_Y + SELLECTING_HEIGHT)
 		{
 			if (Mouse::IsTrigger(MOUSE_INPUT_LEFT) && !_targetSet && !_targetSettingMode)
@@ -62,75 +70,79 @@ void UIManager::Update(PlayerUnit* pu, EnemyUnit* eu, RouteSearch* rs, TurnManag
 
 		if (_mousePosX <= (NODE_WIDTH * NODE_SIZE) && _mousePosY <= (NODE_HEIGHT * NODE_SIZE))
 		{
-			if (_targetSettingMode)
+			// 左クリックでユニットを選択、再度左クリックで目的地を設定
+			if (Mouse::IsTrigger(MOUSE_INPUT_LEFT) && !_targetSet)
 			{
-				// 左クリックでユニットを選択、再度左クリックで目的地を設定
-				if (Mouse::IsTrigger(MOUSE_INPUT_LEFT) && !_targetSet)
-				{
-					_unitTemp = GetUnitDataFromPos(_nodeIndex, pu, eu, unm);
+				_unitTemp = GetUnitDataFromPos(_nodeIndex, pu, eu, unm);
 
 
-					if (_unitTemp == nullptr)
-					{
-						_targetSettingMode = false;
-					}
-					else if (_unitTemp != nullptr)
-					{
-						if (!_unitTemp->isEnemy)
-						{
-							_targetSet = true;
-						}
-						else if (_unitTemp->isEnemy)
-						{
-							_targetSettingMode = false;
-						}
-					}
-				}
-				else if (Mouse::IsTrigger(MOUSE_INPUT_LEFT) && _targetSet)
+				if (_unitTemp == nullptr)
 				{
-					if (_unitTemp != nullptr)
+					_targetSettingMode = false;
+					_isData = false;
+				}
+				else if (_unitTemp != nullptr)
+				{
+					if (!_unitTemp->isEnemy)
 					{
-						_unitTemp->destPos = _nodeIndex;
-						rs->RouteSearchAstar(_unitTemp->pos, rs->_moveCount, _unitTemp->destPos);
-						_unitTemp->moveRoute = rs->GetRouteList(_unitTemp->pos, _unitTemp->destPos);
-						_unitTemp->routeIndex = 0;
-						_unitTemp->state = UnitState::Move;
-						_unitTemp = nullptr;
-						_targetSet = false;
-						_targetSettingMode = false;
+						_targetSet = true;
+						_isData = true;
 					}
-					// 右クリックで選択を解除
-					else
+					else if (_unitTemp->isEnemy)
 					{
-						_unitTemp = nullptr;
-						_targetSet = false;
 						_targetSettingMode = false;
+						_isData = true;
 					}
 				}
-				else if (Mouse::IsTrigger(MOUSE_INPUT_RIGHT) && _targetSet)
+			}
+			else if (Mouse::IsTrigger(MOUSE_INPUT_LEFT) && _targetSet)
+			{
+				if (_unitTemp != nullptr)
+				{
+					_unitTemp->destPos = _nodeIndex;
+					rs->RouteSearchAstar(_unitTemp->pos, rs->_moveCount, _unitTemp->destPos);
+					_unitTemp->moveRoute = rs->GetRouteList(_unitTemp->pos, _unitTemp->destPos);
+					_unitTemp->routeIndex = 0;
+					_unitTemp->state = UnitState::Move;
+					_unitTemp = nullptr;
+					_targetSet = false;
+					_targetSettingMode = false;
+					_isData = false;
+				}
+				// 右クリックで選択を解除
+				else
 				{
 					_unitTemp = nullptr;
 					_targetSet = false;
 					_targetSettingMode = false;
-				}
-
-				if (_unitTemp == nullptr)
-				{
-					_targetSet = false;
+					_isData = false;
 				}
 			}
+			else if (Mouse::IsTrigger(MOUSE_INPUT_RIGHT) && _targetSet)
+			{
+				_unitTemp = nullptr;
+				_targetSet = false;
+				_targetSettingMode = false;
+				_isData = false;
+			}
+
+			if (_unitTemp == nullptr)
+			{
+				_targetSet = false;
+			}
+
 		}
 	}
 }
 
 void UIManager::Draw(RouteSearch* rs)
 {
-	DrawUnitData(_unit);
-
 	if (_targetSet && _unitTemp != nullptr)
 	{
 		rs->RouteSearchAstar(_unitTemp->pos, rs->_moveCount, Vec2(_mousePosX / NODE_SIZE, _mousePosY / NODE_SIZE));
 		rs->DrawRoute(Vec2(_mousePosX / NODE_SIZE, _mousePosY / NODE_SIZE));
+
+		DrawGraph((_mousePosX / NODE_SIZE) * NODE_SIZE, (_mousePosY / NODE_SIZE) * NODE_SIZE, _flagH, true);
 	}
 
 	if (!_targetSettingMode)
@@ -148,6 +160,10 @@ void UIManager::Draw(RouteSearch* rs)
 	// マウスの選択中グリッドを強調
 	if (_mousePosX <= MAP_WIDTH && _mousePosY <= MAP_HEIGHT)
 		DrawBox((_mousePosX / NODE_SIZE) * NODE_SIZE, (_mousePosY / NODE_SIZE) * NODE_SIZE, ((_mousePosX + NODE_SIZE) / NODE_SIZE) * NODE_SIZE, ((_mousePosY + NODE_SIZE) / NODE_SIZE) * NODE_SIZE, color::RedColor, false);
+
+	if (_isData)
+		DrawUnitData(_unit);
+
 }
 
 Vec2 UIManager::ChangePixelToIndex(Vec2 mousePos)
@@ -178,15 +194,12 @@ void UIManager::DrawUnitData(_unitBase::UnitData* data)
 	Vec2 tempPos;
 	std::string tempType;
 	int tempHp;
+	int tempMaxHp;
 	int tempAttack;
 
 	if (data == nullptr)
 	{
-		tempName = "No Selecting";
-		tempPos = Vec2(0, 0);
-		tempType = "No Selecting";
-		tempHp = 0;
-		tempAttack = 0;
+		return;
 	}
 	else
 	{
@@ -194,19 +207,19 @@ void UIManager::DrawUnitData(_unitBase::UnitData* data)
 		tempPos = data->destPos;
 		tempType = data->typeName;
 		tempHp = data->hp;
+		tempMaxHp = data->maxHp;
 		tempAttack = data->attack;
 	}
 
-	DrawData(Vec2(GameDefine::DATA_X, GameDefine::DATA_Y), tempName, tempPos, tempType, tempHp, tempAttack);
-
+	DrawData(Vec2((data->pos.x + 1) * NODE_SIZE, (data->pos.y * NODE_SIZE)), tempName, tempPos, tempType, tempHp, tempMaxHp, tempAttack);
 }
 
-void UIManager::DrawData(Vec2 pos, std::string name, Vec2 unitPos, std::string type, int hp, int attack)
+void UIManager::DrawData(Vec2 pos, std::string name, Vec2 unitPos, std::string type, int hp, int maxHp, int attack)
 {
 	DrawBox(pos.x, pos.y, pos.x + DATA_WIDTH, pos.y + DATA_HEIGHT, color::WhiteColor, true);
 	DrawFormatString(pos.x + 10, pos.y, color::BlackColor, name.c_str());
 	DrawFormatString(pos.x + 10, pos.y + 20, color::BlackColor, "Destination : %.0f, %.0f", unitPos.x, unitPos.y);
 	DrawFormatString(pos.x + 10, pos.y + 40, color::BlackColor, type.c_str());
-	DrawFormatString(pos.x + 10, pos.y + 60, color::BlackColor, "Hp : %d", hp);
+	DrawFormatString(pos.x + 10, pos.y + 60, color::BlackColor, "Hp : %d / %d", hp, maxHp);
 	DrawFormatString(pos.x + 10, pos.y + 80, color::BlackColor, "AttackDamage : %d", attack);
 }

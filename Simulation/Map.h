@@ -22,4 +22,6 @@ private:
 	int _mapHandle;
 	// グリッドの地形情報保存用二次元配列
 	int _chipData[GameDefine::NODE_HEIGHT][GameDefine::NODE_WIDTH];
+
+	int _map2H;
 };

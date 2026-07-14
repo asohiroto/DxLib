@@ -1,5 +1,6 @@
 ﻿#include"Map.h"
 #include"GameDefine.h"
+#include"AsoDxLib/Color.h"
 #include"DxLib.h"
 #include<sstream>
 #include<fstream>
@@ -8,6 +9,7 @@
 using namespace GameDefine;
 
 Map::Map() :
+	_map2H(-1),
 	_mapHandle(0)
 {
 	_mapHandle = LoadGraph("Data/マップ素材.png");
@@ -22,7 +24,7 @@ Map::~Map()
 
 void Map::Init()
 {
-
+	_map2H = LoadGraph("data/GameBG.png");
 }
 
 void Map::Update()
@@ -60,37 +62,23 @@ void Map::LoadMapData()
 
 void Map::DrawMapChip()
 {
+
+	DrawGraph(0, 0, _map2H, true);
+
+	for (int x = 0; x < NODE_WIDTH; x++)
+	{
+		int px = x * NODE_SIZE;
+		if (-NODE_SIZE >= px || px >= WIDTH) continue;
+		DrawLine(px, 0, px, HEIGHT, color::DarkGrayColor, 1);
+	}
+
 	for (int y = 0; y < NODE_HEIGHT; y++)
 	{
-		for (int x = 0; x < NODE_WIDTH; x++)
-		{
-			Vec2 pos;
-			pos.x = x * NODE_SIZE;
-			pos.y = y * NODE_SIZE;
-
-			// 画面外のチップは描画しない
-			if (pos.x < 0 - NODE_SIZE) continue;
-			if (pos.x > WIDTH) continue;
-			if (pos.y < 0 - NODE_SIZE) continue;
-			if (pos.y > HEIGHT) continue;
-
-			int chipNo = _chipData[y][x];
-
-			// チップ番号から描画する画像の座標を計算
-			Vec2 src;
-			src.x = NODE_SIZE * (chipNo % 6);
-			src.y = 0;
-
-			// 画像を描画
-			DrawRectRotaGraph(
-				static_cast<int>(pos.x + NODE_SIZE * 0.5f), static_cast<int>(pos.y + NODE_SIZE * 0.5f),
-				src.x, src.y, NODE_SIZE, NODE_SIZE,
-				1.0f, 0.0f,
-				_mapHandle, true
-			);
-
-			DrawLine(x * NODE_SIZE, 0, x * NODE_SIZE, (y + 1) * NODE_SIZE, 0x000000, true);
-			DrawLine(0, y * NODE_SIZE, (x + 1) * NODE_SIZE, y * NODE_SIZE, 0x000000, true);
-		}
+		int py = y * NODE_SIZE;
+		if (-NODE_SIZE >= py || py >= HEIGHT) continue;
+		DrawLine(0, py, WIDTH, py, color::DarkGrayColor, 1);
 	}
+
+	DrawRectGraph(MY_BASE_X * NODE_SIZE, MY_BASE_Y * NODE_SIZE, 50, 0, 25, 25, _mapHandle, true);
+	DrawRectGraph(ENEMY_BASE_X * NODE_SIZE, ENEMY_BASE_Y * NODE_SIZE, 100, 0, 25, 25, _mapHandle, true);
 }

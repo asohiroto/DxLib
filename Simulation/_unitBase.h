@@ -24,6 +24,8 @@ public:
 		Vec2 destPos = Vec2(0, 0);
 		// 体力
 		int hp = 0;
+
+		int maxHp = 0;
 		// 攻撃力
 		int attack = 0;
 		// 攻撃範囲
@@ -73,6 +75,7 @@ public:
 		case UnitType::Soldier:
 			data.typeName = "Soldier";
 			data.hp = 100;
+			data.maxHp = data.hp;
 			data.attack = 25;
 			data.attackRange = 1;
 			data.stamina = 10;
@@ -80,8 +83,9 @@ public:
 			return;
 
 		case UnitType::Archer:
-			data.typeName = "archer";
+			data.typeName = "Archer";
 			data.hp = 60;
+			data.maxHp = data.hp;
 			data.attack = 30;
 			data.attackRange = 2;
 			data.stamina = 12;
@@ -90,8 +94,9 @@ public:
 
 		case UnitType::Scout:
 			data.typeName = "Scout";
-			data.hp = 30;
-			data.attack = 5;
+			data.hp = 40;
+			data.maxHp = data.hp;
+			data.attack = 15;
 			data.attackRange = 1;
 			data.stamina = 20;
 			data.maxStamina = data.stamina;

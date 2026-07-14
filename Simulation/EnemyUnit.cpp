@@ -23,10 +23,10 @@ void EnemyUnit::Init(RouteSearch* rs)
 	// 敵の主部隊の初期化処理-------------------------------------------------------
 
 	// 【仮】ユニットの初期位置をランダムに設定
-	int x1 = GetRand((NODE_WIDTH / 2) - 1) + (NODE_WIDTH / 2);
-	int y1 = GetRand(NODE_HEIGHT - 1);
+	int x1 = GetRand(5);
+	int y1 = GetRand(5);
 
-	_mainPosInd = Vec2(x1, y1);
+	_mainPosInd = Vec2(x1 + ENEMY_BASE_X - 3, y1 + ENEMY_BASE_Y - 3);
 
 	_mainUnit.destPos = Vec2(MY_BASE_X, MY_BASE_Y);
 
@@ -50,10 +50,16 @@ void EnemyUnit::Init(RouteSearch* rs)
 	// 敵の主部隊の初期化処理--------------------------------------------------------
 
 	// 【仮】ユニットの初期位置をランダムに設定
-	int x2 = GetRand((NODE_WIDTH / 2) - 1) + (NODE_WIDTH / 2);
-	int y2 = GetRand(NODE_HEIGHT - 1);
+	int x2 = GetRand(5);
+	int y2 = GetRand(5);
 
-	_subPosInd = Vec2(x2, y2);
+	if (x1 == x2 && y1 == y2)
+	{
+		x2--;
+		y2--;
+	}
+
+	_subPosInd = Vec2(x2 + ENEMY_BASE_X - 3, y2 + ENEMY_BASE_Y - 3);
 
 	_subUnit.destPos = Vec2(MY_BASE_X, MY_BASE_Y);
 

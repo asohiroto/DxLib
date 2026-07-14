@@ -26,7 +26,7 @@ void TurnManager::Init()
 
 void TurnManager::Update()
 {
-	
+
 }
 
 void TurnManager::Draw()
@@ -76,6 +76,12 @@ void TurnManager::DrawTurnState()
 		break;
 	}
 
-	DrawFormatString((NODE_WIDTH + 1) * NODE_SIZE, 0, color::WhiteColor, turnName.c_str(), true);
-	DrawFormatString((NODE_WIDTH + 1) * NODE_SIZE, 20, color::WhiteColor, "%d ターン目", _turnCount, true);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 122);
+	DrawBox(0, 0, 64 * NODE_SIZE, 75, color::WhiteColor, true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
+
+	SetFontSize(50);
+	DrawFormatString(11 * NODE_SIZE, 0, color::BlackColor, turnName.c_str(), true);
+	DrawFormatString(0, 0, color::BlackColor, "Turn %d", _turnCount, true);
+	SetFontSize(20);
 }

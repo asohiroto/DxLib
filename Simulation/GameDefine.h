@@ -27,7 +27,7 @@ namespace GameDefine
 	// ノードの行の最大数
 	constexpr int NODE_WIDTH = 64;
 	// ノードのサイズ
-	constexpr int NODE_SIZE = 20;
+	constexpr int NODE_SIZE = 25;
 	// マップの横幅
 	constexpr int MAP_WIDTH = NODE_WIDTH * NODE_SIZE;
 	// マップの縦幅
@@ -46,14 +46,14 @@ namespace GameDefine
 	constexpr int SELLECTING_WIDTH = 200;
 	// セレクトボタンの縦幅
 	constexpr int SELLECTING_HEIGHT = 20;
-	// ターン進行ボタンのX座標
-	constexpr int TURNBUTTON_X = MAP_WIDTH;
-	// ターン進行ボタンのY座標
-	constexpr int TURNBUTTON_Y = MAP_HEIGHT;
-	// ターン進行ボタンの縦幅
-	constexpr int TURNBUTTON_WIDTH = 200;
 	// ターン進行ボタンの横幅
-	constexpr int TURNBUTTON_HEIGHT = 40;
+	constexpr int TURNBUTTON_WIDTH = 200;
+	// ターン進行ボタンの縦幅
+	constexpr int TURNBUTTON_HEIGHT = 50;
+	// ターン進行ボタンのX座標
+	constexpr int TURNBUTTON_X = WIDTH - TURNBUTTON_WIDTH - 25;
+	// ターン進行ボタンのY座標
+	constexpr int TURNBUTTON_Y = HEIGHT - TURNBUTTON_HEIGHT- 25;
 	// ユニット情報パネルのX座標
 	constexpr int DATA_X = MAP_WIDTH;
 	// ユニット情報パネルのY座標
@@ -63,9 +63,9 @@ namespace GameDefine
 	// ユニット情報パネルの縦幅
 	constexpr int DATA_HEIGHT = 100;
 	// アクションメニューのX座標
-	constexpr int ACTION_X = MAP_WIDTH;
+	constexpr int ACTION_X = (MY_BASE_X + 1) * NODE_SIZE;
 	// アクションメニューのY座標
-	constexpr int ACTION_Y = 500;
+	constexpr int ACTION_Y = MY_BASE_Y * NODE_SIZE;
 	// アクションメニューの横幅
 	constexpr int ACTION_WIDTH = 200;
 	// アクションメニューの縦幅

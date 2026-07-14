@@ -108,7 +108,7 @@ void BaseManager::Update(RouteSearch* rs, UIManager* um, UnitManager* unm, TurnM
 		}
 	}
 
-	if (tm->GetTurnCount() % 3 == 0 && !_isEneSpawn && tm->GetNowTurn() == TurnManager::TurnState::EnemyTurn)
+	if (tm->GetTurnCount() % 4 == 0 && !_isEneSpawn && tm->GetNowTurn() == TurnManager::TurnState::EnemyTurn)
 	{
 		int unitType = GetRand(2);
 
@@ -154,6 +154,7 @@ void BaseManager::Draw(UIManager* um)
 	}*/
 
 	DrawFormatString(MAP_WIDTH, 700, 0xfffff, "%d", _reSpawnCount);
+	DrawSpawnSpan();
 }
 
 _unitBase::UnitData* BaseManager::SpawnUnit(UnitType unit, RouteSearch* rs)
@@ -209,6 +210,7 @@ void BaseManager::ChangeStatusByType(UnitType unit, _unitBase::UnitData& data)
 	case UnitType::Soldier:
 		data.typeName = "Soldier";
 		data.hp = 100;
+		data.maxHp = data.hp;
 		data.attack = 25;
 		data.attackRange = 1;
 		data.stamina = 10;
@@ -218,6 +220,7 @@ void BaseManager::ChangeStatusByType(UnitType unit, _unitBase::UnitData& data)
 	case UnitType::Archer:
 		data.typeName = "Archer";
 		data.hp = 60;
+		data.maxHp = data.hp;
 		data.attack = 30;
 		data.attackRange = 2;
 		data.stamina = 12;
@@ -227,6 +230,7 @@ void BaseManager::ChangeStatusByType(UnitType unit, _unitBase::UnitData& data)
 	case UnitType::Scout:
 		data.typeName = "Scout";
 		data.hp = 30;
+		data.maxHp = data.hp;
 		data.attack = 5;
 		data.attackRange = 1;
 		data.stamina = 20;
@@ -261,3 +265,29 @@ void BaseManager::ChangeStatusByType(UnitType unit, _unitBase::UnitData& data)
 //
 //	DrawString(data->pos.x * NODE_SIZE, data->pos.y * NODE_SIZE, typeInit.c_str(), color);
 //}
+
+void BaseManager::DrawSpawnSpan()
+{
+	int cool = 4 - _reSpawnCount;
+
+	if (cool < 0)
+	{
+		cool = 0;
+	}
+
+	if (cool == 0)
+	{
+		SetFontSize(50);
+		DrawFormatString(30 * NODE_SIZE, 0, color::YellowColor, "All Ready to Produce");
+		DrawFormatString(30 * NODE_SIZE + 3, 3, color::BlackColor, "All Ready to Produce");
+		SetFontSize(20);
+	}
+	else if (cool > 0)
+	{
+		SetFontSize(50);
+		DrawFormatString(28 * NODE_SIZE, 0, color::BlackColor, "Produce CoolingDawn...");
+		DrawFormatString(50 * NODE_SIZE, 0, color::RedColor, " % d Turns Left", cool);
+		DrawFormatString(50 * NODE_SIZE + 2, 2, color::BlackColor, " % d Turns Left", cool);
+		SetFontSize(20);
+	}
+}
