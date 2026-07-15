@@ -51,14 +51,18 @@ void UnitManager::Init(RouteSearch* rs, SceneManager& _sceneManager)
 	_unitList.push_back(&p_EnemyUnit->GetMainUnit());
 	_unitList.push_back(&p_EnemyUnit->GetSubUnit());
 
+	memset(_occupiedMap, false, sizeof(_occupiedMap));
+
 	_finishCount = 0;
 	_playerCount = 0;
 	_enemyCount = 0;
 
 	_myBaseHpMax = 150;
 	_enemyBaseHpMax = 150;
+
 	_myBaseHpNow = _myBaseHpMax;
 	_enemyBaseHpNow = _enemyBaseHpMax;
+
 	_myBaseAttack = 20;
 	_enemyBaseAttack = 20;
 }
@@ -76,6 +80,14 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm, SceneManager& sm)
 	if (CheckHitKey(KEY_INPUT_RETURN))
 	{
 		sm.ChangeScene(std::make_shared<GameOverScene>(sm));
+	}
+
+	for (auto& unit : _unitList)
+	{
+		if (unit->isHeapAllocated)
+		{
+			unit->moveTimer++;
+		}
 	}
 
 	switch (tm->GetNowTurn())
@@ -98,6 +110,14 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm, SceneManager& sm)
 			// 行動開始前にスタミナを回復する
 			unit->stamina = unit->maxStamina;
 			unit->hasAttacked = false;
+
+			if (unit->isEnemy && !unit->hasAttacked && unit->state != UnitState::Dead)
+			{
+				if (rs->GetNodeData(unit->pos.x, unit->pos.y) == TileType::EnemyBase)
+				{
+					unit->state = UnitState::Attack;
+				}
+			}
 
 			if (unit->state == UnitState::Arrived) unit->state = UnitState::Idle;
 
@@ -228,6 +248,8 @@ void UnitManager::Update(RouteSearch* rs, TurnManager* tm, SceneManager& sm)
 	default:
 		break;
 	}
+
+	RemoveDeadUnits();
 }
 
 void UnitManager::Draw(TurnManager* tm)
@@ -279,6 +301,20 @@ void UnitManager::StateMove(_unitBase::UnitData& data, int& timer, RouteSearch* 
 {
 	timer = 0;
 
+	if (!data.hasAttacked && data.state != UnitState::Dead)
+	{
+		if (!data.isEnemy && rs->GetNodeData(data.pos.x, data.pos.y) == TileType::EnemyBase)
+		{
+			data.state = UnitState::Attack;
+			return;
+		}
+		else if (data.isEnemy && rs->GetNodeData(data.pos.x, data.pos.y) == TileType::MyBase)
+		{
+			data.state = UnitState::Attack;
+			return;
+		}
+	}
+
 	// 経路が空、またはルートのインデックスが範囲外の場合、到着状態に遷移
 	if (data.moveRoute.empty() || data.routeIndex >= (int)data.moveRoute.size())
 	{
@@ -292,14 +328,17 @@ void UnitManager::StateMove(_unitBase::UnitData& data, int& timer, RouteSearch* 
 	// スタミナが足りる場合のみ移動
 	if ((data.stamina - moveCost) >= 0)
 	{
+
 		Vec2 nextPos = data.moveRoute[data.routeIndex];
 
 		if (nextPos.x == data.pos.x && nextPos.y == data.pos.y)
 		{
+			_occupiedMap[(int)data.pos.y][(int)data.pos.x] = true;
 			data.routeIndex++;
 			return; // 次のフレームで実際の次のマスへ移動開始
 		}
 
+		// 次のマスが予約済みなら待機
 		if (_occupiedMap[(int)nextPos.y][(int)nextPos.x])
 		{
 			data.state = UnitState::Idle;
@@ -316,6 +355,7 @@ void UnitManager::StateMove(_unitBase::UnitData& data, int& timer, RouteSearch* 
 	}
 	else
 	{
+
 		data.state = UnitState::Idle;
 	}
 
@@ -333,41 +373,18 @@ void UnitManager::StateMove(_unitBase::UnitData& data, int& timer, RouteSearch* 
 			return;
 		}
 	}
-
-
-	for (int i = 0; i < data.attackRange; i++)
-	{
-		if (data.routeIndex + i >= (int)data.moveRoute.size()) break;
-
-		_nextPos = data.moveRoute[data.routeIndex + i];
-
-		if (!data.isEnemy && !data.hasAttacked && data.state != UnitState::Dead)
-		{
-			if (rs->GetNodeData(_nextPos.x, _nextPos.y) == TileType::EnemyBase || rs->GetNodeData(data.pos.x, data.pos.y) == TileType::EnemyBase)
-			{
-				data.state = UnitState::Attack;
-			}
-		}
-		else if (data.isEnemy && !data.hasAttacked && data.state != UnitState::Dead)
-		{
-			if (rs->GetNodeData(_nextPos.x, _nextPos.y) == TileType::MyBase || rs->GetNodeData(data.pos.x, data.pos.y) == TileType::MyBase)
-			{
-				data.state = UnitState::Attack;
-			}
-		}
-
-		break;
-	}
 }
 
 void UnitManager::StateIdle(_unitBase::UnitData& data, int& timer, TurnManager* tm)
 {
 	timer = 0;
+
 	if (data.pos.x == GameDefine::ENEMY_BASE_X && data.pos.y == GameDefine::ENEMY_BASE_Y)
 	{
 		data.state = UnitState::Arrived;
 		return;
 	}
+
 }
 
 void UnitManager::StateArrived(_unitBase::UnitData& data, int& timer)
@@ -523,5 +540,22 @@ int UnitManager::GetUnitNum(_unitBase::UnitData* unit)
 
 	default:
 		return -1;
+	}
+}
+
+// ユニットリストから死亡したユニットを削除する関数
+void UnitManager::RemoveDeadUnits()
+{
+	// ユニットリストをループ
+	for (auto it = _unitList.begin(); it != _unitList.end();)
+	{
+		// ユニットが死亡していて、ヒープ領域に確保されている場合は削除
+		if ((*it)->state == UnitState::Dead && (*it)->isHeapAllocated)
+		{
+			delete* it;
+			it = _unitList.erase(it);
+		}
+		// ユニットが死亡していない場合は次のユニットへ
+		else ++it;
 	}
 }

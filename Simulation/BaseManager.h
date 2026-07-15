@@ -22,11 +22,7 @@ private:
 	_unitBase::UnitData* SpawnUnit(UnitType unit, RouteSearch* rs);
 	// 敵ユニットを生産する関数
 	_unitBase::UnitData* SpawnEnemyUnit(UnitType unit, RouteSearch* rs);
-	// 引数のユニットのステータスを、指定のクラスのものに変更する関数
-	void ChangeStatusByType(UnitType unit, _unitBase::UnitData& data);
-	// 兵科を表示する関数
-	//void DrawType(_unitBase::UnitData* data, int color);
-
+	// スポーン可能までのターン数を表示する関数
 	void DrawSpawnSpan();
 private:
 	// マウスの位置
@@ -35,8 +31,6 @@ private:
 	TileType _tileTemp;
 	// アクションメニューを開くか
 	bool _actionFlag = false;
-	// 生成するユニットの保存用
-	std::vector<_unitBase::UnitData*> _unitTemp;
 	// 敵ユニットを生成したか
 	bool _isEneSpawn = false;
 	// スポーンしてからのカウント

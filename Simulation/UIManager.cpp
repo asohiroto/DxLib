@@ -180,10 +180,9 @@ _unitBase::UnitData* UIManager::GetUnitDataFromPos(Vec2 mousePos, PlayerUnit* pu
 {
 	for (auto& unit : unm->_unitList)
 	{
-		if (mousePos == unit->pos)
-		{
-			return unit;
-		}
+		if (unit->state == UnitState::Dead) continue;
+		if (mousePos == unit->pos) return unit;
+
 	}
 	return nullptr;
 }

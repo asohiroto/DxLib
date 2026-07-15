@@ -88,6 +88,8 @@ void StartScene::Draw()
 
 	DrawGraph(30, 20, _logoSH, true);
 
+	DrawFormatString(WIDTH / 2 - 70 + 5, HEIGHT / 2 + 200 + 5 + _ctsY1, color::DarkGrayColor, "Click To Start →");
+
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 160);
 	DrawGraph(x, 0, _cloudH, true);
 	DrawGraph(x + _cloudWid, 0, _cloudH, true);

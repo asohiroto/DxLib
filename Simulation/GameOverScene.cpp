@@ -1,4 +1,4 @@
-﻿#include "GameOverScene.h"
+﻿#include"GameOverScene.h"
 #include"GameDefine.h"
 #include"DxLib.h"
 #include"AsoDxLib/Mouse.h"
@@ -11,10 +11,6 @@ using namespace GameDefine;
 
 GameOverScene::GameOverScene(SceneManager& _sceneManager) :
 	SceneBase(_sceneManager),
-	_mousePosX(0),
-	_mousePosY(0),
-	_bgH(-1),
-	_count(0),
 	_over1Y(0),
 	_over2Y(0)
 {
@@ -38,13 +34,16 @@ void GameOverScene::End()
 
 void GameOverScene::Update()
 {
+	// カウント増加
 	_count++;
-
-	_over1Y = (int)(sin(_count * 0.1) * 5);
-	_over2Y = (int)(sin((_count * 0.1) + 0.2) * 5);
 
 	GetMousePoint(&_mousePosX, &_mousePosY);
 
+	// 現在のカウントに応じて、Game Overの文字の座標を変化させる
+	_over1Y = (int)(sin(_count * 0.1) * 5);
+	_over2Y = (int)(sin((_count * 0.1) + 0.2) * 5);
+
+	// 左クリックでスタートシーンに遷移
 	if (Mouse::IsTrigger(MOUSE_INPUT_LEFT))
 	{
 		_sceneManager.ChangeScene(std::make_shared<StartScene>(_sceneManager));

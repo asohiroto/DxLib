@@ -12,9 +12,6 @@ public:
 	void Draw() override;
 
 private:
-	int _mousePosX, _mousePosY;
-	int _bgH;
-	int _count;
 	int _over1Y, _over2Y;
 };
 

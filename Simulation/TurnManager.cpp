@@ -61,15 +61,15 @@ void TurnManager::DrawTurnState()
 	switch (_nowTurn)
 	{
 	case TurnState::PlayerSelectTurn:
-		turnName = "PlayerSelectTurn";
+		turnName = "PlayerSelectPhase";
 		break;
 
 	case TurnState::SelectResultTurn:
-		turnName = "SelectResultTurn";
+		turnName = "SelectResultPhase";
 		break;
 
 	case TurnState::EnemyTurn:
-		turnName = "EnemyTurn";
+		turnName = "EnemyPhase";
 		break;
 
 	default:

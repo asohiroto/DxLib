@@ -5,6 +5,7 @@
 #include"UnitManager.h"
 #include"AsoDxLib/Mouse.h"
 #include"TurnManager.h"
+#include"_unitBase.h"
 
 using namespace GameDefine;
 
@@ -12,8 +13,7 @@ BaseManager::BaseManager() :
 	_mousePosX(0),
 	_mousePosY(0),
 	_tileTemp(),
-	_actionFlag(false),
-	_unitTemp()
+	_actionFlag(false)
 {
 
 }
@@ -33,8 +33,10 @@ void BaseManager::Init()
 
 void BaseManager::Update(RouteSearch* rs, UIManager* um, UnitManager* unm, TurnManager* tm)
 {
+	// マウス位置の取得
 	GetMousePoint(&_mousePosX, &_mousePosY);
 
+	// プレイヤー選択ターンになると、エネミーをスポーンできるようにし、リスポーンカウントを増やす
 	if (tm->GetNowTurn() == TurnManager::TurnState::PlayerSelectTurn)
 	{
 		if (_isEneSpawn)
@@ -49,6 +51,7 @@ void BaseManager::Update(RouteSearch* rs, UIManager* um, UnitManager* unm, TurnM
 		}
 	}
 
+	// 結果ターンになると、カウント済みでなくする
 	if (tm->GetNowTurn() == TurnManager::TurnState::SelectResultTurn)
 	{
 		if (_isCounted)
@@ -57,11 +60,7 @@ void BaseManager::Update(RouteSearch* rs, UIManager* um, UnitManager* unm, TurnM
 		}
 	}
 
-	for (auto unit : _unitTemp)
-	{
-		unit->moveTimer++;
-	}
-
+	// 左クリックをしたときに、マップ内ならば地形情報を取得し、クリックした場所に自軍拠点があればユニット生成メニューを出す
 	if (Mouse::IsTrigger(MOUSE_INPUT_LEFT))
 	{
 		if (_mousePosX <= NODE_WIDTH * NODE_SIZE && _mousePosY <= NODE_HEIGHT * NODE_SIZE)
@@ -76,28 +75,26 @@ void BaseManager::Update(RouteSearch* rs, UIManager* um, UnitManager* unm, TurnM
 		}
 	}
 
+	// アクションメニューが開いているときに、各タブを左クリックでユニットを生成し、右クリックでキャンセルする
 	if (_actionFlag && !um->IsTargetSet())
 	{
-		if (Mouse::IsTrigger(MOUSE_INPUT_LEFT))
+		if (Mouse::IsTrigger(MOUSE_INPUT_LEFT) && tm->GetNowTurn() == TurnManager::TurnState::PlayerSelectTurn)
 		{
 			if (_mousePosX >= ACTION_X && _mousePosY >= ACTION_Y && _mousePosX <= ACTION_X + ACTION_WIDTH && _mousePosY <= ACTION_Y + (ACTION_HEIGHT / 3))
 			{
-				_unitTemp.push_back(SpawnUnit(UnitType::Soldier, rs));
-				unm->_unitList.push_back(_unitTemp.back());
+				unm->_unitList.push_back(SpawnUnit(UnitType::Soldier, rs));
 				_actionFlag = false;
 				_reSpawnCount = 0;
 			}
 			else if (_mousePosX >= ACTION_X && _mousePosY >= ACTION_Y + (ACTION_HEIGHT / 3) && _mousePosX <= ACTION_X + ACTION_WIDTH && _mousePosY <= ACTION_Y + (2 * ACTION_HEIGHT / 3))
 			{
-				_unitTemp.push_back(SpawnUnit(UnitType::Archer, rs));
-				unm->_unitList.push_back(_unitTemp.back());
+				unm->_unitList.push_back(SpawnUnit(UnitType::Archer, rs));
 				_actionFlag = false;
 				_reSpawnCount = 0;
 			}
 			else if (_mousePosX >= ACTION_X && _mousePosY >= ACTION_Y + (2 * ACTION_HEIGHT / 3) && _mousePosX <= ACTION_X + ACTION_WIDTH && _mousePosY <= ACTION_Y + (3 * ACTION_HEIGHT / 3))
 			{
-				_unitTemp.push_back(SpawnUnit(UnitType::Scout, rs));
-				unm->_unitList.push_back(_unitTemp.back());
+				unm->_unitList.push_back(SpawnUnit(UnitType::Scout, rs));
 				_actionFlag = false;
 				_reSpawnCount = 0;
 			}
@@ -108,18 +105,18 @@ void BaseManager::Update(RouteSearch* rs, UIManager* um, UnitManager* unm, TurnM
 		}
 	}
 
+	// 4ターンごとに敵ユニットをスポーンさせる
 	if (tm->GetTurnCount() % 4 == 0 && !_isEneSpawn && tm->GetNowTurn() == TurnManager::TurnState::EnemyTurn)
 	{
 		int unitType = GetRand(2);
 
 		if (unitType == 0)
-			_unitTemp.push_back(SpawnEnemyUnit(UnitType::Soldier, rs));
+			unm->_unitList.push_back(SpawnEnemyUnit(UnitType::Soldier, rs));
 		else if (unitType == 1)
-			_unitTemp.push_back(SpawnEnemyUnit(UnitType::Archer, rs));
+			unm->_unitList.push_back(SpawnEnemyUnit(UnitType::Archer, rs));
 		else if (unitType == 2)
-			_unitTemp.push_back(SpawnEnemyUnit(UnitType::Scout, rs));
+			unm->_unitList.push_back(SpawnEnemyUnit(UnitType::Scout, rs));
 
-		unm->_unitList.push_back(_unitTemp.back());
 		_isEneSpawn = true;
 	}
 }
@@ -140,23 +137,10 @@ void BaseManager::Draw(UIManager* um)
 		DrawBox(ACTION_X, ACTION_Y + (2 * ACTION_HEIGHT / 3), ACTION_X + ACTION_WIDTH, ACTION_Y + (3 * ACTION_HEIGHT / 3), color::BlackColor, false);
 		DrawString(ACTION_X + 30, ACTION_Y + (2 * ACTION_HEIGHT / 3) + 20, "Produce Scout", color::BlackColor);
 	}
-
-	/*for (auto unit : _unitTemp)
-	{
-		if (unit->state != UnitState::Dead)
-		{
-			if (!unit->isEnemy)
-				DrawType(unit, color::BlackColor);
-			else if (unit->isEnemy)
-				DrawType(unit, color::WhiteColor);
-
-		}
-	}*/
-
-	DrawFormatString(MAP_WIDTH, 700, 0xfffff, "%d", _reSpawnCount);
 	DrawSpawnSpan();
 }
 
+// 自軍のユニットを生成する関数
 _unitBase::UnitData* BaseManager::SpawnUnit(UnitType unit, RouteSearch* rs)
 {
 	_unitBase::UnitData* unitTemp = new _unitBase::UnitData;
@@ -169,17 +153,19 @@ _unitBase::UnitData* BaseManager::SpawnUnit(UnitType unit, RouteSearch* rs)
 	unitTemp->name = "自軍追加部隊";
 	unitTemp->pos = posInd;
 	unitTemp->type = unit;
-	ChangeStatusByType(unit, *unitTemp);
+	_unitBase::SetStatusByType(*unitTemp);
 	unitTemp->color = color::YellowColor;
 	unitTemp->moveTimer = 0;
 	unitTemp->isEnemy = false;
 	unitTemp->moveRoute = rs->GetRouteList(posInd, unitTemp->destPos);
 	unitTemp->routeIndex = 0;
 	unitTemp->state = UnitState::Move;
+	unitTemp->isHeapAllocated = true;
 
 	return unitTemp;
 }
 
+// 敵軍のユニットを生成する関数
 _unitBase::UnitData* BaseManager::SpawnEnemyUnit(UnitType unit, RouteSearch* rs)
 {
 	_unitBase::UnitData* unitTemp = new _unitBase::UnitData;
@@ -192,80 +178,19 @@ _unitBase::UnitData* BaseManager::SpawnEnemyUnit(UnitType unit, RouteSearch* rs)
 	unitTemp->name = "敵軍追加部隊";
 	unitTemp->pos = posInd;
 	unitTemp->type = unit;
-	ChangeStatusByType(unit, *unitTemp);
+	_unitBase::SetStatusByType(*unitTemp);
 	unitTemp->color = color::RedColor;
 	unitTemp->moveTimer = 0;
 	unitTemp->isEnemy = true;
 	unitTemp->moveRoute = rs->GetRouteList(posInd, unitTemp->destPos);
 	unitTemp->routeIndex = 0;
 	unitTemp->state = UnitState::Move;
+	unitTemp->isHeapAllocated = true;
 
 	return unitTemp;
 }
 
-void BaseManager::ChangeStatusByType(UnitType unit, _unitBase::UnitData& data)
-{
-	switch (unit)
-	{
-	case UnitType::Soldier:
-		data.typeName = "Soldier";
-		data.hp = 100;
-		data.maxHp = data.hp;
-		data.attack = 25;
-		data.attackRange = 1;
-		data.stamina = 10;
-		data.maxStamina = data.stamina;
-		return;
-
-	case UnitType::Archer:
-		data.typeName = "Archer";
-		data.hp = 60;
-		data.maxHp = data.hp;
-		data.attack = 30;
-		data.attackRange = 2;
-		data.stamina = 12;
-		data.maxStamina = data.stamina;
-		return;
-
-	case UnitType::Scout:
-		data.typeName = "Scout";
-		data.hp = 30;
-		data.maxHp = data.hp;
-		data.attack = 5;
-		data.attackRange = 1;
-		data.stamina = 20;
-		data.maxStamina = data.stamina;
-		return;
-
-	default:
-		printfDx("Warning : Unknown UnitType");
-		break;
-	}
-}
-
-//void BaseManager::DrawType(_unitBase::UnitData* data, int color)
-//{
-//	std::string typeInit;
-//
-//	switch (data->type)
-//	{
-//	case UnitType::Soldier:
-//		typeInit = "歩";
-//		break;
-//	case UnitType::Archer:
-//		typeInit = "弓";
-//		break;
-//	case UnitType::Scout:
-//		typeInit = "斥";
-//		break;
-//	default:
-//		typeInit = "?";
-//		break;
-//	}
-//
-//	DrawString(data->pos.x * NODE_SIZE, data->pos.y * NODE_SIZE, typeInit.c_str(), color);
-//}
-
+// スポーン可能までのターン数を表示する関数
 void BaseManager::DrawSpawnSpan()
 {
 	int cool = 4 - _reSpawnCount;

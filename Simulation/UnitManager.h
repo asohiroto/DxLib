@@ -39,6 +39,8 @@ public:
 
 	int GetUnitNum(_unitBase::UnitData* unit);
 
+	void RemoveDeadUnits();
+
 public:
 	// 全ユニットを管理する可変長リスト
 	std::vector<_unitBase::UnitData*> _unitList;

@@ -16,4 +16,11 @@ public:
 	virtual void Update() {};
 	virtual void Draw() {};
 
+protected:
+	// マウスの座標
+	int _mousePosX, _mousePosY;
+	// 背景画像のハンドル
+	int _bgH;
+	// フレームのカウンタ
+	int _count;
 };

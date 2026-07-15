@@ -12,10 +12,9 @@ public:
 	void Draw() override;
 
 private:
-	int _mousePosX, _mousePosY;
-	int _bgH;
-	int _count;
+	//　矢印と、矢印の影のX座標の変化量
 	int _arrow1X, _arrow2X;
+	// クリアの文字と、クリアの文字の影のY座標の変化量
 	int _clear1Y, _clear2Y;
 };
 

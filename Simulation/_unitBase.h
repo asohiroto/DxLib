@@ -51,6 +51,8 @@ public:
 		std::vector<Vec2> moveRoute;
 		// ルートの中の位置
 		int routeIndex = 0;
+		// ヒープ領域に確保されているか
+		bool isHeapAllocated = false;
 	};
 
 public:
@@ -68,7 +70,7 @@ public:
 	Vec2 GetPosSub() { return _subUnit.pos; }
 
 	// 兵科ごとに能力を変える関数
-	void SetStatusByType(UnitData& data)
+	static void SetStatusByType(UnitData& data)
 	{
 		switch (data.type)
 		{
@@ -106,29 +108,6 @@ public:
 			printfDx("Warning: Unknown UnitType");
 			break;
 		}
-	}
-
-	// 兵科を表示する関数
-	void DrawType(UnitData& data, int color)
-	{
-		std::string typeInit;
-
-		switch (data.type)
-		{
-		case UnitType::Soldier:
-			typeInit = "歩";
-			break;
-		case UnitType::Archer:
-			typeInit = "弓";
-			break;
-		case UnitType::Scout:
-			typeInit = "斥";
-			break;
-		default:
-			typeInit = "?";
-			break;
-		}
-		DrawString(data.pos.x * GameDefine::NODE_SIZE, data.pos.y * GameDefine::NODE_SIZE, typeInit.c_str(), color);
 	}
 
 protected:

@@ -83,18 +83,17 @@ void EnemyUnit::Init(RouteSearch* rs)
 
 void EnemyUnit::Update()
 {
+	// 行動間隔カウンタを増加
 	_mainUnit.moveTimer++;
 	_subUnit.moveTimer++;
 
+	// ピクセル座標を更新
 	_mainPosPixel = _mainUnit.pos * NODE_SIZE;
 	_subPosPixel = _subUnit.pos * NODE_SIZE;
 }
 
 void EnemyUnit::Draw()
 {
-	//if (_mainUnit.state != UnitState::Dead)
-	//	DrawType(_mainUnit, color::WhiteColor);
-	//if (_subUnit.state != UnitState::Dead)
-	//	DrawType(_subUnit, color::WhiteColor);
+
 }
 
