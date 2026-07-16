@@ -158,7 +158,6 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Character.h" />
-    <ClInclude Include="Collider.h" />
     <ClInclude Include="GameDefine.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Player.h" />

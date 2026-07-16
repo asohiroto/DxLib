@@ -41,6 +41,8 @@ public:
 	void UpdateAttack(std::shared_ptr<Input> pInput);
 	// 回避状態の更新
 	void UpdateDodge(std::shared_ptr<Input> pInput);
+	// 当たり判定の処理
+	void CollProcess(std::shared_ptr<Player> pOther);
 
 private:
 	// Y軸方向の移動

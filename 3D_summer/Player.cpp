@@ -101,12 +101,10 @@ void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput, std::share
 		}
 		else if (pInput->IsTrigger(PAD_INPUT_X))
 		{
-			_isWeakAttacking = true;
 			ChangeState(PlayerState::Attack);
 		}
 		else if (pInput->IsTrigger(PAD_INPUT_C))
 		{
-			_isStrongAttacking = true;
 			ChangeState(PlayerState::Attack);
 		}
 		else
@@ -117,6 +115,19 @@ void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput, std::share
 	else
 	{
 		ChangeState(PlayerState::Idle);
+	}
+
+	// 【デバッグ】ダメージクールダウンが終了すると色をもとに戻す
+	if (_damagedCount > DAMAGED_COOLDAWN)
+	{
+		_playerColor = 0xff0000;
+	}
+
+	// 攻撃を行ってから、20f経過すると攻撃を終了する
+	if (IsAttacking() && _attackCount >= 20/*pInput->IsTrigger(PAD_INPUT_X)*/)
+	{
+		_isWeakAttacking = false;
+		_isStrongAttacking = false;
 	}
 
 	// モデルの回転処理-----------------------------------------------------------
@@ -133,8 +144,6 @@ void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput, std::share
 	// ---------------------------------------------------------------------------
 
 	// アニメーションの再生処理---------------------------------------------------
-
-	_animCount += 0.5f;
 
 	if (_animCount >= _totalTime)
 	{
@@ -169,6 +178,34 @@ void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput, std::share
 
 	// --------------------------------------------------------------------------
 
+	// カウンターの更新
+	_damagedCount++;
+	_dodgeCount++;
+	_attackCount++;
+	_animCount += 0.5f;
+
+	// 各種更新処理
+
+	// Lスティックの入力がある間、攻撃判定の回転方向を、プレイヤーの向いている正規化ベクトルで更新
+	if (pInput->IsTiltingL() && !IsAttacking()) _attackDirection = VNorm(_movementDirection);
+
+
+	if (_isDodge)
+	{
+		// 方向に速度をかけて、_posを更新
+		_pos = VAdd(_pos, VScale(_dodgeDir, DODGE_SPEED));
+		// 回避距離
+		_dodgeMovement = DODGE_SPEED * _dodgeCount;
+
+		// 実際の回避距離が設定値を超えたら回避終了
+		if (_dodgeMovement >= DODGE_DISTANCE)
+		{
+			_isDodge = false;
+		}
+	}
+
+	// 当たり判定の更新
+	CollProcess(pOther);
 	// モデルを配置
 	MV1SetPosition(_modelH, _pos);
 }
@@ -299,13 +336,48 @@ void Player::UpdateMove(std::shared_ptr<Input> pInput, std::shared_ptr<Player> p
 	_movementDirection = VTransform(_move, _rotMatrix);
 
 	// 位置を更新
-	AnimChange(3);
+	//AnimChange(3);
 	_pos = VAdd(_pos, _movementDirection);
 
 	// 移動制限
 	_pos.x = std::clamp(static_cast<int>(_pos.x), -static_cast<int>(GRID_SIZE * GRID_NUM / 2), static_cast<int>(GRID_SIZE * GRID_NUM / 2));
 	_pos.z = std::clamp(static_cast<int>(_pos.z), -static_cast<int>(GRID_SIZE * GRID_NUM / 2), static_cast<int>(GRID_SIZE * GRID_NUM / 2));
+}
 
+// 攻撃状態の更新処理
+void Player::UpdateAttack(std::shared_ptr<Input> pInput)
+{
+	// 入力があって、攻撃中でないなら当たり判定を出す
+	if (!IsAttacking() && _damagedCount > DAMAGED_COOLDAWN)
+	{
+		if (pInput->IsTrigger(PAD_INPUT_X))
+		{
+			AttackProcess(pInput, 0);
+		}
+		else if (pInput->IsTrigger(PAD_INPUT_C))
+		{
+			AttackProcess(pInput, 1);
+		}
+	}
+}
+
+// 回避状態の更新処理
+void Player::UpdateDodge(std::shared_ptr<Input> pInput)
+{
+	// リセット
+	_dodgeMovement = 0.0f;
+	_dodgeCount = 0;
+
+	// 回避先の設定
+	VECTOR dodgePoint = VScale(_movementDirection, DODGE_DISTANCE);
+
+	// 回避方向の設定
+	_dodgeDir = VNorm(VSub(dodgePoint, _pos));
+	_isDodge = true;
+}
+
+void Player::CollProcess(std::shared_ptr<Player> pOther)
+{
 	// プレイヤーとプレイヤーの当たり判定
 
 	// 相手プレイヤーまでの距離を線分同士の距離の計算から算出
@@ -327,14 +399,6 @@ void Player::UpdateMove(std::shared_ptr<Input> pInput, std::shared_ptr<Player> p
 	}
 
 	// プレイヤーと攻撃の当たり判定
-
-	_damagedCount++;
-
-	// 【デバッグ】ダメージクールダウンが終了すると色をもとに戻す
-	if (_damagedCount > DAMAGED_COOLDAWN)
-	{
-		_playerColor = 0xff0000;
-	}
 
 	// 弱攻撃との当たり判定
 	if (pOther->IsWeakAttacking() && !_isDodge)
@@ -385,73 +449,6 @@ void Player::UpdateMove(std::shared_ptr<Input> pInput, std::shared_ptr<Player> p
 			_playerColor = 0x00ff00;
 			_isDamaged = false;
 			_damagedCount = 0;
-		}
-	}
-}
-
-// 攻撃状態の更新処理
-void Player::UpdateAttack(std::shared_ptr<Input> pInput)
-{
-
-	_attackCount++;
-
-	// Lスティックの入力がある間、攻撃判定の回転方向を、プレイヤーの向いている正規化ベクトルで更新
-	if (pInput->IsTiltingL() && !IsAttacking()) _attackDirection = VNorm(_movementDirection);
-
-	// 入力があって、攻撃中でないなら当たり判定を出す
-	if (!IsAttacking() && _damagedCount > DAMAGED_COOLDAWN)
-	{
-		if (pInput->IsTrigger(PAD_INPUT_X))
-		{
-			AttackProcess(pInput, 0);
-		}
-		else if (pInput->IsTrigger(PAD_INPUT_C))
-		{
-			AttackProcess(pInput, 1);
-		}
-	}
-
-	// 攻撃を行ってから、20f経過すると攻撃を終了する
-	if (IsAttacking() && _attackCount >= 20/*pInput->IsTrigger(PAD_INPUT_X)*/)
-	{
-		_isWeakAttacking = false;
-		_isStrongAttacking = false;
-	}
-
-
-}
-
-// 回避状態の更新処理
-void Player::UpdateDodge(std::shared_ptr<Input> pInput)
-{
-	_dodgeCount++;
-
-	// Aが押された時に、回避中でも攻撃中でもなく、左スティックの入力があれば回避を行う
-	if (pInput->IsTrigger(PAD_INPUT_A) && !_isDodge && !IsAttacking() && pInput->IsTiltingL())
-	{
-		// リセット
-		_dodgeMovement = 0.0f;
-		_dodgeCount = 0;
-
-		// 回避先の設定
-		VECTOR dodgePoint = VScale(_movementDirection, DODGE_DISTANCE);
-
-		// 回避方向の設定
-		_dodgeDir = VNorm(VSub(dodgePoint, _pos));
-		_isDodge = true;
-	}
-
-	if (_isDodge)
-	{
-		// 方向に速度をかけて、_posを更新
-		_pos = VAdd(_pos, VScale(_dodgeDir, DODGE_SPEED));
-		// 回避距離
-		_dodgeMovement = DODGE_SPEED * _dodgeCount;
-
-		// 実際の回避距離が設定値を超えたら回避終了
-		if (_dodgeMovement >= DODGE_DISTANCE)
-		{
-			_isDodge = false;
 		}
 	}
 }
