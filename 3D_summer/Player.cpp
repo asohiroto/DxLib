@@ -134,38 +134,38 @@ void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput, std::share
 
 	// アニメーションの再生処理---------------------------------------------------
 
-	//_animCount += 0.5f;
+	_animCount += 0.5f;
 
-	//if (_animCount >= _totalTime)
-	//{
-	//	_animCount = 0.0f;
-	//}
+	if (_animCount >= _totalTime)
+	{
+		_animCount = 0.0f;
+	}
 
-	//MV1SetAttachAnimTime(_modelH, _attachAnimIndex, _animCount);
+	MV1SetAttachAnimTime(_modelH, _attachAnimIndex, _animCount);
 
-	//if (_isAnimChange)
-	//{
-	//	_blendRate += 0.1f;
+	if (_isAnimChange)
+	{
+		_blendRate += 0.1f;
 
-	//	if (_blendRate >= 1.0f)
-	//	{
-	//		_blendRate = 1.0f;
+		if (_blendRate >= 1.0f)
+		{
+			_blendRate = 1.0f;
 
-	//		if (_prevAttachAnimIndex != -1)
-	//		{
-	//			MV1DetachAnim(_modelH, _prevAttachAnimIndex);
-	//			_prevAttachAnimIndex = -1;
-	//		}
-	//	}
+			if (_prevAttachAnimIndex != -1)
+			{
+				MV1DetachAnim(_modelH, _prevAttachAnimIndex);
+				_prevAttachAnimIndex = -1;
+			}
+		}
 
-	//	MV1SetAttachAnimBlendRate(_modelH, _prevAttachAnimIndex, 1.0f - _blendRate);
-	//	MV1SetAttachAnimBlendRate(_modelH, _attachAnimIndex, _blendRate);
+		MV1SetAttachAnimBlendRate(_modelH, _prevAttachAnimIndex, 1.0f - _blendRate);
+		MV1SetAttachAnimBlendRate(_modelH, _attachAnimIndex, _blendRate);
 
-	//	if (_blendRate >= 1.0f)
-	//	{
-	//		_isAnimChange = false;
-	//	}
-	//}
+		if (_blendRate >= 1.0f)
+		{
+			_isAnimChange = false;
+		}
+	}
 
 	// --------------------------------------------------------------------------
 
@@ -299,6 +299,7 @@ void Player::UpdateMove(std::shared_ptr<Input> pInput, std::shared_ptr<Player> p
 	_movementDirection = VTransform(_move, _rotMatrix);
 
 	// 位置を更新
+	AnimChange(3);
 	_pos = VAdd(_pos, _movementDirection);
 
 	// 移動制限
