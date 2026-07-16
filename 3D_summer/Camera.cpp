@@ -38,6 +38,9 @@ void Camera::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Input> pInp
 {
 	_cameraLerpRate = 0;
 
+	int rx = pInput->GetRightStickX();
+	int ry = pInput->GetRightStickY();
+
 	// 注視点
 	VECTOR targetPos = VGet(0.0f, 0.0f, 0.0f);
 
@@ -63,7 +66,7 @@ void Camera::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Input> pInp
 			VECTOR rawForward = VGet(sinf(playerAngle), 0, cosf(playerAngle));
 
 			// 移動入力があるときだけ、前方向の追従を有効にする
-			if (pInput->GetLeftStickX() != 0 || pInput->GetLeftStickY() != 0)
+			if (pInput->IsTiltingL())
 			{
 				_cameraLerpRate = 0.03f;
 			}
@@ -83,16 +86,6 @@ void Camera::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Input> pInp
 			targetPos.y += CAMERA_TARGET_HEIGHT;
 		}
 	}
-
-	// 右スティックの生の値を取得し、デッドゾーン未満は0として扱う
-	// （スティックのドリフトによる誤入力を防ぐ）
-	int rx = pInput->GetRightStickX();
-	int ry = pInput->GetRightStickY();
-	if (std::abs(rx) < STICK_DEAD_ZONE) { rx = 0; }
-	if (std::abs(ry) < STICK_DEAD_ZONE) { ry = 0; }
-
-	// カメラ操作の入力があるかどうかをここで確定させる
-	bool hasStickInput = (rx != 0 || ry != 0);
 
 	// 入力に応じて水平、垂直方向にカメラの回転角度を決定
 	// （-1000～1000の入力値を-1.0～1.0に正規化して使う）
@@ -124,7 +117,7 @@ void Camera::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Input> pInp
 			return;
 		}
 
-		if (hasStickInput)
+		if (pInput->IsTiltingL())
 		{
 			// 入力中：現在の向きから目標の向きへ、球面線形補間で少しずつ近づける
 			_nowDir = VNorm(VSub(cameraPos, targetPos));

@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include<DxLib.h>
 
 namespace GameDefine
 {
@@ -37,12 +38,32 @@ namespace GameDefine
 	constexpr int GRID_NUM = 20;
 
 	// プレイヤーの挙動---------------------------------------
+	// プレイヤーの当たり判定の半径
+	constexpr float PLAYER_COL_RADIUS = 120.0f;
+	// プレイヤーの当たり判定の線分の始点の補正値
+	constexpr VECTOR PLAYER_SEGMENT_START_COR = { 0.0f, 100.0f, 0.0f };
+	// プレイヤーの当たり判定の線分の終点の補正値
+	constexpr VECTOR PLAYER_SEGMENT_FINISH_COR = { 0.0f, 450.0f, 0.0f };
 	// 移動速度
-	constexpr float MOVE_SPEED = 10.0f;
+	constexpr float MOVE_SPEED = 12.0f;
 	// 最大回避距離
-	constexpr float DODGE_DISTANCE = 200.0f;
+	constexpr float DODGE_DISTANCE = 300.0f;
 	// 回避速度
-	constexpr float DODGE_SPEED = 40.0f;
+	constexpr float DODGE_SPEED = 50.0f;
+	// 弱攻撃の当たり判定の生成高さの補正値
+	constexpr VECTOR WEAK_ATTACK_HEIGHT_COR = { 0.0f, 400.0f, 0.0f };
+	// 弱攻撃の当たり判定の生成位置の補正値
+	constexpr float WEAK_ATTACK_POS_COR = 200.0f;
+	// 弱攻撃の当たり判定の半径
+	constexpr float WEAK_ATTACK_RADIUS = 100.0f;
+	// ダメージ判定の間隔
+	constexpr int DAMAGED_COOLDAWN = 20;
+	// 強攻撃の当たり判定の生成高さの補正値
+	constexpr VECTOR STRONG_ATTACK_HEIGHT_COR = { 0.0f, 300.0f, 0.0f };
+	// 強攻撃の当たり判定の生成位置の補正値
+	constexpr float STRONG_ATTACK_POS_COR = 250.0f;
+	// 強攻撃の当たり判定の半径
+	constexpr float STRONG_ATTACK_RADIUS = 120.0f;
 
 	// ゲームパッド用の設定-----------------------------------
 	// スティックのデッドゾーン

@@ -1,4 +1,9 @@
 ﻿#pragma once
+#include"GameDefine.h"
+#include<DxLib.h>
+#include<cmath>
+
+using namespace GameDefine;
 
 class Input
 {
@@ -13,12 +18,18 @@ public:
 	bool IsPress(int key);
 	// 離した瞬間を取得
 	bool IsRelease(int key);
-	// 右スティックの入力値を取得
+	// 右スティックのX方向入力値を取得
 	int GetRightStickX() const { return _rx; }
+	// 右スティックのY方向入力値を取得
 	int GetRightStickY() const { return _ry; }
-	// 左スティックの入力値を取得
+	// 左スティックのX方向入力値を取得
 	int GetLeftStickX() const { return _lx; }
+	// 左スティックのY方向入力値を取得
 	int GetLeftStickY() const { return _ly; }
+	// Lスティックが倒されているか（入力されているか）を返す関数
+	bool IsTiltingL() const { return (std::abs(_lx) > STICK_DEAD_ZONE || std::abs(_ly) > STICK_DEAD_ZONE); }
+	// Rスティックが倒されているか（入力されているか）を返す関数
+	bool IsTiltingR() const { return (std::abs(_rx) > STICK_DEAD_ZONE || std::abs(_ry) > STICK_DEAD_ZONE); }
 
 private:
 	// 前フレームの入力状態

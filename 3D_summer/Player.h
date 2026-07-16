@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "Character.h"
+#include"Character.h"
 #include<DxLib.h>
 #include<memory>
 
@@ -16,6 +16,31 @@ public:
 	void Draw() override;
 	// カメラの角度を取得する
 	float GetAngle() const { return _angle; }
+	// 弱攻撃の当たり判定の中心座標のゲッター
+	VECTOR GetWeakCollPos() const { return _weakCollPos; }
+	// 攻撃処理
+	void AttackProcess(std::shared_ptr<Input> pInput, int type);
+	// 攻撃中か
+	bool IsAttacking() const { return (_isWeakAttacking || _isStrongAttacking); }
+	// 弱攻撃中か
+	bool IsWeakAttacking() const { return _isWeakAttacking; }
+	// 強攻撃中か
+	bool IsStrongAttacking() const { return _isStrongAttacking; }
+	// 強攻撃の当たり判定の中心座標のゲッター
+	VECTOR GetStrongCollPos() const { return _strongCollPos; }
+	// アニメーション変更関数
+	void AnimChange(int animIndex);
+
+	// ステートの変更
+	void ChangeState(PlayerState next);
+	// 待機状態の更新
+	void UpdateIdle(std::shared_ptr<Input> pInput);
+	// 移動状態の更新
+	void UpdateMove(std::shared_ptr<Input> pInput, std::shared_ptr<Player> pOther, float cameraAngle);
+	// 攻撃状態の更新
+	void UpdateAttack(std::shared_ptr<Input> pInput);
+	// 回避状態の更新
+	void UpdateDodge(std::shared_ptr<Input> pInput);
 
 private:
 	// Y軸方向の移動
@@ -38,15 +63,41 @@ private:
 	int _dodgeCount;
 	// 回避の方向
 	VECTOR _dodgeDir;
-
+	//攻撃可能間隔のカウンタ
 	int _attackCount;
-
-	bool _isAttacking = false;
-
+	// 弱攻撃中か
+	bool _isWeakAttacking;
+	// 弱攻撃判定の中心座標
 	VECTOR _weakCollPos;
+	// 弱攻撃の回転方向の一時保存用
+	VECTOR _attackDirection;
+	// プレイヤー1、２の判別用
+	int _idTemp;
+	// ダメージを受けたか
+	bool _isDamaged;
+	// ダメージ判定用のカウンタ
+	int _damagedCount;
+	// 【デバッグ】プレイヤーの当たり判定の色
+	int _playerColor;
+	// 強攻撃判定の中心座標
+	VECTOR _strongCollPos;
+	// 強攻撃中か
+	bool _isStrongAttacking;
+	// アタッチしているアニメーションの番号
+	int _attachAnimIndex;
+	// アニメーション再生用のカウンタ
+	float _animCount;
+	// アニメーションの総再生時間
+	float _totalTime;
+	// 変更元のアニメーションの番号
+	int _prevAttachAnimIndex;
+	// ブレンド率
+	float _blendRate;
+	// アニメーションを変化させるか
+	bool _isAnimChange;
+	// 変更先のアニメーションの番号
+	int _nextAttachAnimIndex;
 
-	VECTOR _moveTemp;
-
-	int idTemp;
+	PlayerState _state;
 };
 
