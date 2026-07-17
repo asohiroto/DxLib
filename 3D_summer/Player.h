@@ -107,5 +107,7 @@ private:
 	bool _isDash;
 	// プレイヤーの移動速度
 	float _playerSpeed;
+
+	float _animSpeed;
 };
 

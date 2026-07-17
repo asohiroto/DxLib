@@ -45,7 +45,7 @@ void Camera::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Input> pInp
 	VECTOR targetPos = VGet(0.0f, 0.0f, 0.0f);
 
 	// Bボタンでカメラモードを切り替える
-	if (pInput->IsTrigger(PAD_INPUT_Y))
+	if (pInput->IsTrigger(PAD_INPUT_A))
 	{
 		_changedCameraMode = !_changedCameraMode;
 	}

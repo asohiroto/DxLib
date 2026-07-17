@@ -38,7 +38,8 @@ Player::Player() :
 	_prevAttachAnimIndex(-1),
 	_state(PlayerState::Idle),
 	_isDash(false),
-	_playerSpeed(MOVE_SPEED)
+	_playerSpeed(MOVE_SPEED),
+	_animSpeed(0.5f)
 {
 
 }
@@ -183,7 +184,7 @@ void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput, std::share
 	_damagedCount++;
 	_dodgeCount++;
 	_attackCount++;
-	_animCount += 0.5f;
+	_animCount += _animSpeed;
 
 	// 各種更新処理
 
@@ -299,6 +300,7 @@ void Player::AttackProcess(std::shared_ptr<Input> pInput, int type)
 	_attackCount = 0;
 }
 
+// アニメーション切り替え処理
 void Player::AnimChange(int animIndex)
 {
 	if (_prevAttachAnimIndex != -1)
@@ -312,6 +314,22 @@ void Player::AnimChange(int animIndex)
 	_blendRate = 0.0f;
 	_totalTime = MV1GetAttachAnimTotalTime(_modelH, _attachAnimIndex);
 	_isAnimChange = true;
+
+	switch (animIndex)
+	{
+	case 0:
+		_animSpeed = 1.0f;
+		break;
+	case 1:
+		_animSpeed = 0.5f;
+		break;
+	case 2:
+		_animSpeed = 0.75f;
+		break;
+	case 3:
+		_animSpeed = 0.5f;
+		break;
+	}
 }
 
 void Player::ChangeState(PlayerState next)
