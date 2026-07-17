@@ -33,9 +33,9 @@ namespace GameDefine
 
 	// デバッグ用の表示---------------------------------------
 	// 足元に表示するグリッドの大きさ
-	constexpr int GRID_SIZE = 100;
+	constexpr int GRID_SIZE = 200;
 	// 足元に表示するグリッドの数
-	constexpr int GRID_NUM = 20;
+	constexpr int GRID_NUM = 30;
 
 	// プレイヤーの挙動---------------------------------------
 	// プレイヤーの当たり判定の半径
@@ -46,10 +46,12 @@ namespace GameDefine
 	constexpr VECTOR PLAYER_SEGMENT_FINISH_COR = { 0.0f, 450.0f, 0.0f };
 	// 移動速度
 	constexpr float MOVE_SPEED = 12.0f;
+	// ダッシュ速度
+	constexpr float DASH_SPEED = 24.0f;
 	// 最大回避距離
-	constexpr float DODGE_DISTANCE = 300.0f;
+	constexpr float DODGE_DISTANCE = 1300.0f;
 	// 回避速度
-	constexpr float DODGE_SPEED = 50.0f;
+	constexpr float DODGE_SPEED = 20.0f;
 	// 弱攻撃の当たり判定の生成高さの補正値
 	constexpr VECTOR WEAK_ATTACK_HEIGHT_COR = { 0.0f, 400.0f, 0.0f };
 	// 弱攻撃の当たり判定の生成位置の補正値
@@ -58,6 +60,8 @@ namespace GameDefine
 	constexpr float WEAK_ATTACK_RADIUS = 100.0f;
 	// ダメージ判定の間隔
 	constexpr int DAMAGED_COOLDAWN = 20;
+	// 攻撃の持続時間
+	constexpr int ATTACKING_FRAME = 120;
 	// 強攻撃の当たり判定の生成高さの補正値
 	constexpr VECTOR STRONG_ATTACK_HEIGHT_COR = { 0.0f, 300.0f, 0.0f };
 	// 強攻撃の当たり判定の生成位置の補正値

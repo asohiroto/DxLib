@@ -36,7 +36,9 @@ Player::Player() :
 	_isAnimChange(false),
 	_nextAttachAnimIndex(-1),
 	_prevAttachAnimIndex(-1),
-	_state(PlayerState::Idle)
+	_state(PlayerState::Idle),
+	_isDash(false),
+	_playerSpeed(MOVE_SPEED)
 {
 
 }
@@ -71,6 +73,11 @@ void Player::Init(int id)
 	// 安全策
 	assert(_modelH != -1);
 
+	int rootFrame = 0;
+
+	MATRIX baseMat = MV1GetFrameBaseLocalMatrix(_modelH, rootFrame);
+	MV1SetFrameUserLocalMatrix(_modelH, rootFrame, baseMat);
+
 	// プレイヤーのコリジョン情報を設定
 	SetCollision(true, CollisionType::Capsule, PLAYER_COL_RADIUS, -1);
 }
@@ -85,55 +92,49 @@ void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput, std::share
 	case PlayerState::Move:
 		UpdateMove(pInput, pOther, cameraAngle);
 		break;
-	case PlayerState::Attack:
-		UpdateAttack(pInput);
+	case PlayerState::WAttack:
+		UpdateWAttack(pInput);
+		break;
+	case PlayerState::SAttack:
+		UpdateSAttack(pInput);
 		break;
 	case PlayerState::Dodge:
 		UpdateDodge(pInput);
 		break;
 	}
 
-	if (pInput->IsTiltingL())
+	if (!IsAttacking() && !_isDodge)
 	{
-		if (pInput->IsTrigger(PAD_INPUT_A))
+		if (pInput->IsTiltingL())
 		{
-			ChangeState(PlayerState::Dodge);
-		}
-		else if (pInput->IsTrigger(PAD_INPUT_X))
-		{
-			ChangeState(PlayerState::Attack);
-		}
-		else if (pInput->IsTrigger(PAD_INPUT_C))
-		{
-			ChangeState(PlayerState::Attack);
+			if (pInput->IsTrigger(PAD_INPUT_A))
+			{
+				ChangeState(PlayerState::Dodge);
+			}
+			else
+			{
+				ChangeState(PlayerState::Move);
+			}
 		}
 		else
 		{
-			ChangeState(PlayerState::Move);
+			ChangeState(PlayerState::Idle);
 		}
-	}
-	else
-	{
-		ChangeState(PlayerState::Idle);
-	}
 
-	// 【デバッグ】ダメージクールダウンが終了すると色をもとに戻す
-	if (_damagedCount > DAMAGED_COOLDAWN)
-	{
-		_playerColor = 0xff0000;
-	}
-
-	// 攻撃を行ってから、20f経過すると攻撃を終了する
-	if (IsAttacking() && _attackCount >= 20/*pInput->IsTrigger(PAD_INPUT_X)*/)
-	{
-		_isWeakAttacking = false;
-		_isStrongAttacking = false;
+		if (pInput->IsTrigger(PAD_INPUT_X))
+		{
+			ChangeState(PlayerState::WAttack);
+		}
+		else if (pInput->IsTrigger(PAD_INPUT_C))
+		{
+			ChangeState(PlayerState::SAttack);
+		}
 	}
 
 	// モデルの回転処理-----------------------------------------------------------
 
 	// 攻撃中でなければ、モデルが向く方向を定める
-	if (VSize(_movementDirection) > 0.0f && _state != PlayerState::Attack)
+	if (VSize(_movementDirection) > 0.0f && !IsAttacking())
 	{
 		_angle = atan2f(_movementDirection.x, _movementDirection.z) + DX_PI_F;
 	}
@@ -189,7 +190,7 @@ void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput, std::share
 	// Lスティックの入力がある間、攻撃判定の回転方向を、プレイヤーの向いている正規化ベクトルで更新
 	if (pInput->IsTiltingL() && !IsAttacking()) _attackDirection = VNorm(_movementDirection);
 
-
+	// 回避の更新処理
 	if (_isDodge)
 	{
 		// 方向に速度をかけて、_posを更新
@@ -201,8 +202,42 @@ void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput, std::share
 		if (_dodgeMovement >= DODGE_DISTANCE)
 		{
 			_isDodge = false;
+			ChangeState(PlayerState::Idle);
 		}
 	}
+
+	// 攻撃を行ってから、20f経過すると攻撃を終了する
+	if (IsAttacking() && _attackCount >= ATTACKING_FRAME)
+	{
+		_isWeakAttacking = false;
+		_isStrongAttacking = false;
+		ChangeState(PlayerState::Idle);
+	}
+
+	// 【デバッグ】ダメージクールダウンが終了すると色をもとに戻す
+	if (_damagedCount > DAMAGED_COOLDAWN)
+	{
+		_playerColor = 0xff0000;
+	}
+
+	if (pInput->IsTrigger(PAD_INPUT_B))
+	{
+		if (!_isDash)
+		{
+			_playerSpeed = DASH_SPEED;
+			_isDash = true;
+		}
+		else if (_isDash)
+		{
+			_playerSpeed = MOVE_SPEED;
+			_isDash = false;
+		}
+	}
+
+
+	// 移動制限
+	_pos.x = std::clamp(static_cast<int>(_pos.x), -static_cast<int>(GRID_SIZE * GRID_NUM / 2), static_cast<int>(GRID_SIZE * GRID_NUM / 2));
+	_pos.z = std::clamp(static_cast<int>(_pos.z), -static_cast<int>(GRID_SIZE * GRID_NUM / 2), static_cast<int>(GRID_SIZE * GRID_NUM / 2));
 
 	// 当たり判定の更新
 	CollProcess(pOther);
@@ -266,8 +301,14 @@ void Player::AttackProcess(std::shared_ptr<Input> pInput, int type)
 
 void Player::AnimChange(int animIndex)
 {
+	if (_prevAttachAnimIndex != -1)
+	{
+		MV1DetachAnim(_modelH, _prevAttachAnimIndex);
+	}
+
 	_prevAttachAnimIndex = _attachAnimIndex;
 	_attachAnimIndex = MV1AttachAnim(_modelH, animIndex, -1, false);
+	_animCount = 0.0f;
 	_blendRate = 0.0f;
 	_totalTime = MV1GetAttachAnimTotalTime(_modelH, _attachAnimIndex);
 	_isAnimChange = true;
@@ -279,19 +320,29 @@ void Player::ChangeState(PlayerState next)
 
 	_state = next;
 
+	// 関数の初期設定処理
 	switch (next)
 	{
 	case PlayerState::Idle:
+		AnimChange(1);
 		break;
 	case PlayerState::Move:
+		AnimChange(3);
 		break;
-	case PlayerState::Attack:
+	case PlayerState::WAttack:
+		AnimChange(0);
+		break;
+	case PlayerState::SAttack:
+		AnimChange(0);
 		break;
 	case PlayerState::Dodge:
-		break;
-	default:
+		// リセット
+		_dodgeMovement = 0.0f;
+		_dodgeCount = 0;
+		AnimChange(2);
 		break;
 	}
+
 }
 
 // 待機状態の更新処理
@@ -316,7 +367,7 @@ void Player::UpdateMove(std::shared_ptr<Input> pInput, std::shared_ptr<Player> p
 	_move = VNorm(_move);
 
 	// 移動速度（最大で10.0f）
-	float speed = MOVE_SPEED * rate;
+	float speed = _playerSpeed * rate;
 
 	// 移動速度を反映した移動量を決定
 	_move = VScale(_move, speed);
@@ -338,36 +389,32 @@ void Player::UpdateMove(std::shared_ptr<Input> pInput, std::shared_ptr<Player> p
 	// 位置を更新
 	//AnimChange(3);
 	_pos = VAdd(_pos, _movementDirection);
-
-	// 移動制限
-	_pos.x = std::clamp(static_cast<int>(_pos.x), -static_cast<int>(GRID_SIZE * GRID_NUM / 2), static_cast<int>(GRID_SIZE * GRID_NUM / 2));
-	_pos.z = std::clamp(static_cast<int>(_pos.z), -static_cast<int>(GRID_SIZE * GRID_NUM / 2), static_cast<int>(GRID_SIZE * GRID_NUM / 2));
 }
 
-// 攻撃状態の更新処理
-void Player::UpdateAttack(std::shared_ptr<Input> pInput)
+// 弱攻撃状態の更新処理
+void Player::UpdateWAttack(std::shared_ptr<Input> pInput)
 {
 	// 入力があって、攻撃中でないなら当たり判定を出す
 	if (!IsAttacking() && _damagedCount > DAMAGED_COOLDAWN)
 	{
-		if (pInput->IsTrigger(PAD_INPUT_X))
-		{
-			AttackProcess(pInput, 0);
-		}
-		else if (pInput->IsTrigger(PAD_INPUT_C))
-		{
-			AttackProcess(pInput, 1);
-		}
+		AttackProcess(pInput, 0);
 	}
+}
+
+// 強攻撃状態の更新
+void Player::UpdateSAttack(std::shared_ptr<Input> pInput)
+{
+	// 入力があって、攻撃中でないなら当たり判定を出す
+	if (!IsAttacking() && _damagedCount > DAMAGED_COOLDAWN)
+	{
+		AttackProcess(pInput, 1);
+	}
+
 }
 
 // 回避状態の更新処理
 void Player::UpdateDodge(std::shared_ptr<Input> pInput)
 {
-	// リセット
-	_dodgeMovement = 0.0f;
-	_dodgeCount = 0;
-
 	// 回避先の設定
 	VECTOR dodgePoint = VScale(_movementDirection, DODGE_DISTANCE);
 

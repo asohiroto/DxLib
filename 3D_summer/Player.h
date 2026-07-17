@@ -37,8 +37,10 @@ public:
 	void UpdateIdle(std::shared_ptr<Input> pInput);
 	// 移動状態の更新
 	void UpdateMove(std::shared_ptr<Input> pInput, std::shared_ptr<Player> pOther, float cameraAngle);
-	// 攻撃状態の更新
-	void UpdateAttack(std::shared_ptr<Input> pInput);
+	// 弱攻撃状態の更新
+	void UpdateWAttack(std::shared_ptr<Input> pInput);
+	// 強攻撃状態の更新
+	void UpdateSAttack(std::shared_ptr<Input> pInput);
 	// 回避状態の更新
 	void UpdateDodge(std::shared_ptr<Input> pInput);
 	// 当たり判定の処理
@@ -99,7 +101,11 @@ private:
 	bool _isAnimChange;
 	// 変更先のアニメーションの番号
 	int _nextAttachAnimIndex;
-
+	// プレイヤーステート
 	PlayerState _state;
+	// ダッシュ中か
+	bool _isDash;
+	// プレイヤーの移動速度
+	float _playerSpeed;
 };
 

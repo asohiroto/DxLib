@@ -19,7 +19,8 @@ public:
 		Idle,
 		Move,
 		Dodge,
-		Attack
+		WAttack,
+		SAttack
 	};
 
 public:
