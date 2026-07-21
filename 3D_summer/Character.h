@@ -29,9 +29,9 @@ public:
 	virtual void Init() {};
 	virtual void Update(float cameraAngle, std::shared_ptr<Input> pInput) {};
 	virtual void Draw() {};
-	// _posのゲッター
+	// 座標のゲッター
 	VECTOR GetPos() const { return _pos; }
-	// _posのセッター
+	// 座標のセッター
 	void SetPos(VECTOR pos) { _pos = pos; }
 	// コリジョン情報のセッター
 	void SetCollision(bool isCollidable, CollisionType collisionType, float radius, int polygonH)
@@ -49,6 +49,12 @@ public:
 	float GetRadius() const { return _radius; }
 	// ポリゴンハンドルの取得
 	int GetPolH() const { return _polygonH; }
+	// 体力のゲッター
+	int GetHp() const { return _playerHp; }
+	// 最大体力のゲッター
+	int GetMaxHp() const { return _maxPlayerHp; }
+	// 体力のセッター
+	void SetHp(int amount) { _playerHp = amount; }
 
 protected:
 	// モデルのハンドル
@@ -63,5 +69,9 @@ protected:
 	float _radius = 0.0f;
 	// ポリゴンのハンドル
 	int _polygonH = -1;
+	// プレイヤーの最大体力
+	int _maxPlayerHp = 500;
+	// プレイヤーの体力
+	int _playerHp = 500;
 };
 

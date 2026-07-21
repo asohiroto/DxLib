@@ -3,6 +3,7 @@
 #include"Camera.h"
 #include"Input.h"
 #include"GameDefine.h"
+#include<algorithm>
 #include<DxLib.h>
 
 using namespace GameDefine;
@@ -12,7 +13,8 @@ SceneGame::SceneGame() :
 	p_PlayerSub(nullptr),
 	p_Camera(nullptr),
 	p_Input(nullptr),
-	p_InputSub(nullptr)
+	p_InputSub(nullptr),
+	_hitstopCount(0)
 {
 
 }
@@ -42,10 +44,25 @@ void SceneGame::Update()
 {
 	p_Input->Update();
 	p_InputSub->Update();
+
+	// カウンタの更新
+	_hitstopCount++;
+
+	if (_hitstopCount > 0)
+	{
+		_hitstopCount--;
+		return;
+	}
 	p_Player->Update(p_Camera->GetCameraYaw(), p_Input, p_PlayerSub);
 	p_PlayerSub->Update(p_CameraSub->GetCameraYaw(), p_InputSub, p_Player);
 	p_Camera->Update(p_Player, p_Input);
 	p_CameraSub->Update(p_PlayerSub, p_InputSub);
+
+	// 両プレイヤーからヒットストップのフレームを取得
+	int request1 = p_Player->HitstopRequest();
+	int request2 = p_PlayerSub->HitstopRequest();
+
+	_hitstopCount = std::max(request1, request2);
 }
 
 void SceneGame::Draw()
@@ -82,10 +99,11 @@ void SceneGame::Draw()
 	DrawFormatString(7, 30, 0xffffff, "Position X : %.2f", p_Player->GetPos().x);
 	DrawFormatString(7, 50, 0xffffff, "         Y : %.2f", p_Player->GetPos().y);
 	DrawFormatString(7, 70, 0xffffff, "         Z : %.2f", p_Player->GetPos().z);
+	DrawFormatString(7, 90, 0xffffff, "HP : %d / %d", p_Player->GetHp(), p_Player->GetMaxHp());
 	DrawFormatString((WIDTH / 2) + 10, 30, 0xffffff, "Position X : %.2f", p_PlayerSub->GetPos().x);
 	DrawFormatString((WIDTH / 2) + 10, 50, 0xffffff, "         Y : %.2f", p_PlayerSub->GetPos().y);
 	DrawFormatString((WIDTH / 2) + 10, 70, 0xffffff, "         Z : %.2f", p_PlayerSub->GetPos().z);
-
+	DrawFormatString((WIDTH / 2) + 10, 90, 0xffffff, "HP : %d / %d", p_PlayerSub->GetHp(), p_PlayerSub->GetMaxHp());
 }
 
 void SceneGame::DrawGrid() const

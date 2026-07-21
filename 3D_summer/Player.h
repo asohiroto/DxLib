@@ -45,6 +45,8 @@ public:
 	void UpdateDodge(std::shared_ptr<Input> pInput);
 	// 当たり判定の処理
 	void CollProcess(std::shared_ptr<Player> pOther);
+	// ヒットストップのフレーム数を取得し、その値をリセットする
+	int HitstopRequest();
 
 private:
 	// Y軸方向の移動
@@ -107,7 +109,9 @@ private:
 	bool _isDash;
 	// プレイヤーの移動速度
 	float _playerSpeed;
-
+	// アニメーションの再生速度
 	float _animSpeed;
+	// 被弾時にヒットストップするフレーム数
+	int _hitstopRequestFrame;
 };
 

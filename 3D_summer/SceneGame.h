@@ -30,5 +30,7 @@ private:
 	std::shared_ptr<Input> p_Input;
 	// サブプレイヤーのインプットクラスの共有ポインタ　
 	std::shared_ptr<Input> p_InputSub;
+	// ヒットストップ更新処理用のカウンタ
+	int _hitstopCount;
 };
 

@@ -45,7 +45,7 @@ void Camera::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Input> pInp
 	VECTOR targetPos = VGet(0.0f, 0.0f, 0.0f);
 
 	// Bボタンでカメラモードを切り替える
-	if (pInput->IsTrigger(PAD_INPUT_A))
+	if (pInput->IsTrigger(PAD_INPUT_5))
 	{
 		_changedCameraMode = !_changedCameraMode;
 	}
@@ -130,7 +130,7 @@ void Camera::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Input> pInp
 			// 「実際に見えている向き」からyaw/pitchを逆算して生の値に書き戻し、遅れを清算する。
 			// これにより、次の入力は必ず今見えている画角を開始地点として始まる。
 			// ※_slerpedDirはCAMERA_DISTANCEが負のため全成分が反転している。
-			// 　逆算時はマイナスを付けて反転を打ち消す
+			// 逆算時はマイナスを付けて反転を打ち消す
 			_cameraPitch = std::asinf(-_slerpedDir.y);
 			_cameraYaw = std::atan2f(-_slerpedDir.x, -_slerpedDir.z);
 
@@ -173,7 +173,7 @@ void Camera::Draw(int playerNum)
 		break;
 	}
 
-	DrawFormatString(3, 100, 0xffffff, "CameraMode : %d", _changedCameraMode);
+	DrawFormatString(3, 110, 0xffffff, "CameraMode : %d", _changedCameraMode);
 }
 
 VECTOR Camera::Slerp(VECTOR p0, VECTOR p1, float t)

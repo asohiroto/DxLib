@@ -49,7 +49,7 @@ namespace GameDefine
 	// ダッシュ速度
 	constexpr float DASH_SPEED = 24.0f;
 	// 最大回避距離
-	constexpr float DODGE_DISTANCE = 1300.0f;
+	constexpr float DODGE_DISTANCE = 800.0f;
 	// 回避速度
 	constexpr float DODGE_SPEED = 20.0f;
 	// 弱攻撃の当たり判定の生成高さの補正値
@@ -59,15 +59,27 @@ namespace GameDefine
 	// 弱攻撃の当たり判定の半径
 	constexpr float WEAK_ATTACK_RADIUS = 100.0f;
 	// ダメージ判定の間隔
-	constexpr int DAMAGED_COOLDAWN = 20;
+	constexpr int DAMAGED_COOLDAWN = 60;
 	// 攻撃の持続時間
-	constexpr int ATTACKING_FRAME = 120;
+	constexpr int ATTACKING_FRAME = 60;
 	// 強攻撃の当たり判定の生成高さの補正値
 	constexpr VECTOR STRONG_ATTACK_HEIGHT_COR = { 0.0f, 300.0f, 0.0f };
 	// 強攻撃の当たり判定の生成位置の補正値
 	constexpr float STRONG_ATTACK_POS_COR = 250.0f;
 	// 強攻撃の当たり判定の半径
 	constexpr float STRONG_ATTACK_RADIUS = 120.0f;
+	// 弱攻撃ダメージ
+	constexpr int WEAK_ATTACK_DAMAGE = 100;
+	// 弱攻撃回復
+	constexpr int WEAK_ATTACK_ABSORB = 100;
+	// 強攻撃ダメージ
+	constexpr int STRONG_ATTACK_DAMAGE = 200;
+	// 強攻撃回復
+	constexpr int STRONG_ATTACK_ABSORB = 50;
+	// 弱攻撃のヒットストップフレーム
+	constexpr int WEAK_HITSTOP_FRAME = 6;
+	// 強攻撃のヒットストップフレーム
+	constexpr int STRONG_HITSTOP_FRAME = 12;
 
 	// ゲームパッド用の設定-----------------------------------
 	// スティックのデッドゾーン

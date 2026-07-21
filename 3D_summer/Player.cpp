@@ -39,7 +39,8 @@ Player::Player() :
 	_state(PlayerState::Idle),
 	_isDash(false),
 	_playerSpeed(MOVE_SPEED),
-	_animSpeed(0.5f)
+	_animSpeed(0.5f),
+	_hitstopRequestFrame(0)
 {
 
 }
@@ -51,6 +52,9 @@ Player::~Player()
 
 void Player::Init(int id)
 {
+	// プレイヤーの体力を最大値に初期化
+	_playerHp = _maxPlayerHp;
+
 	// プレイヤーに応じてモデルを変化
 	if (id == 1)
 	{
@@ -65,6 +69,7 @@ void Player::Init(int id)
 		_idTemp = id;
 	}
 
+	//アニメーション関係初期設定
 	_attachAnimIndex = MV1AttachAnim(_modelH, 1, -1, false);
 	_totalTime = MV1GetAttachAnimTotalTime(_modelH, _attachAnimIndex);
 
@@ -74,8 +79,8 @@ void Player::Init(int id)
 	// 安全策
 	assert(_modelH != -1);
 
+	// モデルの回転、移動を固定
 	int rootFrame = 0;
-
 	MATRIX baseMat = MV1GetFrameBaseLocalMatrix(_modelH, rootFrame);
 	MV1SetFrameUserLocalMatrix(_modelH, rootFrame, baseMat);
 
@@ -180,13 +185,13 @@ void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput, std::share
 
 	// --------------------------------------------------------------------------
 
-	// カウンターの更新
+	// 各種更新処理 -------------------------------------------------------------
+
+	// カウントの更新
 	_damagedCount++;
 	_dodgeCount++;
 	_attackCount++;
 	_animCount += _animSpeed;
-
-	// 各種更新処理
 
 	// Lスティックの入力がある間、攻撃判定の回転方向を、プレイヤーの向いている正規化ベクトルで更新
 	if (pInput->IsTiltingL() && !IsAttacking()) _attackDirection = VNorm(_movementDirection);
@@ -203,7 +208,14 @@ void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput, std::share
 		if (_dodgeMovement >= DODGE_DISTANCE)
 		{
 			_isDodge = false;
-			ChangeState(PlayerState::Idle);
+			if (pInput->IsTiltingL())
+			{
+				ChangeState(PlayerState::Move);
+			}
+			else
+			{
+				ChangeState(PlayerState::Idle);
+			}
 		}
 	}
 
@@ -212,7 +224,14 @@ void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput, std::share
 	{
 		_isWeakAttacking = false;
 		_isStrongAttacking = false;
-		ChangeState(PlayerState::Idle);
+		if (pInput->IsTiltingL())
+		{
+			ChangeState(PlayerState::Move);
+		}
+		else
+		{
+			ChangeState(PlayerState::Idle);
+		}
 	}
 
 	// 【デバッグ】ダメージクールダウンが終了すると色をもとに戻す
@@ -392,14 +411,6 @@ void Player::UpdateMove(std::shared_ptr<Input> pInput, std::shared_ptr<Player> p
 
 	// カメラの回転角から行列を作成し、移動方向をカメラ基準に変換
 	_rotMatrix = MGetRotY(cameraAngle);
-	if (_idTemp == 1)
-	{
-		DrawFormatString(10, 300, 0xffffff, "%.2f", cameraAngle);
-	}
-	else
-	{
-		DrawFormatString(900, 300, 0xffffff, "%.2f", cameraAngle);
-	}
 
 	// 移動量から向いている角度を出す
 	_movementDirection = VTransform(_move, _rotMatrix);
@@ -488,6 +499,16 @@ void Player::CollProcess(std::shared_ptr<Player> pOther)
 			_playerColor = 0x00ffff;
 			_isDamaged = false;
 			_damagedCount = 0;
+			// 相手の体力を減らす
+			pOther->SetHp(pOther->GetHp() - WEAK_ATTACK_DAMAGE);
+			// 自身の体力を増やす
+			SetHp(_playerHp + WEAK_ATTACK_ABSORB);
+			if (_playerHp > _maxPlayerHp)
+			{
+				SetHp(_maxPlayerHp);
+			}
+			// ヒットストップフレームの設定
+			_hitstopRequestFrame = WEAK_HITSTOP_FRAME;
 		}
 	}
 
@@ -514,6 +535,23 @@ void Player::CollProcess(std::shared_ptr<Player> pOther)
 			_playerColor = 0x00ff00;
 			_isDamaged = false;
 			_damagedCount = 0;
+			// 相手の体力を減らす
+			pOther->SetHp(pOther->GetHp() - STRONG_ATTACK_DAMAGE);
+			// 自身の体力を増やす
+			SetHp(_playerHp + STRONG_ATTACK_ABSORB);
+			if (_playerHp > _maxPlayerHp)
+			{
+				SetHp(_maxPlayerHp);
+			}
+			// ヒットストップフレームの設定
+			_hitstopRequestFrame = STRONG_HITSTOP_FRAME;
 		}
 	}
+}
+
+int Player::HitstopRequest()
+{
+	int frameTemp = _hitstopRequestFrame;
+	_hitstopRequestFrame = 0;
+	return frameTemp;
 }
