@@ -1,4 +1,5 @@
-﻿#include "SceneGame.h"
+﻿#define NOMINMAX
+#include "SceneGame.h"
 #include"Player.h"
 #include"Camera.h"
 #include"Input.h"
@@ -45,14 +46,13 @@ void SceneGame::Update()
 	p_Input->Update();
 	p_InputSub->Update();
 
-	// カウンタの更新
-	_hitstopCount++;
-
+	// ヒットストップする場合は、ここをループ
 	if (_hitstopCount > 0)
 	{
 		_hitstopCount--;
 		return;
 	}
+
 	p_Player->Update(p_Camera->GetCameraYaw(), p_Input, p_PlayerSub);
 	p_PlayerSub->Update(p_CameraSub->GetCameraYaw(), p_InputSub, p_Player);
 	p_Camera->Update(p_Player, p_Input);
@@ -63,6 +63,7 @@ void SceneGame::Update()
 	int request2 = p_PlayerSub->HitstopRequest();
 
 	_hitstopCount = std::max(request1, request2);
+
 }
 
 void SceneGame::Draw()

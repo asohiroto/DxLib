@@ -113,5 +113,7 @@ private:
 	float _animSpeed;
 	// 被弾時にヒットストップするフレーム数
 	int _hitstopRequestFrame;
+	// 攻撃モーションの振りかぶりを待機するカウント
+	int _attackWindUpCount;
 };
 

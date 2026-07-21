@@ -191,6 +191,7 @@ void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput, std::share
 	_damagedCount++;
 	_dodgeCount++;
 	_attackCount++;
+	_attackWindUpCount++;
 	_animCount += _animSpeed;
 
 	// Lスティックの入力がある間、攻撃判定の回転方向を、プレイヤーの向いている正規化ベクトルで更新
@@ -367,9 +368,11 @@ void Player::ChangeState(PlayerState next)
 		AnimChange(3);
 		break;
 	case PlayerState::WAttack:
+		_attackWindUpCount = 0;
 		AnimChange(0);
 		break;
 	case PlayerState::SAttack:
+		_attackWindUpCount = 0;
 		AnimChange(0);
 		break;
 	case PlayerState::Dodge:
@@ -426,17 +429,19 @@ void Player::UpdateWAttack(std::shared_ptr<Input> pInput)
 	// 入力があって、攻撃中でないなら当たり判定を出す
 	if (!IsAttacking() && _damagedCount > DAMAGED_COOLDAWN)
 	{
-		AttackProcess(pInput, 0);
+		if (_attackWindUpCount >= 10)
+			AttackProcess(pInput, 0);
 	}
 }
 
 // 強攻撃状態の更新
 void Player::UpdateSAttack(std::shared_ptr<Input> pInput)
 {
-	// 入力があって、攻撃中でないなら当たり判定を出す
+	// 攻撃中でないなら当たり判定を出す
 	if (!IsAttacking() && _damagedCount > DAMAGED_COOLDAWN)
 	{
-		AttackProcess(pInput, 1);
+		if (_attackWindUpCount >= 10)
+			AttackProcess(pInput, 1);
 	}
 
 }
