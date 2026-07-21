@@ -19,7 +19,9 @@ Camera::Camera() :
 	_initialize(false),
 	_nowDir(VGet(0.0f, 0.0f, 0.0f)),
 	_slerpedDir(VGet(0.0f, 0.0f, 0.0f)),
-	_isTest(false)
+	_isTest(false),
+	_dispCameraYaw(0.0f),
+	_dispCameraPitch(0.5f)
 {
 
 }
@@ -34,7 +36,7 @@ void Camera::Init()
 
 }
 
-void Camera::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Input> pInput)
+void Camera::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Player> pOther, std::shared_ptr<Input> pInput)
 {
 	_cameraLerpRate = 0;
 
@@ -95,15 +97,19 @@ void Camera::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Input> pInp
 	// カメラの垂直方向の回転限界
 	_cameraPitch = std::clamp(_cameraPitch, -CAMERA_PITCH_LIMIT, -0.2f);
 
+	// カメラの回転角に線形補間をかける
+	_dispCameraYaw += (_cameraYaw - _dispCameraYaw) * CAMERA_LERP_RATE;
+	_dispCameraPitch += (_cameraPitch - _dispCameraPitch) * CAMERA_LERP_RATE;
+
 	// 回転角度から求めた、カメラの目標位置
 	VECTOR cameraPos = VGet(0.0f, 0.0f, 0.0f);
-	cameraPos.x = CAMERA_DISTANCE * std::cosf(_cameraPitch) * std::sinf(_cameraYaw);
-	cameraPos.y = CAMERA_DISTANCE * std::sinf(_cameraPitch);
-	cameraPos.z = CAMERA_DISTANCE * std::cosf(_cameraPitch) * std::cosf(_cameraYaw);
+	cameraPos.x = CAMERA_DISTANCE * std::cosf(_dispCameraPitch) * std::sinf(_dispCameraYaw);
+	cameraPos.y = CAMERA_DISTANCE * std::sinf(_dispCameraPitch);
+	cameraPos.z = CAMERA_DISTANCE * std::cosf(_dispCameraPitch) * std::cosf(_dispCameraYaw);
 
 	cameraPos = VAdd(cameraPos, targetPos);
 
-
+	// テストカメラモード（カメラに対するSlerp）
 	if (_isTest/*_changedCameraMode*/)
 	{
 		// 初回フレームは補間を行わず、そのまま位置を確定させる
@@ -173,7 +179,11 @@ void Camera::Draw(int playerNum)
 		break;
 	}
 
+#ifdef _DEBUG
 	DrawFormatString(3, 110, 0xffffff, "CameraMode : %d", _changedCameraMode);
+#endif // DEBUG
+
+
 }
 
 VECTOR Camera::Slerp(VECTOR p0, VECTOR p1, float t)

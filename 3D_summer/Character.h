@@ -70,8 +70,8 @@ protected:
 	// ポリゴンのハンドル
 	int _polygonH = -1;
 	// プレイヤーの最大体力
-	int _maxPlayerHp = 500;
+	int _maxPlayerHp = 1000;
 	// プレイヤーの体力
-	int _playerHp = 500;
+	int _playerHp = 1000;
 };
 

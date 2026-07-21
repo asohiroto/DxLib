@@ -55,8 +55,8 @@ void SceneGame::Update()
 
 	p_Player->Update(p_Camera->GetCameraYaw(), p_Input, p_PlayerSub);
 	p_PlayerSub->Update(p_CameraSub->GetCameraYaw(), p_InputSub, p_Player);
-	p_Camera->Update(p_Player, p_Input);
-	p_CameraSub->Update(p_PlayerSub, p_InputSub);
+	p_Camera->Update(p_Player, p_PlayerSub, p_Input);
+	p_CameraSub->Update(p_PlayerSub, p_Player, p_InputSub);
 
 	// 両プレイヤーからヒットストップのフレームを取得
 	int request1 = p_Player->HitstopRequest();
@@ -71,20 +71,29 @@ void SceneGame::Draw()
 	// 前フレームの描画範囲が残っている可能性があるので、まず全体に戻す
 	SetDrawArea(0, 0, WIDTH, HEIGHT);
 
+#ifdef _DEBUG
+	DrawString(400, 400, "THIS IS DEBUG BUILD", 0xff0000);
+#else
+	DrawString(400, 400, "THIS IS RELEASE BUILD", 0x00ff00);
+#endif
+
 	// プレイヤー１用の画面表示処理
 	p_Camera->Draw(1);
 	p_Player->Draw();
 	p_PlayerSub->Draw();
 	DrawCircle(WIDTH / 4, HEIGHT / 2, 2, 0xffffff, true);
+#ifdef _DEBUG
 	DrawGrid();
+#endif
 
 	// プレイヤー２用の画面表示処理
 	p_CameraSub->Draw(2);
 	p_Player->Draw();
 	p_PlayerSub->Draw();
 	DrawCircle((WIDTH / 4) * 3, HEIGHT / 2, 2, 0xffffff, true);
+#ifdef _DEBUG
 	DrawGrid();
-
+#endif
 
 	// 二つの画面を合わせて一つの画面に表示させる
 	SetDrawArea(0, 0, WIDTH, HEIGHT);
@@ -92,6 +101,7 @@ void SceneGame::Draw()
 	// 仕切り線（画面中央の縦線）
 	DrawLine(WIDTH / 2, 0, WIDTH / 2, HEIGHT, 0xffff00, 3);
 
+#ifdef _DEBUG
 	// 画面判別用
 	DrawString(7, 10, "Player : 1", 0xffffff);
 	DrawString((WIDTH / 2) + 10, 10, "Player : 2", 0xffffff);
@@ -105,6 +115,7 @@ void SceneGame::Draw()
 	DrawFormatString((WIDTH / 2) + 10, 50, 0xffffff, "         Y : %.2f", p_PlayerSub->GetPos().y);
 	DrawFormatString((WIDTH / 2) + 10, 70, 0xffffff, "         Z : %.2f", p_PlayerSub->GetPos().z);
 	DrawFormatString((WIDTH / 2) + 10, 90, 0xffffff, "HP : %d / %d", p_PlayerSub->GetHp(), p_PlayerSub->GetMaxHp());
+#endif
 }
 
 void SceneGame::DrawGrid() const

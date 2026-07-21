@@ -13,9 +13,9 @@ namespace GameDefine
 
 	// カメラの諸々-------------------------------------------
 	// カメラの水平方向の速度
-	constexpr float CAMERA_YAW_SPEED = 0.06f;
+	constexpr float CAMERA_YAW_SPEED = 0.03f;
 	// カメラの垂直方向の速度
-	constexpr float CAMERA_PITCH_SPEED = 0.06f;
+	constexpr float CAMERA_PITCH_SPEED = 0.03f;
 	// カメラの垂直方向の回転制限
 	constexpr float CAMERA_PITCH_LIMIT = 1.2f;
 	// 描画距離
@@ -29,13 +29,13 @@ namespace GameDefine
 	// カメラの球面線形補間度
 	constexpr float CAMERA_SLERP_RATE = 0.015f;
 	// カメラの線形補間度
-	constexpr float CAMERA_LERP_RATE = 1.0f;
+	constexpr float CAMERA_LERP_RATE = 0.15f;
 
 	// デバッグ用の表示---------------------------------------
 	// 足元に表示するグリッドの大きさ
-	constexpr int GRID_SIZE = 200;
+	constexpr int GRID_SIZE = 80;
 	// 足元に表示するグリッドの数
-	constexpr int GRID_NUM = 30;
+	constexpr int GRID_NUM = 15;
 
 	// プレイヤーの挙動---------------------------------------
 	// プレイヤーの当たり判定の半径
@@ -59,9 +59,9 @@ namespace GameDefine
 	// 弱攻撃の当たり判定の半径
 	constexpr float WEAK_ATTACK_RADIUS = 100.0f;
 	// ダメージ判定の間隔
-	constexpr int DAMAGED_COOLDAWN = 60;
+	constexpr int DAMAGED_COOLDAWN = 40;
 	// 攻撃の持続時間
-	constexpr int ATTACKING_FRAME = 60;
+	constexpr int ATTACKING_FRAME = 40;
 	// 強攻撃の当たり判定の生成高さの補正値
 	constexpr VECTOR STRONG_ATTACK_HEIGHT_COR = { 0.0f, 300.0f, 0.0f };
 	// 強攻撃の当たり判定の生成位置の補正値
@@ -80,6 +80,12 @@ namespace GameDefine
 	constexpr int WEAK_HITSTOP_FRAME = 6;
 	// 強攻撃のヒットストップフレーム
 	constexpr int STRONG_HITSTOP_FRAME = 12;
+	// 弱攻撃アニメーションの補正値
+	constexpr  int WEAK_ATTACK_ANIMATION_COR = 30;
+	// 強攻撃アニメーションの補正値
+	constexpr int STRONG_ATTACK_ANIMATION_COR = 30;
+	// 回避のクールタイム
+	constexpr int DODGE_COOLDOWN_FRAME = 60;
 
 	// ゲームパッド用の設定-----------------------------------
 	// スティックのデッドゾーン

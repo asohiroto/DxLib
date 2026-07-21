@@ -115,5 +115,7 @@ private:
 	int _hitstopRequestFrame;
 	// 攻撃モーションの振りかぶりを待機するカウント
 	int _attackWindUpCount;
+	// 回避可能までのクールタイム
+	int _playerDodgeCoolCount;
 };
 

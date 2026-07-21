@@ -40,7 +40,9 @@ Player::Player() :
 	_isDash(false),
 	_playerSpeed(MOVE_SPEED),
 	_animSpeed(0.5f),
-	_hitstopRequestFrame(0)
+	_hitstopRequestFrame(0),
+	_playerDodgeCoolCount(0),
+	_attackWindUpCount(0)
 {
 
 }
@@ -111,11 +113,11 @@ void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput, std::share
 		break;
 	}
 
-	if (!IsAttacking() && !_isDodge)
+	if (!isAttackState && !_isDodge)
 	{
 		if (pInput->IsTiltingL())
 		{
-			if (pInput->IsTrigger(PAD_INPUT_A))
+			if (pInput->IsTrigger(PAD_INPUT_A) && _playerDodgeCoolCount > DODGE_COOLDOWN_FRAME)
 			{
 				ChangeState(PlayerState::Dodge);
 			}
@@ -194,6 +196,7 @@ void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput, std::share
 	_dodgeCount++;
 	_attackCount++;
 	_attackWindUpCount++;
+	_playerDodgeCoolCount++;
 	_animCount += _animSpeed;
 
 	// Lスティックの入力がある間、攻撃判定の回転方向を、プレイヤーの向いている正規化ベクトルで更新
@@ -211,6 +214,9 @@ void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput, std::share
 		if (_dodgeMovement >= DODGE_DISTANCE)
 		{
 			_isDodge = false;
+			_playerDodgeCoolCount = 0;
+
+			// 入力がある場合はmoveに、なければidleに遷移
 			if (pInput->IsTiltingL())
 			{
 				ChangeState(PlayerState::Move);
@@ -230,10 +236,12 @@ void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput, std::share
 		if (pInput->IsTiltingL())
 		{
 			ChangeState(PlayerState::Move);
+			_attackWindUpCount = 0;
 		}
 		else
 		{
 			ChangeState(PlayerState::Idle);
+			_attackWindUpCount = 0;
 		}
 	}
 
@@ -272,6 +280,9 @@ void Player::Draw()
 {
 	// モデルの描画
 	MV1DrawModel(_modelH);
+
+#ifdef _DEBUG
+
 	// 当たり判定用カプセルの表示
 	DrawCapsule3D(
 		VAdd(_pos, PLAYER_SEGMENT_FINISH_COR), VAdd(_pos, PLAYER_SEGMENT_START_COR),
@@ -290,6 +301,8 @@ void Player::Draw()
 	{
 		DrawSphere3D(_strongCollPos, STRONG_ATTACK_RADIUS, 24, 0xffffff, 0xffffff, false);
 	}
+#endif
+
 }
 
 void Player::AttackProcess(std::shared_ptr<Input> pInput, int type)
@@ -364,20 +377,28 @@ void Player::ChangeState(PlayerState next)
 	switch (next)
 	{
 	case PlayerState::Idle:
+		_attackCount = 0;
+		_attackWindUpCount = 0;
 		AnimChange(1);
 		break;
 	case PlayerState::Move:
+		_attackCount = 0;
+		_attackWindUpCount = 0;
 		AnimChange(3);
 		break;
 	case PlayerState::WAttack:
+		_attackCount = 0;
 		_attackWindUpCount = 0;
 		AnimChange(0);
 		break;
 	case PlayerState::SAttack:
+		_attackCount = 0;
 		_attackWindUpCount = 0;
 		AnimChange(0);
 		break;
 	case PlayerState::Dodge:
+		_attackCount = 0;
+		_attackWindUpCount = 0;
 		// リセット
 		_dodgeMovement = 0.0f;
 		_dodgeCount = 0;
@@ -431,7 +452,7 @@ void Player::UpdateWAttack(std::shared_ptr<Input> pInput)
 	// 入力があって、攻撃中でないなら当たり判定を出す
 	if (!IsAttacking() && _damagedCount > DAMAGED_COOLDAWN)
 	{
-		if (_attackWindUpCount >= 10)
+		if (_attackWindUpCount >= WEAK_ATTACK_ANIMATION_COR)
 			AttackProcess(pInput, 0);
 	}
 }
@@ -442,7 +463,7 @@ void Player::UpdateSAttack(std::shared_ptr<Input> pInput)
 	// 攻撃中でないなら当たり判定を出す
 	if (!IsAttacking() && _damagedCount > DAMAGED_COOLDAWN)
 	{
-		if (_attackWindUpCount >= 10)
+		if (_attackWindUpCount >= STRONG_ATTACK_ANIMATION_COR)
 			AttackProcess(pInput, 1);
 	}
 
@@ -507,12 +528,12 @@ void Player::CollProcess(std::shared_ptr<Player> pOther)
 			_isDamaged = false;
 			_damagedCount = 0;
 			// 相手の体力を減らす
-			pOther->SetHp(pOther->GetHp() - WEAK_ATTACK_DAMAGE);
+			SetHp(GetHp() - WEAK_ATTACK_DAMAGE);
 			// 自身の体力を増やす
-			SetHp(_playerHp + WEAK_ATTACK_ABSORB);
-			if (_playerHp > _maxPlayerHp)
+			pOther->SetHp(pOther->GetHp() + WEAK_ATTACK_ABSORB);
+			if (pOther->GetHp() > pOther->GetMaxHp())
 			{
-				SetHp(_maxPlayerHp);
+				pOther->SetHp(_maxPlayerHp);
 			}
 			// ヒットストップフレームの設定
 			_hitstopRequestFrame = WEAK_HITSTOP_FRAME;
@@ -543,12 +564,12 @@ void Player::CollProcess(std::shared_ptr<Player> pOther)
 			_isDamaged = false;
 			_damagedCount = 0;
 			// 相手の体力を減らす
-			pOther->SetHp(pOther->GetHp() - STRONG_ATTACK_DAMAGE);
+			SetHp(GetHp() - STRONG_ATTACK_DAMAGE);
 			// 自身の体力を増やす
-			SetHp(_playerHp + STRONG_ATTACK_ABSORB);
-			if (_playerHp > _maxPlayerHp)
+			pOther->SetHp(pOther->GetHp() + STRONG_ATTACK_ABSORB);
+			if (pOther->GetHp() > pOther->GetMaxHp())
 			{
-				SetHp(_maxPlayerHp);
+				pOther->SetHp(_maxPlayerHp);
 			}
 			// ヒットストップフレームの設定
 			_hitstopRequestFrame = STRONG_HITSTOP_FRAME;

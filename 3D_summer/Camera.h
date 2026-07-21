@@ -11,7 +11,7 @@ public:
 	Camera();
 	virtual ~Camera();
 	void Init();
-	void Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Input> pInput);
+	void Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Player> pOther, std::shared_ptr<Input> pInput);
 	void Draw(int playerNum);
 	// カメラの水平方向の角度を渡す
 	float GetCameraYaw() const { return _cameraYaw; }
@@ -49,6 +49,9 @@ private:
 	VECTOR _nowDir;
 	// Slerp後のベクトル
 	VECTOR _slerpedDir;
-
+	// 表示しているカメラの水平方向回転角
+	float _dispCameraYaw;
+	// 表示しているカメラの垂直方向回転角
+	float _dispCameraPitch;
 };
 
