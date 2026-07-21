@@ -284,7 +284,8 @@ void Player::Draw()
 #ifdef _DEBUG
 
 	// 当たり判定用カプセルの表示
-	DrawCapsule3D(
+	DrawCapsule3D
+	(
 		VAdd(_pos, PLAYER_SEGMENT_FINISH_COR), VAdd(_pos, PLAYER_SEGMENT_START_COR),
 		PLAYER_COL_RADIUS,
 		16,
@@ -466,7 +467,6 @@ void Player::UpdateSAttack(std::shared_ptr<Input> pInput)
 		if (_attackWindUpCount >= STRONG_ATTACK_ANIMATION_COR)
 			AttackProcess(pInput, 1);
 	}
-
 }
 
 // 回避状態の更新処理
@@ -502,7 +502,7 @@ void Player::CollProcess(std::shared_ptr<Player> pOther)
 		_pos = VAdd(_pos, VScale(VNorm(pullBackDir), diff));
 	}
 
-	// プレイヤーと攻撃の当たり判定
+	// プレイヤーと攻撃の当たり判定 -------------------------------------------------------------
 
 	// 弱攻撃との当たり判定
 	if (pOther->IsWeakAttacking() && !_isDodge)
@@ -527,14 +527,17 @@ void Player::CollProcess(std::shared_ptr<Player> pOther)
 			_playerColor = 0x00ffff;
 			_isDamaged = false;
 			_damagedCount = 0;
+
 			// 相手の体力を減らす
 			SetHp(GetHp() - WEAK_ATTACK_DAMAGE);
+
 			// 自身の体力を増やす
 			pOther->SetHp(pOther->GetHp() + WEAK_ATTACK_ABSORB);
 			if (pOther->GetHp() > pOther->GetMaxHp())
 			{
 				pOther->SetHp(_maxPlayerHp);
 			}
+
 			// ヒットストップフレームの設定
 			_hitstopRequestFrame = WEAK_HITSTOP_FRAME;
 		}
@@ -563,14 +566,17 @@ void Player::CollProcess(std::shared_ptr<Player> pOther)
 			_playerColor = 0x00ff00;
 			_isDamaged = false;
 			_damagedCount = 0;
+
 			// 相手の体力を減らす
 			SetHp(GetHp() - STRONG_ATTACK_DAMAGE);
+
 			// 自身の体力を増やす
 			pOther->SetHp(pOther->GetHp() + STRONG_ATTACK_ABSORB);
 			if (pOther->GetHp() > pOther->GetMaxHp())
 			{
 				pOther->SetHp(_maxPlayerHp);
 			}
+
 			// ヒットストップフレームの設定
 			_hitstopRequestFrame = STRONG_HITSTOP_FRAME;
 		}

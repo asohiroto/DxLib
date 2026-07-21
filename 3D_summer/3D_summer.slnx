@@ -4,6 +4,6 @@
     <Platform Name="x86" />
   </Configurations>
   <Project Path="DxLibrary_3D_temp1.vcxproj" Id="a26aa124-3967-4a73-ad38-d5a3731cf78a">
-    <BuildType Project="Release" />
+    <BuildType Solution="Debug|x86" Project="Release" />
   </Project>
 </Solution>
