@@ -90,6 +90,8 @@ void Player::Init(int id)
 
 void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput, std::shared_ptr<Player> pOther)
 {
+	bool isAttackState = ((_state == PlayerState::WAttack) || (_state == PlayerState::SAttack));
+
 	switch (_state)
 	{
 	case PlayerState::Idle:
@@ -140,7 +142,7 @@ void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput, std::share
 	// モデルの回転処理-----------------------------------------------------------
 
 	// 攻撃中でなければ、モデルが向く方向を定める
-	if (VSize(_movementDirection) > 0.0f && !IsAttacking())
+	if (VSize(_movementDirection) > 0.0f && !isAttackState)
 	{
 		_angle = atan2f(_movementDirection.x, _movementDirection.z) + DX_PI_F;
 	}
@@ -195,7 +197,7 @@ void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput, std::share
 	_animCount += _animSpeed;
 
 	// Lスティックの入力がある間、攻撃判定の回転方向を、プレイヤーの向いている正規化ベクトルで更新
-	if (pInput->IsTiltingL() && !IsAttacking()) _attackDirection = VNorm(_movementDirection);
+	if (pInput->IsTiltingL() && !isAttackState) _attackDirection = VNorm(_movementDirection);
 
 	// 回避の更新処理
 	if (_isDodge)
@@ -221,7 +223,7 @@ void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput, std::share
 	}
 
 	// 攻撃を行ってから、20f経過すると攻撃を終了する
-	if (IsAttacking() && _attackCount >= ATTACKING_FRAME)
+	if (isAttackState && _attackCount >= ATTACKING_FRAME)
 	{
 		_isWeakAttacking = false;
 		_isStrongAttacking = false;
