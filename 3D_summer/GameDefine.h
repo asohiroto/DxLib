@@ -33,9 +33,9 @@ namespace GameDefine
 
 	// デバッグ用の表示---------------------------------------
 	// 足元に表示するグリッドの大きさ
-	constexpr int GRID_SIZE = 80;
+	constexpr int GRID_SIZE = 100;
 	// 足元に表示するグリッドの数
-	constexpr int GRID_NUM = 15;
+	constexpr int GRID_NUM = 20;
 
 	// プレイヤーの挙動---------------------------------------
 	// プレイヤーの当たり判定の半径
