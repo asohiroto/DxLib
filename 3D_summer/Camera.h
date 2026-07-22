@@ -15,6 +15,8 @@ public:
 	void Draw(int playerNum);
 	// カメラの水平方向の角度を渡す
 	float GetCameraYaw() const { return _cameraYaw; }
+	// カメラの距離のセッター
+	void SetCameraDistance(float dist) { _cameraDistance = dist; }
 
 private:
 	/// <summary>
@@ -49,9 +51,11 @@ private:
 	VECTOR _nowDir;
 	// Slerp後のベクトル
 	VECTOR _slerpedDir;
-	// 表示しているカメラの水平方向回転角
+	// 実際のカメラの水平方向回転角
 	float _dispCameraYaw;
-	// 表示しているカメラの垂直方向回転角
+	// 実際のカメラの垂直方向回転角
 	float _dispCameraPitch;
+	// カメラからプレイヤーまでの距離
+	float _cameraDistance;
 };
 

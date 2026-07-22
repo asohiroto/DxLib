@@ -5,6 +5,7 @@
 class Player;
 class Camera;
 class Input;
+class UIManager;
 
 class SceneGame :
 	public SceneBase
@@ -30,7 +31,11 @@ private:
 	std::shared_ptr<Input> p_Input;
 	// サブプレイヤーのインプットクラスの共有ポインタ　
 	std::shared_ptr<Input> p_InputSub;
+	// UIマネージャークラスの共有ポインタ
+	std::shared_ptr<UIManager> p_UIManager;
 	// ヒットストップ更新処理用のカウンタ
 	int _hitstopCount;
+	// カメラがズームしたときの距離
+	int _zoomDistance;
 };
 

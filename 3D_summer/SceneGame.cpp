@@ -3,6 +3,7 @@
 #include"Player.h"
 #include"Camera.h"
 #include"Input.h"
+#include"UIManager.h"
 #include"GameDefine.h"
 #include<algorithm>
 #include<DxLib.h>
@@ -15,7 +16,9 @@ SceneGame::SceneGame() :
 	p_Camera(nullptr),
 	p_Input(nullptr),
 	p_InputSub(nullptr),
-	_hitstopCount(0)
+	_hitstopCount(0),
+	p_UIManager(nullptr),
+	_zoomDistance(0)
 {
 
 }
@@ -39,6 +42,9 @@ void SceneGame::Init()
 	p_Camera->Init();
 	p_CameraSub = std::make_shared<Camera>();
 	p_CameraSub->Init();
+	p_UIManager = std::make_shared<UIManager>();
+
+	_zoomDistance = CAMERA_DISTANCE;
 }
 
 void SceneGame::Update()
@@ -46,17 +52,24 @@ void SceneGame::Update()
 	p_Input->Update();
 	p_InputSub->Update();
 
+	p_Camera->Update(p_Player, p_PlayerSub, p_Input);
+	p_CameraSub->Update(p_PlayerSub, p_Player, p_InputSub);
+
 	// ヒットストップする場合は、ここをループ
 	if (_hitstopCount > 0)
 	{
 		_hitstopCount--;
+		_zoomDistance += (CAMERA_HITSTOP_ZOOM - _zoomDistance) * ZOOM_LERP_RATE;
+		p_Camera->SetCameraDistance(_zoomDistance);
 		return;
 	}
 
+	_zoomDistance += (CAMERA_DISTANCE - _zoomDistance) * ZOOM_LERP_RATE;
+	p_Camera->SetCameraDistance(_zoomDistance);
+
 	p_Player->Update(p_Camera->GetCameraYaw(), p_Input, p_PlayerSub);
 	p_PlayerSub->Update(p_CameraSub->GetCameraYaw(), p_InputSub, p_Player);
-	p_Camera->Update(p_Player, p_PlayerSub, p_Input);
-	p_CameraSub->Update(p_PlayerSub, p_Player, p_InputSub);
+	p_UIManager->Update(p_Player, p_PlayerSub);
 
 	// 両プレイヤーからヒットストップのフレームを取得
 	int request1 = p_Player->HitstopRequest();
@@ -71,17 +84,19 @@ void SceneGame::Draw()
 	// 前フレームの描画範囲が残っている可能性があるので、まず全体に戻す
 	SetDrawArea(0, 0, WIDTH, HEIGHT);
 
-#ifdef _DEBUG
-	DrawString(400, 400, "THIS IS DEBUG BUILD", 0xff0000);
-#else
-	DrawString(400, 400, "THIS IS RELEASE BUILD", 0x00ff00);
-#endif
-
 	// プレイヤー１用の画面表示処理
 	p_Camera->Draw(1);
 	p_Player->Draw();
 	p_PlayerSub->Draw();
 	DrawCircle(WIDTH / 4, HEIGHT / 2, 2, 0xffffff, true);
+	// ステージの床を描画
+	DrawCube3D
+	(
+		VGet(GRID_NUM / 2 * GRID_SIZE, 0, GRID_NUM / 2 * GRID_SIZE),
+		VGet(-(GRID_NUM / 2 * GRID_SIZE), -20.0f, -(GRID_NUM / 2 * GRID_SIZE)),
+		0xffffff, 0xffffff, true
+	);
+
 #ifdef _DEBUG
 	DrawGrid();
 #endif
@@ -91,6 +106,14 @@ void SceneGame::Draw()
 	p_Player->Draw();
 	p_PlayerSub->Draw();
 	DrawCircle((WIDTH / 4) * 3, HEIGHT / 2, 2, 0xffffff, true);
+	// ステージの床を描画
+	DrawCube3D
+	(
+		VGet(GRID_NUM / 2 * GRID_SIZE, 0, GRID_NUM / 2 * GRID_SIZE),
+		VGet(-(GRID_NUM / 2 * GRID_SIZE), -20.0f, -(GRID_NUM / 2 * GRID_SIZE)),
+		0xffffff, 0xffffff, true
+	);
+
 #ifdef _DEBUG
 	DrawGrid();
 #endif
@@ -116,6 +139,8 @@ void SceneGame::Draw()
 	DrawFormatString((WIDTH / 2) + 10, 70, 0xffffff, "         Z : %.2f", p_PlayerSub->GetPos().z);
 	DrawFormatString((WIDTH / 2) + 10, 90, 0xffffff, "HP : %d / %d", p_PlayerSub->GetHp(), p_PlayerSub->GetMaxHp());
 #endif
+
+	p_UIManager->Draw(p_Player, p_PlayerSub);
 }
 
 void SceneGame::DrawGrid() const

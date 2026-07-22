@@ -21,7 +21,8 @@ Camera::Camera() :
 	_slerpedDir(VGet(0.0f, 0.0f, 0.0f)),
 	_isTest(false),
 	_dispCameraYaw(0.0f),
-	_dispCameraPitch(0.5f)
+	_dispCameraPitch(0.5f),
+	_cameraDistance(0)
 {
 
 }
@@ -33,7 +34,7 @@ Camera::~Camera()
 
 void Camera::Init()
 {
-
+	_cameraDistance = CAMERA_DISTANCE;
 }
 
 void Camera::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Player> pOther, std::shared_ptr<Input> pInput)
@@ -103,9 +104,9 @@ void Camera::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Player> pOt
 
 	// 回転角度から求めた、カメラの目標位置
 	VECTOR cameraPos = VGet(0.0f, 0.0f, 0.0f);
-	cameraPos.x = CAMERA_DISTANCE * std::cosf(_dispCameraPitch) * std::sinf(_dispCameraYaw);
-	cameraPos.y = CAMERA_DISTANCE * std::sinf(_dispCameraPitch);
-	cameraPos.z = CAMERA_DISTANCE * std::cosf(_dispCameraPitch) * std::cosf(_dispCameraYaw);
+	cameraPos.x = _cameraDistance * std::cosf(_dispCameraPitch) * std::sinf(_dispCameraYaw);
+	cameraPos.y = _cameraDistance * std::sinf(_dispCameraPitch);
+	cameraPos.z = _cameraDistance * std::cosf(_dispCameraPitch) * std::cosf(_dispCameraYaw);
 
 	cameraPos = VAdd(cameraPos, targetPos);
 
@@ -135,7 +136,7 @@ void Camera::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Player> pOt
 			// このとき、補間が追いつき切れていない分（遅れ）が残っているので、
 			// 「実際に見えている向き」からyaw/pitchを逆算して生の値に書き戻し、遅れを清算する。
 			// これにより、次の入力は必ず今見えている画角を開始地点として始まる。
-			// ※_slerpedDirはCAMERA_DISTANCEが負のため全成分が反転している。
+			// ※_slerpedDirは_cameraDistanceが負のため全成分が反転している。
 			// 逆算時はマイナスを付けて反転を打ち消す
 			_cameraPitch = std::asinf(-_slerpedDir.y);
 			_cameraYaw = std::atan2f(-_slerpedDir.x, -_slerpedDir.z);
@@ -145,7 +146,7 @@ void Camera::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Player> pOt
 		}
 
 		// カメラ位置は常に今の注視点を基準に組み立て直す（プレイヤーへの追従はここで保証される）
-		_cameraPos = VAdd(targetPos, VScale(_slerpedDir, fabsf(CAMERA_DISTANCE)));
+		_cameraPos = VAdd(targetPos, VScale(_slerpedDir, fabsf(_cameraDistance)));
 	}
 	else
 	{

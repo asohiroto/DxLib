@@ -530,6 +530,7 @@ void Player::CollProcess(std::shared_ptr<Player> pOther)
 
 			// 相手の体力を減らす
 			SetHp(GetHp() - WEAK_ATTACK_DAMAGE);
+			if (GetHp() <= 0) SetHp(0);
 
 			// 自身の体力を増やす
 			pOther->SetHp(pOther->GetHp() + WEAK_ATTACK_ABSORB);
@@ -569,6 +570,7 @@ void Player::CollProcess(std::shared_ptr<Player> pOther)
 
 			// 相手の体力を減らす
 			SetHp(GetHp() - STRONG_ATTACK_DAMAGE);
+			if (GetHp() <= 0) SetHp(0);
 
 			// 自身の体力を増やす
 			pOther->SetHp(pOther->GetHp() + STRONG_ATTACK_ABSORB);

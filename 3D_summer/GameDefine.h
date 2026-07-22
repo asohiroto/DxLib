@@ -4,6 +4,7 @@
 namespace GameDefine
 {
 	// 画面の基礎設定-----------------------------------------
+	
 	// 画面の横幅
 	constexpr int WIDTH = 1280;
 	// 画面の縦幅
@@ -12,13 +13,14 @@ namespace GameDefine
 	constexpr int COLOR_BIT = 32;
 
 	// カメラの諸々-------------------------------------------
+	
 	// カメラの水平方向の速度
 	constexpr float CAMERA_YAW_SPEED = 0.03f;
 	// カメラの垂直方向の速度
 	constexpr float CAMERA_PITCH_SPEED = 0.03f;
 	// カメラの垂直方向の回転制限
 	constexpr float CAMERA_PITCH_LIMIT = 1.2f;
-	// 描画距離
+	// カメラのプレイヤーまでの距離
 	constexpr float CAMERA_DISTANCE = -1750.0f;
 	// 注視点の高さの補整度
 	constexpr float CAMERA_TARGET_HEIGHT = -150.0f;
@@ -30,14 +32,20 @@ namespace GameDefine
 	constexpr float CAMERA_SLERP_RATE = 0.015f;
 	// カメラの線形補間度
 	constexpr float CAMERA_LERP_RATE = 0.15f;
+	// 火ッとストップ時のカメラの拡大値
+	constexpr float CAMERA_HITSTOP_ZOOM = -1550.0f;
+	// ズームにかける線形補間度
+	constexpr float ZOOM_LERP_RATE = 0.5f;
 
 	// デバッグ用の表示---------------------------------------
+	
 	// 足元に表示するグリッドの大きさ
 	constexpr int GRID_SIZE = 100;
 	// 足元に表示するグリッドの数
 	constexpr int GRID_NUM = 20;
 
 	// プレイヤーの挙動---------------------------------------
+	
 	// プレイヤーの当たり判定の半径
 	constexpr float PLAYER_COL_RADIUS = 120.0f;
 	// プレイヤーの当たり判定の線分の始点の補正値
@@ -77,9 +85,9 @@ namespace GameDefine
 	// 強攻撃回復
 	constexpr int STRONG_ATTACK_ABSORB = 50;
 	// 弱攻撃のヒットストップフレーム
-	constexpr int WEAK_HITSTOP_FRAME = 6;
+	constexpr int WEAK_HITSTOP_FRAME = 12;
 	// 強攻撃のヒットストップフレーム
-	constexpr int STRONG_HITSTOP_FRAME = 12;
+	constexpr int STRONG_HITSTOP_FRAME = 18;
 	// 弱攻撃アニメーションの補正値
 	constexpr  int WEAK_ATTACK_ANIMATION_COR = 30;
 	// 強攻撃アニメーションの補正値
@@ -87,8 +95,13 @@ namespace GameDefine
 	// 回避のクールタイム
 	constexpr int DODGE_COOLDOWN_FRAME = 60;
 
+	// UI用の定数---------------------------------------------
+
+	// 体力の増減にかける線形補間度
+	constexpr float HP_LERP_RATE = 0.1f;
+
 	// ゲームパッド用の設定-----------------------------------
+	
 	// スティックのデッドゾーン
 	constexpr float STICK_DEAD_ZONE = 150.0f;
-
 }
