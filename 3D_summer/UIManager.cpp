@@ -51,9 +51,18 @@ void UIManager::DrawHpGauge(int playerType, std::shared_ptr<Player> pPlayer)
 		targetedHp = _subDispHp;
 	}
 
-	DrawBox(gaugePosX, gaugePosY, gaugePosX + maxGaugeWidth, gaugePosY + gaugeHeight, 0xffffff, false, 3);
-
 	float hpRatio = targetedHp / static_cast<float>(pPlayer->GetMaxHp());
 
-	DrawBox(gaugePosX, gaugePosY, gaugePosX + (maxGaugeWidth * hpRatio), gaugePosY + gaugeHeight, 0x00ff00, true, 3);
+	DrawBox(gaugePosX, gaugePosY, gaugePosX + maxGaugeWidth, gaugePosY + gaugeHeight, 0x000000, true);
+	
+	if (playerType == 1)
+	{
+		DrawBox(gaugePosX + (maxGaugeWidth * (1.0f - hpRatio)), gaugePosY, gaugePosX + maxGaugeWidth, gaugePosY + gaugeHeight, 0x00ff00, true);
+	}
+	else
+	{
+		DrawBox(gaugePosX , gaugePosY, gaugePosX + (maxGaugeWidth * hpRatio), gaugePosY + gaugeHeight, 0x00ff00, true);
+	}
+
+	DrawBox(gaugePosX, gaugePosY, gaugePosX + maxGaugeWidth, gaugePosY + gaugeHeight, 0xaaaaaa, false, 3);
 }

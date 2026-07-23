@@ -89,7 +89,7 @@ void Camera::Draw(int playerNum)
 		// 画面左半分をプレイヤー1用の描画範囲にする
 		SetDrawArea(0, 0, WIDTH / 2, HEIGHT);
 		// 消失点を左半分の中心に合わせる
-		SetCameraScreenCenter(WIDTH / 4, HEIGHT / 2);
+		SetCameraScreenCenter(WIDTH / 4, HEIGHT);
 		SetupCamera_Perspective(DX_PI_F / 4.0f);
 		SetCameraPositionAndTargetAndUpVec(_cameraPos, _targetPos, VGet(0.0f, 1.0f, 0.0f));
 		break;
@@ -97,7 +97,7 @@ void Camera::Draw(int playerNum)
 		// 画面右半分をプレイヤー2用の描画範囲にする
 		SetDrawArea(WIDTH / 2, 0, WIDTH, HEIGHT);
 		// 消失点を右半分の中心に合わせる
-		SetCameraScreenCenter((WIDTH * 3) / 4, HEIGHT / 2);
+		SetCameraScreenCenter((WIDTH * 3) / 4, HEIGHT);
 		SetupCamera_Perspective(DX_PI_F / 4.0f);
 		SetCameraPositionAndTargetAndUpVec(_cameraPos, _targetPos, VGet(0.0f, 1.0f, 0.0f));
 		break;

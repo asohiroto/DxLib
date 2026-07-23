@@ -81,8 +81,10 @@ private:
 	int _idTemp;
 	// ダメージを受けたか
 	bool _isDamaged;
-	// ダメージ判定用のカウンタ
-	int _damagedCount;
+	// 弱攻撃ダメージ判定用のカウンタ
+	int _wDamagedCount;
+	// 強攻撃ダメージ判定用のカウンタ
+	int _sDamagedCount;
 	// 【デバッグ】プレイヤーの当たり判定の色
 	int _playerColor;
 	// 強攻撃判定の中心座標
@@ -117,7 +119,9 @@ private:
 	int _attackWindUpCount;
 	// 回避可能までのクールタイム
 	int _playerDodgeCoolCount;
-	// ダメージクールダウン中か
-	bool _isDamageCooldown;
+	// 弱攻撃ダメージクールダウン中か
+	bool _isWDamageCooldown;
+	// 強攻撃ダメージクールダウン
+	bool _isSDamageCooldown;
 };
 

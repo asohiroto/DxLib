@@ -44,6 +44,7 @@ void SceneGame::Init()
 	p_CameraSub = std::make_shared<Camera>();
 	p_CameraSub->Init();
 	p_UIManager = std::make_shared<UIManager>();
+	p_UIManager->Init();
 
 	_zoomDistance = CAMERA_DISTANCE;
 

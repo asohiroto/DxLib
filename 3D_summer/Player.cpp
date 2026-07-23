@@ -25,7 +25,8 @@ Player::Player() :
 	_attackDirection(),
 	_idTemp(0),
 	_isDamaged(false),
-	_damagedCount(0),
+	_wDamagedCount(0),
+	_sDamagedCount(0),
 	_playerColor(0xff0000),
 	_strongCollPos(),
 	_isStrongAttacking(false),
@@ -43,7 +44,8 @@ Player::Player() :
 	_hitstopRequestFrame(0),
 	_playerDodgeCoolCount(0),
 	_attackWindUpCount(0),
-	_isDamageCooldown(false)
+	_isWDamageCooldown(false),
+	_isSDamageCooldown(false)
 {
 
 }
@@ -95,10 +97,12 @@ void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput, std::share
 {
 	bool isAttackState = ((_state == PlayerState::WAttack) || (_state == PlayerState::SAttack));
 
-	_isDamageCooldown = _damagedCount > WEAK_DAMAGED_COOLDOWN || _damagedCount > STRONG_DAMAGED_COOLDOWN;
+	_isWDamageCooldown = _wDamagedCount > WEAK_DAMAGED_COOLDOWN;
+	_isSDamageCooldown = _sDamagedCount > STRONG_DAMAGED_COOLDOWN;
 
 	// カウントの更新
-	_damagedCount++;
+	_wDamagedCount++;
+	_sDamagedCount++;
 	_dodgeCount++;
 	_attackCount++;
 	_attackWindUpCount++;
@@ -266,7 +270,7 @@ void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput, std::share
 	// 各種更新処理 -------------------------------------------------------------
 
 	// 【デバッグ】ダメージクールダウンが終了すると色をもとに戻す
-	if (_isDamageCooldown)
+	if (_isSDamageCooldown || _isWDamageCooldown)
 	{
 		_playerColor = 0xff0000;
 	}
@@ -487,7 +491,7 @@ void Player::UpdateMove(std::shared_ptr<Input> pInput, std::shared_ptr<Player> p
 void Player::UpdateWAttack(std::shared_ptr<Input> pInput)
 {
 	// 入力があって、攻撃中でないなら当たり判定を出す
-	if (!IsAttacking() && _isDamageCooldown)
+	if (!IsAttacking() && _isWDamageCooldown)
 	{
 		if (_attackWindUpCount >= WEAK_ATTACK_ANIMATION_COR)
 			AttackProcess(pInput, 0);
@@ -498,7 +502,7 @@ void Player::UpdateWAttack(std::shared_ptr<Input> pInput)
 void Player::UpdateSAttack(std::shared_ptr<Input> pInput)
 {
 	// 攻撃中でないなら当たり判定を出す
-	if (!IsAttacking() && _isDamageCooldown)
+	if (!IsAttacking() && _isSDamageCooldown)
 	{
 		if (_attackWindUpCount >= STRONG_ATTACK_ANIMATION_COR)
 			AttackProcess(pInput, 1);
@@ -552,7 +556,7 @@ void Player::CollProcess(std::shared_ptr<Player> pOther)
 		);
 
 		// 当たると、フラグを立てる
-		if (_radius + WEAK_ATTACK_RADIUS >= distToAttack && _isDamageCooldown)
+		if (_radius + WEAK_ATTACK_RADIUS >= distToAttack && _isWDamageCooldown)
 		{
 			_isDamaged = true;
 		}
@@ -562,7 +566,7 @@ void Player::CollProcess(std::shared_ptr<Player> pOther)
 		{
 			_playerColor = 0x00ffff;
 			_isDamaged = false;
-			_damagedCount = 0;
+			_wDamagedCount = 0;
 
 			// 相手の体力を減らす
 			SetHp(GetHp() - WEAK_ATTACK_DAMAGE);
@@ -592,7 +596,7 @@ void Player::CollProcess(std::shared_ptr<Player> pOther)
 		);
 
 		// 当たると、フラグを立てる
-		if (_radius + STRONG_ATTACK_RADIUS >= distToAttack && _isDamageCooldown)
+		if (_radius + STRONG_ATTACK_RADIUS >= distToAttack && _isSDamageCooldown)
 		{
 			_isDamaged = true;
 		}
@@ -602,7 +606,7 @@ void Player::CollProcess(std::shared_ptr<Player> pOther)
 		{
 			_playerColor = 0x00ff00;
 			_isDamaged = false;
-			_damagedCount = 0;
+			_sDamagedCount = 0;
 
 			// 相手の体力を減らす
 			SetHp(GetHp() - STRONG_ATTACK_DAMAGE);
