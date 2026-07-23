@@ -37,5 +37,7 @@ private:
 	int _hitstopCount;
 	// カメラがズームしたときの距離
 	int _zoomDistance;
+	// スカイドームのハンドル
+	int _skyDomeH;
 };
 

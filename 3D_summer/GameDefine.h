@@ -85,7 +85,7 @@ namespace GameDefine
 	// 強攻撃回復
 	constexpr int STRONG_ATTACK_ABSORB = 50;
 	// 弱攻撃のヒットストップフレーム
-	constexpr int WEAK_HITSTOP_FRAME = 12;
+	constexpr int WEAK_HITSTOP_FRAME = 4;
 	// 強攻撃のヒットストップフレーム
 	constexpr int STRONG_HITSTOP_FRAME = 18;
 	// 弱攻撃アニメーションの補正値

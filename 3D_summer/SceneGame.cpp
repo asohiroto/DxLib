@@ -18,7 +18,8 @@ SceneGame::SceneGame() :
 	p_InputSub(nullptr),
 	_hitstopCount(0),
 	p_UIManager(nullptr),
-	_zoomDistance(0)
+	_zoomDistance(0),
+	_skyDomeH(-1)
 {
 
 }
@@ -45,6 +46,8 @@ void SceneGame::Init()
 	p_UIManager = std::make_shared<UIManager>();
 
 	_zoomDistance = CAMERA_DISTANCE;
+
+	_skyDomeH = MV1LoadModel("data/sunny_dome.mv1");
 }
 
 void SceneGame::Update()
@@ -52,13 +55,15 @@ void SceneGame::Update()
 	p_Input->Update();
 	p_InputSub->Update();
 
+	p_Camera->Update(p_Player, p_PlayerSub, p_Input);
+	p_CameraSub->Update(p_PlayerSub, p_Player, p_InputSub);
 
 	// ヒットストップする場合は、ここをループ
 	if (_hitstopCount > 0)
 	{
 		_hitstopCount--;
-		//_zoomDistance += (CAMERA_HITSTOP_ZOOM - _zoomDistance) * ZOOM_LERP_RATE;
-		//p_Camera->SetCameraDistance(_zoomDistance);
+		_zoomDistance += (CAMERA_HITSTOP_ZOOM - _zoomDistance) * ZOOM_LERP_RATE;
+		p_Camera->SetCameraDistance(_zoomDistance);
 		return;
 	}
 
@@ -67,9 +72,6 @@ void SceneGame::Update()
 
 	p_Player->Update(p_Camera->GetCameraYaw(), p_Input, p_PlayerSub);
 	p_PlayerSub->Update(p_CameraSub->GetCameraYaw(), p_InputSub, p_Player);
-
-	p_Camera->Update(p_Player, p_PlayerSub, p_Input);
-	p_CameraSub->Update(p_PlayerSub, p_Player, p_InputSub);
 
 	p_UIManager->Update(p_Player, p_PlayerSub);
 
@@ -94,10 +96,13 @@ void SceneGame::Draw()
 	// ステージの床を描画
 	DrawCube3D
 	(
-		VGet(GRID_NUM / 2 * GRID_SIZE, 0, GRID_NUM / 2 * GRID_SIZE),
 		VGet(-(GRID_NUM / 2 * GRID_SIZE), -20.0f, -(GRID_NUM / 2 * GRID_SIZE)),
+		VGet(GRID_NUM / 2 * GRID_SIZE, 0, GRID_NUM / 2 * GRID_SIZE),
 		0xffffff, 0xffffff, true
 	);
+	MV1SetScale(_skyDomeH, VGet(5.0f, 5.0f, 5.0f));
+	MV1SetPosition(_skyDomeH, VGet(0.0f, 0.0f, 0.0f));
+	MV1DrawModel(_skyDomeH);
 
 #ifdef _DEBUG
 	DrawGrid();
@@ -111,10 +116,13 @@ void SceneGame::Draw()
 	// ステージの床を描画
 	DrawCube3D
 	(
-		VGet(GRID_NUM / 2 * GRID_SIZE, 0, GRID_NUM / 2 * GRID_SIZE),
 		VGet(-(GRID_NUM / 2 * GRID_SIZE), -20.0f, -(GRID_NUM / 2 * GRID_SIZE)),
+		VGet(GRID_NUM / 2 * GRID_SIZE, 0, GRID_NUM / 2 * GRID_SIZE),
 		0xffffff, 0xffffff, true
 	);
+	MV1SetScale(_skyDomeH, VGet(5.0f, 5.0f, 5.0f));
+	MV1SetPosition(_skyDomeH, VGet(0.0f, 0.0f, 0.0f));
+	MV1DrawModel(_skyDomeH);
 
 #ifdef _DEBUG
 	DrawGrid();

@@ -110,7 +110,7 @@ void Camera::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Player> pOt
 
 	cameraPos = VAdd(cameraPos, targetPos);
 
-	// テストカメラモード（カメラに対するSlerp）
+	// テストカメラモード（カメラに対するSlerp お遊び）
 	if (_isTest/*_changedCameraMode*/)
 	{
 		// 初回フレームは補間を行わず、そのまま位置を確定させる

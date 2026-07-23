@@ -94,6 +94,14 @@ void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput, std::share
 {
 	bool isAttackState = ((_state == PlayerState::WAttack) || (_state == PlayerState::SAttack));
 
+	// カウントの更新
+	_damagedCount++;
+	_dodgeCount++;
+	_attackCount++;
+	_attackWindUpCount++;
+	_playerDodgeCoolCount++;
+	_animCount += _animSpeed;
+
 	switch (_state)
 	{
 	case PlayerState::Idle:
@@ -140,6 +148,55 @@ void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput, std::share
 			ChangeState(PlayerState::SAttack);
 		}
 	}
+
+
+
+	// Lスティックの入力がある間、攻撃判定の回転方向を、プレイヤーの向いている正規化ベクトルで更新
+	if (pInput->IsTiltingL() && !isAttackState) _attackDirection = VNorm(_movementDirection);
+
+	// 回避の更新処理
+	if (_isDodge)
+	{
+		// 方向に速度をかけて、_posを更新
+		_pos = VAdd(_pos, VScale(_dodgeDir, DODGE_SPEED));
+		// 回避距離
+		_dodgeMovement = DODGE_SPEED * _dodgeCount;
+
+		// 実際の回避距離が設定値を超えたら回避終了
+		if (_dodgeMovement >= DODGE_DISTANCE)
+		{
+			_isDodge = false;
+			_playerDodgeCoolCount = 0;
+
+			// 入力がある場合はmoveに、なければidleに遷移
+			if (pInput->IsTiltingL())
+			{
+				ChangeState(PlayerState::Move);
+			}
+			else
+			{
+				ChangeState(PlayerState::Idle);
+			}
+		}
+	}
+
+	// 攻撃を行ってから、20f経過すると攻撃を終了する
+	if (isAttackState && _attackCount >= ATTACKING_FRAME)
+	{
+		_isWeakAttacking = false;
+		_isStrongAttacking = false;
+		if (pInput->IsTiltingL())
+		{
+			ChangeState(PlayerState::Move);
+			_attackWindUpCount = 0;
+		}
+		else
+		{
+			ChangeState(PlayerState::Idle);
+			_attackWindUpCount = 0;
+		}
+	}
+
 
 	// モデルの回転処理-----------------------------------------------------------
 
@@ -190,60 +247,6 @@ void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput, std::share
 	// --------------------------------------------------------------------------
 
 	// 各種更新処理 -------------------------------------------------------------
-
-	// カウントの更新
-	_damagedCount++;
-	_dodgeCount++;
-	_attackCount++;
-	_attackWindUpCount++;
-	_playerDodgeCoolCount++;
-	_animCount += _animSpeed;
-
-	// Lスティックの入力がある間、攻撃判定の回転方向を、プレイヤーの向いている正規化ベクトルで更新
-	if (pInput->IsTiltingL() && !isAttackState) _attackDirection = VNorm(_movementDirection);
-
-	// 回避の更新処理
-	if (_isDodge)
-	{
-		// 方向に速度をかけて、_posを更新
-		_pos = VAdd(_pos, VScale(_dodgeDir, DODGE_SPEED));
-		// 回避距離
-		_dodgeMovement = DODGE_SPEED * _dodgeCount;
-
-		// 実際の回避距離が設定値を超えたら回避終了
-		if (_dodgeMovement >= DODGE_DISTANCE)
-		{
-			_isDodge = false;
-			_playerDodgeCoolCount = 0;
-
-			// 入力がある場合はmoveに、なければidleに遷移
-			if (pInput->IsTiltingL())
-			{
-				ChangeState(PlayerState::Move);
-			}
-			else
-			{
-				ChangeState(PlayerState::Idle);
-			}
-		}
-	}
-
-	// 攻撃を行ってから、20f経過すると攻撃を終了する
-	if (isAttackState && _attackCount >= ATTACKING_FRAME)
-	{
-		_isWeakAttacking = false;
-		_isStrongAttacking = false;
-		if (pInput->IsTiltingL())
-		{
-			ChangeState(PlayerState::Move);
-			_attackWindUpCount = 0;
-		}
-		else
-		{
-			ChangeState(PlayerState::Idle);
-			_attackWindUpCount = 0;
-		}
-	}
 
 	// 【デバッグ】ダメージクールダウンが終了すると色をもとに戻す
 	if (_damagedCount > DAMAGED_COOLDAWN)
@@ -339,6 +342,8 @@ void Player::AttackProcess(std::shared_ptr<Input> pInput, int type)
 // アニメーション切り替え処理
 void Player::AnimChange(int animIndex)
 {
+	// printfDx("%d\n", animIndex);
+
 	if (_prevAttachAnimIndex != -1)
 	{
 		MV1DetachAnim(_modelH, _prevAttachAnimIndex);
@@ -347,7 +352,16 @@ void Player::AnimChange(int animIndex)
 	_prevAttachAnimIndex = _attachAnimIndex;
 	_attachAnimIndex = MV1AttachAnim(_modelH, animIndex, -1, false);
 	_animCount = 0.0f;
-	_blendRate = 0.0f;
+
+	if (_isAnimChange)
+	{
+		_blendRate = 1.0f - _blendRate;
+	}
+	else
+	{
+		_blendRate = 0.0f;
+	}
+
 	_totalTime = MV1GetAttachAnimTotalTime(_modelH, _attachAnimIndex);
 	_isAnimChange = true;
 
@@ -376,6 +390,8 @@ void Player::ChangeState(PlayerState next)
 	if (_state == next) return;
 
 	_state = next;
+
+	//printfDx("%d\n", next);
 
 	// 関数の初期設定処理
 	switch (next)
