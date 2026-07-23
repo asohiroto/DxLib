@@ -117,5 +117,7 @@ private:
 	int _attackWindUpCount;
 	// 回避可能までのクールタイム
 	int _playerDodgeCoolCount;
+	// ダメージクールダウン中か
+	bool _isDamageCooldown;
 };
 

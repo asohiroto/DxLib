@@ -92,7 +92,6 @@ void SceneGame::Draw()
 	p_Camera->Draw(1);
 	p_Player->Draw();
 	p_PlayerSub->Draw();
-	DrawCircle(WIDTH / 4, HEIGHT / 2, 2, 0xffffff, true);
 	// ステージの床を描画
 	DrawCube3D
 	(
@@ -103,6 +102,8 @@ void SceneGame::Draw()
 	MV1SetScale(_skyDomeH, VGet(5.0f, 5.0f, 5.0f));
 	MV1SetPosition(_skyDomeH, VGet(0.0f, 0.0f, 0.0f));
 	MV1DrawModel(_skyDomeH);
+
+	DrawCircle(WIDTH / 4, HEIGHT / 2, 2, 0xffffff, true);
 
 #ifdef _DEBUG
 	DrawGrid();
@@ -112,7 +113,6 @@ void SceneGame::Draw()
 	p_CameraSub->Draw(2);
 	p_Player->Draw();
 	p_PlayerSub->Draw();
-	DrawCircle((WIDTH / 4) * 3, HEIGHT / 2, 2, 0xffffff, true);
 	// ステージの床を描画
 	DrawCube3D
 	(
@@ -123,6 +123,8 @@ void SceneGame::Draw()
 	MV1SetScale(_skyDomeH, VGet(5.0f, 5.0f, 5.0f));
 	MV1SetPosition(_skyDomeH, VGet(0.0f, 0.0f, 0.0f));
 	MV1DrawModel(_skyDomeH);
+
+	DrawCircle((WIDTH / 4) * 3, HEIGHT / 2, 2, 0xffffff, true);
 
 #ifdef _DEBUG
 	DrawGrid();

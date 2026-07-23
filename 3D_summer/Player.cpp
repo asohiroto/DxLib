@@ -42,7 +42,8 @@ Player::Player() :
 	_animSpeed(0.5f),
 	_hitstopRequestFrame(0),
 	_playerDodgeCoolCount(0),
-	_attackWindUpCount(0)
+	_attackWindUpCount(0),
+	_isDamageCooldown(false)
 {
 
 }
@@ -93,6 +94,8 @@ void Player::Init(int id)
 void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput, std::shared_ptr<Player> pOther)
 {
 	bool isAttackState = ((_state == PlayerState::WAttack) || (_state == PlayerState::SAttack));
+
+	_isDamageCooldown = _damagedCount > WEAK_DAMAGED_COOLDOWN || _damagedCount > STRONG_DAMAGED_COOLDOWN;
 
 	// カウントの更新
 	_damagedCount++;
@@ -180,11 +183,10 @@ void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput, std::share
 		}
 	}
 
-	// 攻撃を行ってから、20f経過すると攻撃を終了する
-	if (isAttackState && _attackCount >= ATTACKING_FRAME)
+	// 弱攻撃を行ってから、特定フレーム経過すると弱攻撃を終了する
+	if (_state == PlayerState::WAttack && _attackCount >= WEAK_ATTACKING_FRAME)
 	{
 		_isWeakAttacking = false;
-		_isStrongAttacking = false;
 		if (pInput->IsTiltingL())
 		{
 			ChangeState(PlayerState::Move);
@@ -197,6 +199,21 @@ void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput, std::share
 		}
 	}
 
+	// 強攻撃を行ってから、特定フレーム経過すると強攻撃を終了する
+	if (_state == PlayerState::SAttack && _attackCount >= STRONG_ATTACKING_FRAME)
+	{
+		_isStrongAttacking = false;
+		if (pInput->IsTiltingL())
+		{
+			ChangeState(PlayerState::Move);
+			_attackWindUpCount = 0;
+		}
+		else
+		{
+			ChangeState(PlayerState::Idle);
+			_attackWindUpCount = 0;
+		}
+	}
 
 	// モデルの回転処理-----------------------------------------------------------
 
@@ -249,7 +266,7 @@ void Player::Update(float cameraAngle, std::shared_ptr<Input> pInput, std::share
 	// 各種更新処理 -------------------------------------------------------------
 
 	// 【デバッグ】ダメージクールダウンが終了すると色をもとに戻す
-	if (_damagedCount > DAMAGED_COOLDAWN)
+	if (_isDamageCooldown)
 	{
 		_playerColor = 0xff0000;
 	}
@@ -371,7 +388,7 @@ void Player::AnimChange(int animIndex)
 		_animSpeed = 0.5f;
 		break;
 	case 1:
-		_animSpeed = 0.45f;
+		_animSpeed = 0.90f;
 		break;
 	case 2:
 		_animSpeed = 0.8f;
@@ -470,7 +487,7 @@ void Player::UpdateMove(std::shared_ptr<Input> pInput, std::shared_ptr<Player> p
 void Player::UpdateWAttack(std::shared_ptr<Input> pInput)
 {
 	// 入力があって、攻撃中でないなら当たり判定を出す
-	if (!IsAttacking() && _damagedCount > DAMAGED_COOLDAWN)
+	if (!IsAttacking() && _isDamageCooldown)
 	{
 		if (_attackWindUpCount >= WEAK_ATTACK_ANIMATION_COR)
 			AttackProcess(pInput, 0);
@@ -481,7 +498,7 @@ void Player::UpdateWAttack(std::shared_ptr<Input> pInput)
 void Player::UpdateSAttack(std::shared_ptr<Input> pInput)
 {
 	// 攻撃中でないなら当たり判定を出す
-	if (!IsAttacking() && _damagedCount > DAMAGED_COOLDAWN)
+	if (!IsAttacking() && _isDamageCooldown)
 	{
 		if (_attackWindUpCount >= STRONG_ATTACK_ANIMATION_COR)
 			AttackProcess(pInput, 1);
@@ -535,7 +552,7 @@ void Player::CollProcess(std::shared_ptr<Player> pOther)
 		);
 
 		// 当たると、フラグを立てる
-		if (_radius + WEAK_ATTACK_RADIUS >= distToAttack && _damagedCount > DAMAGED_COOLDAWN)
+		if (_radius + WEAK_ATTACK_RADIUS >= distToAttack && _isDamageCooldown)
 		{
 			_isDamaged = true;
 		}
@@ -575,7 +592,7 @@ void Player::CollProcess(std::shared_ptr<Player> pOther)
 		);
 
 		// 当たると、フラグを立てる
-		if (_radius + STRONG_ATTACK_RADIUS >= distToAttack && _damagedCount > DAMAGED_COOLDAWN)
+		if (_radius + STRONG_ATTACK_RADIUS >= distToAttack && _isDamageCooldown)
 		{
 			_isDamaged = true;
 		}

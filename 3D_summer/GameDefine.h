@@ -4,7 +4,7 @@
 namespace GameDefine
 {
 	// 画面の基礎設定-----------------------------------------
-	
+
 	// 画面の横幅
 	constexpr int WIDTH = 1280;
 	// 画面の縦幅
@@ -13,13 +13,13 @@ namespace GameDefine
 	constexpr int COLOR_BIT = 32;
 
 	// カメラの諸々-------------------------------------------
-	
+
 	// カメラの水平方向の速度
 	constexpr float CAMERA_YAW_SPEED = 0.03f;
 	// カメラの垂直方向の速度
 	constexpr float CAMERA_PITCH_SPEED = 0.03f;
 	// カメラの垂直方向の回転制限
-	constexpr float CAMERA_PITCH_LIMIT = 1.2f;
+	constexpr float CAMERA_PITCH_LIMIT = 1.5f;
 	// カメラのプレイヤーまでの距離
 	constexpr float CAMERA_DISTANCE = -1750.0f;
 	// 注視点の高さの補整度
@@ -38,14 +38,14 @@ namespace GameDefine
 	constexpr float ZOOM_LERP_RATE = 0.5f;
 
 	// デバッグ用の表示---------------------------------------
-	
+
 	// 足元に表示するグリッドの大きさ
 	constexpr int GRID_SIZE = 100;
 	// 足元に表示するグリッドの数
 	constexpr int GRID_NUM = 20;
 
 	// プレイヤーの挙動---------------------------------------
-	
+
 	// プレイヤーの当たり判定の半径
 	constexpr float PLAYER_COL_RADIUS = 120.0f;
 	// プレイヤーの当たり判定の線分の始点の補正値
@@ -66,10 +66,14 @@ namespace GameDefine
 	constexpr float WEAK_ATTACK_POS_COR = 200.0f;
 	// 弱攻撃の当たり判定の半径
 	constexpr float WEAK_ATTACK_RADIUS = 100.0f;
-	// ダメージ判定の間隔
-	constexpr int DAMAGED_COOLDAWN = 40;
+	// 弱攻撃のダメージ判定の間隔
+	constexpr int WEAK_DAMAGED_COOLDOWN = 20;
+	// 強攻撃のダメージ判定の間隔
+	constexpr int STRONG_DAMAGED_COOLDOWN = 40;
 	// 弱攻撃の持続時間
-	constexpr int ATTACKING_FRAME = 40;
+	constexpr int WEAK_ATTACKING_FRAME = 20;
+	// 強攻撃の持続時間
+	constexpr int STRONG_ATTACKING_FRAME = 40;
 	// 強攻撃の当たり判定の生成高さの補正値
 	constexpr VECTOR STRONG_ATTACK_HEIGHT_COR = { 0.0f, 300.0f, 0.0f };
 	// 強攻撃の当たり判定の生成位置の補正値
@@ -77,19 +81,19 @@ namespace GameDefine
 	// 強攻撃の当たり判定の半径
 	constexpr float STRONG_ATTACK_RADIUS = 120.0f;
 	// 弱攻撃ダメージ
-	constexpr int WEAK_ATTACK_DAMAGE = 100;
+	constexpr int WEAK_ATTACK_DAMAGE = 50;
 	// 弱攻撃回復
-	constexpr int WEAK_ATTACK_ABSORB = 100;
+	constexpr int WEAK_ATTACK_ABSORB = 20;
 	// 強攻撃ダメージ
-	constexpr int STRONG_ATTACK_DAMAGE = 200;
+	constexpr int STRONG_ATTACK_DAMAGE = 80;
 	// 強攻撃回復
-	constexpr int STRONG_ATTACK_ABSORB = 50;
+	constexpr int STRONG_ATTACK_ABSORB = 30;
 	// 弱攻撃のヒットストップフレーム
 	constexpr int WEAK_HITSTOP_FRAME = 4;
 	// 強攻撃のヒットストップフレーム
-	constexpr int STRONG_HITSTOP_FRAME = 18;
+	constexpr int STRONG_HITSTOP_FRAME = 8;
 	// 弱攻撃アニメーションの補正値
-	constexpr  int WEAK_ATTACK_ANIMATION_COR = 35;
+	constexpr  int WEAK_ATTACK_ANIMATION_COR = 16;
 	// 強攻撃アニメーションの補正値
 	constexpr int STRONG_ATTACK_ANIMATION_COR = 39;
 	// 回避のクールタイム
@@ -101,7 +105,7 @@ namespace GameDefine
 	constexpr float HP_LERP_RATE = 0.1f;
 
 	// ゲームパッド用の設定-----------------------------------
-	
+
 	// スティックのデッドゾーン
 	constexpr float STICK_DEAD_ZONE = 150.0f;
 }
