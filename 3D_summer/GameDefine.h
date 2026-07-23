@@ -68,7 +68,7 @@ namespace GameDefine
 	constexpr float WEAK_ATTACK_RADIUS = 100.0f;
 	// ダメージ判定の間隔
 	constexpr int DAMAGED_COOLDAWN = 40;
-	// 攻撃の持続時間
+	// 弱攻撃の持続時間
 	constexpr int ATTACKING_FRAME = 40;
 	// 強攻撃の当たり判定の生成高さの補正値
 	constexpr VECTOR STRONG_ATTACK_HEIGHT_COR = { 0.0f, 300.0f, 0.0f };
@@ -89,9 +89,9 @@ namespace GameDefine
 	// 強攻撃のヒットストップフレーム
 	constexpr int STRONG_HITSTOP_FRAME = 18;
 	// 弱攻撃アニメーションの補正値
-	constexpr  int WEAK_ATTACK_ANIMATION_COR = 30;
+	constexpr  int WEAK_ATTACK_ANIMATION_COR = 35;
 	// 強攻撃アニメーションの補正値
-	constexpr int STRONG_ATTACK_ANIMATION_COR = 30;
+	constexpr int STRONG_ATTACK_ANIMATION_COR = 39;
 	// 回避のクールタイム
 	constexpr int DODGE_COOLDOWN_FRAME = 60;
 

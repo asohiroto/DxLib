@@ -52,15 +52,13 @@ void SceneGame::Update()
 	p_Input->Update();
 	p_InputSub->Update();
 
-	p_Camera->Update(p_Player, p_PlayerSub, p_Input);
-	p_CameraSub->Update(p_PlayerSub, p_Player, p_InputSub);
 
 	// ヒットストップする場合は、ここをループ
 	if (_hitstopCount > 0)
 	{
 		_hitstopCount--;
-		_zoomDistance += (CAMERA_HITSTOP_ZOOM - _zoomDistance) * ZOOM_LERP_RATE;
-		p_Camera->SetCameraDistance(_zoomDistance);
+		//_zoomDistance += (CAMERA_HITSTOP_ZOOM - _zoomDistance) * ZOOM_LERP_RATE;
+		//p_Camera->SetCameraDistance(_zoomDistance);
 		return;
 	}
 
@@ -69,6 +67,10 @@ void SceneGame::Update()
 
 	p_Player->Update(p_Camera->GetCameraYaw(), p_Input, p_PlayerSub);
 	p_PlayerSub->Update(p_CameraSub->GetCameraYaw(), p_InputSub, p_Player);
+
+	p_Camera->Update(p_Player, p_PlayerSub, p_Input);
+	p_CameraSub->Update(p_PlayerSub, p_Player, p_InputSub);
+
 	p_UIManager->Update(p_Player, p_PlayerSub);
 
 	// 両プレイヤーからヒットストップのフレームを取得

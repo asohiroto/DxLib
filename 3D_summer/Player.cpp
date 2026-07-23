@@ -60,19 +60,19 @@ void Player::Init(int id)
 	// プレイヤーに応じてモデルを変化
 	if (id == 1)
 	{
-		_modelH = MV1LoadModel("data/gunjin.mv1");
+		_modelH = MV1LoadModel("data/model_army.mv1");
 		_pos = VGet(500.0f, 0.0f, 200.0f);
 		_idTemp = id;
 	}
 	else if (id == 2)
 	{
-		_modelH = MV1LoadModel("data/gunjin.mv1");
+		_modelH = MV1LoadModel("data/model_army.mv1");
 		_pos = VGet(-500.0f, 0.0f, -200.0f);
 		_idTemp = id;
 	}
 
 	//アニメーション関係初期設定
-	_attachAnimIndex = MV1AttachAnim(_modelH, 1, -1, false);
+	_attachAnimIndex = MV1AttachAnim(_modelH, 0, -1, false);
 	_totalTime = MV1GetAttachAnimTotalTime(_modelH, _attachAnimIndex);
 
 	// モデルを拡大
@@ -354,16 +354,19 @@ void Player::AnimChange(int animIndex)
 	switch (animIndex)
 	{
 	case 0:
-		_animSpeed = 1.0f;
-		break;
-	case 1:
 		_animSpeed = 0.5f;
 		break;
+	case 1:
+		_animSpeed = 0.45f;
+		break;
 	case 2:
-		_animSpeed = 0.75f;
+		_animSpeed = 0.8f;
 		break;
 	case 3:
 		_animSpeed = 0.5f;
+		break;
+	case 4:
+		_animSpeed = 0.55f;
 		break;
 	}
 }
@@ -380,7 +383,7 @@ void Player::ChangeState(PlayerState next)
 	case PlayerState::Idle:
 		_attackCount = 0;
 		_attackWindUpCount = 0;
-		AnimChange(1);
+		AnimChange(0);
 		break;
 	case PlayerState::Move:
 		_attackCount = 0;
@@ -390,12 +393,12 @@ void Player::ChangeState(PlayerState next)
 	case PlayerState::WAttack:
 		_attackCount = 0;
 		_attackWindUpCount = 0;
-		AnimChange(0);
+		AnimChange(1);
 		break;
 	case PlayerState::SAttack:
 		_attackCount = 0;
 		_attackWindUpCount = 0;
-		AnimChange(0);
+		AnimChange(4);
 		break;
 	case PlayerState::Dodge:
 		_attackCount = 0;
