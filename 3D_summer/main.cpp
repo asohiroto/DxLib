@@ -39,6 +39,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	std::unique_ptr<SceneGame> p_SceneGame = std::make_unique<SceneGame>();
 	p_SceneGame->Init();
 
+	 ChangeFont("Noto Serif JP Black");
+
 	// ゲームループ
 	while (ProcessMessage() != -1)
 	{

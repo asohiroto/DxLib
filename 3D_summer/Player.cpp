@@ -401,7 +401,7 @@ void Player::AnimChange(int animIndex)
 		_animSpeed = 0.5f;
 		break;
 	case 4:
-		_animSpeed = 0.55f;
+		_animSpeed = 0.70f;
 		break;
 	}
 }

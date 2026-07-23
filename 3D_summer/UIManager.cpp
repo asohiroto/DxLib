@@ -5,8 +5,8 @@
 using namespace GameDefine;
 
 UIManager::UIManager() :
-	_playerDispHp(1000),
-	_subDispHp(1000)
+	_playerDispHp(500),
+	_subDispHp(500)
 {
 }
 
@@ -53,15 +53,22 @@ void UIManager::DrawHpGauge(int playerType, std::shared_ptr<Player> pPlayer)
 
 	float hpRatio = targetedHp / static_cast<float>(pPlayer->GetMaxHp());
 
+#ifdef _DEBUG
+	SetFontSize(20);
+#else 
+	SetFontSize(100);
+#endif
+
 	DrawBox(gaugePosX, gaugePosY, gaugePosX + maxGaugeWidth, gaugePosY + gaugeHeight, 0x000000, true);
-	
+
 	if (playerType == 1)
 	{
 		DrawBox(gaugePosX + (maxGaugeWidth * (1.0f - hpRatio)), gaugePosY, gaugePosX + maxGaugeWidth, gaugePosY + gaugeHeight, 0x00ff00, true);
+
 	}
 	else
 	{
-		DrawBox(gaugePosX , gaugePosY, gaugePosX + (maxGaugeWidth * hpRatio), gaugePosY + gaugeHeight, 0x00ff00, true);
+		DrawBox(gaugePosX, gaugePosY, gaugePosX + (maxGaugeWidth * hpRatio), gaugePosY + gaugeHeight, 0x00ff00, true);
 	}
 
 	DrawBox(gaugePosX, gaugePosY, gaugePosX + maxGaugeWidth, gaugePosY + gaugeHeight, 0xaaaaaa, false, 3);
