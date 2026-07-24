@@ -36,10 +36,10 @@ StartScene::~StartScene()
 
 void StartScene::Init()
 {
-	_bgH = LoadGraph("data/タイトル.png");
-	_cloudH = LoadGraph("data/Cloud2.png");
-	_logoH = LoadGraph("data/ロゴ.png");
-	_logoSH = LoadGraph("data/ロゴ影.png");
+	_bgH = LoadGraph("Data/タイトル.png");
+	_cloudH = LoadGraph("Data/Cloud2.png");
+	_logoH = LoadGraph("Data/ロゴ.png");
+	_logoSH = LoadGraph("Data/ロゴ影.png");
 	_cloudWid = 1613;
 	_scrollX = 0;
 }

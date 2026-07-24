@@ -6,9 +6,8 @@
 #include<time.h>
 
 // プログラムは WinMain から始まります
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow)
 {
-
 	ChangeWindowMode(1); // windowモードで起動
 
 	SetGraphMode(GameDefine::WIDTH, GameDefine::HEIGHT, GameDefine::DEPTH); // ウィンドウサイズを16：9に
@@ -26,7 +25,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	p_SceneManager->Init();
 
 	SetDrawScreen(DX_SCREEN_BACK); // 裏画面に描画
-	ChangeFont("Malgun Gothic");
+	ChangeFont("Noto Sans JP Black");
 
 	while (ProcessMessage() == 0)
 	{

@@ -26,7 +26,7 @@ ClearScene::~ClearScene()
 
 void ClearScene::Init()
 {
-	_bgH = LoadGraph("data/クリアシーン.png");
+	_bgH = LoadGraph("Data/クリアシーン.png");
 }
 
 void ClearScene::End()

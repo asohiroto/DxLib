@@ -24,7 +24,7 @@ GameOverScene::~GameOverScene()
 
 void GameOverScene::Init()
 {
-	_bgH = LoadGraph("data/ゲームオーバーシーン.png");
+	_bgH = LoadGraph("Data/ゲームオーバーシーン.png");
 }
 
 void GameOverScene::End()
