@@ -24,4 +24,9 @@ private:
 	int _playerModelH;
 	int _playerSubModelH;
 	int _skyDomeH;
+
+	// フレームカウンタ
+	int _frameCount;
+	// UIのドットの位置
+	int _dotPosX;
 };

@@ -15,4 +15,9 @@ public:
 
 private:
 	SceneManager* p_Manager;
+
+	// タイトルのスクリーン座標
+	int _titlePosX, _titlePosY;
+	// 次のシーンに進むUIのスクリーン座標
+	int _nextPosX, _nextPosY;
 };

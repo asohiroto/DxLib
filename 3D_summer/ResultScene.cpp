@@ -36,5 +36,5 @@ void ResultScene::Draw()
 {
 	DrawFormatString(300, 300, 0xffffff, "Player : %d  WIN!!", _winner);
 	SetFontSize(50);
-	DrawFormatString(300, 500, 0xffffff, "Restar to Push B Button");
+	DrawFormatString(300, 500, 0xffffff, "Press B Button");
 }

@@ -6,7 +6,9 @@ LoadScene::LoadScene() :
 	p_Manager(nullptr),
 	_totalRequestNum(0),
 	_playerModelH(-1),
-	_skyDomeH(-1)
+	_skyDomeH(-1),
+	_frameCount(0),
+	_dotPosX(0)
 {
 }
 
@@ -32,6 +34,7 @@ void LoadScene::Init(SceneManager* pManager)
 
 void LoadScene::Update()
 {
+	_frameCount++;
 	if (GetASyncLoadNum() == 0)
 		p_Manager->ChangeScene(SceneManager::SceneName::GAME, 0);
 }
@@ -39,13 +42,28 @@ void LoadScene::Update()
 void LoadScene::Draw()
 {
 	SetFontSize(60);
-	DrawString(300, 300, "Now Loading...", 0xffffff);
+	DrawString(300, 300, "Now Loading", 0xffffff);
+	if (_frameCount % 60 < 20)
+	{
+		_dotPosX = 1;
+	}
+	else if (_frameCount % 60 > 40)
+	{
+		_dotPosX = 3;
+	}
+	else
+	{
+		_dotPosX = 2;
+	}
+	DrawString(700 + (30 * _dotPosX), 300, ".", 0xffffff);
+
+	DrawBox(300, 400, 1000, 430, 0xff0000, true);
 
 	// 残り件数から進捗率を計算して表示
 	if (_totalRequestNum > 0)
 	{
 		int remain = GetASyncLoadNum();
 		float rate = 1.0f - (static_cast<float>(remain) / _totalRequestNum);
-		DrawBox(300, 400, 300 + static_cast<int>(600 * rate), 430, 0x00ff00, true);
+		DrawBox(300, 400, 300 + static_cast<int>(700 * rate), 430, 0x00ff00, true);
 	}
 }

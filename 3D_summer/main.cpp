@@ -65,9 +65,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		p_InputSub->Update();
 		p_SceneManager->Update(p_Input, p_InputSub);
 		p_SceneManager->Draw();
-
+#ifdef _DEBUG
 		DrawFormatString(0, 0, 0xff0000, "%d", _frameCount);
-
+#endif
 		// 画面が切り替わるのを待つ
 		ScreenFlip();
 
