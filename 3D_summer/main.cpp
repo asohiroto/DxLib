@@ -1,5 +1,6 @@
 ﻿#include "DxLib.h"
 #include"SceneManager.h"
+#include "Input.h"
 #include"GameDefine.h"
 #include<memory>
 
@@ -39,6 +40,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	std::unique_ptr<SceneManager> p_SceneManager = std::make_unique<SceneManager>();
 	p_SceneManager->Init();
 
+	std::shared_ptr<Input> p_Input = std::make_shared<Input>();
+	p_Input->Init(DX_INPUT_PAD1);
+
+	std::shared_ptr<Input> p_InputSub = std::make_shared<Input>();
+	p_InputSub->Init(DX_INPUT_PAD2);
+
 	int _frameCount = 0;
 
 	ChangeFont("Noto Sans JP Black");
@@ -54,7 +61,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// 描画を行う前に画面をクリアする
 		ClearDrawScreen();
 
-		p_SceneManager->Update();
+		p_Input->Update();
+		p_InputSub->Update();
+		p_SceneManager->Update(p_Input, p_InputSub);
 		p_SceneManager->Draw();
 
 		DrawFormatString(0, 0, 0xff0000, "%d", _frameCount);

@@ -14,8 +14,6 @@ SceneGame::SceneGame() :
 	p_Player(nullptr),
 	p_PlayerSub(nullptr),
 	p_Camera(nullptr),
-	p_Input(nullptr),
-	p_InputSub(nullptr),
 	_hitstopCount(0),
 	_zoomDistance(0),
 	_skyDomeH(-1),
@@ -27,43 +25,35 @@ SceneGame::SceneGame() :
 
 SceneGame::~SceneGame()
 {
-	delete p_Manager;
 }
 
-void SceneGame::Init(SceneManager* pManager)
+void SceneGame::Init(SceneManager* pManager, int playerH, int subH, int skyDomeH)
 {
-	p_Input = std::make_shared<Input>();
-	p_Input->Init(DX_INPUT_PAD1);
-	p_InputSub = std::make_shared<Input>();
-	p_InputSub->Init(DX_INPUT_PAD2);
 	p_Player = std::make_shared<Player>();
-	p_Player->Init(1);
+	p_Player->Init(1, playerH, subH);
 	p_PlayerSub = std::make_shared<Player>();
-	p_PlayerSub->Init(2);
+	p_PlayerSub->Init(2, playerH, subH);
 	p_Camera = std::make_shared<Camera>();
 	p_Camera->Init(p_Player, p_PlayerSub);
 	p_CameraSub = std::make_shared<Camera>();
 	p_CameraSub->Init(p_PlayerSub, p_Player);
-	
+
 	p_Manager = pManager;
 
 	_zoomDistance = CAMERA_DISTANCE;
 
-	_skyDomeH = MV1LoadModel("data/sunny_dome.mv1");
+	_skyDomeH = skyDomeH;
 }
 
-void SceneGame::Update()
+void SceneGame::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Input> pInputSub)
 {
 	_border = WIDTH * (static_cast<float>(p_Player->GetHp()) / (static_cast<float>(p_Player->GetHp()) + static_cast<float>(p_PlayerSub->GetHp())));
 
 	p_Camera->SetCameraBorder(_border);
 	p_CameraSub->SetCameraBorder(_border);
 
-	p_Input->Update();
-	p_InputSub->Update();
-
-	p_Camera->Update(p_Player, p_PlayerSub, p_Input);
-	p_CameraSub->Update(p_PlayerSub, p_Player, p_InputSub);
+	p_Camera->Update(p_Player, p_PlayerSub, pInput);
+	p_CameraSub->Update(p_PlayerSub, p_Player, pInputSub);
 
 	// ヒットストップする場合は、ここをループ
 	if (_hitstopCount > 0)
@@ -77,21 +67,30 @@ void SceneGame::Update()
 	_zoomDistance += (CAMERA_DISTANCE - _zoomDistance) * ZOOM_LERP_RATE;
 	p_Camera->SetCameraDistance(_zoomDistance);
 
-	p_Player->Update(p_Camera->GetCameraYaw(), p_Input, p_PlayerSub);
-	p_PlayerSub->Update(p_CameraSub->GetCameraYaw(), p_InputSub, p_Player);
-	
+	p_Player->Update(p_Camera->GetCameraYaw(), pInput, p_PlayerSub);
+	p_PlayerSub->Update(p_CameraSub->GetCameraYaw(), pInputSub, p_Player);
+
 	// 両プレイヤーからヒットストップのフレームを取得
 	int request1 = p_Player->HitstopRequest();
 	int request2 = p_PlayerSub->HitstopRequest();
 
 	_hitstopCount = std::max(request1, request2);
 
+	if (p_Player->GetHp() <= 5)
+	{
+		p_Manager->ChangeScene(SceneManager::SceneName::RESULT, 2);
+	}
+	else if (p_PlayerSub->GetHp() <= 5)
+	{
+		p_Manager->ChangeScene(SceneManager::SceneName::RESULT, 1);
+	}
+
 }
 
 void SceneGame::Draw()
 {
 	// 前フレームの描画範囲が残っている可能性があるので、まず全体に戻す
-	//SetDrawArea(0, 0, WIDTH, HEIGHT);
+	SetDrawArea(0, 0, WIDTH, HEIGHT);
 
 	// プレイヤー１用の画面表示処理
 	p_Camera->Draw(1);

@@ -1,5 +1,6 @@
 ﻿#include "TitleScene.h"
 #include "SceneManager.h"
+#include "Input.h"
 #include <DxLib.h>
 
 TitleScene::TitleScene():
@@ -9,7 +10,6 @@ TitleScene::TitleScene():
 
 TitleScene::~TitleScene()
 {
-	delete p_Manager;
 }
 
 void TitleScene::Init(SceneManager* pManager)
@@ -17,19 +17,19 @@ void TitleScene::Init(SceneManager* pManager)
 	p_Manager = pManager;
 }
 
-void TitleScene::Update()
+void TitleScene::Update(std::shared_ptr<Input> pInput)
 {
-	if (GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_1)
+	if (pInput->IsTrigger(PAD_INPUT_A))
 	{
 		printfDx("1\n");
-		p_Manager->ChangeScene(SceneManager::SceneName::GAME);
+		p_Manager->ChangeScene(SceneManager::SceneName::LOAD, 0);
 	}
 }
 
 void TitleScene::Draw()
 {
 	SetFontSize(100);
-	DrawString(300, 300, "カメラを奪え！", 0xffffff, 0xff0000);
+	DrawString(300, 300, "スクリーンを奪え！", 0xffffff, 0xff0000);
 
-	DrawString(300, 500, "Press Any Key", 0xffffff, 0xffff00);
+	DrawString(300, 500, "Press A Button", 0xffffff, 0xffff00);
 }

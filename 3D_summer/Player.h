@@ -11,7 +11,7 @@ class Player :
 public:
 	Player();
 	~Player() override;
-	void Init(int Id);
+	void Init(int id, int playerH, int subH);
 	void Update(float cameraAngle, std::shared_ptr<Input> pInput, std::shared_ptr<Player> pOther);
 	void Draw() override;
 	// カメラの角度を取得する

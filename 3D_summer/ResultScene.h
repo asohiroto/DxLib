@@ -1,18 +1,21 @@
 ﻿#pragma once
-#include<memory>
+#include <memory>
 
 class SceneManager;
 class Input;
 
-class TitleScene
+class ResultScene
 {
 public:
-	TitleScene();
-	~TitleScene();
-	void Init(SceneManager* pManager);
+	ResultScene();
+	~ResultScene();
+	void Init(SceneManager* pManager, int winner);
 	void Update(std::shared_ptr<Input> pInput);
 	void Draw();
 
 private:
+	int _winner;
+
 	SceneManager* p_Manager;
 };
+

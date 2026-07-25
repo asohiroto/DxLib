@@ -55,7 +55,7 @@ Player::~Player()
 	MV1DeleteModel(_modelH);
 }
 
-void Player::Init(int id)
+void Player::Init(int id, int playerH, int subH)
 {
 	// プレイヤーの体力を最大値に初期化
 	_playerHp = _maxPlayerHp;
@@ -63,13 +63,13 @@ void Player::Init(int id)
 	// プレイヤーに応じてモデルを変化
 	if (id == 1)
 	{
-		_modelH = MV1LoadModel("data/model_army.mv1");
+		_modelH = playerH;
 		_pos = VGet(500.0f, 0.0f, 200.0f);
 		_idTemp = id;
 	}
 	else if (id == 2)
 	{
-		_modelH = MV1LoadModel("data/model_army.mv1");
+		_modelH = subH;
 		_pos = VGet(-500.0f, 0.0f, -200.0f);
 		_idTemp = id;
 	}
