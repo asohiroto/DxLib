@@ -3,7 +3,6 @@
 #include"Player.h"
 #include"Camera.h"
 #include"Input.h"
-#include"UIManager.h"
 #include"GameDefine.h"
 #include<algorithm>
 #include<DxLib.h>
@@ -17,9 +16,9 @@ SceneGame::SceneGame() :
 	p_Input(nullptr),
 	p_InputSub(nullptr),
 	_hitstopCount(0),
-	p_UIManager(nullptr),
 	_zoomDistance(0),
-	_skyDomeH(-1)
+	_skyDomeH(-1),
+	_border(WIDTH / 2)
 {
 
 }
@@ -40,12 +39,10 @@ void SceneGame::Init()
 	p_PlayerSub = std::make_shared<Player>();
 	p_PlayerSub->Init(2);
 	p_Camera = std::make_shared<Camera>();
-	p_Camera->Init();
+	p_Camera->Init(p_Player, p_PlayerSub);
 	p_CameraSub = std::make_shared<Camera>();
-	p_CameraSub->Init();
-	p_UIManager = std::make_shared<UIManager>();
-	p_UIManager->Init();
-
+	p_CameraSub->Init(p_PlayerSub, p_Player);
+	
 	_zoomDistance = CAMERA_DISTANCE;
 
 	_skyDomeH = MV1LoadModel("data/sunny_dome.mv1");
@@ -53,6 +50,11 @@ void SceneGame::Init()
 
 void SceneGame::Update()
 {
+	_border = WIDTH * (static_cast<float>(p_Player->GetHp()) / (static_cast<float>(p_Player->GetHp()) + static_cast<float>(p_PlayerSub->GetHp())));
+
+	p_Camera->SetCameraBorder(_border);
+	p_CameraSub->SetCameraBorder(_border);
+
 	p_Input->Update();
 	p_InputSub->Update();
 
@@ -73,9 +75,7 @@ void SceneGame::Update()
 
 	p_Player->Update(p_Camera->GetCameraYaw(), p_Input, p_PlayerSub);
 	p_PlayerSub->Update(p_CameraSub->GetCameraYaw(), p_InputSub, p_Player);
-
-	p_UIManager->Update(p_Player, p_PlayerSub);
-
+	
 	// 両プレイヤーからヒットストップのフレームを取得
 	int request1 = p_Player->HitstopRequest();
 	int request2 = p_PlayerSub->HitstopRequest();
@@ -87,12 +87,14 @@ void SceneGame::Update()
 void SceneGame::Draw()
 {
 	// 前フレームの描画範囲が残っている可能性があるので、まず全体に戻す
-	SetDrawArea(0, 0, WIDTH, HEIGHT);
+	//SetDrawArea(0, 0, WIDTH, HEIGHT);
 
 	// プレイヤー１用の画面表示処理
 	p_Camera->Draw(1);
+
 	p_Player->Draw();
 	p_PlayerSub->Draw();
+
 	// ステージの床を描画
 	DrawCube3D
 	(
@@ -100,11 +102,13 @@ void SceneGame::Draw()
 		VGet(GRID_NUM / 2 * GRID_SIZE, 0, GRID_NUM / 2 * GRID_SIZE),
 		0xffffff, 0xffffff, true
 	);
+
+	// スカイドームの描画
 	MV1SetScale(_skyDomeH, VGet(5.0f, 5.0f, 5.0f));
 	MV1SetPosition(_skyDomeH, VGet(0.0f, 0.0f, 0.0f));
 	MV1DrawModel(_skyDomeH);
 
-	DrawCircle(WIDTH / 4, HEIGHT / 2, 2, 0xffffff, true);
+	DrawCircle(_border / 2, HEIGHT / 2, 2, 0xffffff, true);
 
 #ifdef _DEBUG
 	DrawGrid();
@@ -112,8 +116,10 @@ void SceneGame::Draw()
 
 	// プレイヤー２用の画面表示処理
 	p_CameraSub->Draw(2);
+
 	p_Player->Draw();
 	p_PlayerSub->Draw();
+
 	// ステージの床を描画
 	DrawCube3D
 	(
@@ -121,11 +127,13 @@ void SceneGame::Draw()
 		VGet(GRID_NUM / 2 * GRID_SIZE, 0, GRID_NUM / 2 * GRID_SIZE),
 		0xffffff, 0xffffff, true
 	);
+
+	// スカイドームの描画
 	MV1SetScale(_skyDomeH, VGet(5.0f, 5.0f, 5.0f));
 	MV1SetPosition(_skyDomeH, VGet(0.0f, 0.0f, 0.0f));
 	MV1DrawModel(_skyDomeH);
 
-	DrawCircle((WIDTH / 4) * 3, HEIGHT / 2, 2, 0xffffff, true);
+	DrawCircle((WIDTH + _border) / 2, HEIGHT / 2, 2, 0xffffff, true);
 
 #ifdef _DEBUG
 	DrawGrid();
@@ -135,7 +143,7 @@ void SceneGame::Draw()
 	SetDrawArea(0, 0, WIDTH, HEIGHT);
 
 	// 仕切り線（画面中央の縦線）
-	DrawLine(WIDTH / 2, 0, WIDTH / 2, HEIGHT, 0xffff00, 3);
+	DrawLine(_border, 0, _border, HEIGHT, 0xffff00, 3);
 
 #ifdef _DEBUG
 	// 画面判別用
@@ -152,8 +160,6 @@ void SceneGame::Draw()
 	DrawFormatString((WIDTH / 2) + 10, 70, 0xffffff, "         Z : %.2f", p_PlayerSub->GetPos().z);
 	DrawFormatString((WIDTH / 2) + 10, 90, 0xffffff, "HP : %d / %d", p_PlayerSub->GetHp(), p_PlayerSub->GetMaxHp());
 #endif
-
-	p_UIManager->Draw(p_Player, p_PlayerSub);
 }
 
 void SceneGame::DrawGrid() const

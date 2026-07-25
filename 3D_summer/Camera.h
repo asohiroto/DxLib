@@ -10,13 +10,15 @@ class Camera
 public:
 	Camera();
 	virtual ~Camera();
-	void Init();
+	void Init(std::shared_ptr<Player> pPlayer, std::shared_ptr<Player> pOther);
 	void Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Player> pOther, std::shared_ptr<Input> pInput);
 	void Draw(int playerNum);
 	// カメラの水平方向の角度を渡す
 	float GetCameraYaw() const { return _cameraYaw; }
 	// カメラの距離のセッター
 	void SetCameraDistance(float dist) { _cameraDistance = dist; }
+	// カメラ境界座標のセッター
+	void SetCameraBorder(float border) { _cameraBorder = border; }
 
 private:
 	// 水平方向の角度
@@ -47,5 +49,7 @@ private:
 	float _dispCameraPitch;
 	// カメラからプレイヤーまでの距離
 	float _cameraDistance;
+	// カメラの境界座標
+	float _cameraBorder;
 };
 

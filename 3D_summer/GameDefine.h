@@ -83,11 +83,11 @@ namespace GameDefine
 	// 弱攻撃ダメージ
 	constexpr int WEAK_ATTACK_DAMAGE = 50;
 	// 弱攻撃回復
-	constexpr int WEAK_ATTACK_ABSORB = 20;
+	constexpr int WEAK_ATTACK_ABSORB = 50;
 	// 強攻撃ダメージ
 	constexpr int STRONG_ATTACK_DAMAGE = 80;
 	// 強攻撃回復
-	constexpr int STRONG_ATTACK_ABSORB = 30;
+	constexpr int STRONG_ATTACK_ABSORB = 80;
 	// 弱攻撃のヒットストップフレーム
 	constexpr int WEAK_HITSTOP_FRAME = 4;
 	// 強攻撃のヒットストップフレーム
@@ -98,11 +98,6 @@ namespace GameDefine
 	constexpr int STRONG_ATTACK_ANIMATION_COR = 32;
 	// 回避のクールタイム
 	constexpr int DODGE_COOLDOWN_FRAME = 60;
-
-	// UI用の定数---------------------------------------------
-
-	// 体力の増減にかける線形補間度
-	constexpr float HP_LERP_RATE = 0.1f;
 
 	// ゲームパッド用の設定-----------------------------------
 

@@ -1,23 +1,21 @@
 ﻿#pragma once
-#include"SceneBase.h"
 #include<memory>
 
 class Player;
 class Camera;
 class Input;
-class UIManager;
 
-class SceneGame :
-	public SceneBase
+class SceneGame
 {
 public:
 	SceneGame();
-	~SceneGame() override;
-	void Init() override;
-	void Update() override;
-	void Draw() override;
+	~SceneGame();
+	void Init();
+	void Update();
+	void Draw();
 	// 足元にグリッドを表示する
 	void DrawGrid() const;
+
 private:
 	// プレイヤークラスの共有ポインタ
 	std::shared_ptr<Player> p_Player;
@@ -31,13 +29,13 @@ private:
 	std::shared_ptr<Input> p_Input;
 	// サブプレイヤーのインプットクラスの共有ポインタ　
 	std::shared_ptr<Input> p_InputSub;
-	// UIマネージャークラスの共有ポインタ
-	std::shared_ptr<UIManager> p_UIManager;
 	// ヒットストップ更新処理用のカウンタ
 	int _hitstopCount;
 	// カメラがズームしたときの距離
 	int _zoomDistance;
 	// スカイドームのハンドル
 	int _skyDomeH;
+	// カメラの境界座標
+	float _border;
 };
 

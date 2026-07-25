@@ -574,9 +574,9 @@ void Player::CollProcess(std::shared_ptr<Player> pOther)
 
 			// 自身の体力を増やす
 			pOther->SetHp(pOther->GetHp() + WEAK_ATTACK_ABSORB);
-			if (pOther->GetHp() > pOther->GetMaxHp())
+			if (pOther->GetHp() > (pOther->GetMaxHp() * 2))
 			{
-				pOther->SetHp(_maxPlayerHp);
+				pOther->SetHp(_maxPlayerHp * 2);
 			}
 
 			// ヒットストップフレームの設定
@@ -614,9 +614,9 @@ void Player::CollProcess(std::shared_ptr<Player> pOther)
 
 			// 自身の体力を増やす
 			pOther->SetHp(pOther->GetHp() + STRONG_ATTACK_ABSORB);
-			if (pOther->GetHp() > pOther->GetMaxHp())
+			if (pOther->GetHp() > (pOther->GetMaxHp() * 2))
 			{
-				pOther->SetHp(_maxPlayerHp);
+				pOther->SetHp(_maxPlayerHp * 2);
 			}
 
 			// ヒットストップフレームの設定

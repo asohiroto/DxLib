@@ -22,7 +22,8 @@ Camera::Camera() :
 	_isTest(false),
 	_dispCameraYaw(0.0f),
 	_dispCameraPitch(0.5f),
-	_cameraDistance(0)
+	_cameraDistance(0),
+	_cameraBorder(0)
 {
 
 }
@@ -32,9 +33,11 @@ Camera::~Camera()
 
 }
 
-void Camera::Init()
+void Camera::Init(std::shared_ptr<Player> pPlayer, std::shared_ptr<Player> pOther)
 {
 	_cameraDistance = CAMERA_DISTANCE;
+	
+	_cameraBorder = WIDTH * (static_cast<float>(pPlayer->GetHp()) / (static_cast<float>(pPlayer->GetHp()) + static_cast<float>(pOther->GetHp())));
 }
 
 void Camera::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Player> pOther, std::shared_ptr<Input> pInput)
@@ -87,17 +90,17 @@ void Camera::Draw(int playerNum)
 	{
 	case 1:
 		// 画面左半分をプレイヤー1用の描画範囲にする
-		SetDrawArea(0, 0, WIDTH / 2, HEIGHT);
+		SetDrawArea(0, 0, _cameraBorder, HEIGHT);
 		// 消失点を左半分の中心に合わせる
-		SetCameraScreenCenter(WIDTH / 4, HEIGHT);
+		SetCameraScreenCenter(_cameraBorder / 2, HEIGHT);
 		SetupCamera_Perspective(DX_PI_F / 4.0f);
 		SetCameraPositionAndTargetAndUpVec(_cameraPos, _targetPos, VGet(0.0f, 1.0f, 0.0f));
 		break;
 	case 2:
 		// 画面右半分をプレイヤー2用の描画範囲にする
-		SetDrawArea(WIDTH / 2, 0, WIDTH, HEIGHT);
+		SetDrawArea(_cameraBorder, 0, WIDTH, HEIGHT);
 		// 消失点を右半分の中心に合わせる
-		SetCameraScreenCenter((WIDTH * 3) / 4, HEIGHT);
+		SetCameraScreenCenter((WIDTH + _cameraBorder) / 2, HEIGHT);
 		SetupCamera_Perspective(DX_PI_F / 4.0f);
 		SetCameraPositionAndTargetAndUpVec(_cameraPos, _targetPos, VGet(0.0f, 1.0f, 0.0f));
 		break;
