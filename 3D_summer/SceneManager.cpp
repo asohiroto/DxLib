@@ -17,6 +17,8 @@ void SceneManager::Init()
 {
 	p_Title = std::make_shared<TitleScene>();
 	p_Game = std::make_shared<SceneGame>();
+
+	p_Title->Init(this);
 }
 
 void SceneManager::Update()
@@ -37,7 +39,7 @@ void SceneManager::ChangeScene(int name)
 {
 	_nowScene = name;
 
-	if (_nowScene == TITLE) p_Title->Init();
-	else if (_nowScene == GAME) p_Game->Init();
-	else p_Title->Init();
+	if (_nowScene == TITLE) p_Title->Init(this);
+	else if (_nowScene == GAME) p_Game->Init(this);
+	else p_Title->Init(this);
 }

@@ -3,6 +3,7 @@
 #include"Player.h"
 #include"Camera.h"
 #include"Input.h"
+#include"SceneManager.h"
 #include"GameDefine.h"
 #include<algorithm>
 #include<DxLib.h>
@@ -18,17 +19,18 @@ SceneGame::SceneGame() :
 	_hitstopCount(0),
 	_zoomDistance(0),
 	_skyDomeH(-1),
-	_border(WIDTH / 2)
+	_border(WIDTH / 2),
+	p_Manager(nullptr)
 {
 
 }
 
 SceneGame::~SceneGame()
 {
-
+	delete p_Manager;
 }
 
-void SceneGame::Init()
+void SceneGame::Init(SceneManager* pManager)
 {
 	p_Input = std::make_shared<Input>();
 	p_Input->Init(DX_INPUT_PAD1);
@@ -43,6 +45,8 @@ void SceneGame::Init()
 	p_CameraSub = std::make_shared<Camera>();
 	p_CameraSub->Init(p_PlayerSub, p_Player);
 	
+	p_Manager = pManager;
+
 	_zoomDistance = CAMERA_DISTANCE;
 
 	_skyDomeH = MV1LoadModel("data/sunny_dome.mv1");

@@ -8,10 +8,10 @@ class TitleScene
 public:
 	TitleScene();
 	~TitleScene();
-	void Init();
+	void Init(SceneManager* pManager);
 	void Update();
 	void Draw();
 
 private:
-	std::shared_ptr<SceneManager> p_Manager;
+	SceneManager* p_Manager;
 };

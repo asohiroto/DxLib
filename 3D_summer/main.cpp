@@ -39,11 +39,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	std::unique_ptr<SceneManager> p_SceneManager = std::make_unique<SceneManager>();
 	p_SceneManager->Init();
 
-	 ChangeFont("Noto Sans JP Black");
+	int _frameCount = 0;
+
+	ChangeFont("Noto Sans JP Black");
 
 	// ゲームループ
 	while (ProcessMessage() != -1)
 	{
+		_frameCount++;
+	
 		// このフレームの開始時刻を覚えておく
 		LONGLONG start = GetNowHiPerformanceCount();
 
@@ -52,6 +56,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		p_SceneManager->Update();
 		p_SceneManager->Draw();
+
+		DrawFormatString(0, 0, 0xff0000, "%d", _frameCount);
 
 		// 画面が切り替わるのを待つ
 		ScreenFlip();

@@ -9,11 +9,12 @@ TitleScene::TitleScene():
 
 TitleScene::~TitleScene()
 {
+	delete p_Manager;
 }
 
-void TitleScene::Init()
+void TitleScene::Init(SceneManager* pManager)
 {
-	p_Manager = std::make_shared<SceneManager>();
+	p_Manager = pManager;
 }
 
 void TitleScene::Update()
