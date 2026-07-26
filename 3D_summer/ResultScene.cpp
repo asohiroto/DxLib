@@ -1,7 +1,10 @@
 ﻿#include "ResultScene.h"
 #include "SceneManager.h"
 #include "Input.h"
+#include "GameDefine.h"
 #include <DxLib.h>
+
+using namespace GameDefine;
 
 ResultScene::ResultScene() :
 	_winner(0),
@@ -39,9 +42,9 @@ void ResultScene::Init(SceneManager* pManager, int winner, int modelH, int skyDo
 
 	if (_winner == 1)
 	{
-		_attachAnimIndex = MV1AttachAnim(_modelH, 2, -1, true);
+		_attachAnimIndex = MV1AttachAnim(_modelH, 1, -1, true);
 	}
-	else if (_winner = 2)
+	else if (_winner == 2)
 	{
 		_attachAnimIndex = MV1AttachAnim(_modelH, 4, -1, true);
 	}
@@ -62,6 +65,15 @@ void ResultScene::Update(std::shared_ptr<Input> pInput)
 
 void ResultScene::Draw()
 {
+	SetDrawArea(0, 0, WIDTH, HEIGHT);
+	SetCameraScreenCenter(WIDTH / 2, HEIGHT);
+	SetupCamera_Perspective(DX_PI_F / 4.0f);
+	SetCameraPositionAndTargetAndUpVec(
+		VGet(_modelPos.x, 300.0f, _modelPos.z - 700.0f),
+		VGet(_modelPos.x, 150.0f, _modelPos.z),
+		VGet(0.0f, 1.0f, 0.0f)
+	);
+
 	MV1DrawModel(_skyDomeH);
 	MV1DrawModel(_modelH);
 
