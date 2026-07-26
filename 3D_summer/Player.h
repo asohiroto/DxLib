@@ -47,6 +47,10 @@ public:
 	void CollProcess(std::shared_ptr<Player> pOther);
 	// ヒットストップのフレーム数を取得し、その値をリセットする
 	int HitstopRequest();
+	// アタッチされているアニメーション番号のゲッター
+	int GetAttachAnimIndex() const { return _attachAnimIndex; }
+	// モデルからアニメーションをデタッチする処理
+	void DetachAnim();
 
 private:
 	// Y軸方向の移動

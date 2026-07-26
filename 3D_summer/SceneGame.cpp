@@ -81,10 +81,12 @@ void SceneGame::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Input> pIn
 
 	if (p_Player->GetHp() <= 5)
 	{
+		p_Player->DetachAnim();
 		p_Manager->ChangeScene(SceneManager::SceneName::RESULT, 2);
 	}
 	else if (p_PlayerSub->GetHp() <= 5)
 	{
+		p_Player->DetachAnim();
 		p_Manager->ChangeScene(SceneManager::SceneName::RESULT, 1);
 	}
 

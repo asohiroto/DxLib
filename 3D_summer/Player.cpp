@@ -631,3 +631,9 @@ int Player::HitstopRequest()
 	_hitstopRequestFrame = 0;
 	return frameTemp;
 }
+
+void Player::DetachAnim()
+{
+	MV1DetachAnim(_modelH, _attachAnimIndex);
+	_attachAnimIndex = -1;
+}

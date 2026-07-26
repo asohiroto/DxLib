@@ -50,9 +50,9 @@ void SceneManager::ChangeScene(int name, int winner)
 {
 	_nowScene = name;
 
-	if (_nowScene == TITLE) p_Title->Init(this, p_Load->GetPlayerModelH(), p_Load->GetSkyDomeH());
+	if (_nowScene == TITLE) p_Title->Init(this, p_Load->GetPlayerModelH(), p_Load->GetPlayerSubModelH(), p_Load->GetSkyDomeH());
 	else if (_nowScene == LOAD) p_Load->Init(this);
 	else if (_nowScene == GAME) p_Game->Init(this, p_Load->GetPlayerModelH(), p_Load->GetPlayerSubModelH(), p_Load->GetSkyDomeH());
-	else if (_nowScene == RESULT)p_Result->Init(this, winner);
+	else if (_nowScene == RESULT)p_Result->Init(this, winner, p_Load->GetPlayerModelH(), p_Load->GetSkyDomeH());
 	else p_Load->Init(this);
 }
