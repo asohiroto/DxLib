@@ -8,7 +8,8 @@ TitleScene::TitleScene() :
 	_titlePosX(300),
 	_titlePosY(300),
 	_nextPosX(300),
-	_nextPosY(500)
+	_nextPosY(500),
+	_logoH(-1)
 {
 }
 
@@ -19,6 +20,9 @@ TitleScene::~TitleScene()
 void TitleScene::Init(SceneManager* pManager)
 {
 	p_Manager = pManager;
+
+	_logoH = LoadGraph("data/ロゴ.png");
+
 }
 
 void TitleScene::Update(std::shared_ptr<Input> pInput)

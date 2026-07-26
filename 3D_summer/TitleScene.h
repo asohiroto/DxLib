@@ -20,4 +20,6 @@ private:
 	int _titlePosX, _titlePosY;
 	// 次のシーンに進むUIのスクリーン座標
 	int _nextPosX, _nextPosY;
+
+	int _logoH;
 };
