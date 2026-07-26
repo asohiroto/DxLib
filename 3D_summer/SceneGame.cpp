@@ -43,6 +43,9 @@ void SceneGame::Init(SceneManager* pManager, int playerH, int subH, int skyDomeH
 	_zoomDistance = CAMERA_DISTANCE;
 
 	_skyDomeH = skyDomeH;
+
+	MV1SetScale(_skyDomeH, VGet(5.0f, 5.0f, 5.0f));
+	MV1SetPosition(_skyDomeH, VGet(0.0f, 0.0f, 0.0f));
 }
 
 void SceneGame::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Input> pInputSub)
@@ -107,8 +110,6 @@ void SceneGame::Draw()
 	);
 
 	// スカイドームの描画
-	MV1SetScale(_skyDomeH, VGet(5.0f, 5.0f, 5.0f));
-	MV1SetPosition(_skyDomeH, VGet(0.0f, 0.0f, 0.0f));
 	MV1DrawModel(_skyDomeH);
 
 	DrawCircle(_border / 2, HEIGHT / 2, 2, 0xffffff, true);

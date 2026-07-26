@@ -6,6 +6,7 @@ LoadScene::LoadScene() :
 	p_Manager(nullptr),
 	_totalRequestNum(0),
 	_playerModelH(-1),
+	_playerSubModelH(-1),
 	_skyDomeH(-1),
 	_frameCount(0),
 	_dotPosX(0)
@@ -36,7 +37,7 @@ void LoadScene::Update()
 {
 	_frameCount++;
 	if (GetASyncLoadNum() == 0)
-		p_Manager->ChangeScene(SceneManager::SceneName::GAME, 0);
+		p_Manager->ChangeScene(SceneManager::SceneName::TITLE, 0);
 }
 
 void LoadScene::Draw()
