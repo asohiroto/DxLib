@@ -1,8 +1,9 @@
 ﻿#include "SceneMain.h"
 #include "Player.h"
-#include"Camera.h"
+#include "Camera.h"
+#include "Input.h"
 
-SceneMain::SceneMain():
+SceneMain::SceneMain() :
 	p_Player(nullptr),
 	p_Camera(nullptr)
 {

@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include <DxLib.h>
 
+class Input;
+
 class Character
 {
 public:

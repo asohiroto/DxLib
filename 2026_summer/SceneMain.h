@@ -4,6 +4,7 @@
 
 class Player;
 class Camera;
+class Input;
 
 class SceneMain :
 	public SceneBase
@@ -21,4 +22,6 @@ private:
 	std::shared_ptr<Player> p_Player;
 	// カメラクラスの共有ポインタ
 	std::shared_ptr<Camera> p_Camera;
+	// インプットクラスの共有ポインタ
+	std::shared_ptr<Input> p_Input;
 };

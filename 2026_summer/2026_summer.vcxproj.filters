@@ -48,16 +48,16 @@
     <ClCompile Include="SceneManager.cpp">
       <Filter>ソース ファイル\シーン関係</Filter>
     </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>ソース ファイル\入力関係</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerMove.cpp">
+      <Filter>ソース ファイル\キャラクター関係</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
       <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Action.h">
-      <Filter>ヘッダー ファイル\入力関係</Filter>
-    </ClInclude>
-    <ClInclude Include="InputType.h">
-      <Filter>ヘッダー ファイル\入力関係</Filter>
     </ClInclude>
     <ClInclude Include="Character.h">
       <Filter>ヘッダー ファイル\キャラクター関係</Filter>
@@ -74,8 +74,11 @@
     <ClInclude Include="SceneManager.h">
       <Filter>ヘッダー ファイル\シーン関係</Filter>
     </ClInclude>
-    <ClInclude Include="InputBase.h">
+    <ClInclude Include="Input.h">
       <Filter>ヘッダー ファイル\入力関係</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerMove.h">
+      <Filter>ヘッダー ファイル\キャラクター関係</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
