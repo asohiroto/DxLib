@@ -58,12 +58,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		p_SceneManager->Update();
 		p_SceneManager->Draw();
-		
-		//1sで何フレームか計算
-		float fps = 1000.0f / _oneFrameTime;
+
 
 		//表示
-		DrawFormatString(0.0f, 0.0f, 0xffffff, "経過フレーム：%d, FPS:　%.2f", _frameCount, fps);
+		DrawFormatString(0.0f, 0.0f, 0xffffff, "経過フレーム：%d", _frameCount);
 
 
 		// 画面が切り替わるのを待つ

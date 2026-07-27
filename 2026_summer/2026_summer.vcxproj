@@ -150,16 +150,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SceneMain.cpp" />
     <ClCompile Include="SceneManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Action.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Character.h" />
-    <ClInclude Include="Input.h" />
+    <ClInclude Include="InputBase.h" />
+    <ClInclude Include="InputType.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SceneBase.h" />
     <ClInclude Include="SceneMain.h" />

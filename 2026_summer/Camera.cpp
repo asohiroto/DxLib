@@ -41,5 +41,5 @@ void Camera::Update(std::shared_ptr<Player> pPlayer)
 void Camera::Draw()
 {
 	// カメラを設置
-	SetCameraPositionAndTargetAndUpVec(_cameraPos, _targetPos, VGet(0.0f, 1.0f, 0.0f));
+	//SetCameraPositionAndTargetAndUpVec(_cameraPos, _targetPos, VGet(0.0f, 1.0f, 0.0f));
 }
