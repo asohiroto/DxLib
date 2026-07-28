@@ -36,48 +36,48 @@
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
+    <ClCompile Include="カメラ関連\Camera.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
+    <ClCompile Include="プレイヤー関連\Player.cpp">
       <Filter>ソース ファイル\キャラクター関係</Filter>
     </ClCompile>
-    <ClCompile Include="SceneMain.cpp">
+    <ClCompile Include="シーン関連\SceneMain.cpp">
       <Filter>ソース ファイル\シーン関係</Filter>
     </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
+    <ClCompile Include="シーン関連\SceneManager.cpp">
       <Filter>ソース ファイル\シーン関係</Filter>
     </ClCompile>
-    <ClCompile Include="Input.cpp">
+    <ClCompile Include="入力関連\Input.cpp">
       <Filter>ソース ファイル\入力関係</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerMove.cpp">
+    <ClCompile Include="プレイヤー関連\PlayerMove.cpp">
       <Filter>ソース ファイル\キャラクター関係</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.h">
+    <ClInclude Include="カメラ関連\Camera.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Character.h">
+    <ClInclude Include="基底クラス\Character.h">
       <Filter>ヘッダー ファイル\キャラクター関係</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
+    <ClInclude Include="プレイヤー関連\Player.h">
       <Filter>ヘッダー ファイル\キャラクター関係</Filter>
     </ClInclude>
-    <ClInclude Include="SceneBase.h">
+    <ClInclude Include="シーン関連\SceneBase.h">
       <Filter>ヘッダー ファイル\シーン関係</Filter>
     </ClInclude>
-    <ClInclude Include="SceneMain.h">
+    <ClInclude Include="シーン関連\SceneMain.h">
       <Filter>ヘッダー ファイル\シーン関係</Filter>
     </ClInclude>
-    <ClInclude Include="SceneManager.h">
+    <ClInclude Include="シーン関連\SceneManager.h">
       <Filter>ヘッダー ファイル\シーン関係</Filter>
     </ClInclude>
-    <ClInclude Include="Input.h">
+    <ClInclude Include="入力関連\Input.h">
       <Filter>ヘッダー ファイル\入力関係</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerMove.h">
+    <ClInclude Include="プレイヤー関連\PlayerMove.h">
       <Filter>ヘッダー ファイル\キャラクター関係</Filter>
     </ClInclude>
   </ItemGroup>

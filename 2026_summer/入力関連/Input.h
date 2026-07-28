@@ -21,8 +21,9 @@ public:
 	int GetRightStickY() const { return _ry; }
 	int GetLeftStickX() const { return _lx; }
 	int GetLeftStickY() const { return _ly; }
-	// 右、左スティックに入力があるか
+	// 左スティックに入力があるか
 	bool IsTiltingL() { return (std::abs(_lx) > 0 || std::abs(_ly) > 0); }
+	// 左スティックに入力があるか
 	bool IsTiltingR() { return (std::abs(_rx) > 0 || std::abs(_ry) > 0); }
 
 protected:

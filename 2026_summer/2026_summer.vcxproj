@@ -149,23 +149,23 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Input.cpp" />
+    <ClCompile Include="カメラ関連\Camera.cpp" />
+    <ClCompile Include="入力関連\Input.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PlayerMove.cpp" />
-    <ClCompile Include="SceneMain.cpp" />
-    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="プレイヤー関連\Player.cpp" />
+    <ClCompile Include="プレイヤー関連\PlayerMove.cpp" />
+    <ClCompile Include="シーン関連\SceneMain.cpp" />
+    <ClCompile Include="シーン関連\SceneManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="Character.h" />
-    <ClInclude Include="Input.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="PlayerMove.h" />
-    <ClInclude Include="SceneBase.h" />
-    <ClInclude Include="SceneMain.h" />
-    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="カメラ関連\Camera.h" />
+    <ClInclude Include="基底クラス\Character.h" />
+    <ClInclude Include="入力関連\Input.h" />
+    <ClInclude Include="プレイヤー関連\Player.h" />
+    <ClInclude Include="プレイヤー関連\PlayerMove.h" />
+    <ClInclude Include="シーン関連\SceneBase.h" />
+    <ClInclude Include="シーン関連\SceneMain.h" />
+    <ClInclude Include="シーン関連\SceneManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
