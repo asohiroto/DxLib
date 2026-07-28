@@ -1,5 +1,5 @@
 ﻿#include "Player.h"
-#include "Input.h"
+#include "Inputs/Input.h"
 #include "PlayerMove.h"
 #include <DxLib.h>
 #include <cassert>
@@ -23,8 +23,6 @@ void Player::Init()
 	// モデルの拡大
 	MV1SetScale(i_Player.modelH, VGet(3.0f, 3.0f, 3.0f));
 	// 各ポインタの初期化
-	p_Input = std::make_shared<Input>();
-	p_Input->Init();
 	p_Move = std::make_shared<PlayerMove>();
 	p_Move->Init();
 }
@@ -33,10 +31,9 @@ void Player::End()
 {
 }
 
-void Player::Update()
+void Player::Update(std::shared_ptr<Input> pInput)
 {
-	p_Input->Update();
-	p_Move->Update(p_Input);
+	p_Move->Update(pInput);
 
 	i_Player.pos = VAdd(i_Player.pos, p_Move->GetMove());
 }
@@ -45,5 +42,4 @@ void Player::Draw()
 {
 	MV1SetPosition(i_Player.modelH, i_Player.pos);
 	MV1DrawModel(i_Player.modelH);
-	p_Input->Draw();
 }

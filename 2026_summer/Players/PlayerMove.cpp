@@ -1,12 +1,12 @@
 ﻿#include "PlayerMove.h"
-#include "Input.h"
+#include "Inputs/Input.h"
 
 namespace
 {
-	float MOVE_SPEED = 12.0f;
+	constexpr float MOVE_SPEED = 12.0f;
 }
 
-PlayerMove::PlayerMove():
+PlayerMove::PlayerMove() :
 	_move(VGet(0.0f, 0.0f, 0.0f))
 {
 }

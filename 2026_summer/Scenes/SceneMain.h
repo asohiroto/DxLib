@@ -16,6 +16,8 @@ public:
 	void End() override;
 	void Update() override;
 	void Draw() override;
+	// グリッドを描画する関数
+	void DrawGrid();
 
 private:
 	// プレイヤークラスの共有ポインタ

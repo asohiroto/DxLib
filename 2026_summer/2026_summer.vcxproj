@@ -77,7 +77,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>c:\DxLib_VC\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>c:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;$(ProjectDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -97,7 +97,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>c:\DxLib_VC\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>c:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;$(ProjectDir)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -116,7 +116,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>c:\DxLib_VC\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>c:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;$(ProjectDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -136,7 +136,7 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>c:\DxLib_VC\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>c:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;$(ProjectDir)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -149,23 +149,23 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="カメラ関連\Camera.cpp" />
-    <ClCompile Include="入力関連\Input.cpp" />
+    <ClCompile Include="Cameras\Camera.cpp" />
+    <ClCompile Include="Inputs\Input.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="プレイヤー関連\Player.cpp" />
-    <ClCompile Include="プレイヤー関連\PlayerMove.cpp" />
-    <ClCompile Include="シーン関連\SceneMain.cpp" />
-    <ClCompile Include="シーン関連\SceneManager.cpp" />
+    <ClCompile Include="Players\Player.cpp" />
+    <ClCompile Include="Players\PlayerMove.cpp" />
+    <ClCompile Include="Scenes\SceneMain.cpp" />
+    <ClCompile Include="Scenes\SceneManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="カメラ関連\Camera.h" />
-    <ClInclude Include="基底クラス\Character.h" />
-    <ClInclude Include="入力関連\Input.h" />
-    <ClInclude Include="プレイヤー関連\Player.h" />
-    <ClInclude Include="プレイヤー関連\PlayerMove.h" />
-    <ClInclude Include="シーン関連\SceneBase.h" />
-    <ClInclude Include="シーン関連\SceneMain.h" />
-    <ClInclude Include="シーン関連\SceneManager.h" />
+    <ClInclude Include="Cameras\Camera.h" />
+    <ClInclude Include="Bases\Character.h" />
+    <ClInclude Include="Inputs\Input.h" />
+    <ClInclude Include="Players\Player.h" />
+    <ClInclude Include="Players\PlayerMove.h" />
+    <ClInclude Include="Scenes\SceneBase.h" />
+    <ClInclude Include="Scenes\SceneMain.h" />
+    <ClInclude Include="Scenes\SceneManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -19,65 +19,65 @@
     <Filter Include="ヘッダー ファイル\入力関係">
       <UniqueIdentifier>{8d65e873-1314-46fa-8120-34f4947cf278}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\キャラクター関係">
-      <UniqueIdentifier>{98626789-b754-4bda-9058-967e836f59f2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\キャラクター関係">
       <UniqueIdentifier>{fb2fbe6a-58c5-4f25-b34a-50d7438305fb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\シーン関係">
-      <UniqueIdentifier>{e409b38a-fa74-435c-8a00-356bddb3be16}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\シーン関係">
       <UniqueIdentifier>{a76b0b42-058a-44a8-aef0-78c82053b251}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Characters">
+      <UniqueIdentifier>{98626789-b754-4bda-9058-967e836f59f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Scenes">
+      <UniqueIdentifier>{e409b38a-fa74-435c-8a00-356bddb3be16}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="カメラ関連\Camera.cpp">
+    <ClCompile Include="Cameras\Camera.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="プレイヤー関連\Player.cpp">
-      <Filter>ソース ファイル\キャラクター関係</Filter>
+    <ClCompile Include="Players\Player.cpp">
+      <Filter>ソース ファイル\Characters</Filter>
     </ClCompile>
-    <ClCompile Include="シーン関連\SceneMain.cpp">
-      <Filter>ソース ファイル\シーン関係</Filter>
+    <ClCompile Include="Scenes\SceneMain.cpp">
+      <Filter>ソース ファイル\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="シーン関連\SceneManager.cpp">
-      <Filter>ソース ファイル\シーン関係</Filter>
+    <ClCompile Include="Scenes\SceneManager.cpp">
+      <Filter>ソース ファイル\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="入力関連\Input.cpp">
+    <ClCompile Include="Inputs\Input.cpp">
       <Filter>ソース ファイル\入力関係</Filter>
     </ClCompile>
-    <ClCompile Include="プレイヤー関連\PlayerMove.cpp">
-      <Filter>ソース ファイル\キャラクター関係</Filter>
+    <ClCompile Include="Players\PlayerMove.cpp">
+      <Filter>ソース ファイル\Characters</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="カメラ関連\Camera.h">
+    <ClInclude Include="Cameras\Camera.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="基底クラス\Character.h">
+    <ClInclude Include="Bases\Character.h">
       <Filter>ヘッダー ファイル\キャラクター関係</Filter>
     </ClInclude>
-    <ClInclude Include="プレイヤー関連\Player.h">
+    <ClInclude Include="Players\Player.h">
       <Filter>ヘッダー ファイル\キャラクター関係</Filter>
     </ClInclude>
-    <ClInclude Include="シーン関連\SceneBase.h">
+    <ClInclude Include="Scenes\SceneBase.h">
       <Filter>ヘッダー ファイル\シーン関係</Filter>
     </ClInclude>
-    <ClInclude Include="シーン関連\SceneMain.h">
+    <ClInclude Include="Scenes\SceneMain.h">
       <Filter>ヘッダー ファイル\シーン関係</Filter>
     </ClInclude>
-    <ClInclude Include="シーン関連\SceneManager.h">
+    <ClInclude Include="Scenes\SceneManager.h">
       <Filter>ヘッダー ファイル\シーン関係</Filter>
     </ClInclude>
-    <ClInclude Include="入力関連\Input.h">
+    <ClInclude Include="Inputs\Input.h">
       <Filter>ヘッダー ファイル\入力関係</Filter>
     </ClInclude>
-    <ClInclude Include="プレイヤー関連\PlayerMove.h">
+    <ClInclude Include="Players\PlayerMove.h">
       <Filter>ヘッダー ファイル\キャラクター関係</Filter>
     </ClInclude>
   </ItemGroup>

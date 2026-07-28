@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <DxLib.h>
+#include <memory>
 
 class Input;
 
@@ -19,7 +20,7 @@ public:
 	virtual ~Character() {};
 	virtual void Init() {};
 	virtual void End() {};
-	virtual void Update() {};
+	virtual void Update(std::shared_ptr<Input> p_Input) {};
 	virtual void Draw() {};
 
 };

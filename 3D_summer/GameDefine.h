@@ -32,7 +32,7 @@ namespace GameDefine
 	constexpr float CAMERA_SLERP_RATE = 0.015f;
 	// カメラの線形補間度
 	constexpr float CAMERA_LERP_RATE = 0.15f;
-	// 火ッとストップ時のカメラの拡大値
+	// ヒットストップ時のカメラの拡大値
 	constexpr float CAMERA_HITSTOP_ZOOM = -1550.0f;
 	// ズームにかける線形補間度
 	constexpr float ZOOM_LERP_RATE = 0.5f;
