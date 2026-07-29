@@ -1,15 +1,18 @@
 ﻿#include "Camera.h"
 #include "Players/Player.h"
 #include "Inputs/Input.h"
+#include "GameDefine.h"
 #include <algorithm>
 #include <cmath>
+
+using namespace GameDefine;
 
 namespace
 {
 	// 注視点の高さの補正値
 	constexpr float TARGET_HEIGHT = 200.0f;
 	// プレイヤーまでの距離
-	constexpr float DISTANCE = -800.0f;
+	constexpr float DISTANCE = -1000.0f;
 	// 水平方向の回転速度
 	constexpr float YAW_SPEED = 0.03f;
 	// 垂直方向の回転速度
@@ -48,15 +51,14 @@ void Camera::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Input> pInp
 {
 	// 右スティックの入力を保存
 	int rx = pInput->GetRightStickX();
-	int ry = pInput->GetRightStickY();
+	int ry = -(pInput->GetRightStickY());
 
 	// 注視点を設定
 	if (pPlayer != nullptr) _targetPos = pPlayer->GetPos();
-	_targetPos.y += TARGET_HEIGHT;
 
 	// 入力値を-1.0～1.0の値に変換
-	_cameraYaw += YAW_SPEED * std::clamp(rx / 1000.0f, -1.0f, 1.0f);
-	_cameraPitch += PITCH_SPEED * std::clamp(ry / 1000.0f, -1.0f, 1.0f);
+	_cameraYaw += YAW_SPEED * std::clamp(rx * 0.001f, -1.0f, 1.0f);
+	_cameraPitch += PITCH_SPEED * std::clamp(ry * 0.001f, -1.0f, 1.0f);
 
 	// カメラの垂直方向の回転角度に制限をかける
 	_cameraPitch = std::clamp(_cameraPitch, PITCH_UP_LIMIT, PITCH_DOWN_LIMIT);
@@ -75,6 +77,8 @@ void Camera::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Input> pInp
 
 void Camera::Draw()
 {
+	// 消失点を画面下部に設定する
+	SetCameraScreenCenter(WIDTH / 2, HEIGHT);
 	// カメラを設置
 	SetCameraPositionAndTargetAndUpVec(_cameraPos, _targetPos, VGet(0.0f, 1.0f, 0.0f));
 }

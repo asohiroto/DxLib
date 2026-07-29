@@ -1,11 +1,15 @@
 ﻿#include "Player.h"
 #include "Inputs/Input.h"
 #include "PlayerMove.h"
+#include "Cameras/Camera.h"
 #include <DxLib.h>
 #include <cassert>
 
 Player::Player() :
-	i_Player()
+	_playerUnit(),
+	p_Move(nullptr),
+	_cameraAngle(0.0f),
+	_angle(0.0f)
 {
 }
 
@@ -16,12 +20,15 @@ Player::~Player()
 void Player::Init()
 {
 	// プレイヤーの初期設定
-	i_Player.modelH = MV1LoadModel("data/Model_army.mv1");
-	i_Player.pos = VGet(1000.0f, 0.0f, 0.0f);
+	_playerUnit.modelH = MV1LoadModel("data/Model_army.mv1");
+	_playerUnit.pos = VGet(1000.0f, 0.0f, 0.0f);
+
 	// 安全策
-	assert(i_Player.modelH != -1);
+	assert(_playerUnit.modelH != -1);
+
 	// モデルの拡大
-	MV1SetScale(i_Player.modelH, VGet(3.0f, 3.0f, 3.0f));
+	MV1SetScale(_playerUnit.modelH, VGet(3.0f, 3.0f, 3.0f));
+
 	// 各ポインタの初期化
 	p_Move = std::make_shared<PlayerMove>();
 	p_Move->Init();
@@ -31,15 +38,28 @@ void Player::End()
 {
 }
 
-void Player::Update(std::shared_ptr<Input> pInput)
+void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCamera)
 {
-	p_Move->Update(pInput);
+	// カメラの向いている角度をコピー
+	_cameraAngle = pCamera->GetCameraYaw();
 
-	i_Player.pos = VAdd(i_Player.pos, p_Move->GetMove());
+	// プレイヤーの挙動の更新
+	p_Move->Update(pInput, pCamera->GetCameraYaw());
+
+	// プレイヤー座標の更新
+	_playerUnit.pos = VAdd(_playerUnit.pos, p_Move->GetMovement());
+
+	// モデルの向く方向を定める
+	if (pInput->IsTiltingL())
+	{
+		_angle = atan2f(p_Move->GetMovement().x, p_Move->GetMovement().z) + DX_PI_F;
+	}
+
+	MV1SetPosition(_playerUnit.modelH, _playerUnit.pos);
+	MV1SetRotationXYZ(_playerUnit.modelH, VGet(0.0f, _angle, 0.0f));
 }
 
 void Player::Draw()
 {
-	MV1SetPosition(i_Player.modelH, i_Player.pos);
-	MV1DrawModel(i_Player.modelH);
+	MV1DrawModel(_playerUnit.modelH);
 }

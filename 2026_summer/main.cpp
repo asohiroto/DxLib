@@ -1,6 +1,9 @@
 ﻿#include "Scenes/SceneManager.h"
+#include "GameDefine.h"
 #include <DxLib.h>
 #include <memory>
+
+using namespace GameDefine;
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_  LPSTR lpCmdLine, _In_ int nCmdShow)
 {
@@ -10,7 +13,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	//画面サイズの変更
 	//横1280,縦720、カラービット数32で設定
-	SetGraphMode(1280, 720, 32);
+	SetGraphMode(WIDTH, HEIGHT, COLOR_BIT);
 
 	// DirectX11を使用するようにする。(DirectX9も可、一部機能不可)
 	// Effekseerを使用するには必ず設定する。

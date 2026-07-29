@@ -14,6 +14,8 @@ public:
 	void End();
 	void Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Input> pInput);
 	void Draw();
+	// カメラの水平方向の角度のゲッター
+	float GetCameraYaw() const { return _cameraYaw; }
 
 private:
 	// 水平方向のカメラの回転角度

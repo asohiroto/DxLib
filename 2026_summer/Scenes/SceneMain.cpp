@@ -2,6 +2,7 @@
 #include "Players/Player.h"
 #include "Cameras/Camera.h"
 #include "Inputs/Input.h"
+#include "Enemys/Enemy.h"
 
 namespace
 {
@@ -14,7 +15,8 @@ namespace
 SceneMain::SceneMain() :
 	p_Player(nullptr),
 	p_Camera(nullptr),
-	p_Input(nullptr)
+	p_Input(nullptr),
+	p_Enemy(nullptr)
 {
 }
 
@@ -27,10 +29,12 @@ void SceneMain::Init()
 	p_Player = std::make_shared<Player>();
 	p_Camera = std::make_shared<Camera>();
 	p_Input = std::make_shared<Input>();
+	p_Enemy = std::make_shared<Enemy>();
 
 	p_Player->Init();
 	p_Camera->Init();
 	p_Input->Init();
+	p_Enemy->Init();
 }
 
 void SceneMain::End()
@@ -40,9 +44,10 @@ void SceneMain::End()
 
 void SceneMain::Update()
 {
-	p_Player->Update(p_Input);
+	p_Player->Update(p_Input, p_Camera);
 	p_Camera->Update(p_Player, p_Input);
 	p_Input->Update();
+	p_Enemy->Update();
 }
 
 void SceneMain::Draw()
@@ -50,6 +55,7 @@ void SceneMain::Draw()
 	p_Player->Draw();
 	p_Camera->Draw();
 	p_Input->Draw();
+	p_Enemy->Draw();
 
 	DrawGrid();
 }

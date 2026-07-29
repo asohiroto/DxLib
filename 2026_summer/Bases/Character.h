@@ -2,8 +2,6 @@
 #include <DxLib.h>
 #include <memory>
 
-class Input;
-
 class Character
 {
 public:
@@ -20,7 +18,7 @@ public:
 	virtual ~Character() {};
 	virtual void Init() {};
 	virtual void End() {};
-	virtual void Update(std::shared_ptr<Input> p_Input) {};
+	virtual void Update() {};
 	virtual void Draw() {};
 
 };

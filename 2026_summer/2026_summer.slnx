@@ -3,5 +3,6 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
+  <Folder Name="/ソリューション項目/" />
   <Project Path="2026_summer.vcxproj" Id="6e3906e9-5c92-490b-9246-f19764e5077a" />
 </Solution>
