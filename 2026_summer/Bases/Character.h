@@ -11,8 +11,12 @@ public:
 		int modelH;
 		// 座標
 		VECTOR pos;
-
-		VECTOR segment
+		// 【当たり判定用】線分の始点
+		VECTOR segmentStPos;
+		// 【当たり判定用】線分の終点
+		VECTOR segmentEndPos;
+		// 【当たり判定用】半径
+		float radius;
 	};
 
 public:

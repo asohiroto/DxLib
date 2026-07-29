@@ -23,6 +23,8 @@ namespace
 	constexpr float PITCH_UP_LIMIT = -0.95f;
 	// カメラの垂直方向の下限回転角度
 	constexpr float PITCH_DOWN_LIMIT = -0.2f;
+	// // 入力値変換用の値
+	constexpr float INPUT_COR = 0.001f;
 }
 
 Camera::Camera() :
@@ -57,8 +59,8 @@ void Camera::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Input> pInp
 	if (pPlayer != nullptr) _targetPos = pPlayer->GetPos();
 
 	// 入力値を-1.0～1.0の値に変換
-	_cameraYaw += YAW_SPEED * std::clamp(rx * 0.001f, -1.0f, 1.0f);
-	_cameraPitch += PITCH_SPEED * std::clamp(ry * 0.001f, -1.0f, 1.0f);
+	_cameraYaw += YAW_SPEED * std::clamp(rx * INPUT_COR, -1.0f, 1.0f);
+	_cameraPitch += PITCH_SPEED * std::clamp(ry * INPUT_COR, -1.0f, 1.0f);
 
 	// カメラの垂直方向の回転角度に制限をかける
 	_cameraPitch = std::clamp(_cameraPitch, PITCH_UP_LIMIT, PITCH_DOWN_LIMIT);

@@ -7,6 +7,7 @@ Enemy::Enemy() :
 
 Enemy::~Enemy()
 {
+	MV1DeleteModel(_tempEnemyUnit.modelH);
 }
 
 void Enemy::Init()
