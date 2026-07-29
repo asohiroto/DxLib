@@ -11,6 +11,8 @@ public:
 		int modelH;
 		// 座標
 		VECTOR pos;
+
+		VECTOR segment
 	};
 
 public:

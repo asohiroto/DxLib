@@ -150,6 +150,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Cameras\Camera.cpp" />
+    <ClCompile Include="Colls\Collision.cpp" />
     <ClCompile Include="Enemys\Enemy.cpp" />
     <ClCompile Include="Inputs\Input.cpp" />
     <ClCompile Include="main.cpp" />
@@ -161,6 +162,7 @@
   <ItemGroup>
     <ClInclude Include="Cameras\Camera.h" />
     <ClInclude Include="Bases\Character.h" />
+    <ClInclude Include="Colls\Collision.h" />
     <ClInclude Include="Enemys\Enemy.h" />
     <ClInclude Include="GameDefine.h" />
     <ClInclude Include="Inputs\Input.h" />
