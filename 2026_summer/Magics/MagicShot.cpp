@@ -8,7 +8,7 @@ namespace
 	// 進む速さ
 	constexpr float SPEED = 30.0f;
 	// 最大移動距離
-	constexpr float DISTANCE_MAX = 1500.0f;
+	constexpr float DISTANCE_MAX = 900.0f;
 	// 生成位置の補正用
 	constexpr float POSITION_COR = 50.0f;
 	// 生成高さの補正用
@@ -17,7 +17,9 @@ namespace
 
 MagicShot::MagicShot() :
 	_magicShot(),
-	_movedDistance(0.0f)
+	_movedDistance(0.0f),
+	_isInitialize(true),
+	_distDir(VGet(0.0f, 0.0f, 0.0f))
 {
 }
 
@@ -47,7 +49,7 @@ void MagicShot::Update()
 void MagicShot::Draw()
 {
 #ifdef _DEBUG
-	DrawSphere3D(_magicShot.pos, _magicShot.radius, 16, 0xffffff, 0xffffff, false);
+	DrawSphere3D(_magicShot.pos, _magicShot.radius, 16, 0xffffff, 0xffffff, true);
 #endif
 }
 
@@ -62,8 +64,15 @@ void MagicShot::GenerateShot(VECTOR pos, VECTOR front)
 
 void MagicShot::Move(VECTOR dir)
 {
+	// 初期化
+	if (_isInitialize)
+	{
+		_distDir = dir;
+		_isInitialize = false;
+	}
+
 	// 座標を更新
-	_magicShot.pos = VAdd(_magicShot.pos, VScale(dir, _magicShot.speed));
+	_magicShot.pos = VAdd(_magicShot.pos, VScale(_distDir, _magicShot.speed));
 	_movedDistance += _magicShot.speed;
 
 	// 最大距離まで移動したら消す
@@ -72,5 +81,7 @@ void MagicShot::Move(VECTOR dir)
 		_magicShot.isExist = false;
 		_magicShot.pos = VGet(0.0f, 0.0f, 0.0f);
 		_movedDistance = 0.0f;
+		_distDir = VGet(0.0f, 0.0f, 0.0f);
+		_isInitialize = true;
 	}
 }

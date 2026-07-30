@@ -34,4 +34,6 @@ private:
 	float _movedDistance;
 	// 関数の初期操作
 	bool _isInitialize;
+	// 移動処理用の方向
+	VECTOR _distDir;
 };
