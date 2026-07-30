@@ -3,6 +3,7 @@
 #include "Cameras/Camera.h"
 #include "Inputs/Input.h"
 #include "Enemys/Enemy.h"
+#include "Colls/Collision.h"
 
 namespace
 {
@@ -16,7 +17,8 @@ SceneMain::SceneMain() :
 	p_Player(nullptr),
 	p_Camera(nullptr),
 	p_Input(nullptr),
-	p_Enemy(nullptr)
+	p_Enemy(nullptr),
+	p_Coll(nullptr)
 {
 }
 
@@ -30,6 +32,7 @@ void SceneMain::Init()
 	p_Camera = std::make_shared<Camera>();
 	p_Input = std::make_shared<Input>();
 	p_Enemy = std::make_shared<Enemy>();
+	p_Coll = std::make_shared<Collision>();
 
 	p_Player->Init();
 	p_Camera->Init();
@@ -48,6 +51,7 @@ void SceneMain::Update()
 	p_Camera->Update(p_Player, p_Input);
 	p_Input->Update();
 	p_Enemy->Update();
+	p_Coll->Update(p_Player, p_Enemy);
 }
 
 void SceneMain::Draw()

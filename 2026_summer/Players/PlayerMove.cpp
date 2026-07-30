@@ -12,7 +12,9 @@ namespace
 
 PlayerMove::PlayerMove() :
 	_move(VGet(0.0f, 0.0f, 0.0f)),
-	_mx(0), _mz(0)
+	_mx(0), _mz(0),
+	_movementDirection(VGet(0.0f, 0.0f, 0.0f)),
+	_rotMatrix()
 {
 }
 

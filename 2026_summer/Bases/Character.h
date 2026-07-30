@@ -28,6 +28,5 @@ public:
 	virtual void End() {};
 	virtual void Update() {};
 	virtual void Draw() {};
-
 };
 

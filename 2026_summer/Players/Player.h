@@ -1,10 +1,12 @@
 ﻿#pragma once
 #include "Bases//Character.h"
-#include<memory>
+#include <DxLib.h>
+#include <memory>
 
 class Input;
 class PlayerMove;
 class Camera;
+class MagicShot;
 
 class Player :
 	public Character
@@ -18,6 +20,8 @@ public:
 	void Draw() override;
 	// プレイヤー座標のゲッター
 	VECTOR GetPos() const { return _playerUnit.pos; }
+	// 座標のセッター
+	void SetPos(VECTOR pos) { _playerUnit.pos = pos; }
 	// プレイヤーデータのゲッター
 	CharacterData GetPlayerData() const { return _playerUnit; }
 	// 接触処理
@@ -32,4 +36,8 @@ private:
 	float _cameraAngle;
 	// モデルを向ける角度
 	float _angle;
+	// マジックショットの共有ポインタ
+	std::shared_ptr<MagicShot> p_Shot;
+	// プレイヤーの正面ベクトル
+	VECTOR _frontVec;
 };

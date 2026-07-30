@@ -153,6 +153,7 @@
     <ClCompile Include="Colls\Collision.cpp" />
     <ClCompile Include="Enemys\Enemy.cpp" />
     <ClCompile Include="Inputs\Input.cpp" />
+    <ClCompile Include="Magics\MagicShot.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Players\Player.cpp" />
     <ClCompile Include="Players\PlayerMove.cpp" />
@@ -160,12 +161,14 @@
     <ClCompile Include="Scenes\SceneManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bases\MagicBase.h" />
     <ClInclude Include="Cameras\Camera.h" />
     <ClInclude Include="Bases\Character.h" />
     <ClInclude Include="Colls\Collision.h" />
     <ClInclude Include="Enemys\Enemy.h" />
     <ClInclude Include="GameDefine.h" />
     <ClInclude Include="Inputs\Input.h" />
+    <ClInclude Include="Magics\MagicShot.h" />
     <ClInclude Include="Players\Player.h" />
     <ClInclude Include="Players\PlayerMove.h" />
     <ClInclude Include="Scenes\SceneBase.h" />

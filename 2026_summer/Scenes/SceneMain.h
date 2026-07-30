@@ -6,6 +6,7 @@ class Player;
 class Camera;
 class Input;
 class Enemy;
+class Collision;
 
 class SceneMain :
 	public SceneBase
@@ -29,4 +30,6 @@ private:
 	std::shared_ptr<Input> p_Input;
 	// エネミークラスの共有ポインタ
 	std::shared_ptr<Enemy> p_Enemy;
+	// コリジョンクラスの共有ポインタ
+	std::shared_ptr<Collision> p_Coll;
 };
