@@ -17,6 +17,8 @@ public:
 		VECTOR segmentEndPos;
 		// 【当たり判定用】半径
 		float radius;
+		// なにかに当たっているか
+		bool  isHit;
 	};
 
 public:

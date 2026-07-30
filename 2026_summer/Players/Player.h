@@ -18,6 +18,10 @@ public:
 	void Draw() override;
 	// プレイヤー座標のゲッター
 	VECTOR GetPos() const { return _playerUnit.pos; }
+	// プレイヤーデータのゲッター
+	CharacterData GetPlayerData() const { return _playerUnit; }
+	// 接触処理
+	void OnHit() { _playerUnit.isHit = true; }
 
 private:
 	// プレイヤー

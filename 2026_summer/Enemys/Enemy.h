@@ -11,6 +11,11 @@ public:
 	void Update() override;
 	void Draw() override;
 
+	// エネミーデータのゲッター
+	CharacterData GetEnemyData() const { return _tempEnemyUnit; }
+	// 当たった処理
+	void OnHit() { _tempEnemyUnit.isHit = true; }
+
 private:
 	CharacterData _tempEnemyUnit;
 };
