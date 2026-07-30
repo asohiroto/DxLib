@@ -56,7 +56,7 @@ void MagicShot::Draw()
 
 void MagicShot::GenerateShot(VECTOR pos, VECTOR front)
 {
-	VECTOR tempPos = VAdd(pos, VScale(front, POSITION_COR));
+	VECTOR tempPos = VAdd(pos, VScale(VNorm(front), POSITION_COR));
 	tempPos.y += HEIGHT_COR;
 	_magicShot.pos = tempPos;
 	_magicShot.isExist = true;
@@ -67,7 +67,7 @@ void MagicShot::Move(VECTOR dir)
 	// 初期化
 	if (_isInitialize)
 	{
-		_distDir = dir;
+		_distDir = VNorm(dir);
 		_isInitialize = false;
 	}
 
