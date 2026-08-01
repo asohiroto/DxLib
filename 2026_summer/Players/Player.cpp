@@ -27,7 +27,9 @@ Player::Player() :
 	_cameraAngle(0.0f),
 	_angle(0.0f),
 	p_Shot(nullptr),
-	_frontVec(VGet(0.0f, 0.0f, 0.0f))
+	_frontVec(VGet(0.0f, 0.0f, 0.0f)),
+	_isHit(false),
+	_isLast(false)
 {
 }
 
@@ -43,6 +45,7 @@ void Player::Init()
 	_playerUnit.pos = VGet(1000.0f, 0.0f, 0.0f);
 	_playerUnit.radius = RADIUS;
 	_playerUnit.isHit = false;
+	_playerUnit.color = 0xff0000;
 
 	// 安全策
 	assert(_playerUnit.modelH != -1);
@@ -102,14 +105,20 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 		p_Shot->Update();
 		p_Shot->Move(_frontVec);
 	}
+
 }
 
 void Player::Draw()
 {
 	MV1DrawModel(_playerUnit.modelH);
 #ifdef _DEBUG
-	DrawCapsule3D(_playerUnit.segmentStPos, _playerUnit.segmentEndPos, _playerUnit.radius, 16, 0xff0000, 0xff0000, false);
-
+	DrawHitBox(_playerUnit);
 	if (p_Shot->IsExist()) p_Shot->Draw();
 #endif
+}
+
+void Player::OnHit()
+{
+	_playerUnit.isHit = true;
+	_playerUnit.color = 0x00ffff;
 }

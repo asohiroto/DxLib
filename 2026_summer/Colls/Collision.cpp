@@ -28,7 +28,7 @@ void Collision::Draw()
 {
 }
 
-void Collision::CharacterHitCheck(std::shared_ptr<Player> pPlayer, std::shared_ptr<Enemy> pEnemy)
+bool Collision::CharacterHitCheck(std::shared_ptr<Player> pPlayer, std::shared_ptr<Enemy> pEnemy)
 {
 	Character::CharacterData player = pPlayer->GetPlayerData();
 	Character::CharacterData enemy = pEnemy->GetEnemyData();
@@ -47,5 +47,9 @@ void Collision::CharacterHitCheck(std::shared_ptr<Player> pPlayer, std::shared_p
 		if (enemy.isHit == false)pEnemy->OnHit();
 
 		pPlayer->SetPos(VAdd(player.pos, VScale(pullBackDirection, depth)));
+
+		return true;
 	}
+
+	return false;
 }

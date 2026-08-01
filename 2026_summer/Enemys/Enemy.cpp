@@ -48,6 +48,6 @@ void Enemy::Draw()
 	MV1SetPosition(_tempEnemyUnit.modelH, _tempEnemyUnit.pos);
 	MV1DrawModel(_tempEnemyUnit.modelH);
 #ifdef _DEBUG
-	DrawCapsule3D(_tempEnemyUnit.segmentStPos, _tempEnemyUnit.segmentEndPos, _tempEnemyUnit.radius, 16, 0xff0000, 0xff0000, false);
+	DrawHitBox(_tempEnemyUnit);
 #endif
 }

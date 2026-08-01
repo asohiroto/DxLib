@@ -18,7 +18,9 @@ public:
 		// 【当たり判定用】半径
 		float radius;
 		// なにかに当たっているか
-		bool  isHit;
+		bool isHit;
+		// 当たり判定の色
+		int color;
 	};
 
 public:
@@ -28,5 +30,11 @@ public:
 	virtual void End() {};
 	virtual void Update() {};
 	virtual void Draw() {};
+
+protected:
+	void DrawHitBox(CharacterData data)
+	{
+		DrawCapsule3D(data.segmentStPos, data.segmentEndPos, data.radius, 16, data.color, data.color, false);
+	}
 };
 

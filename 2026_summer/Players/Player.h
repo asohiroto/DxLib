@@ -24,8 +24,8 @@ public:
 	void SetPos(VECTOR pos) { _playerUnit.pos = pos; }
 	// プレイヤーデータのゲッター
 	CharacterData GetPlayerData() const { return _playerUnit; }
-	// 接触処理
-	void OnHit() { _playerUnit.isHit = true; }
+	// 接触中処理
+	void OnHit();
 
 private:
 	// プレイヤー
