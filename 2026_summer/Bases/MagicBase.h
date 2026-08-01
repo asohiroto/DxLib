@@ -25,6 +25,8 @@ public:
 		MagicType type;
 		// 存在するか
 		bool isExist;
+		// 敵が使用したモノか
+		bool isEnemy;
 	};
 
 public:

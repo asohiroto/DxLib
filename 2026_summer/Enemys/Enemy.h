@@ -14,7 +14,9 @@ public:
 	// エネミーデータのゲッター
 	CharacterData GetEnemyData() const { return _tempEnemyUnit; }
 	// 当たった処理
-	void OnHit() { _tempEnemyUnit.isHit = true; }
+	void SetHit(bool judge) { _tempEnemyUnit.isHit = judge; }
+	// 当たり判定の色を変更
+	void SetColor(int col) { _tempEnemyUnit.color = col; }
 
 private:
 	CharacterData _tempEnemyUnit;

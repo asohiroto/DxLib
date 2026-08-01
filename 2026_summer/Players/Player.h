@@ -25,7 +25,9 @@ public:
 	// プレイヤーデータのゲッター
 	CharacterData GetPlayerData() const { return _playerUnit; }
 	// 接触中処理
-	void OnHit();
+	void SetHit(bool judge) { _playerUnit.isHit = judge; }
+	// 当たり判定の色を変更
+	void SetColor(int col) { _playerUnit.color = col; }
 
 private:
 	// プレイヤー

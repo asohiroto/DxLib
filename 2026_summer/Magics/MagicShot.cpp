@@ -35,6 +35,7 @@ void MagicShot::Init()
 	_magicShot.speed = SPEED;
 	_magicShot.type = MagicType::MagicShot;
 	_magicShot.isExist = false;
+	_magicShot.isEnemy = false;
 }
 
 void MagicShot::End()
@@ -53,13 +54,13 @@ void MagicShot::Draw()
 #endif
 }
 
-
-void MagicShot::GenerateShot(VECTOR pos, VECTOR front)
+void MagicShot::GenerateShot(VECTOR pos, VECTOR front, bool isEnemy)
 {
 	VECTOR tempPos = VAdd(pos, VScale(VNorm(front), POSITION_COR));
 	tempPos.y += HEIGHT_COR;
 	_magicShot.pos = tempPos;
 	_magicShot.isExist = true;
+	_magicShot.isEnemy = isEnemy;
 }
 
 void MagicShot::Move(VECTOR dir)

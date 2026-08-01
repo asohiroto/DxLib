@@ -3,7 +3,9 @@
 #include "Players/Player.h"
 #include "Enemys/Enemy.h"
 
-Collision::Collision()
+Collision::Collision() :
+	_isTouchNow(false),
+	_isTouchLast(false)
 {
 }
 
@@ -21,18 +23,42 @@ void Collision::End()
 
 void Collision::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Enemy> pEnemy)
 {
-	CharacterHitCheck(pPlayer, pEnemy);
+	Character::CharacterData player = pPlayer->GetPlayerData();
+	Character::CharacterData enemy = pEnemy->GetEnemyData();
+
+	_isTouchLast = _isTouchNow;
+	_isTouchNow = CharacterHitCheck(player, enemy);
+
+	if (IsTouch())
+	{
+		if (player.isHit == false)pPlayer->SetHit(true);
+		if (enemy.isHit == false)pEnemy->SetHit(true);
+
+		pPlayer->SetColor(0x00ffff);
+		pEnemy->SetColor(0x00ffff);
+	}
+
+	if (IsTouching())
+	{
+		pPlayer->SetPos(VAdd(player.pos, _pullBack));
+	}
+
+	if (IsSeparate())
+	{
+		if (player.isHit == true)pPlayer->SetHit(false);
+		if (enemy.isHit == true)pEnemy->SetHit(false);
+
+		pPlayer->SetColor(0xff0000);
+		pEnemy->SetColor(0xff0000);
+	}
 }
 
 void Collision::Draw()
 {
 }
 
-bool Collision::CharacterHitCheck(std::shared_ptr<Player> pPlayer, std::shared_ptr<Enemy> pEnemy)
+bool Collision::CharacterHitCheck(Character::CharacterData player, Character::CharacterData enemy)
 {
-	Character::CharacterData player = pPlayer->GetPlayerData();
-	Character::CharacterData enemy = pEnemy->GetEnemyData();
-
 	// 線分間の距離を取る
 	float distance = Segment_Segment_MinLength(player.segmentStPos, player.segmentEndPos, enemy.segmentStPos, enemy.segmentEndPos);
 	// めり込みの深さ
@@ -43,13 +69,10 @@ bool Collision::CharacterHitCheck(std::shared_ptr<Player> pPlayer, std::shared_p
 
 	if (depth >= 0)
 	{
-		if (player.isHit == false)pPlayer->OnHit();
-		if (enemy.isHit == false)pEnemy->OnHit();
-
-		pPlayer->SetPos(VAdd(player.pos, VScale(pullBackDirection, depth)));
-
+		SetPullBack(VScale(pullBackDirection, depth));
 		return true;
 	}
 
 	return false;
 }
+

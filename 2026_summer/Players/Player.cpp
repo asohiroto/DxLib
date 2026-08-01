@@ -27,9 +27,7 @@ Player::Player() :
 	_cameraAngle(0.0f),
 	_angle(0.0f),
 	p_Shot(nullptr),
-	_frontVec(VGet(0.0f, 0.0f, 0.0f)),
-	_isHit(false),
-	_isLast(false)
+	_frontVec(VGet(0.0f, 0.0f, 0.0f))
 {
 }
 
@@ -97,7 +95,7 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 
 	// マジックショットが存在せず、Aが押されたらマジックショットを生成
 	if (pInput->IsTrigger(PAD_INPUT_A) && !p_Shot->IsExist())
-		p_Shot->GenerateShot(_playerUnit.pos, _frontVec);
+		p_Shot->GenerateShot(_playerUnit.pos, _frontVec, false);
 
 	// 存在すれば更新と、移動処理をかける
 	if (p_Shot->IsExist())
@@ -115,10 +113,4 @@ void Player::Draw()
 	DrawHitBox(_playerUnit);
 	if (p_Shot->IsExist()) p_Shot->Draw();
 #endif
-}
-
-void Player::OnHit()
-{
-	_playerUnit.isHit = true;
-	_playerUnit.color = 0x00ffff;
 }
