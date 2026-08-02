@@ -26,13 +26,13 @@ void MagicCollision::End()
 {
 }
 
-void MagicCollision::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Enemy>pEnemy)
+void MagicCollision::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Enemy>pEnemy, MagicList& playerList, MagicList& enemyList)
 {
 	Character::CharacterData player = pPlayer->GetPlayerData();
 	Character::CharacterData enemy = pEnemy->GetEnemyData();
 
-	_playerHitInd = PlayerHitCheck(player);
-	_enemyHitInd = EnemyHitCheck(enemy);
+	_playerHitInd = PlayerHitCheck(player, enemyList);
+	_enemyHitInd = EnemyHitCheck(enemy, playerList);
 
 	_wasPlayerHit = _isPlayerHit;
 	if (_playerHitInd >= 0) _isPlayerHit = true;
@@ -45,7 +45,7 @@ void MagicCollision::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Ene
 	if (IsPlayerHit())
 	{
 		pPlayer->SetColor(0x00ff00);
-		_playerMagic[_playerHitInd].isExist = false;
+		playerList[_playerHitInd].isExist = false;
 	}
 }
 
@@ -53,13 +53,13 @@ void MagicCollision::Draw()
 {
 }
 
-int MagicCollision::PlayerHitCheck(Character::CharacterData player)
+int MagicCollision::PlayerHitCheck(Character::CharacterData player, MagicList enemyList)
 {
-	for (int i = 0; i < _playerMagic.size(); i++)
+	for (int i = 0; i < enemyList.size(); i++)
 	{
-		float distance = Segment_Point_MinLength(player.segmentStPos, player.segmentEndPos, _playerMagic[i].pos);
+		float distance = Segment_Point_MinLength(player.segmentStPos, player.segmentEndPos, enemyList[i].pos);
 
-		float dipth = player.radius + _playerMagic[i].radius - distance;
+		float dipth = player.radius + enemyList[i].radius - distance;
 
 		if (dipth >= 0)
 		{
@@ -70,13 +70,13 @@ int MagicCollision::PlayerHitCheck(Character::CharacterData player)
 	return -1;
 }
 
-int MagicCollision::EnemyHitCheck(Character::CharacterData enemy)
+int MagicCollision::EnemyHitCheck(Character::CharacterData enemy, MagicList playerList)
 {
-	for (int i = 0; i < _enemyMagic.size(); i++)
+	for (int i = 0; i < playerList.size(); i++)
 	{
-		float distance = Segment_Point_MinLength(enemy.segmentStPos, enemy.segmentEndPos, _enemyMagic[i].pos);
+		float distance = Segment_Point_MinLength(enemy.segmentStPos, enemy.segmentEndPos, playerList[i].pos);
 
-		float dipth = enemy.radius + _enemyMagic[i].radius - distance;
+		float dipth = enemy.radius + playerList[i].radius - distance;
 
 		if (dipth >= 0)
 		{

@@ -1,6 +1,10 @@
 ﻿#pragma once
 #include "Bases/MagicBase.h"
 #include <vector>
+#include <memory>
+
+class MagicMove;
+class MagicCollision;
 
 class MagicManager
 {
@@ -21,10 +25,16 @@ public:
 	MagicList& GetPlayerList() { return _playerMagics; }
 	// 敵が使用した魔法のゲッター
 	MagicList& GetEnemyList() { return _enemyMagics; }
+	// プレイヤーの魔法を描画
+	void DrawPlayerMagic();
+	// 敵の魔法を描画
+	void DrawEnemyMagic();
 
 private:
 	// プレイヤーが使用した魔法のリスト
 	MagicList _playerMagics;
 	// 敵が使用した魔法のリスト
 	MagicList _enemyMagics;
+	// マジックムーブの共有ポインタ
+	std::shared_ptr<MagicMove> p_MagicMove;
 };

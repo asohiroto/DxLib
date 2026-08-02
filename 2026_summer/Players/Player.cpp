@@ -94,7 +94,7 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 	_playerUnit.segmentEndPos = VGet(_playerUnit.pos.x, SEGMENT_HEIGHT_COR + SEGMENT_LENGTH, _playerUnit.pos.z);
 
 	// マジックショットが存在せず、Aが押されたらマジックショットを生成
-	if (pInput->IsTrigger(PAD_INPUT_A) && !p_Shot->IsExist())
+	if (pInput->IsTrigger(PAD_INPUT_A))
 		p_Shot->GenerateShot(_playerUnit.pos, _frontVec, false, pManager);
 }
 
