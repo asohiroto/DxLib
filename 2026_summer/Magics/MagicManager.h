@@ -29,6 +29,8 @@ public:
 	void DrawPlayerMagic();
 	// 敵の魔法を描画
 	void DrawEnemyMagic();
+	// リストから条件を満たした魔法を消す関数
+	void RemoveList();
 
 private:
 	// プレイヤーが使用した魔法のリスト

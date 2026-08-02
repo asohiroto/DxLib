@@ -63,3 +63,9 @@ void MagicManager::DrawEnemyMagic()
 			DrawSphere3D(_enemyMagics[i].pos, _enemyMagics[i].radius, 16, 0xffffff, 0xffffff, true);
 	}
 }
+
+void MagicManager::RemoveList()
+{
+	std::erase_if(_playerMagics, [](const MagicBase::MagicData& data) {return !data.isExist; });
+	std::erase_if(_enemyMagics, [](const MagicBase::MagicData& data) {return !data.isExist; });
+}

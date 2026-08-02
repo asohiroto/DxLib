@@ -61,6 +61,7 @@ void SceneMain::Update()
 	p_Coll->Update(p_Player, p_Enemy);
 	p_MManager->Update();
 	p_MColl->Update(p_Player, p_Enemy, p_MManager->GetPlayerList(), p_MManager->GetEnemyList());
+	p_MManager->RemoveList();
 }
 
 void SceneMain::Draw()
