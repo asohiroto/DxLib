@@ -9,8 +9,8 @@ MagicCollision::MagicCollision() :
 	_wasPlayerHit(false),
 	_isEnemyHit(false),
 	_wasEnemyHit(false),
-	_playerHitInd(-1),
-	_enemyHitInd(-1)
+	_hitEnemyMagicInd(-1),
+	_hitPlayerMagicInd(-1)
 {
 }
 
@@ -31,27 +31,27 @@ void MagicCollision::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Ene
 	Character::CharacterData player = pPlayer->GetPlayerData();
 	Character::CharacterData enemy = pEnemy->GetEnemyData();
 
-	_playerHitInd = PlayerHitCheck(player, enemyList);
-	_enemyHitInd = EnemyHitCheck(enemy, playerList);
+	_hitEnemyMagicInd = PlayerHitCheck(player, enemyList);
+	_hitPlayerMagicInd = EnemyHitCheck(enemy, playerList);
 
 	_wasPlayerHit = _isPlayerHit;
-	if (_playerHitInd >= 0) _isPlayerHit = true;
+	if (_hitEnemyMagicInd >= 0) _isPlayerHit = true;
 	else _isPlayerHit = false;
 
 	_wasEnemyHit = _isEnemyHit;
-	if (_enemyHitInd >= 0) _isEnemyHit = true;
+	if (_hitPlayerMagicInd >= 0) _isEnemyHit = true;
 	else _isEnemyHit = false;
 
 	if (IsPlayerHit())
 	{
 		pPlayer->SetColor(0x00ff00);
-		enemyList[_enemyHitInd].isExist = false;
+		enemyList[_hitEnemyMagicInd].isExist = false;
 	}
 
 	if (IsEnemyHit())
 	{
 		pEnemy->SetColor(0x00ff00);
-		playerList[_playerHitInd].isExist = false;
+		playerList[_hitPlayerMagicInd].isExist = false;
 	}
 }
 
@@ -63,6 +63,8 @@ int MagicCollision::PlayerHitCheck(Character::CharacterData player, MagicList en
 {
 	for (int i = 0; i < enemyList.size(); i++)
 	{
+		if (!enemyList[i].isExist) continue;
+
 		float distance = Segment_Point_MinLength(player.segmentStPos, player.segmentEndPos, enemyList[i].pos);
 
 		float dipth = player.radius + enemyList[i].radius - distance;
@@ -78,8 +80,11 @@ int MagicCollision::PlayerHitCheck(Character::CharacterData player, MagicList en
 
 int MagicCollision::EnemyHitCheck(Character::CharacterData enemy, MagicList playerList)
 {
+
 	for (int i = 0; i < playerList.size(); i++)
 	{
+		if (!playerList[i].isExist) continue;
+
 		float distance = Segment_Point_MinLength(enemy.segmentStPos, enemy.segmentEndPos, playerList[i].pos);
 
 		float dipth = enemy.radius + playerList[i].radius - distance;

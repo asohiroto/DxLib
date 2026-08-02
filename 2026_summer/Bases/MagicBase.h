@@ -29,8 +29,6 @@ public:
 		bool isEnemy;
 		// 移動させる方向
 		VECTOR moveDirection;
-		// 開始処理用
-		bool isInitialize;
 		// 移動距離
 		float movedDistance;
 	};

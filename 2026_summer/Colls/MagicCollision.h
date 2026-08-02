@@ -41,7 +41,7 @@ private:
 	// 前のフレームで敵に魔法がヒットしたか
 	bool _wasEnemyHit;
 	// プレイヤーにヒットした敵の魔法の番号
-	int _playerHitInd;
+	int _hitEnemyMagicInd;
 	// 敵にヒットしたプレイヤーの魔法の番号
-	int _enemyHitInd;
+	int _hitPlayerMagicInd;
 };
