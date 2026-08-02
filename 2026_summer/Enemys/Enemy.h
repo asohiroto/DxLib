@@ -4,6 +4,18 @@
 class Enemy : public Character
 {
 public:
+	enum class EnemyState
+	{
+		// プレイヤーとの距離を調整
+		Chase,
+		// 攻撃（後に追加）
+		Attack,
+		// 被弾硬直
+		HitStun,
+		// 死亡
+		Dead
+	};
+
 	Enemy();
 	virtual ~Enemy() override;
 	void Init() override;
