@@ -63,7 +63,7 @@ void Player::End()
 {
 }
 
-void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCamera)
+void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCamera, std::shared_ptr<MagicManager> pManager)
 {
 	// カメラの向いている角度をコピー
 	_cameraAngle = pCamera->GetCameraYaw();
@@ -95,15 +95,7 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 
 	// マジックショットが存在せず、Aが押されたらマジックショットを生成
 	if (pInput->IsTrigger(PAD_INPUT_A) && !p_Shot->IsExist())
-		p_Shot->GenerateShot(_playerUnit.pos, _frontVec, false);
-
-	// 存在すれば更新と、移動処理をかける
-	if (p_Shot->IsExist())
-	{
-		p_Shot->Update();
-		p_Shot->Move(_frontVec);
-	}
-
+		p_Shot->GenerateShot(_playerUnit.pos, _frontVec, false, pManager);
 }
 
 void Player::Draw()

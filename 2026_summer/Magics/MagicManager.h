@@ -18,9 +18,9 @@ public:
 	// リストに魔法を登録する関数
 	void EntryList(MagicBase::MagicData data);
 	// プレイヤーの使用した魔法のゲッター
-	MagicList GetPlayerList() { return _playerMagics; }
+	MagicList& GetPlayerList() { return _playerMagics; }
 	// 敵が使用した魔法のゲッター
-	MagicList GetEnemyList() { return _enemyMagics; }
+	MagicList& GetEnemyList() { return _enemyMagics; }
 
 private:
 	// プレイヤーが使用した魔法のリスト

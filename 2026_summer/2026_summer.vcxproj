@@ -155,6 +155,7 @@
     <ClCompile Include="Enemys\Enemy.cpp" />
     <ClCompile Include="Inputs\Input.cpp" />
     <ClCompile Include="Magics\MagicManager.cpp" />
+    <ClCompile Include="Magics\MagicMove.cpp" />
     <ClCompile Include="Magics\MagicShot.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Players\Player.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="GameDefine.h" />
     <ClInclude Include="Inputs\Input.h" />
     <ClInclude Include="Magics\MagicManager.h" />
+    <ClInclude Include="Magics\MagicMove.h" />
     <ClInclude Include="Magics\MagicShot.h" />
     <ClInclude Include="Players\Player.h" />
     <ClInclude Include="Players\PlayerMove.h" />

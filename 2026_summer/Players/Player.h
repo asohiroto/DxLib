@@ -7,6 +7,7 @@ class Input;
 class PlayerMove;
 class Camera;
 class MagicShot;
+class MagicManager;
 
 class Player :
 	public Character
@@ -16,7 +17,7 @@ public:
 	virtual ~Player() override;
 	void Init() override;
 	void End()override;
-	void Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCamera);
+	void Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCamera, std::shared_ptr<MagicManager> pManager);
 	void Draw() override;
 	// プレイヤー座標のゲッター
 	VECTOR GetPos() const { return _playerUnit.pos; }

@@ -1,4 +1,5 @@
 ﻿#include "MagicShot.h"
+#include "MagicManager.h"
 #include <DxLib.h>
 
 namespace
@@ -16,10 +17,7 @@ namespace
 }
 
 MagicShot::MagicShot() :
-	_magicShot(),
-	_movedDistance(0.0f),
-	_isInitialize(true),
-	_distDir(VGet(0.0f, 0.0f, 0.0f))
+	_magicShot()
 {
 }
 
@@ -49,40 +47,16 @@ void MagicShot::Update()
 
 void MagicShot::Draw()
 {
-#ifdef _DEBUG
-	DrawSphere3D(_magicShot.pos, _magicShot.radius, 16, 0xffffff, 0xffffff, true);
-#endif
 }
 
-void MagicShot::GenerateShot(VECTOR pos, VECTOR front, bool isEnemy)
+void MagicShot::GenerateShot(VECTOR pos, VECTOR front, bool isEnemy, std::shared_ptr<MagicManager> pManager)
 {
 	VECTOR tempPos = VAdd(pos, VScale(VNorm(front), POSITION_COR));
 	tempPos.y += HEIGHT_COR;
 	_magicShot.pos = tempPos;
 	_magicShot.isExist = true;
 	_magicShot.isEnemy = isEnemy;
-}
+	_magicShot.moveDirection = VNorm(front);
 
-void MagicShot::Move(VECTOR dir)
-{
-	// 初期化
-	if (_isInitialize)
-	{
-		_distDir = VNorm(dir);
-		_isInitialize = false;
-	}
-
-	// 座標を更新
-	_magicShot.pos = VAdd(_magicShot.pos, VScale(_distDir, _magicShot.speed));
-	_movedDistance += _magicShot.speed;
-
-	// 最大距離まで移動したら消す
-	if (_movedDistance >= DISTANCE_MAX)
-	{
-		_magicShot.isExist = false;
-		_magicShot.pos = VGet(0.0f, 0.0f, 0.0f);
-		_movedDistance = 0.0f;
-		_distDir = VGet(0.0f, 0.0f, 0.0f);
-		_isInitialize = true;
-	}
+	pManager->EntryList(_magicShot);
 }
