@@ -20,7 +20,11 @@ public:
 	// 通常のカメラ
 	void NormalCam(int rx, int ry, std::shared_ptr<Player> pPlayer);
 	// ロックオン時のカメラ
-	void LockOnCam(int rx, int ry, std::shared_ptr<Player>pPlayer, std::shared_ptr<Enemy>pEnemy);
+	void LockOnCam(std::shared_ptr<Player>pPlayer, std::shared_ptr<Enemy>pEnemy);
+	// カメラモードのゲッター
+	bool GetCameraMode() const { return _cameraMode; }
+	// プレイヤーから敵への水平方向
+	VECTOR GetEnemyDirection() const { return _dirToEnemy; }
 
 private:
 	// 水平方向のカメラの回転角度
@@ -39,4 +43,8 @@ private:
 	// trueでロックオンモード
 	// falseで通常カメラモード
 	bool _cameraMode;
+	// 消失点のｙ座標
+	float _screenCenterY;
+	// 敵までの水平方向
+	VECTOR _dirToEnemy;
 };

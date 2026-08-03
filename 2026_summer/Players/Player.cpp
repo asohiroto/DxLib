@@ -85,6 +85,12 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 		_frontVec = VGet(p_Move->GetMovement().x, 0.0f, p_Move->GetMovement().z);
 	}
 
+	if (!pCamera->GetCameraMode())
+	{
+		_angle = pCamera->GetCameraYaw() + DX_PI_F;
+		_frontVec = pCamera->GetEnemyDirection();
+	}
+
 	// モデルの設定
 	MV1SetPosition(_playerUnit.modelH, _playerUnit.pos);
 	MV1SetRotationXYZ(_playerUnit.modelH, VGet(0.0f, _angle, 0.0f));
