@@ -19,6 +19,10 @@ namespace
 	constexpr float POS_LIMIT_X = 1000.0f;
 	// Z軸方向の移動制限
 	constexpr float POS_LIMIT_Z = 1000.0f;
+	// モデルの回転速度
+	constexpr float ROTATE_SPEED = 0.03f;
+	// 入力値の補正用
+	constexpr float INPUT_COR = 0.001f;
 }
 
 Player::Player() :
@@ -65,6 +69,8 @@ void Player::End()
 
 void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCamera, std::shared_ptr<MagicManager> pManager)
 {
+	int rx = pInput->GetRightStickX();
+
 	// カメラの向いている角度をコピー
 	_cameraAngle = pCamera->GetCameraYaw();
 
@@ -79,10 +85,11 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 	_playerUnit.pos.z = std::clamp(_playerUnit.pos.z, -POS_LIMIT_Z, POS_LIMIT_Z);
 
 	// モデルの向く方向を定める
-	if (pInput->IsTiltingL())
+	if (pInput->IsTiltingR())
 	{
-		_angle = atan2f(p_Move->GetMovement().x, p_Move->GetMovement().z) + DX_PI_F;
-		_frontVec = VGet(p_Move->GetMovement().x, 0.0f, p_Move->GetMovement().z);
+		_angle += static_cast<float>(ROTATE_SPEED * std::clamp(rx * INPUT_COR, -1.0f, 1.0f));
+		_frontVec = GetCameraFrontVector();
+		_frontVec.y = 0.0f;
 	}
 
 	if (!pCamera->GetCameraMode())

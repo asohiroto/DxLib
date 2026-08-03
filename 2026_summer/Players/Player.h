@@ -29,8 +29,6 @@ public:
 	void SetHit(bool judge) { _playerUnit.isHit = judge; }
 	// 当たり判定の色を変更
 	void SetColor(int col) { _playerUnit.color = col; }
-	// モデルを回転させる関数
-	void ModelRotate(int rx, int ry);
 
 private:
 	// プレイヤー
