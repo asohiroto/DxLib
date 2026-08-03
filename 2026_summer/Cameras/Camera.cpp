@@ -106,6 +106,7 @@ void Camera::LockOnCam(int rx, int ry, std::shared_ptr<Player>pPlayer, std::shar
 	if (pEnemy != nullptr && pPlayer != nullptr) _targetPos = pEnemy->GetPos();
 
 	VECTOR camPos = VSub(pPlayer->GetPos(), pEnemy->GetPos());
+	camPos = VAdd(pPlayer->GetPos(), camPos);
 
 	// 入力値を-1.0～1.0の値に変換
 	_cameraYaw += YAW_SPEED * std::clamp(rx * INPUT_COR, -1.0f, 1.0f);
