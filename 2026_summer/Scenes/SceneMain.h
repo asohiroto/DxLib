@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "SceneBase.h"
+#include "Bases/SceneBase.h"
 #include<memory>
 
 class Player;

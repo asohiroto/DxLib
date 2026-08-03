@@ -179,7 +179,7 @@
     <ClInclude Include="Magics\MagicShot.h" />
     <ClInclude Include="Players\Player.h" />
     <ClInclude Include="Players\PlayerMove.h" />
-    <ClInclude Include="Scenes\SceneBase.h" />
+    <ClInclude Include="Bases\SceneBase.h" />
     <ClInclude Include="Scenes\SceneMain.h" />
     <ClInclude Include="Scenes\SceneManager.h" />
   </ItemGroup>

@@ -86,7 +86,7 @@
     <ClInclude Include="Players\Player.h">
       <Filter>ヘッダー ファイル\キャラクター関係</Filter>
     </ClInclude>
-    <ClInclude Include="Scenes\SceneBase.h">
+    <ClInclude Include="Bases\SceneBase.h">
       <Filter>ヘッダー ファイル\シーン関係</Filter>
     </ClInclude>
     <ClInclude Include="Scenes\SceneMain.h">

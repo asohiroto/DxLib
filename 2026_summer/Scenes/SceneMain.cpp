@@ -55,7 +55,7 @@ void SceneMain::End()
 void SceneMain::Update()
 {
 	p_Player->Update(p_Input, p_Camera, p_MManager);
-	p_Camera->Update(p_Player, p_Input);
+	p_Camera->Update(p_Player, p_Enemy, p_Input);
 	p_Input->Update();
 	p_Enemy->Update();
 	p_Coll->Update(p_Player, p_Enemy);

@@ -11,25 +11,25 @@ namespace
 }
 
 Enemy::Enemy() :
-	_tempEnemyUnit()
+	_enemyUnit()
 {
 }
 
 Enemy::~Enemy()
 {
-	MV1DeleteModel(_tempEnemyUnit.modelH);
+	MV1DeleteModel(_enemyUnit.modelH);
 }
 
 void Enemy::Init()
 {
 
-	_tempEnemyUnit.pos = VGet(0.0f, 0.0f, 0.0f);
-	_tempEnemyUnit.modelH = MV1LoadModel("data/Model_army.mv1");
-	_tempEnemyUnit.radius = RADIUS;
-	_tempEnemyUnit.color = 0xff0000;
+	_enemyUnit.pos = VGet(0.0f, 0.0f, 0.0f);
+	_enemyUnit.modelH = MV1LoadModel("data/Model_army.mv1");
+	_enemyUnit.radius = RADIUS;
+	_enemyUnit.color = 0xff0000;
 
 	// モデルを拡大
-	MV1SetScale(_tempEnemyUnit.modelH, VGet(3.0f, 3.0f, 3.0f));
+	MV1SetScale(_enemyUnit.modelH, VGet(3.0f, 3.0f, 3.0f));
 }
 
 void Enemy::End()
@@ -39,16 +39,16 @@ void Enemy::End()
 void Enemy::Update()
 {
 	// 【当たり判定用】線分の始点と終点を設定
-	_tempEnemyUnit.segmentStPos = VGet(_tempEnemyUnit.pos.x, SEGMENT_HEIGHT_COR, _tempEnemyUnit.pos.z);
-	_tempEnemyUnit.segmentEndPos = VGet(_tempEnemyUnit.pos.x, SEGMENT_HEIGHT_COR + SEGMENT_LENGTH, _tempEnemyUnit.pos.z);
+	_enemyUnit.segmentStPos = VGet(_enemyUnit.pos.x, SEGMENT_HEIGHT_COR, _enemyUnit.pos.z);
+	_enemyUnit.segmentEndPos = VGet(_enemyUnit.pos.x, SEGMENT_HEIGHT_COR + SEGMENT_LENGTH, _enemyUnit.pos.z);
 
 }
 
 void Enemy::Draw()
 {
-	MV1SetPosition(_tempEnemyUnit.modelH, _tempEnemyUnit.pos);
-	MV1DrawModel(_tempEnemyUnit.modelH);
+	MV1SetPosition(_enemyUnit.modelH, _enemyUnit.pos);
+	MV1DrawModel(_enemyUnit.modelH);
 #ifdef _DEBUG
-	DrawHitBox(_tempEnemyUnit);
+	DrawHitBox(_enemyUnit);
 #endif
 }

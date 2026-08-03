@@ -24,12 +24,14 @@ public:
 	void Draw() override;
 
 	// エネミーデータのゲッター
-	CharacterData GetEnemyData() const { return _tempEnemyUnit; }
+	CharacterData GetEnemyData() const { return _enemyUnit; }
 	// 当たった処理
-	void SetHit(bool judge) { _tempEnemyUnit.isHit = judge; }
+	void SetHit(bool judge) { _enemyUnit.isHit = judge; }
 	// 当たり判定の色を変更
-	void SetColor(int col) { _tempEnemyUnit.color = col; }
+	void SetColor(int col) { _enemyUnit.color = col; }
+	// 敵座標のゲッター
+	VECTOR GetPos() const { return _enemyUnit.pos; }
 
 private:
-	CharacterData _tempEnemyUnit;
+	CharacterData _enemyUnit;
 };
