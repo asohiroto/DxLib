@@ -1,4 +1,5 @@
 ﻿#pragma once
+#pragma once
 #include<memory>
 #include <DxLib.h>
 
@@ -29,12 +30,8 @@ public:
 private:
 	// 水平方向のカメラの回転角度
 	float _cameraYaw;
-	// 垂直方向のカメラの回転角度
-	float _cameraPitch;
 	// 表示用のカメラの水平方向回転角度
 	float _dispCameraYaw;
-	// 表示用のカメラの垂直方向回転角度
-	float _dispCameraPitch;
 	// カメラの座標
 	VECTOR _cameraPos;
 	// 注視点

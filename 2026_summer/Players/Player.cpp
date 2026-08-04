@@ -28,7 +28,6 @@ namespace
 Player::Player() :
 	_playerUnit(),
 	p_Move(nullptr),
-	_cameraAngle(0.0f),
 	_angle(0.0f),
 	p_Shot(nullptr),
 	_frontVec(VGet(0.0f, 0.0f, 0.0f))
@@ -70,9 +69,6 @@ void Player::End()
 void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCamera, std::shared_ptr<MagicManager> pManager)
 {
 	int rx = pInput->GetRightStickX();
-
-	// カメラの向いている角度をコピー
-	_cameraAngle = pCamera->GetCameraYaw();
 
 	// プレイヤーの挙動の更新
 	p_Move->Update(pInput, pCamera->GetCameraYaw());

@@ -29,14 +29,14 @@ public:
 	void SetHit(bool judge) { _playerUnit.isHit = judge; }
 	// 当たり判定の色を変更
 	void SetColor(int col) { _playerUnit.color = col; }
+	// プレイヤーが向いている角度のゲッター
+	float GetPlayerAngle() const { return _angle; }
 
 private:
 	// プレイヤー
 	CharacterData _playerUnit;
 	// 移動用クラスの共有ポインタ
 	std::shared_ptr<PlayerMove> p_Move;
-	// カメラの向いている角度
-	float _cameraAngle;
 	// モデルを向ける角度
 	float _angle;
 	// マジックショットの共有ポインタ
