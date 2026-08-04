@@ -26,7 +26,8 @@ namespace
 	constexpr float LOCKON_HEIGHT = 350.0f;
 	// カメラの垂直方向の角度
 	constexpr float CAMERA_PITCH = -0.5f;
-
+	// 注視点までの距離
+	constexpr float TARGET_DISTANCE = 1000.0f;
 }
 
 Camera::Camera() :
@@ -84,10 +85,6 @@ void Camera::NormalCam(int rx, int ry, std::shared_ptr<Player> pPlayer)
 	// カメラをプレイヤーが向いている方に回転
 	_cameraYaw = pPlayer->GetPlayerAngle();
 
-	// 注視点を設定
-	if (pPlayer != nullptr) _targetPos = VAdd(pPlayer->GetPos(), VGet(0.0f, TARGET_HEIGHT, 0.0f));
-
-
 	// 表示用の回転角度に線形補間をかける
 	_dispCameraYaw += (_cameraYaw - _dispCameraYaw) * LERP_RATE;
 
@@ -100,7 +97,13 @@ void Camera::NormalCam(int rx, int ry, std::shared_ptr<Player> pPlayer)
 	offset.z = DISTANCE * std::cosf(CAMERA_PITCH) * cosYaw;
 
 	VECTOR right = VGet(cosYaw, 0.0f, -sinYaw);
+
 	offset = VAdd(offset, VScale(right, RIGHT_OFFSET));
+
+	// 注視点を設定
+	if (pPlayer != nullptr)
+		_targetPos = VScale(VGet(sinYaw, 0.0f, cosYaw), TARGET_DISTANCE);
+
 
 	_cameraPos = VAdd(offset, _targetPos);
 }
