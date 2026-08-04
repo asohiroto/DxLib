@@ -13,7 +13,7 @@ namespace
 	// 注視点の補正
 	constexpr float TARGET_HEIGHT = 50.0f;
 	// プレイヤーまでの距離
-	constexpr float DISTANCE = 750.0f;
+	constexpr float DISTANCE = 550.0f;
 	// 水平方向の回転速度
 	constexpr float YAW_SPEED = 0.03f;
 	// 線形補間度
