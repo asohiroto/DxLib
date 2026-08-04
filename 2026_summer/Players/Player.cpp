@@ -23,6 +23,8 @@ namespace
 	constexpr float ROTATE_SPEED = 0.03f;
 	// 入力値の補正用
 	constexpr float INPUT_COR = 0.001f;
+
+	constexpr float SHOT_RIGHT_OFFSET = 150.0f;
 }
 
 Player::Player() :
@@ -102,9 +104,17 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 	_playerUnit.segmentStPos = VGet(_playerUnit.pos.x, SEGMENT_HEIGHT_COR, _playerUnit.pos.z);
 	_playerUnit.segmentEndPos = VGet(_playerUnit.pos.x, SEGMENT_HEIGHT_COR + SEGMENT_LENGTH, _playerUnit.pos.z);
 
+	// マジックショットの生成位置を決定
+	// 正面の角度をとる
+	float facing = _angle - DX_PI_F;
+	// 右向きベクトルを取得
+	VECTOR right = VGet(std::cosf(facing), 0.0f, -std::sinf(facing));
+
+	VECTOR shotPos = VAdd(_playerUnit.pos, VScale(right, SHOT_RIGHT_OFFSET));
+
 	// マジックショットが存在せず、Aが押されたらマジックショットを生成
 	if (pInput->IsTrigger(PAD_INPUT_A))
-		p_Shot->GenerateShot(_playerUnit.pos, _frontVec, false, pManager);
+		p_Shot->GenerateShot(shotPos, _frontVec, false, pManager);
 }
 
 void Player::Draw()

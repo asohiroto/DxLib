@@ -163,6 +163,8 @@
     <ClCompile Include="Players\PlayerMove.cpp" />
     <ClCompile Include="Scenes\SceneMain.cpp" />
     <ClCompile Include="Scenes\SceneManager.cpp" />
+    <ClCompile Include="UIs\CrossHair.cpp" />
+    <ClCompile Include="UIs\UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bases\MagicBase.h" />
@@ -182,6 +184,8 @@
     <ClInclude Include="Bases\SceneBase.h" />
     <ClInclude Include="Scenes\SceneMain.h" />
     <ClInclude Include="Scenes\SceneManager.h" />
+    <ClInclude Include="UIs\CrossHair.h" />
+    <ClInclude Include="UIs\UIManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -6,6 +6,7 @@
 #include "Colls/Collision.h"
 #include "Magics/MagicManager.h"
 #include "Colls/MagicCollision.h"
+#include "UIs/UIManager.h"
 
 namespace
 {
@@ -22,7 +23,8 @@ SceneMain::SceneMain() :
 	p_Enemy(nullptr),
 	p_Coll(nullptr),
 	p_MManager(nullptr),
-	p_MColl(nullptr)
+	p_MColl(nullptr),
+	p_UI(nullptr)
 {
 }
 
@@ -39,12 +41,14 @@ void SceneMain::Init()
 	p_Coll = std::make_shared<Collision>();
 	p_MManager = std::make_shared<MagicManager>();
 	p_MColl = std::make_shared<MagicCollision>();
+	p_UI = std::make_shared<UIManager>();
 
 	p_Player->Init();
 	p_Camera->Init();
 	p_Input->Init();
 	p_Enemy->Init();
 	p_MManager->Init();
+	p_UI->Init();
 }
 
 void SceneMain::End()
@@ -62,6 +66,7 @@ void SceneMain::Update()
 	p_MManager->Update();
 	p_MColl->Update(p_Player, p_Enemy, p_MManager->GetPlayerList(), p_MManager->GetEnemyList());
 	p_MManager->RemoveList();
+	p_UI->Update();
 }
 
 void SceneMain::Draw()
@@ -71,6 +76,7 @@ void SceneMain::Draw()
 	p_Input->Draw();
 	p_Enemy->Draw();
 	p_MManager->Draw();
+	p_UI->Draw();
 
 	DrawGrid();
 }

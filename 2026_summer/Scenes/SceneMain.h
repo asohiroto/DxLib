@@ -9,6 +9,7 @@ class Enemy;
 class Collision;
 class MagicManager;
 class MagicCollision;
+class UIManager;
 
 class SceneMain :
 	public SceneBase
@@ -38,4 +39,6 @@ private:
 	std::shared_ptr<MagicManager> p_MManager;
 	// 魔法のコリジョンクラスの共有ポインタ
 	std::shared_ptr<MagicCollision> p_MColl;
+	// UI管理クラスのポインタ
+	std::shared_ptr<UIManager> p_UI;
 };

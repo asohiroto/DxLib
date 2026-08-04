@@ -28,6 +28,8 @@ namespace
 	constexpr float CAMERA_PITCH = -0.5f;
 	// 注視点までの距離
 	constexpr float TARGET_DISTANCE = 1500.0f;
+	// 消失点の高さ
+	constexpr float SCREEN_CENTER_Y = HEIGHT * 3 / 4;
 }
 
 Camera::Camera() :
@@ -36,7 +38,6 @@ Camera::Camera() :
 	_cameraPos(VGet(0.0f, 0.0f, 0.0f)),
 	_targetPos(VGet(0.0f, 0.0f, 0.0f)),
 	_cameraMode(true),
-	_screenCenterY(HEIGHT * 5 / 6),
 	_dirToEnemy(VGet(0.0f, 0.0f, 0.0f))
 {
 }
@@ -73,15 +74,13 @@ void Camera::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Enemy>pEnem
 void Camera::Draw()
 {
 	// 消失点を画面下部に設定する
-	SetCameraScreenCenter(WIDTH / 2, _screenCenterY);
+	SetCameraScreenCenter(WIDTH / 2, SCREEN_CENTER_Y);
 	// カメラを設置
 	SetCameraPositionAndTargetAndUpVec(_cameraPos, _targetPos, VGet(0.0f, 1.0f, 0.0f));
 }
 
 void Camera::NormalCam(std::shared_ptr<Player> pPlayer)
 {
-	_screenCenterY = HEIGHT * 3 / 4;
-
 	if (pPlayer == nullptr) return;
 
 	// GetPlayerAngle()はモデル表示用に+DX_PI_Fされた角度なので、補正を外して実際の向きに戻す
@@ -111,8 +110,6 @@ void Camera::NormalCam(std::shared_ptr<Player> pPlayer)
 
 void Camera::LockOnCam(std::shared_ptr<Player>pPlayer, std::shared_ptr<Enemy>pEnemy)
 {
-	_screenCenterY = HEIGHT * 3 / 4;
-
 	// 注視点を設定
 	if (pEnemy == nullptr || pPlayer == nullptr) return;
 
@@ -134,7 +131,6 @@ void Camera::LockOnCam(std::shared_ptr<Player>pPlayer, std::shared_ptr<Enemy>pEn
 
 	// 注視点は敵にする
 	VECTOR targetLookPos = VAdd(pEnemy->GetPos(), VGet(0.0f, TARGET_HEIGHT, 0.0f));
-
 
 	// 線形補間をかける
 	_cameraPos = VAdd(_cameraPos, VScale(VSub(targetCamPos, _cameraPos), LERP_RATE));

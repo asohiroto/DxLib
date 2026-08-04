@@ -40,8 +40,6 @@ private:
 	// trueでロックオンモード
 	// falseで通常カメラモード
 	bool _cameraMode;
-	// 消失点のｙ座標
-	float _screenCenterY;
 	// 敵までの水平方向
 	VECTOR _dirToEnemy;
 };
