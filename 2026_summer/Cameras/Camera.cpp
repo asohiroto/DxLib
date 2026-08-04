@@ -13,7 +13,7 @@ namespace
 	// 注視点の補正
 	constexpr float TARGET_HEIGHT = 50.0f;
 	// プレイヤーまでの距離
-	constexpr float DISTANCE = -500.0f;
+	constexpr float DISTANCE = 500.0f;
 	// 水平方向の回転速度
 	constexpr float YAW_SPEED = 0.03f;
 	// 線形補間度
@@ -93,19 +93,16 @@ void Camera::NormalCam(int rx, int ry, std::shared_ptr<Player> pPlayer)
 
 	VECTOR offset = VGet(0.0f, 0.0f, 0.0f);
 	offset.x = DISTANCE * std::cosf(CAMERA_PITCH) * sinYaw;
-	offset.y = DISTANCE * std::sinf(CAMERA_PITCH);
+	offset.y = DISTANCE * -std::sinf(CAMERA_PITCH);
 	offset.z = DISTANCE * std::cosf(CAMERA_PITCH) * cosYaw;
 
 	VECTOR right = VGet(cosYaw, 0.0f, -sinYaw);
 
 	offset = VAdd(offset, VScale(right, RIGHT_OFFSET));
 
-	// 注視点を設定
-	if (pPlayer != nullptr)
-		_targetPos = VScale(VGet(sinYaw, 0.0f, cosYaw), TARGET_DISTANCE);
+	_targetPos = VAdd(pPlayer->GetPos(), VScale(right, RIGHT_OFFSET));
 
-
-	_cameraPos = VAdd(offset, _targetPos);
+	_cameraPos = offset;
 }
 
 void Camera::LockOnCam(std::shared_ptr<Player>pPlayer, std::shared_ptr<Enemy>pEnemy)
