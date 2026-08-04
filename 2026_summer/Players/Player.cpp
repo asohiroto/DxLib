@@ -49,6 +49,7 @@ void Player::Init()
 	_playerUnit.radius = RADIUS;
 	_playerUnit.isHit = false;
 	_playerUnit.color = 0xff0000;
+	_playerUnit.state = Move;
 
 	// 安全策
 	assert(_playerUnit.modelH != -1);

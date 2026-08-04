@@ -5,7 +5,7 @@ class MagicBase
 {
 public:
 	// 使う魔法の種類
-	enum MagicType
+	enum class MagicType
 	{
 		MagicShot,
 		MagicMissile,

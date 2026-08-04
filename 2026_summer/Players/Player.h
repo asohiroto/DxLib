@@ -13,6 +13,14 @@ class Player :
 	public Character
 {
 public:
+	enum PlayerState
+	{
+		Move,
+		Dodge,
+		Shot
+	};
+
+public:
 	Player();
 	virtual ~Player() override;
 	void Init() override;
@@ -31,6 +39,8 @@ public:
 	void SetColor(int col) { _playerUnit.color = col; }
 	// プレイヤーが向いている角度のゲッター
 	float GetPlayerAngle() const { return _angle; }
+	// 状態を変更
+	void StateChange(PlayerState state) { _playerUnit.state = state; }
 
 private:
 	// プレイヤー

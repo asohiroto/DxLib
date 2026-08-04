@@ -61,14 +61,18 @@ void MagicCollision::Draw()
 
 int MagicCollision::PlayerHitCheck(Character::CharacterData player, MagicList enemyList)
 {
+	// 敵が撃った魔法全てで順に計算
 	for (int i = 0; i < enemyList.size(); i++)
 	{
 		if (!enemyList[i].isExist) continue;
 
+		// 距離を計測
 		float distance = Segment_Point_MinLength(player.segmentStPos, player.segmentEndPos, enemyList[i].pos);
 
+		// めり込みの深さを計算
 		float dipth = player.radius + enemyList[i].radius - distance;
 
+		// 当たっている番号を返す
 		if (dipth >= 0)
 		{
 			return i;

@@ -28,8 +28,6 @@ namespace
 	constexpr float CAMERA_PITCH = -0.5f;
 	// 注視点までの距離
 	constexpr float TARGET_DISTANCE = 1500.0f;
-	// 消失点の高さ
-	constexpr float SCREEN_CENTER_Y = HEIGHT * 3 / 4;
 }
 
 Camera::Camera() :

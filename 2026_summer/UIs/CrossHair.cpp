@@ -27,5 +27,5 @@ void CrossHair::Update()
 void CrossHair::Draw()
 {
 	// クロスヘアを書く
-	DrawCircle(WIDTH / 2, HEIGHT / 2, 0xffffff, 5, 5);
+	DrawCircle(WIDTH / 2, SCREEN_CENTER_Y - 150.0f, 5, 0xffffff, true);
 }

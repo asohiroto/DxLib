@@ -66,7 +66,7 @@ void SceneMain::Update()
 	p_MManager->Update();
 	p_MColl->Update(p_Player, p_Enemy, p_MManager->GetPlayerList(), p_MManager->GetEnemyList());
 	p_MManager->RemoveList();
-	p_UI->Update();
+	//p_UI->Update();
 }
 
 void SceneMain::Draw()
@@ -76,7 +76,7 @@ void SceneMain::Draw()
 	p_Input->Draw();
 	p_Enemy->Draw();
 	p_MManager->Draw();
-	p_UI->Draw();
+	//p_UI->Draw();
 
 	DrawGrid();
 }

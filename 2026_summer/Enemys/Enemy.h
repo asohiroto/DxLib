@@ -4,7 +4,7 @@
 class Enemy : public Character
 {
 public:
-	enum class EnemyState
+	enum EnemyState
 	{
 		// プレイヤーとの距離を調整
 		Chase,
@@ -31,6 +31,8 @@ public:
 	void SetColor(int col) { _enemyUnit.color = col; }
 	// 敵座標のゲッター
 	VECTOR GetPos() const { return _enemyUnit.pos; }
+	// ステートを変更
+	void ChangeState(EnemyState state) { _enemyUnit.state = state; }
 
 private:
 	CharacterData _enemyUnit;
