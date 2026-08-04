@@ -13,7 +13,7 @@ class Player :
 	public Character
 {
 public:
-	enum PlayerState
+	enum class PlayerState
 	{
 		Move,
 		Dodge,
@@ -40,7 +40,7 @@ public:
 	// プレイヤーが向いている角度のゲッター
 	float GetPlayerAngle() const { return _angle; }
 	// 状態を変更
-	void StateChange(PlayerState state) { _playerUnit.state = state; }
+	void StateChange(PlayerState state) { _nowState = state; }
 
 private:
 	// プレイヤー
@@ -53,4 +53,6 @@ private:
 	std::shared_ptr<MagicShot> p_Shot;
 	// プレイヤーの正面ベクトル
 	VECTOR _frontVec;
+	// 現在のステート
+	PlayerState _nowState;
 };

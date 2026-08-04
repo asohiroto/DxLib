@@ -32,8 +32,10 @@ public:
 	// 敵座標のゲッター
 	VECTOR GetPos() const { return _enemyUnit.pos; }
 	// ステートを変更
-	void ChangeState(EnemyState state) { _enemyUnit.state = state; }
+	void ChangeState(EnemyState state) { _nowState = state; }
 
 private:
 	CharacterData _enemyUnit;
+	// 現在のステート
+	EnemyState _nowState;
 };

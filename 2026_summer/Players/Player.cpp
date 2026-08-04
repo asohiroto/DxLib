@@ -23,7 +23,7 @@ namespace
 	constexpr float ROTATE_SPEED = 0.03f;
 	// 入力値の補正用
 	constexpr float INPUT_COR = 0.001f;
-
+	// 魔法を撃つ位置を右側に補正する
 	constexpr float SHOT_RIGHT_OFFSET = 150.0f;
 }
 
@@ -49,7 +49,8 @@ void Player::Init()
 	_playerUnit.radius = RADIUS;
 	_playerUnit.isHit = false;
 	_playerUnit.color = 0xff0000;
-	_playerUnit.state = Move;
+
+	_nowState = PlayerState::Move;
 
 	// 安全策
 	assert(_playerUnit.modelH != -1);

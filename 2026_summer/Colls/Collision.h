@@ -18,7 +18,7 @@ public:
 
 private:
 	// キャラクター同士の当たり判定
-	bool CharacterHitCheck(Character::CharacterData player, Character::CharacterData enemy);
+	bool CharacterHitCheck(const Character::CharacterData& player, const Character::CharacterData& enemy);
 	// キャラクター同士が当たった瞬間の取得
 	bool IsTouch() { return (_isTouchNow && !_isTouchLast); }
 	// キャラクター同士が当たっている時の取得

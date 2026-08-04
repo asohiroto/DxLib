@@ -25,7 +25,7 @@ namespace
 	// カメラの高さ
 	constexpr float LOCKON_HEIGHT = 350.0f;
 	// カメラの垂直方向の角度
-	constexpr float CAMERA_PITCH = -0.5f;
+	constexpr float CAMERA_PITCH = -0.8f;
 	// 注視点までの距離
 	constexpr float TARGET_DISTANCE = 1500.0f;
 }

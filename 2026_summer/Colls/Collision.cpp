@@ -57,7 +57,7 @@ void Collision::Draw()
 {
 }
 
-bool Collision::CharacterHitCheck(Character::CharacterData player, Character::CharacterData enemy)
+bool Collision::CharacterHitCheck(const Character::CharacterData& player, const Character::CharacterData& enemy)
 {
 	// 線分間の距離を取る
 	float distance = Segment_Segment_MinLength(player.segmentStPos, player.segmentEndPos, enemy.segmentStPos, enemy.segmentEndPos);

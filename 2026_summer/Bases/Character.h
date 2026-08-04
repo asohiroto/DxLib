@@ -21,8 +21,6 @@ public:
 		bool isHit;
 		// 当たり判定の色
 		int color;
-		// 状態
-		int state;
 	};
 
 public:

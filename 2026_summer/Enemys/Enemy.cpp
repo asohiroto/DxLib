@@ -27,7 +27,7 @@ void Enemy::Init()
 	_enemyUnit.modelH = MV1LoadModel("data/Model_army.mv1");
 	_enemyUnit.radius = RADIUS;
 	_enemyUnit.color = 0xff0000;
-	_enemyUnit.state = Chase;
+	_nowState = Chase;
 
 	// モデルを拡大
 	MV1SetScale(_enemyUnit.modelH, VGet(3.0f, 3.0f, 3.0f));

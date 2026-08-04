@@ -59,7 +59,7 @@ void MagicCollision::Draw()
 {
 }
 
-int MagicCollision::PlayerHitCheck(Character::CharacterData player, MagicList enemyList)
+int MagicCollision::PlayerHitCheck(const Character::CharacterData& player, const MagicList& enemyList)
 {
 	// 敵が撃った魔法全てで順に計算
 	for (int i = 0; i < enemyList.size(); i++)
@@ -82,7 +82,7 @@ int MagicCollision::PlayerHitCheck(Character::CharacterData player, MagicList en
 	return -1;
 }
 
-int MagicCollision::EnemyHitCheck(Character::CharacterData enemy, MagicList playerList)
+int MagicCollision::EnemyHitCheck(const Character::CharacterData& enemy, const MagicList& playerList)
 {
 
 	for (int i = 0; i < playerList.size(); i++)

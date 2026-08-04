@@ -23,9 +23,9 @@ public:
 
 private:
 	// プレイヤーに何番目の敵の魔法が当たったか
-	int PlayerHitCheck(Character::CharacterData player, MagicList enemyList);
+	int PlayerHitCheck(const Character::CharacterData& player, const MagicList& enemyList);
 	// 敵に何番目のプレイヤーの魔法が当たったか
-	int EnemyHitCheck(Character::CharacterData enemy, MagicList playerList);
+	int EnemyHitCheck(const Character::CharacterData& enemy, const MagicList& playerList);
 	// プレイヤーに当たった瞬間を取得
 	bool IsPlayerHit() { return (_isPlayerHit && !_wasPlayerHit); }
 	// 敵に当たった瞬間を取得
