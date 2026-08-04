@@ -11,9 +11,9 @@ namespace
 	// 最大移動距離
 	constexpr float DISTANCE_MAX = 900.0f;
 	// 生成位置の補正用
-	constexpr float POSITION_COR = 50.0f;
+	constexpr float POSITION_OFFSET = 50.0f;
 	// 生成高さの補正用
-	constexpr float HEIGHT_COR = 250.0f;
+	constexpr float HEIGHT_OFFSET = 300.0f;
 }
 
 MagicShot::MagicShot() :
@@ -51,8 +51,8 @@ void MagicShot::Draw()
 
 void MagicShot::GenerateShot(VECTOR pos, VECTOR front, bool isEnemy, std::shared_ptr<MagicManager> pManager)
 {
-	VECTOR tempPos = VAdd(pos, VScale(VNorm(front), POSITION_COR));
-	tempPos.y += HEIGHT_COR;
+	VECTOR tempPos = VAdd(pos, VScale(VNorm(front), POSITION_OFFSET));
+	tempPos.y += HEIGHT_OFFSET;
 	_magicShot.pos = tempPos;
 	_magicShot.isExist = true;
 	_magicShot.isEnemy = isEnemy;

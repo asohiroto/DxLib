@@ -19,7 +19,7 @@ public:
 	// カメラの水平方向の角度のゲッター
 	float GetCameraYaw() const { return _cameraYaw; }
 	// 通常のカメラ
-	void NormalCam(int rx, int ry, std::shared_ptr<Player> pPlayer);
+	void NormalCam(std::shared_ptr<Player> pPlayer);
 	// ロックオン時のカメラ
 	void LockOnCam(std::shared_ptr<Player>pPlayer, std::shared_ptr<Enemy>pEnemy);
 	// カメラモードのゲッター

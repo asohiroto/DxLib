@@ -13,7 +13,7 @@ namespace
 	// 注視点の補正
 	constexpr float TARGET_HEIGHT = 50.0f;
 	// プレイヤーまでの距離
-	constexpr float DISTANCE = 500.0f;
+	constexpr float DISTANCE = 750.0f;
 	// 水平方向の回転速度
 	constexpr float YAW_SPEED = 0.03f;
 	// 線形補間度
@@ -21,13 +21,13 @@ namespace
 	// 入力値変換用の値
 	constexpr float INPUT_OFFSET = 0.001f;
 	// 横方向の補正値
-	constexpr float RIGHT_OFFSET = 500.0f;
+	constexpr float RIGHT_OFFSET = 350.0f;
 	// カメラの高さ
 	constexpr float LOCKON_HEIGHT = 350.0f;
 	// カメラの垂直方向の角度
 	constexpr float CAMERA_PITCH = -0.5f;
 	// 注視点までの距離
-	constexpr float TARGET_DISTANCE = 1000.0f;
+	constexpr float TARGET_DISTANCE = 1500.0f;
 }
 
 Camera::Camera() :
@@ -64,7 +64,7 @@ void Camera::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Enemy>pEnem
 		_cameraMode = !_cameraMode;
 
 	if (_cameraMode)
-		NormalCam(rx, ry, pPlayer);
+		NormalCam(pPlayer);
 	else
 		LockOnCam(pPlayer, pEnemy);
 
@@ -78,31 +78,35 @@ void Camera::Draw()
 	SetCameraPositionAndTargetAndUpVec(_cameraPos, _targetPos, VGet(0.0f, 1.0f, 0.0f));
 }
 
-void Camera::NormalCam(int rx, int ry, std::shared_ptr<Player> pPlayer)
+void Camera::NormalCam(std::shared_ptr<Player> pPlayer)
 {
-	_screenCenterY = HEIGHT * 5 / 6;
+	_screenCenterY = HEIGHT * 3 / 4;
 
-	// カメラをプレイヤーが向いている方に回転
-	_cameraYaw = pPlayer->GetPlayerAngle();
+	if (pPlayer == nullptr) return;
 
-	// 表示用の回転角度に線形補間をかける
-	_dispCameraYaw += (_cameraYaw - _dispCameraYaw) * LERP_RATE;
+	// GetPlayerAngle()はモデル表示用に+DX_PI_Fされた角度なので、補正を外して実際の向きに戻す
+	_cameraYaw = pPlayer->GetPlayerAngle() - DX_PI_F;
 
-	float sinYaw = std::sinf(_dispCameraYaw);
-	float cosYaw = std::cosf(_dispCameraYaw);
+	float sinYaw = std::sinf(_cameraYaw);
+	float cosYaw = std::cosf(_cameraYaw);
 
-	VECTOR offset = VGet(0.0f, 0.0f, 0.0f);
-	offset.x = DISTANCE * std::cosf(CAMERA_PITCH) * sinYaw;
-	offset.y = DISTANCE * -std::sinf(CAMERA_PITCH);
-	offset.z = DISTANCE * std::cosf(CAMERA_PITCH) * cosYaw;
-
+	// プレイヤーの正面方向と右方向
+	VECTOR front = VGet(sinYaw, 0.0f, cosYaw);
 	VECTOR right = VGet(cosYaw, 0.0f, -sinYaw);
 
-	offset = VAdd(offset, VScale(right, RIGHT_OFFSET));
+	// カメラの目標位置:プレイヤーの後ろ+右+高さ
+	VECTOR targetCamPos = pPlayer->GetPos();
+	targetCamPos = VAdd(targetCamPos, VScale(front, -DISTANCE * std::cosf(CAMERA_PITCH)));
+	targetCamPos = VAdd(targetCamPos, VScale(right, RIGHT_OFFSET));
+	targetCamPos.y += DISTANCE * -std::sinf(CAMERA_PITCH);
 
-	_targetPos = VAdd(pPlayer->GetPos(), VScale(right, RIGHT_OFFSET));
+	// 注視点:プレイヤーの正面方向の先
+	VECTOR targetLookPos = VAdd(pPlayer->GetPos(), VScale(front, TARGET_DISTANCE));
+	targetLookPos.y += TARGET_HEIGHT;
 
-	_cameraPos = offset;
+	// LockOnCamと同じ方式で位置に線形補間をかける
+	_cameraPos = VAdd(_cameraPos, VScale(VSub(targetCamPos, _cameraPos), LERP_RATE));
+	_targetPos = VAdd(_targetPos, VScale(VSub(targetLookPos, _targetPos), LERP_RATE));
 }
 
 void Camera::LockOnCam(std::shared_ptr<Player>pPlayer, std::shared_ptr<Enemy>pEnemy)
