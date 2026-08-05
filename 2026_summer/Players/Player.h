@@ -7,6 +7,7 @@ class Input;
 class PlayerMove;
 class Camera;
 class MagicShot;
+class MagicMissile;
 class MagicManager;
 
 class Player :
@@ -51,6 +52,8 @@ private:
 	float _angle;
 	// マジックショットの共有ポインタ
 	std::shared_ptr<MagicShot> p_Shot;
+	// マジックミサイルの共有ポインタ
+	std::shared_ptr<MagicMissile> p_Missile;
 	// プレイヤーの正面ベクトル
 	VECTOR _frontVec;
 	// 現在のステート

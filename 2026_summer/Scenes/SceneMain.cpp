@@ -63,7 +63,7 @@ void SceneMain::Update()
 	p_Input->Update();
 	p_Enemy->Update();
 	p_Coll->Update(p_Player, p_Enemy);
-	p_MManager->Update();
+	p_MManager->Update(p_Player->GetPos(), p_Enemy->GetPos());
 	p_MColl->Update(p_Player, p_Enemy, p_MManager->GetPlayerList(), p_MManager->GetEnemyList());
 	p_MManager->RemoveList();
 	//p_UI->Update();

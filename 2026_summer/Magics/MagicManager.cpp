@@ -19,18 +19,28 @@ void MagicManager::End()
 {
 }
 
-void MagicManager::Update()
+void MagicManager::Update(VECTOR playerPos, VECTOR enemyPos)
 {
 	for (int i = 0; i < _playerMagics.size(); i++)
 	{
 		if (_playerMagics[i].isExist)
-			p_MagicMove->ShotMove(_playerMagics[i]);
+		{
+			if (_playerMagics[i].type == MagicBase::MagicType::MagicShot)
+				p_MagicMove->ShotMove(_playerMagics[i]);
+			else if (_playerMagics[i].type == MagicBase::MagicType::MagicMissile)
+				p_MagicMove->MissileMove(_playerMagics[i], enemyPos);
+		}
 	}
 
 	for (int i = 0; i < _enemyMagics.size(); i++)
 	{
 		if (_enemyMagics[i].isExist)
-			p_MagicMove->ShotMove(_enemyMagics[i]);
+		{
+			if (_enemyMagics[i].type == MagicBase::MagicType::MagicShot)
+				p_MagicMove->ShotMove(_enemyMagics[i]);
+			else if (_enemyMagics[i].type == MagicBase::MagicType::MagicMissile)
+				p_MagicMove->MissileMove(_enemyMagics[i], playerPos);
+		}
 	}
 }
 
@@ -50,8 +60,7 @@ void MagicManager::DrawPlayerMagic()
 {
 	for (int i = 0; i < _playerMagics.size(); i++)
 	{
-		if (_playerMagics[i].isExist)
-			DrawSphere3D(_playerMagics[i].pos, _playerMagics[i].radius, 16, 0xffffff, 0xffffff, true);
+		DrawMagic(_playerMagics[i]);
 	}
 }
 
@@ -59,8 +68,7 @@ void MagicManager::DrawEnemyMagic()
 {
 	for (int i = 0; i < _enemyMagics.size(); i++)
 	{
-		if (_enemyMagics[i].isExist)
-			DrawSphere3D(_enemyMagics[i].pos, _enemyMagics[i].radius, 16, 0xffffff, 0xffffff, true);
+		DrawMagic(_enemyMagics[i]);
 	}
 }
 
@@ -68,4 +76,10 @@ void MagicManager::RemoveList()
 {
 	std::erase_if(_playerMagics, [](const MagicBase::MagicData& data) {return !data.isExist; });
 	std::erase_if(_enemyMagics, [](const MagicBase::MagicData& data) {return !data.isExist; });
+}
+
+void MagicManager::DrawMagic(MagicBase::MagicData data)
+{
+	if (data.isExist)
+		DrawSphere3D(data.pos, data.radius, 16, data.color, data.color, true);
 }

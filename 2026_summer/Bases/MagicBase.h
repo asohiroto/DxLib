@@ -31,6 +31,8 @@ public:
 		VECTOR moveDirection;
 		// 移動距離
 		float movedDistance;
+		// 当たり判定描画用の色設定
+		int color;
 	};
 
 public:

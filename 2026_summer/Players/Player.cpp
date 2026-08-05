@@ -3,6 +3,7 @@
 #include "PlayerMove.h"
 #include "Cameras/Camera.h"
 #include "Magics/MagicShot.h"
+#include "Magics/MagicMissile.h"
 #include <DxLib.h>
 #include <cassert>
 #include <algorithm>
@@ -32,7 +33,9 @@ Player::Player() :
 	p_Move(nullptr),
 	_angle(0.0f),
 	p_Shot(nullptr),
-	_frontVec(VGet(0.0f, 0.0f, 0.0f))
+	p_Missile(nullptr),
+	_frontVec(VGet(0.0f, 0.0f, 0.0f)),
+	_nowState(PlayerState::Move)
 {
 }
 
@@ -61,9 +64,10 @@ void Player::Init()
 	// 各ポインタの初期化
 	p_Move = std::make_shared<PlayerMove>();
 	p_Move->Init();
-
 	p_Shot = std::make_shared<MagicShot>();
 	p_Shot->Init();
+	p_Missile = std::make_shared<MagicMissile>();
+	p_Missile->Init();
 }
 
 void Player::End()
@@ -114,9 +118,13 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 
 	VECTOR shotPos = VAdd(_playerUnit.pos, VScale(right, SHOT_RIGHT_OFFSET));
 
-	// マジックショットが存在せず、Aが押されたらマジックショットを生成
+	// Aが押されたらマジックショットを生成
 	if (pInput->IsTrigger(PAD_INPUT_A))
 		p_Shot->GenerateShot(shotPos, _frontVec, false, pManager);
+
+	// Bが押されたらマジックミサイルを生成
+	if (pInput->IsTrigger(PAD_INPUT_B))
+		p_Missile->GenerateMissile(shotPos, _frontVec, false, pManager);
 }
 
 void Player::Draw()

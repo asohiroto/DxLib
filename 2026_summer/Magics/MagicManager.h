@@ -17,8 +17,9 @@ public:
 	virtual ~MagicManager();
 	void Init();
 	void End();
-	void Update();
+	void Update(VECTOR playerPos, VECTOR enemyPos);
 	void Draw();
+
 	// リストに魔法を登録する関数
 	void EntryList(MagicBase::MagicData data);
 	// プレイヤーの使用した魔法のゲッター
@@ -31,6 +32,8 @@ public:
 	void DrawEnemyMagic();
 	// リストから条件を満たした魔法を消す関数
 	void RemoveList();
+	// 魔法を描画する
+	void DrawMagic(MagicBase::MagicData data);
 
 private:
 	// プレイヤーが使用した魔法のリスト
