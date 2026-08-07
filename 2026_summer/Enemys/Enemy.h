@@ -7,7 +7,7 @@ public:
 	enum EnemyState
 	{
 		// プレイヤーとの距離を調整
-		Chase,
+		Move,
 		// 攻撃（後に追加）
 		Attack,
 		// 被弾硬直

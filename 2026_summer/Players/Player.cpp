@@ -17,9 +17,9 @@ namespace
 	// 線分を高く補正する
 	constexpr float SEGMENT_HEIGHT_COR = 100.0f;
 	// X軸方向の移動制限
-	constexpr float POS_LIMIT_X = 1000.0f;
+	constexpr float POS_LIMIT_X = 3000.0f;
 	// Z軸方向の移動制限
-	constexpr float POS_LIMIT_Z = 1000.0f;
+	constexpr float POS_LIMIT_Z = 3000.0f;
 	// モデルの回転速度
 	constexpr float ROTATE_SPEED = 0.03f;
 	// 入力値の補正用

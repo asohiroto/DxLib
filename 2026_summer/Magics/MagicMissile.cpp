@@ -6,7 +6,7 @@ namespace
 	// 当たり判定の半径
 	constexpr float RADIUS = 50.0f;
 	// 進む速さ
-	constexpr float SPEED = 30.0f;
+	constexpr float FIRST_SPEED = 75.0f;
 	// 最大移動距離
 	constexpr float DISTANCE_MAX = 900.0f;
 	// 生成位置の補正用
@@ -30,11 +30,12 @@ void MagicMissile::Init()
 	// 初期設定
 	_magicMissile.pos = VGet(0.0f, 0.0f, 0.0f);
 	_magicMissile.radius = RADIUS;
-	_magicMissile.speed = SPEED;
+	_magicMissile.speed = FIRST_SPEED;
 	_magicMissile.type = MagicType::MagicMissile;
 	_magicMissile.isExist = false;
 	_magicMissile.isEnemy = false;
 	_magicMissile.color = 0xff0000;
+	_magicMissile.isInit = true;
 }
 
 void MagicMissile::End()

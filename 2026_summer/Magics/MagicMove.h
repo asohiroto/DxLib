@@ -16,4 +16,5 @@ public:
 	void ShotMove(MagicBase::MagicData& data);
 	// マジックミサイルの挙動
 	void MissileMove(MagicBase::MagicData& data, VECTOR targetPos);
+
 };

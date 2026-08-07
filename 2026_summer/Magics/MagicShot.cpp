@@ -35,6 +35,7 @@ void MagicShot::Init()
 	_magicShot.isExist = false;
 	_magicShot.isEnemy = false;
 	_magicShot.color = 0xffffff;
+	_magicShot.isInit = true;
 }
 
 void MagicShot::End()

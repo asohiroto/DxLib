@@ -13,7 +13,7 @@ namespace
 	// 床に描画するグリッドのサイズ
 	constexpr float GRID_SIZE = 100;
 	// 床に描画するグリッドの数
-	constexpr float GRID_NUM = 20;
+	constexpr float GRID_NUM = 60;
 }
 
 SceneMain::SceneMain() :
