@@ -33,8 +33,8 @@ public:
 		float movedDistance;
 		// 当たり判定描画用の色設定
 		int color;
-		// 初期処理
-		bool isInit;
+		// 初速度
+		VECTOR velo;
 	};
 
 public:

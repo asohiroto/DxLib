@@ -35,7 +35,7 @@ void MagicMissile::Init()
 	_magicMissile.isExist = false;
 	_magicMissile.isEnemy = false;
 	_magicMissile.color = 0xff0000;
-	_magicMissile.isInit = true;
+	_magicMissile.velo = VGet(0.0f, 0.0f, 0.0f);
 }
 
 void MagicMissile::End()
@@ -58,6 +58,7 @@ void MagicMissile::GenerateMissile(VECTOR pos, VECTOR front, bool isEnemy, std::
 	_magicMissile.isExist = true;
 	_magicMissile.isEnemy = isEnemy;
 	_magicMissile.moveDirection = VNorm(front);
+	_magicMissile.velo = VScale(_magicMissile.moveDirection, _magicMissile.speed);
 
 	pManager->EntryList(_magicMissile);
 }
