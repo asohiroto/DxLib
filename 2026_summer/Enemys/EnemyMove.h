@@ -14,13 +14,17 @@ public:
 	void Update(VECTOR playerPos, std::shared_ptr<Enemy> pEnemy);
 	void Draw();
 	// 近づく
-	void Approach();
+	void Approach(std::shared_ptr<Enemy> pEnemy);
 	// 離れる
-	void MoveAway();
+	void MoveAway(std::shared_ptr<Enemy> pEnemy);
 	// 左右移動
-	void MoveLR();
+	void MoveLR(std::shared_ptr<Enemy> pEnemy);
+	// 距離と方向を計算する
+	void CalDistDir(VECTOR playerPos, std::shared_ptr<Enemy> pEnemy);
 
 private:
 	// プレイヤーまでの距離
 	float _toPlayerDistance;
+	// プレイヤーのいる方向
+	VECTOR _toPlayerDir;
 };
