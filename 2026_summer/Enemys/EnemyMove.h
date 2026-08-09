@@ -27,4 +27,8 @@ private:
 	float _toPlayerDistance;
 	// プレイヤーのいる方向
 	VECTOR _toPlayerDir;
+	// 遠すぎる
+	bool _tooAway;
+	// 近すぎる
+	bool _tooNear;
 };

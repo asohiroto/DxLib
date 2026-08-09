@@ -6,6 +6,7 @@ class Player;
 class Camera;
 class Input;
 class Enemy;
+class EnemyManager;
 class Collision;
 class MagicManager;
 class MagicCollision;
@@ -33,6 +34,8 @@ private:
 	std::shared_ptr<Input> p_Input;
 	// エネミークラスの共有ポインタ
 	std::shared_ptr<Enemy> p_Enemy;
+	// エネミー管理クラスの共有ポインタ
+	std::shared_ptr<EnemyManager> p_EManager;
 	// コリジョンクラスの共有ポインタ
 	std::shared_ptr<Collision> p_Coll;
 	// 魔法管理クラスの共有ポインタ

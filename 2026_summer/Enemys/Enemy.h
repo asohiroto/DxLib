@@ -31,8 +31,12 @@ public:
 	void SetColor(int col) { _enemyUnit.color = col; }
 	// 敵座標のゲッター
 	VECTOR GetPos() const { return _enemyUnit.pos; }
+	// ステートのゲッター
+	EnemyState GetState() const { return _nowState; }
 	// ステートを変更
 	void ChangeState(EnemyState state) { _nowState = state; }
+	// 座標のセッター
+	void SetPos(VECTOR pos) { _enemyUnit.pos = pos; }
 
 private:
 	CharacterData _enemyUnit;

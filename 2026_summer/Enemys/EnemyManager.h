@@ -1,6 +1,9 @@
 ﻿#pragma once
-#include "Bases/Character.h"
-#include "Enemy.h"
+#include <DxLib.h>
+#include <memory>
+
+class Enemy;
+class EnemyMove;
 
 class EnemyManager
 {
@@ -9,12 +12,11 @@ public:
 	virtual ~EnemyManager();
 	void Init();
 	void End();
-	void Update();
+	void Update(std::shared_ptr<Enemy> pEnemy, VECTOR playerPos);
 	void Draw();
 
 private:
-	// 敵クラスのポインタ
-	std::shared_ptr<Enemy> p_Enemy;
-	// 敵
-	Character::CharacterData _enemy;
+
+	// エネミーの移動状態時処理
+	std::shared_ptr<EnemyMove> p_Move;
 };
