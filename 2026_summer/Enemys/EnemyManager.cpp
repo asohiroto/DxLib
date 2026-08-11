@@ -42,5 +42,16 @@ void EnemyManager::Update(VECTOR playerPos)
 
 void EnemyManager::Draw()
 {
+	p_Enemy->Draw();
+}
+
+VECTOR EnemyManager::GetEnemyPos() const
+{
+	return 	p_Enemy->GetPos();
+}
+
+std::shared_ptr<Enemy> EnemyManager::GetEnemyPointer() const
+{
+	return p_Enemy;
 }
 

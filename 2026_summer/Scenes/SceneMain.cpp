@@ -2,7 +2,7 @@
 #include "Players/Player.h"
 #include "Cameras/Camera.h"
 #include "Inputs/Input.h"
-#include "Enemys/Enemy.h"
+#include "Enemys/EnemyManager.h"
 #include "Colls/Collision.h"
 #include "Magics/MagicManager.h"
 #include "Colls/MagicCollision.h"
@@ -20,7 +20,8 @@ SceneMain::SceneMain() :
 	p_Player(nullptr),
 	p_Camera(nullptr),
 	p_Input(nullptr),
-	p_Enemy(nullptr),
+	//p_Enemy(nullptr),
+	p_EManager(nullptr),
 	p_Coll(nullptr),
 	p_MManager(nullptr),
 	p_MColl(nullptr),
@@ -37,7 +38,8 @@ void SceneMain::Init()
 	p_Player = std::make_shared<Player>();
 	p_Camera = std::make_shared<Camera>();
 	p_Input = std::make_shared<Input>();
-	p_Enemy = std::make_shared<Enemy>();
+	//p_Enemy = std::make_shared<Enemy>();
+	p_EManager = std::make_shared<EnemyManager>();
 	p_Coll = std::make_shared<Collision>();
 	p_MManager = std::make_shared<MagicManager>();
 	p_MColl = std::make_shared<MagicCollision>();
@@ -46,7 +48,8 @@ void SceneMain::Init()
 	p_Player->Init();
 	p_Camera->Init();
 	p_Input->Init();
-	p_Enemy->Init();
+	//p_Enemy->Init();
+	p_EManager->Init();
 	p_MManager->Init();
 	p_UI->Init();
 }
@@ -59,12 +62,13 @@ void SceneMain::End()
 void SceneMain::Update()
 {
 	p_Player->Update(p_Input, p_Camera, p_MManager);
-	p_Camera->Update(p_Player, p_Enemy, p_Input);
+	p_Camera->Update(p_Player, p_EManager->GetEnemyPointer(), p_Input);
 	p_Input->Update();
-	p_Enemy->Update();
-	p_Coll->Update(p_Player, p_Enemy);
-	p_MManager->Update(p_Player->GetPos(), p_Enemy->GetPos());
-	p_MColl->Update(p_Player, p_Enemy, p_MManager->GetPlayerList(), p_MManager->GetEnemyList());
+	//p_Enemy->Update();
+	p_EManager->Update(p_Player->GetPos());
+	p_Coll->Update(p_Player, p_EManager->GetEnemyPointer());
+	p_MManager->Update(p_Player->GetPos(), p_EManager->GetEnemyPos());
+	p_MColl->Update(p_Player, p_EManager->GetEnemyPointer(), p_MManager->GetPlayerList(), p_MManager->GetEnemyList());
 	p_MManager->RemoveList();
 	//p_UI->Update();
 }
@@ -74,7 +78,7 @@ void SceneMain::Draw()
 	p_Player->Draw();
 	p_Camera->Draw();
 	p_Input->Draw();
-	p_Enemy->Draw();
+	p_EManager->Draw();
 	p_MManager->Draw();
 	//p_UI->Draw();
 

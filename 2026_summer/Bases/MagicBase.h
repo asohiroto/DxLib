@@ -35,6 +35,12 @@ public:
 		int color;
 		// 初速度
 		VECTOR velo;
+		// 幅
+		float width;
+		// 高さ
+		float height;
+		// 奥行き
+		float depth;
 	};
 
 public:

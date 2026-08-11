@@ -32,8 +32,8 @@ private:
 	std::shared_ptr<Camera> p_Camera;
 	// インプットクラスの共有ポインタ
 	std::shared_ptr<Input> p_Input;
-	// エネミークラスの共有ポインタ
-	std::shared_ptr<Enemy> p_Enemy;
+	//// エネミークラスの共有ポインタ
+	//std::shared_ptr<Enemy> p_Enemy;
 	// エネミー管理クラスの共有ポインタ
 	std::shared_ptr<EnemyManager> p_EManager;
 	// コリジョンクラスの共有ポインタ

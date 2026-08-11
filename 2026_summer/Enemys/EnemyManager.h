@@ -12,11 +12,16 @@ public:
 	virtual ~EnemyManager();
 	void Init();
 	void End();
-	void Update(std::shared_ptr<Enemy> pEnemy, VECTOR playerPos);
+	void Update(VECTOR playerPos);
 	void Draw();
+	// 座標のゲッター
+	VECTOR GetEnemyPos() const;
+	// エネミーのポインタを渡す
+	std::shared_ptr<Enemy> GetEnemyPointer() const;
 
 private:
-
+	// エネミーの共有ポインタ
+	std::shared_ptr<Enemy> p_Enemy;
 	// エネミーの移動状態時処理
 	std::shared_ptr<EnemyMove> p_Move;
 };
