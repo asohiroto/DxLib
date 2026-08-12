@@ -25,8 +25,8 @@ public:
 
 	// エネミーデータのゲッター
 	CharacterData GetEnemyData() const { return _enemyUnit; }
-	// 当たった処理
-	void SetHit(bool judge) { _enemyUnit.isHit = judge; }
+	// 当たった瞬間の処理
+	void SetHit();
 	// 当たり判定の色を変更
 	void SetColor(int col) { _enemyUnit.color = col; }
 	// 敵座標のゲッター
@@ -42,4 +42,6 @@ private:
 	CharacterData _enemyUnit;
 	// 現在のステート
 	EnemyState _nowState;
+	// やられのカウンタ
+	int _damagedCount;
 };

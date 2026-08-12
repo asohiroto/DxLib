@@ -9,7 +9,9 @@ namespace
 	// 目標位置の高さ補正用
 	constexpr float HEIGHT_OFFSET = 300.0f;
 	// 加速度
-	constexpr float ACCEL_RATE = 15.0f;
+	constexpr float ACCEL_RATE = 25.0f;
+	// 加速度の補正
+	constexpr float ACCEL_OFFSET = 500.0f;
 }
 
 MagicMove::MagicMove()
@@ -52,9 +54,13 @@ void MagicMove::ShotMove(MagicBase::MagicData& data)
 
 void MagicMove::MissileMove(MagicBase::MagicData& data, VECTOR targetPos)
 {
-	VECTOR toTarget = VNorm(VSub(VGet(targetPos.x, HEIGHT_OFFSET, targetPos.z), data.pos));
+	VECTOR toTarget = VSub(VGet(targetPos.x, HEIGHT_OFFSET, targetPos.z), data.pos);
+	VECTOR toTargetDir = VNorm(toTarget);
+	float toTargetDist = VSize(toTarget);
 
-	data.velo = VAdd(data.velo, VScale(toTarget, ACCEL_RATE));
+	float rate = ACCEL_OFFSET / toTargetDist;
+
+	data.velo = VAdd(data.velo, VScale(toTargetDir, ACCEL_RATE * rate));
 
 	// 座標を更新	
 	data.pos = VAdd(data.pos, data.velo);

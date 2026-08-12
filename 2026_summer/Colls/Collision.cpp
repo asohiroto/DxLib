@@ -31,9 +31,6 @@ void Collision::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Enemy> p
 
 	if (IsTouch())
 	{
-		if (player.isHit == false)pPlayer->SetHit(true);
-		if (enemy.isHit == false)pEnemy->SetHit(true);
-
 		pPlayer->SetColor(0x00ffff);
 		pEnemy->SetColor(0x00ffff);
 	}
@@ -45,9 +42,6 @@ void Collision::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Enemy> p
 
 	if (IsSeparate())
 	{
-		if (player.isHit == true)pPlayer->SetHit(false);
-		if (enemy.isHit == true)pEnemy->SetHit(false);
-
 		pPlayer->SetColor(0xff0000);
 		pEnemy->SetColor(0xff0000);
 	}

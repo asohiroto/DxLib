@@ -163,6 +163,7 @@
     <ClCompile Include="Magics\MagicWall.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Players\Player.cpp" />
+    <ClCompile Include="Players\PlayerDodge.cpp" />
     <ClCompile Include="Players\PlayerMove.cpp" />
     <ClCompile Include="Scenes\SceneMain.cpp" />
     <ClCompile Include="Scenes\SceneManager.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="Magics\MagicShot.h" />
     <ClInclude Include="Magics\MagicWall.h" />
     <ClInclude Include="Players\Player.h" />
+    <ClInclude Include="Players\PlayerDodge.h" />
     <ClInclude Include="Players\PlayerMove.h" />
     <ClInclude Include="Bases\SceneBase.h" />
     <ClInclude Include="Scenes\SceneMain.h" />

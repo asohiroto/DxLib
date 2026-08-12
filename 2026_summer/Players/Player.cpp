@@ -1,6 +1,7 @@
 ﻿#include "Player.h"
 #include "Inputs/Input.h"
 #include "PlayerMove.h"
+#include "PlayerDodge.h"
 #include "Cameras/Camera.h"
 #include "Magics/MagicShot.h"
 #include "Magics/MagicMissile.h"
@@ -31,6 +32,7 @@ namespace
 Player::Player() :
 	_playerUnit(),
 	p_Move(nullptr),
+	p_Dodge(nullptr),
 	_angle(0.0f),
 	p_Shot(nullptr),
 	p_Missile(nullptr),
@@ -64,6 +66,8 @@ void Player::Init()
 	// 各ポインタの初期化
 	p_Move = std::make_shared<PlayerMove>();
 	p_Move->Init();
+	p_Dodge = std::make_shared<PlayerDodge>();
+	p_Dodge->Init();
 	p_Shot = std::make_shared<MagicShot>();
 	p_Shot->Init();
 	p_Missile = std::make_shared<MagicMissile>();
@@ -72,17 +76,22 @@ void Player::Init()
 
 void Player::End()
 {
+	MV1DeleteModel(_playerUnit.modelH);
 }
 
 void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCamera, std::shared_ptr<MagicManager> pManager)
 {
 	int rx = pInput->GetRightStickX();
+	// 埋まり防止用
+	if (_playerUnit.pos.y <= 0.0f) _playerUnit.pos.y = 0.0f;
 
 	// プレイヤーの挙動の更新
 	p_Move->Update(pInput, pCamera->GetCameraYaw());
+	p_Dodge->Update(pInput, pCamera->GetCameraYaw());
 
 	// プレイヤー座標の更新
 	_playerUnit.pos = VAdd(_playerUnit.pos, p_Move->GetMovement());
+	_playerUnit.pos = VAdd(_playerUnit.pos, p_Dodge->GetDodgePos());
 
 	// 移動制限
 	_playerUnit.pos.x = std::clamp(_playerUnit.pos.x, -POS_LIMIT_X, POS_LIMIT_X);

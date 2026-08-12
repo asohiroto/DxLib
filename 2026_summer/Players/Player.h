@@ -5,6 +5,7 @@
 
 class Input;
 class PlayerMove;
+class PlayerDodge;
 class Camera;
 class MagicShot;
 class MagicMissile;
@@ -48,6 +49,8 @@ private:
 	CharacterData _playerUnit;
 	// 移動用クラスの共有ポインタ
 	std::shared_ptr<PlayerMove> p_Move;
+	// 回避用クラスの共有ポインタ
+	std::shared_ptr<PlayerDodge> p_Dodge;
 	// モデルを向ける角度　DX_PI_Fで補正
 	float _angle;
 	// マジックショットの共有ポインタ

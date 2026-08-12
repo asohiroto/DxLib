@@ -8,11 +8,18 @@ namespace
 	constexpr float SEGMENT_LENGTH = 270.0f;
 	// 線分を高く補正する
 	constexpr float SEGMENT_HEIGHT_COR = 100.0f;
+	// やられフレーム数
+	constexpr int DAMAGED_FRAME = 10;
+	// 【デバッグ用】当たったときの当たり判定の色
+	constexpr int DAMAGED_COLOR = 0x00ff00;
+	// 【デバッグ用】通常の当たり判定の色
+	constexpr int NORM_COLOR = 0xff0000;
 }
 
 Enemy::Enemy() :
 	_enemyUnit(),
-	_nowState(EnemyState::Move)
+	_nowState(EnemyState::Move),
+	_damagedCount(0)
 {
 }
 
@@ -27,7 +34,8 @@ void Enemy::Init()
 	_enemyUnit.pos = VGet(0.0f, 0.0f, 0.0f);
 	_enemyUnit.modelH = MV1LoadModel("data/Model_army.mv1");
 	_enemyUnit.radius = RADIUS;
-	_enemyUnit.color = 0xff0000;
+	_enemyUnit.color = NORM_COLOR;
+	_enemyUnit.isHit = false;
 	_nowState = Move;
 
 	// モデルを拡大
@@ -36,6 +44,7 @@ void Enemy::Init()
 
 void Enemy::End()
 {
+	DeleteGraph(_enemyUnit.modelH);
 }
 
 void Enemy::Update(float angle)
@@ -43,6 +52,24 @@ void Enemy::Update(float angle)
 	// 【当たり判定用】線分の始点と終点を設定
 	_enemyUnit.segmentStPos = VGet(_enemyUnit.pos.x, SEGMENT_HEIGHT_COR, _enemyUnit.pos.z);
 	_enemyUnit.segmentEndPos = VGet(_enemyUnit.pos.x, SEGMENT_HEIGHT_COR + SEGMENT_LENGTH, _enemyUnit.pos.z);
+
+	_damagedCount++;
+
+	// 埋まり防止用
+	if (_enemyUnit.pos.y <= 0.0f) _enemyUnit.pos.y = 0.0f;
+
+	if (_enemyUnit.isHit)
+	{
+		if (_damagedCount <= DAMAGED_FRAME)
+		{
+			_enemyUnit.color = DAMAGED_COLOR;
+		}
+		else if (_damagedCount > DAMAGED_FRAME)
+		{
+			_enemyUnit.color = NORM_COLOR;
+			_enemyUnit.isHit = false;
+		}
+	}
 
 	MV1SetRotationXYZ(_enemyUnit.modelH, VGet(0.0f, angle, 0.0f));
 }
@@ -54,4 +81,13 @@ void Enemy::Draw()
 #ifdef _DEBUG
 	DrawHitBox(_enemyUnit);
 #endif
+}
+
+void Enemy::SetHit()
+{
+	if (!_enemyUnit.isHit)
+	{
+		_enemyUnit.isHit = true;
+		_damagedCount = 0;
+	}
 }
