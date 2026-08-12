@@ -20,7 +20,7 @@ public:
 	virtual ~Enemy() override;
 	void Init() override;
 	void End() override;
-	void Update() override;
+	void Update(float angle);
 	void Draw() override;
 
 	// エネミーデータのゲッター

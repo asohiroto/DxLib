@@ -23,6 +23,8 @@ public:
 	void MoveRight(std::shared_ptr<Enemy> pEnemy);
 	// 距離と方向を計算する
 	void CalDistDir(VECTOR playerPos, std::shared_ptr<Enemy> pEnemy);
+	// プレイヤー方向のゲッター
+	VECTOR GetDir() const { return _toPlayerDir; }
 
 private:
 	// プレイヤーまでの距離

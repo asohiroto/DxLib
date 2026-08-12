@@ -38,12 +38,13 @@ void Enemy::End()
 {
 }
 
-void Enemy::Update()
+void Enemy::Update(float angle)
 {
 	// 【当たり判定用】線分の始点と終点を設定
 	_enemyUnit.segmentStPos = VGet(_enemyUnit.pos.x, SEGMENT_HEIGHT_COR, _enemyUnit.pos.z);
 	_enemyUnit.segmentEndPos = VGet(_enemyUnit.pos.x, SEGMENT_HEIGHT_COR + SEGMENT_LENGTH, _enemyUnit.pos.z);
 
+	MV1SetRotationXYZ(_enemyUnit.modelH, VGet(0.0f, angle, 0.0f));
 }
 
 void Enemy::Draw()

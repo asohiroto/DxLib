@@ -46,8 +46,8 @@ void EnemyMove::Update(VECTOR playerPos, std::shared_ptr<Enemy> pEnemy)
 	CalDistDir(playerPos, pEnemy);
 
 	// 距離の判定
-	if (_toPlayerDistance <= MIN_DISTANCE) _tooNear = true;
-	else if (_toPlayerDistance >= MAX_DISTANCE) _tooAway = true;
+	if (_toPlayerDistance <= MIN_DISTANCE) { _tooNear = true; _tooAway = false; }
+	else if (_toPlayerDistance >= MAX_DISTANCE) { _tooNear = false; _tooAway = true; }
 	else { _tooNear = false; _tooAway = false; }
 
 	if (_tooNear) MoveAway(pEnemy);
@@ -69,7 +69,7 @@ void EnemyMove::Update(VECTOR playerPos, std::shared_ptr<Enemy> pEnemy)
 		}
 		else if (!_isGoLeft)
 		{
-			if (_rightCount >= TIMER) MoveRight(pEnemy);
+			if (_rightCount <= TIMER) MoveRight(pEnemy);
 			if (_rightCount > TIMER) _moveLR = false;
 		}
 	}
@@ -93,8 +93,8 @@ void EnemyMove::MoveAway(std::shared_ptr<Enemy> pEnemy)
 void EnemyMove::MoveLeft(std::shared_ptr<Enemy> pEnemy)
 {
 	// 左側ベクトル
-	VECTOR left = VGet(-_toPlayerDir.z, 0.0f, _toPlayerDir.z);
-	
+	VECTOR left = VGet(-_toPlayerDir.z, 0.0f, _toPlayerDir.x);
+
 	pEnemy->SetPos(VAdd(pEnemy->GetPos(), VScale(left, SPEED)));
 }
 
@@ -102,7 +102,7 @@ void EnemyMove::MoveRight(std::shared_ptr<Enemy> pEnemy)
 {
 	// 右側ベクトル
 	VECTOR right = VGet(_toPlayerDir.z, 0.0f, -_toPlayerDir.x);
-	
+
 	pEnemy->SetPos(VAdd(pEnemy->GetPos(), VScale(right, SPEED)));
 }
 

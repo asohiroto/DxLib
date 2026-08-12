@@ -27,7 +27,10 @@ void EnemyManager::End()
 
 void EnemyManager::Update(VECTOR playerPos)
 {
-	p_Enemy->Update();
+	VECTOR rota = p_Move->GetDir();
+	float angle = atan2f(rota.x, rota.z) + DX_PI_F;
+
+	p_Enemy->Update(angle);
 
 	switch (p_Enemy->GetState())
 	{
