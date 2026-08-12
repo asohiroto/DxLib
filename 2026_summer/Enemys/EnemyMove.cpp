@@ -9,13 +9,19 @@ namespace
 	constexpr float MAX_DISTANCE = 2500.0f;
 	// 移動速度
 	constexpr float SPEED = 15.0f;
+	// 左右移動時間
+	constexpr int TIMER = 60;
 }
 
 EnemyMove::EnemyMove() :
 	_toPlayerDistance(0.0f),
 	_toPlayerDir(VGet(0.0f, 0.0f, 0.0f)),
 	_tooAway(false),
-	_tooNear(false)
+	_tooNear(false),
+	_leftCount(0),
+	_rightCount(0),
+	_isGoLeft(false),
+	_moveLR(false)
 {
 }
 
@@ -33,6 +39,9 @@ void EnemyMove::End()
 
 void EnemyMove::Update(VECTOR playerPos, std::shared_ptr<Enemy> pEnemy)
 {
+	_leftCount++;
+	_rightCount++;
+
 	// 距離と方向を計算し代入
 	CalDistDir(playerPos, pEnemy);
 
@@ -43,8 +52,27 @@ void EnemyMove::Update(VECTOR playerPos, std::shared_ptr<Enemy> pEnemy)
 
 	if (_tooNear) MoveAway(pEnemy);
 	else if (_tooAway) Approach(pEnemy);
-	else MoveLR(pEnemy);
+	else if (!_moveLR)
+	{
+		_isGoLeft = GetRand(1);
+		_moveLR = true;
+		if (_isGoLeft) _leftCount = 0;
+		else _rightCount = 0;
+	}
 
+	if (_moveLR)
+	{
+		if (_isGoLeft)
+		{
+			if (_leftCount <= TIMER) MoveLeft(pEnemy);
+			if (_leftCount > TIMER) _moveLR = false;
+		}
+		else if (!_isGoLeft)
+		{
+			if (_rightCount >= TIMER) MoveRight(pEnemy);
+			if (_rightCount > TIMER) _moveLR = false;
+		}
+	}
 }
 
 void EnemyMove::Draw()
@@ -62,16 +90,20 @@ void EnemyMove::MoveAway(std::shared_ptr<Enemy> pEnemy)
 	pEnemy->SetPos(VAdd(pEnemy->GetPos(), VScale(opposite, SPEED)));
 }
 
-void EnemyMove::MoveLR(std::shared_ptr<Enemy> pEnemy)
+void EnemyMove::MoveLeft(std::shared_ptr<Enemy> pEnemy)
 {
-	bool toRight = GetRand(1);
+	// 左側ベクトル
+	VECTOR left = VGet(-_toPlayerDir.z, 0.0f, _toPlayerDir.z);
+	
+	pEnemy->SetPos(VAdd(pEnemy->GetPos(), VScale(left, SPEED)));
+}
 
+void EnemyMove::MoveRight(std::shared_ptr<Enemy> pEnemy)
+{
 	// 右側ベクトル
 	VECTOR right = VGet(_toPlayerDir.z, 0.0f, -_toPlayerDir.x);
-	VECTOR left = VGet(-_toPlayerDir.z, 0.0f, _toPlayerDir.z);
-
-	if (toRight) pEnemy->SetPos(VAdd(pEnemy->GetPos(), VScale(right, SPEED)));
-	else pEnemy->SetPos(VAdd(pEnemy->GetPos(), VScale(left, SPEED)));
+	
+	pEnemy->SetPos(VAdd(pEnemy->GetPos(), VScale(right, SPEED)));
 }
 
 void EnemyMove::CalDistDir(VECTOR playerPos, std::shared_ptr<Enemy> pEnemy)
