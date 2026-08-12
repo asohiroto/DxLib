@@ -24,6 +24,8 @@ public:
 	void LockOnCam(std::shared_ptr<Player>pPlayer, std::shared_ptr<Enemy>pEnemy);
 	// カメラモードのゲッター
 	bool GetCameraMode() const { return _cameraMode; }
+	// カメラモードのセッター
+	void SetCameraMode(bool mode) { _cameraMode = mode; }
 	// プレイヤーから敵への水平方向
 	VECTOR GetEnemyDirection() const { return _dirToEnemy; }
 

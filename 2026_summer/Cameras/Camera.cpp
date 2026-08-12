@@ -35,7 +35,7 @@ Camera::Camera() :
 	_dispCameraYaw(0.0f),
 	_cameraPos(VGet(0.0f, 0.0f, 0.0f)),
 	_targetPos(VGet(0.0f, 0.0f, 0.0f)),
-	_cameraMode(true),
+	_cameraMode(false),
 	_dirToEnemy(VGet(0.0f, 0.0f, 0.0f))
 {
 }
@@ -58,15 +58,10 @@ void Camera::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Enemy>pEnem
 	int rx = pInput->GetRightStickX();
 	int ry = -(pInput->GetRightStickY());
 
-	// カメラモード切替
-	if (pInput->IsTrigger(PAD_INPUT_3))
-		_cameraMode = !_cameraMode;
-
-	if (_cameraMode)
+	if (!_cameraMode)
 		NormalCam(pPlayer);
 	else
 		LockOnCam(pPlayer, pEnemy);
-
 }
 
 void Camera::Draw()

@@ -33,10 +33,8 @@ void PlayerDodge::Update(std::shared_ptr<Input> pInput, float cameraAngle)
 {
 	CalDirection(pInput, cameraAngle);
 
-	if (pInput->IsTrigger(PAD_INPUT_4))
-	{
+	if (pInput->IsTrigger(PAD_INPUT_5))
 		_isDodge = true;
-	}
 
 	if (_isDodge)
 	{

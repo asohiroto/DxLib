@@ -27,6 +27,8 @@ namespace
 	constexpr float INPUT_COR = 0.001f;
 	// 魔法を撃つ位置を右側に補正する
 	constexpr float SHOT_RIGHT_OFFSET = 150.0f;
+	// 魔法の切り替わりフレーム
+	constexpr int SHOT_SWITCH = 30;
 }
 
 Player::Player() :
@@ -37,7 +39,8 @@ Player::Player() :
 	p_Shot(nullptr),
 	p_Missile(nullptr),
 	_frontVec(VGet(0.0f, 0.0f, 0.0f)),
-	_nowState(PlayerState::Move)
+	_nowState(PlayerState::Move),
+	_pressFrame(0)
 {
 }
 
@@ -81,6 +84,8 @@ void Player::End()
 
 void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCamera, std::shared_ptr<MagicManager> pManager)
 {
+	_pressFrame++;
+
 	int rx = pInput->GetRightStickX();
 	// 埋まり防止用
 	if (_playerUnit.pos.y <= 0.0f) _playerUnit.pos.y = 0.0f;
@@ -128,12 +133,24 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 	VECTOR shotPos = VAdd(_playerUnit.pos, VScale(right, SHOT_RIGHT_OFFSET));
 
 	// Aが押されたらマジックショットを生成
-	if (pInput->IsTrigger(PAD_INPUT_5))
-		p_Shot->GenerateShot(shotPos, _frontVec, false, pManager);
-
-	// Bが押されたらマジックミサイルを生成
 	if (pInput->IsTrigger(PAD_INPUT_6))
-		p_Missile->GenerateMissile(shotPos, _frontVec, false, pManager);
+		_pressFrame = 0;
+
+	if (pInput->IsPress(PAD_INPUT_6))
+	{
+		if (_pressFrame < SHOT_SWITCH) pCamera->SetCameraMode(false);
+		else pCamera->SetCameraMode(true);
+	}
+
+	if (pInput->IsRelease(PAD_INPUT_6))
+	{
+		if (_pressFrame < SHOT_SWITCH)
+			p_Shot->GenerateShot(shotPos, _frontVec, false, pManager);
+		else
+			p_Missile->GenerateMissile(shotPos, _frontVec, false, pManager);
+
+		pCamera->SetCameraMode(false);
+	}
 }
 
 void Player::Draw()
@@ -144,5 +161,4 @@ void Player::Draw()
 	DrawHitBox(_playerUnit);
 	if (p_Shot->IsExist()) p_Shot->Draw();
 #endif
-
 }

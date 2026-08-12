@@ -1,6 +1,12 @@
 ﻿#include "MagicManager.h"
 #include "MagicMove.h"
 
+namespace
+{
+	// 高さ補正用
+	constexpr float ENEMY_HEIGHT_OFFSET = 300.0f;
+}
+
 MagicManager::MagicManager() :
 	p_MagicMove(nullptr)
 {
@@ -41,7 +47,7 @@ void MagicManager::Update(VECTOR playerPos, VECTOR enemyPos)
 			else if (_enemyMagics[i].type == MagicBase::MagicType::MagicMissile)
 				p_MagicMove->MissileMove(_enemyMagics[i], playerPos);
 			else if (_enemyMagics[i].type == MagicBase::MagicType::MagicBeam)
-				p_MagicMove->BeamMove(_enemyMagics[i], playerPos);
+				p_MagicMove->BeamMove(_enemyMagics[i], playerPos, VAdd(enemyPos, VGet(0.0f, ENEMY_HEIGHT_OFFSET, 0.0f)));
 		}
 	}
 }

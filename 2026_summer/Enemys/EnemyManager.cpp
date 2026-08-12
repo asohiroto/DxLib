@@ -21,7 +21,7 @@ void EnemyManager::Init()
 	p_Move = std::make_shared<EnemyMove>();
 	p_Move->Init();
 	p_Beam = std::make_shared<MagicBeam>();
-
+	p_Beam->Init();
 }
 
 void EnemyManager::End()

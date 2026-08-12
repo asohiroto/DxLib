@@ -76,12 +76,10 @@ void MagicMove::MissileMove(MagicBase::MagicData& data, VECTOR targetPos)
 	}
 }
 
-void MagicMove::BeamMove(MagicBase::MagicData& data, VECTOR targetPos)
+void MagicMove::BeamMove(MagicBase::MagicData& data, VECTOR targetPos, VECTOR startPos)
 {
-	VECTOR toTarget = VSub(VGet(targetPos.x, HEIGHT_OFFSET, targetPos.z), data.segmentStPos);
-	VECTOR toTargetDir = VNorm(toTarget);
-
-	data.segmentStPos = VAdd(data.segmentStPos, VScale(toTargetDir, data.speed));
+	data.segmentStPos = VAdd(data.segmentStPos, VScale(data.moveDirection, data.speed));
+	data.segmentEndPos = startPos;
 	data.movedDistance += data.speed;
 
 	if (data.movedDistance >= BEAM_DISTANCE_MAX)

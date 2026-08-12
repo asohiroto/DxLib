@@ -61,4 +61,6 @@ private:
 	VECTOR _frontVec;
 	// 現在のステート
 	PlayerState _nowState;
+	// ボタンを押している時間
+	int _pressFrame;
 };

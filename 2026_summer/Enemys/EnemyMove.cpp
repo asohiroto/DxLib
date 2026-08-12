@@ -43,7 +43,7 @@ void EnemyMove::Update(VECTOR playerPos, std::shared_ptr<Enemy> pEnemy)
 	_rightCount++;
 
 	int rand = GetRand(99);
-	if (rand < 20) pEnemy->ChangeState(Enemy::EnemyState::Attack);
+	if (rand < 1) pEnemy->ChangeState(Enemy::EnemyState::Attack);
 
 	// 距離と方向を計算し代入
 	CalDistDir(playerPos, pEnemy);

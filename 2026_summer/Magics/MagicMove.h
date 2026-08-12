@@ -17,5 +17,5 @@ public:
 	// マジックミサイルの挙動
 	void MissileMove(MagicBase::MagicData& data, VECTOR targetPos);
 	// マジックビームの挙動
-	void BeamMove(MagicBase::MagicData& data, VECTOR targetPos);
+	void BeamMove(MagicBase::MagicData& data, VECTOR targetPos, VECTOR starrPos);
 };

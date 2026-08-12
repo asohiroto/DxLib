@@ -66,8 +66,19 @@ int MagicCollision::PlayerHitCheck(const Character::CharacterData& player, const
 	{
 		if (!enemyList[i].isExist) continue;
 
-		// 距離を計測
-		float distance = Segment_Point_MinLength(player.segmentStPos, player.segmentEndPos, enemyList[i].pos);
+		float distance = 0.0f;
+
+		if (enemyList[i].type == MagicBase::MagicType::MagicBeam)
+		{
+			distance = Segment_Segment_MinLength
+			(player.segmentStPos, player.segmentEndPos,
+				enemyList[i].segmentStPos, enemyList[i].segmentEndPos);
+		}
+		else
+		{
+			// 距離を計測
+			distance = Segment_Point_MinLength(player.segmentStPos, player.segmentEndPos, enemyList[i].pos);
+		}
 
 		// めり込みの深さを計算
 		float dipth = player.radius + enemyList[i].radius - distance;
@@ -77,6 +88,7 @@ int MagicCollision::PlayerHitCheck(const Character::CharacterData& player, const
 		{
 			return i;
 		}
+
 	}
 
 	return -1;

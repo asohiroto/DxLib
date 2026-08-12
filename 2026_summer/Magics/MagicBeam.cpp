@@ -6,7 +6,7 @@ namespace
 	// 半径
 	constexpr float RADIUS = 100.0f;
 	// 速度
-	constexpr float SPEED = 30.0f;
+	constexpr float SPEED = 60.0f;
 	// 生成位置の補正用
 	constexpr float POSITION_OFFSET = 50.0f;
 	// 生成高さの補正用
