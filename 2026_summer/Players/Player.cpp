@@ -128,19 +128,21 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 	VECTOR shotPos = VAdd(_playerUnit.pos, VScale(right, SHOT_RIGHT_OFFSET));
 
 	// Aが押されたらマジックショットを生成
-	if (pInput->IsTrigger(PAD_INPUT_A))
+	if (pInput->IsTrigger(PAD_INPUT_5))
 		p_Shot->GenerateShot(shotPos, _frontVec, false, pManager);
 
 	// Bが押されたらマジックミサイルを生成
-	if (pInput->IsTrigger(PAD_INPUT_B))
+	if (pInput->IsTrigger(PAD_INPUT_6))
 		p_Missile->GenerateMissile(shotPos, _frontVec, false, pManager);
 }
 
 void Player::Draw()
 {
 	MV1DrawModel(_playerUnit.modelH);
+
 #ifdef _DEBUG
 	DrawHitBox(_playerUnit);
 	if (p_Shot->IsExist()) p_Shot->Draw();
 #endif
+
 }

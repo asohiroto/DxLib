@@ -8,7 +8,7 @@ namespace
 	// プレイヤーと敵の最大距離
 	constexpr float MAX_DISTANCE = 2500.0f;
 	// 移動速度
-	constexpr float SPEED = 15.0f;
+	constexpr float SPEED = 10.0f;
 	// 左右移動時間
 	constexpr int TIMER = 60;
 }
@@ -41,6 +41,9 @@ void EnemyMove::Update(VECTOR playerPos, std::shared_ptr<Enemy> pEnemy)
 {
 	_leftCount++;
 	_rightCount++;
+
+	int rand = GetRand(99);
+	if (rand < 20) pEnemy->ChangeState(Enemy::EnemyState::Attack);
 
 	// 距離と方向を計算し代入
 	CalDistDir(playerPos, pEnemy);

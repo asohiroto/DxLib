@@ -9,7 +9,7 @@ public:
 	{
 		MagicShot,
 		MagicMissile,
-		MagicWall
+		MagicBeam
 	};
 
 	// 魔法のデータ
@@ -35,12 +35,10 @@ public:
 		int color;
 		// 初速度
 		VECTOR velo;
-		// 幅
-		float width;
-		// 高さ
-		float height;
-		// 奥行き
-		float depth;
+		// 線分の始点
+		VECTOR segmentStPos;
+		// 線分の終点
+		VECTOR segmentEndPos;
 	};
 
 public:

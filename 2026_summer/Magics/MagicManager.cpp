@@ -40,6 +40,8 @@ void MagicManager::Update(VECTOR playerPos, VECTOR enemyPos)
 				p_MagicMove->ShotMove(_enemyMagics[i]);
 			else if (_enemyMagics[i].type == MagicBase::MagicType::MagicMissile)
 				p_MagicMove->MissileMove(_enemyMagics[i], playerPos);
+			else if (_enemyMagics[i].type == MagicBase::MagicType::MagicBeam)
+				p_MagicMove->BeamMove(_enemyMagics[i], playerPos);
 		}
 	}
 }
@@ -81,5 +83,10 @@ void MagicManager::RemoveList()
 void MagicManager::DrawMagic(MagicBase::MagicData data)
 {
 	if (data.isExist)
-		DrawSphere3D(data.pos, data.radius, 16, data.color, data.color, true);
+	{
+		if (data.type == MagicBase::MagicType::MagicBeam)
+			DrawCapsule3D(data.segmentStPos, data.segmentEndPos, data.radius, 16, data.color, data.color, true);
+		else
+			DrawSphere3D(data.pos, data.radius, 16, data.color, data.color, true);
+	}
 }

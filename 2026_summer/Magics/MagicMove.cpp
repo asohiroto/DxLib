@@ -6,6 +6,8 @@ namespace
 	constexpr float SHOT_DISTANCE_MAX = 3000.0f;
 	// マジックミサイルの最大移動距離
 	constexpr float MISSILE_DISTANCE_MAX = 5000.0f;
+	// マジックビームの最大移動距離
+	constexpr float BEAM_DISTANCE_MAX = 5000.0f;
 	// 目標位置の高さ補正用
 	constexpr float HEIGHT_OFFSET = 300.0f;
 	// 加速度
@@ -68,6 +70,21 @@ void MagicMove::MissileMove(MagicBase::MagicData& data, VECTOR targetPos)
 
 	// 最大距離まで移動したら消す
 	if (data.movedDistance >= MISSILE_DISTANCE_MAX)
+	{
+		data.isExist = false;
+		data.movedDistance = 0.0f;
+	}
+}
+
+void MagicMove::BeamMove(MagicBase::MagicData& data, VECTOR targetPos)
+{
+	VECTOR toTarget = VSub(VGet(targetPos.x, HEIGHT_OFFSET, targetPos.z), data.segmentStPos);
+	VECTOR toTargetDir = VNorm(toTarget);
+
+	data.segmentStPos = VAdd(data.segmentStPos, VScale(toTargetDir, data.speed));
+	data.movedDistance += data.speed;
+
+	if (data.movedDistance >= BEAM_DISTANCE_MAX)
 	{
 		data.isExist = false;
 		data.movedDistance = 0.0f;

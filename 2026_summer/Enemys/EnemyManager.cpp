@@ -1,6 +1,8 @@
 ﻿#include "EnemyManager.h"
 #include "Enemy.h"
 #include "EnemyMove.h"
+#include "Magics/MagicBeam.h"
+#include "Magics/MagicManager.h"
 
 EnemyManager::EnemyManager() :
 	p_Enemy(nullptr),
@@ -16,16 +18,17 @@ void EnemyManager::Init()
 {
 	p_Enemy = std::make_shared<Enemy>();
 	p_Enemy->Init();
-
 	p_Move = std::make_shared<EnemyMove>();
 	p_Move->Init();
+	p_Beam = std::make_shared<MagicBeam>();
+
 }
 
 void EnemyManager::End()
 {
 }
 
-void EnemyManager::Update(VECTOR playerPos)
+void EnemyManager::Update(VECTOR playerPos, std::shared_ptr<MagicManager> pMManager)
 {
 	VECTOR rota = p_Move->GetDir();
 	float angle = atan2f(rota.x, rota.z) + DX_PI_F;
@@ -36,6 +39,11 @@ void EnemyManager::Update(VECTOR playerPos)
 	{
 	case Enemy::EnemyState::Move:
 		p_Move->Update(playerPos, p_Enemy);
+		break;
+
+	case Enemy::EnemyState::Attack:
+		p_Beam->GenerateBeam(p_Enemy->GetPos(), p_Move->GetDir(), true, pMManager);
+		p_Enemy->ChangeState(Enemy::EnemyState::Move);
 		break;
 
 	default:

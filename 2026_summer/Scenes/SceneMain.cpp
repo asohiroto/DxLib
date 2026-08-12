@@ -65,7 +65,7 @@ void SceneMain::Update()
 	p_Camera->Update(p_Player, p_EManager->GetEnemyPointer(), p_Input);
 	p_Input->Update();
 	//p_Enemy->Update();
-	p_EManager->Update(p_Player->GetPos());
+	p_EManager->Update(p_Player->GetPos(), p_MManager);
 	p_Coll->Update(p_Player, p_EManager->GetEnemyPointer());
 	p_MManager->Update(p_Player->GetPos(), p_EManager->GetEnemyPos());
 	p_MColl->Update(p_Player, p_EManager->GetEnemyPointer(), p_MManager->GetPlayerList(), p_MManager->GetEnemyList());

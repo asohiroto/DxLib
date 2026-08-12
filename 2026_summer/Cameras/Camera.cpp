@@ -59,7 +59,7 @@ void Camera::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Enemy>pEnem
 	int ry = -(pInput->GetRightStickY());
 
 	// カメラモード切替
-	if (pInput->IsTrigger(PAD_INPUT_C))
+	if (pInput->IsTrigger(PAD_INPUT_3))
 		_cameraMode = !_cameraMode;
 
 	if (_cameraMode)
