@@ -110,7 +110,7 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 		_frontVec.y = 0.0f;
 	}
 
-	if (!pCamera->GetCameraMode())
+	if (pCamera->GetCameraMode())
 	{
 		_angle = pCamera->GetCameraYaw() + DX_PI_F;
 		_frontVec = pCamera->GetEnemyDirection();
