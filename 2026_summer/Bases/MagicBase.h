@@ -9,7 +9,8 @@ public:
 	{
 		MagicShot,
 		MagicMissile,
-		MagicBeam
+		MagicBeam,
+		MagicFury
 	};
 
 	// 魔法のデータ
@@ -39,6 +40,8 @@ public:
 		VECTOR segmentStPos;
 		// 線分の終点
 		VECTOR segmentEndPos;
+		// 目的地に到着したか
+		bool isArrived;
 	};
 
 public:

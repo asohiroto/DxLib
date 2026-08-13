@@ -35,6 +35,9 @@ void EnemyManager::Update(VECTOR playerPos, std::shared_ptr<MagicManager> pMMana
 
 	p_Enemy->Update(angle);
 
+	if (pMManager->IsLockOn()) p_Enemy->ChangeState(Enemy::EnemyState::HitStun);
+	else p_Enemy->ChangeState(Enemy::EnemyState::Move);
+
 	switch (p_Enemy->GetState())
 	{
 	case Enemy::EnemyState::Move:
@@ -44,6 +47,9 @@ void EnemyManager::Update(VECTOR playerPos, std::shared_ptr<MagicManager> pMMana
 	case Enemy::EnemyState::Attack:
 		p_Beam->GenerateBeam(p_Enemy->GetPos(), p_Move->GetDir(), true, pMManager);
 		p_Enemy->ChangeState(Enemy::EnemyState::Move);
+		break;
+
+	case Enemy::EnemyState::HitStun:
 		break;
 
 	default:

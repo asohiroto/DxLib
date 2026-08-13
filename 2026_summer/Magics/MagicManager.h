@@ -34,6 +34,12 @@ public:
 	void RemoveList();
 	// 魔法を描画する
 	void DrawMagic(MagicBase::MagicData data);
+	// 敵をロックオンする
+	void LockOn() { _enemyLock = true; }
+	// ロックオンしているか
+	bool IsLockOn() const { return _enemyLock; }
+	// 敵座標のゲッター
+	VECTOR GetEnePos() const { return _enePos; }
 
 private:
 	// プレイヤーが使用した魔法のリスト
@@ -42,4 +48,8 @@ private:
 	MagicList _enemyMagics;
 	// マジックムーブの共有ポインタ
 	std::shared_ptr<MagicMove> p_MagicMove;
+	// 敵をロックオンしているか
+	bool _enemyLock;
+	// 敵の座標
+	VECTOR _enePos;
 };

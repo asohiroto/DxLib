@@ -78,13 +78,24 @@ void MagicMove::MissileMove(MagicBase::MagicData& data, VECTOR targetPos)
 
 void MagicMove::BeamMove(MagicBase::MagicData& data, VECTOR targetPos, VECTOR startPos)
 {
-	data.segmentStPos = VAdd(data.segmentStPos, VScale(data.moveDirection, data.speed));
-	data.segmentEndPos = startPos;
+	data.segmentStPos = startPos;
+	data.segmentEndPos = VAdd(data.segmentEndPos, VScale(data.moveDirection, data.speed));
 	data.movedDistance += data.speed;
 
 	if (data.movedDistance >= BEAM_DISTANCE_MAX)
 	{
 		data.isExist = false;
+		data.movedDistance = 0.0f;
+	}
+}
+
+void MagicMove::FuryMove(MagicBase::MagicData& data, VECTOR targetPos)
+{
+	data.segmentEndPos = VAdd(data.segmentEndPos, VScale(data.moveDirection, data.speed));
+
+	if (data.segmentEndPos.y <= targetPos.y)
+	{
+		data.isArrived = true;
 		data.movedDistance = 0.0f;
 	}
 }

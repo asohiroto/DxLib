@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "Bases//Character.h"
+#include "Bases/Character.h"
 #include <DxLib.h>
 #include <memory>
 
@@ -9,6 +9,7 @@ class PlayerDodge;
 class Camera;
 class MagicShot;
 class MagicMissile;
+class MagicFury;
 class MagicManager;
 
 class Player :
@@ -57,6 +58,8 @@ private:
 	std::shared_ptr<MagicShot> p_Shot;
 	// マジックミサイルの共有ポインタ
 	std::shared_ptr<MagicMissile> p_Missile;
+	// マジックフューリーの共有ポインタ
+	std::shared_ptr<MagicFury> p_Fury;
 	// プレイヤーの正面ベクトル
 	VECTOR _frontVec;
 	// 現在のステート

@@ -51,7 +51,12 @@ void MagicCollision::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Ene
 	if (IsEnemyHit())
 	{
 		pEnemy->SetHit();
-		playerList[_hitPlayerMagicInd].isExist = false;
+		if (playerList[_hitPlayerMagicInd].type == MagicBase::MagicType::MagicFury)
+		{
+
+		}
+		else
+			playerList[_hitPlayerMagicInd].isExist = false;
 	}
 }
 
@@ -101,7 +106,18 @@ int MagicCollision::EnemyHitCheck(const Character::CharacterData& enemy, const M
 	{
 		if (!playerList[i].isExist) continue;
 
-		float distance = Segment_Point_MinLength(enemy.segmentStPos, enemy.segmentEndPos, playerList[i].pos);
+		float distance = 0.0f;
+
+		if (playerList[i].type == MagicBase::MagicType::MagicFury)
+		{
+			distance = Segment_Segment_MinLength
+			(enemy.segmentStPos, enemy.segmentEndPos,
+				playerList[i].segmentStPos, playerList[i].segmentEndPos);
+		}
+		else
+		{
+			distance = Segment_Point_MinLength(enemy.segmentStPos, enemy.segmentEndPos, playerList[i].pos);
+		}
 
 		float dipth = enemy.radius + playerList[i].radius - distance;
 

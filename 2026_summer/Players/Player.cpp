@@ -5,6 +5,8 @@
 #include "Cameras/Camera.h"
 #include "Magics/MagicShot.h"
 #include "Magics/MagicMissile.h"
+#include "Magics/MagicFury.h"
+#include "Magics/MagicManager.h"
 #include <DxLib.h>
 #include <cassert>
 #include <algorithm>
@@ -38,6 +40,7 @@ Player::Player() :
 	_angle(0.0f),
 	p_Shot(nullptr),
 	p_Missile(nullptr),
+	p_Fury(nullptr),
 	_frontVec(VGet(0.0f, 0.0f, 0.0f)),
 	_nowState(PlayerState::Move),
 	_pressFrame(0)
@@ -75,6 +78,8 @@ void Player::Init()
 	p_Shot->Init();
 	p_Missile = std::make_shared<MagicMissile>();
 	p_Missile->Init();
+	p_Fury = std::make_shared<MagicFury>();
+	p_Fury->Init();
 }
 
 void Player::End()
@@ -132,16 +137,16 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 
 	VECTOR shotPos = VAdd(_playerUnit.pos, VScale(right, SHOT_RIGHT_OFFSET));
 
-	// Aが押されたらマジックショットを生成
+	// RBを推している時間を計測
 	if (pInput->IsTrigger(PAD_INPUT_6))
 		_pressFrame = 0;
-
+	// マジックミサイル生成になればカメラがロックオン
 	if (pInput->IsPress(PAD_INPUT_6))
 	{
 		if (_pressFrame < SHOT_SWITCH) pCamera->SetCameraMode(false);
 		else pCamera->SetCameraMode(true);
 	}
-
+	// 離したときの時間で生成する魔法を切り替え
 	if (pInput->IsRelease(PAD_INPUT_6))
 	{
 		if (_pressFrame < SHOT_SWITCH)
@@ -150,6 +155,11 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 			p_Missile->GenerateMissile(shotPos, _frontVec, false, pManager);
 
 		pCamera->SetCameraMode(false);
+	}
+
+	if (pInput->IsTrigger(PAD_INPUT_8))
+	{
+		p_Fury->GenerateFury(pManager->GetEnePos(), VGet(0.0f, -1.0f, 0.0f), false, pManager);
 	}
 }
 
