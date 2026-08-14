@@ -15,6 +15,7 @@ public:
 	void Draw() override;
 	// フューリーを生成
 	void GenerateFury(VECTOR pos, VECTOR front, bool isEnemy, std::shared_ptr<MagicManager> pManager);
+
 private:
 	MagicData _magicFury;
 };

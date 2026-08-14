@@ -28,4 +28,8 @@ private:
 	std::shared_ptr<EnemyMove> p_Move;
 	// マジックビームの共有ポインタ
 	std::shared_ptr<MagicBeam> p_Beam;
+	// ロックされていたか
+	bool _wasLock;
+	// 今ロックされているか
+	bool _isLock;
 };

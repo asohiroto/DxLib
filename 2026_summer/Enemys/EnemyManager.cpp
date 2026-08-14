@@ -6,7 +6,9 @@
 
 EnemyManager::EnemyManager() :
 	p_Enemy(nullptr),
-	p_Move(nullptr)
+	p_Move(nullptr),
+	_wasLock(false),
+	_isLock(false)
 {
 }
 
@@ -35,8 +37,11 @@ void EnemyManager::Update(VECTOR playerPos, std::shared_ptr<MagicManager> pMMana
 
 	p_Enemy->Update(angle);
 
-	if (pMManager->IsLockOn()) p_Enemy->ChangeState(Enemy::EnemyState::HitStun);
-	else p_Enemy->ChangeState(Enemy::EnemyState::Move);
+	_wasLock = _isLock;
+	_isLock = pMManager->IsLockOn();
+
+	if (_isLock) p_Enemy->ChangeState(Enemy::EnemyState::HitStun);
+	if (_wasLock && !_isLock) p_Enemy->ChangeState(Enemy::EnemyState::Move);
 
 	switch (p_Enemy->GetState())
 	{

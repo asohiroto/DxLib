@@ -13,6 +13,8 @@ namespace
 	constexpr float HEIGHT_OFFSET = 300.0f;
 	// マジックフューリー生成の高さ
 	constexpr float FURY_HEIGHT = 2400.0f;
+	// ダメージ
+	constexpr int DAMAGE = 30;
 }
 
 MagicFury::MagicFury() :
@@ -36,6 +38,8 @@ void MagicFury::Init()
 	_magicFury.segmentStPos = VGet(0.0f, 0.0f, 0.0f);
 	_magicFury.segmentEndPos = VGet(0.0f, 0.0f, 0.0f);
 	_magicFury.isArrived = false;
+	// ステータス決定
+	_magicFury.damage = DAMAGE;
 }
 
 void MagicFury::End()

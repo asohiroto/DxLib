@@ -20,10 +20,10 @@ public:
 	/// <param name = "front"> 生成するユニットの正面ベクトル</param>
 	/// <param name = "isEnemy">敵が生成したか</param>
 	void GenerateShot(VECTOR pos, VECTOR front, bool isEnemy, std::shared_ptr<MagicManager> pManager);
-
 	// マジックショットが存在するか
 	bool IsExist() const { return _magicShot.isExist; }
-
+	// 消費魔力のゲッター
+	int GetUseMp() const { return _magicShot.useMp; }
 private:
 	// マジックショット
 	MagicData _magicShot;

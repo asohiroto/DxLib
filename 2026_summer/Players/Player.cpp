@@ -31,6 +31,18 @@ namespace
 	constexpr float SHOT_RIGHT_OFFSET = 150.0f;
 	// 魔法の切り替わりフレーム
 	constexpr int SHOT_SWITCH = 30;
+	// 最大体力
+	constexpr int MAX_HP = 1000;
+	// 最大魔力
+	constexpr float MAX_MP = 500.0f;
+	// 魔力自動回復量（1フレーム）
+	constexpr float AUTO_MP_HEAL = 0.25f;
+	// やられフレーム数
+	constexpr int DAMAGED_FRAME = 10;
+	// ダメージ判定の色
+	constexpr int DAMAGED_COLOR = 0x00ff00;
+	// 通常時の色
+	constexpr int NORM_COLOR = 0xff0000;
 }
 
 Player::Player() :
@@ -43,7 +55,8 @@ Player::Player() :
 	p_Fury(nullptr),
 	_frontVec(VGet(0.0f, 0.0f, 0.0f)),
 	_nowState(PlayerState::Move),
-	_pressFrame(0)
+	_pressFrame(0),
+	_damagedCount(0)
 {
 }
 
@@ -59,7 +72,12 @@ void Player::Init()
 	_playerUnit.pos = VGet(1000.0f, 0.0f, 0.0f);
 	_playerUnit.radius = RADIUS;
 	_playerUnit.isHit = false;
-	_playerUnit.color = 0xff0000;
+	_playerUnit.color = NORM_COLOR;
+	// プレイヤーのステータスの初期設定
+	_playerUnit.maxHp = MAX_HP;
+	_playerUnit.hp = _playerUnit.maxHp;
+	_playerUnit.maxMp = MAX_MP;
+	_playerUnit.mp = _playerUnit.maxMp;
 
 	_nowState = PlayerState::Move;
 
@@ -90,10 +108,30 @@ void Player::End()
 void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCamera, std::shared_ptr<MagicManager> pManager)
 {
 	_pressFrame++;
+	_damagedCount++;
+
+	// 魔力を最大値まで自動回復
+	_playerUnit.mp += AUTO_MP_HEAL;
+	if (_playerUnit.mp >= _playerUnit.maxMp)
+		_playerUnit.mp = _playerUnit.maxMp;
 
 	int rx = pInput->GetRightStickX();
+
 	// 埋まり防止用
 	if (_playerUnit.pos.y <= 0.0f) _playerUnit.pos.y = 0.0f;
+
+	if (_playerUnit.isHit)
+	{
+		if (_damagedCount <= DAMAGED_FRAME)
+		{
+			_playerUnit.color = DAMAGED_COLOR;
+		}
+		else if (_damagedCount > DAMAGED_FRAME)
+		{
+			_playerUnit.color = NORM_COLOR;
+			_playerUnit.isHit = false;
+		}
+	}
 
 	// プレイヤーの挙動の更新
 	p_Move->Update(pInput, pCamera->GetCameraYaw());
@@ -150,9 +188,24 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 	if (pInput->IsRelease(PAD_INPUT_6))
 	{
 		if (_pressFrame < SHOT_SWITCH)
-			p_Shot->GenerateShot(shotPos, _frontVec, false, pManager);
+		{
+			int remainMp = _playerUnit.mp - p_Shot->GetUseMp();
+			if (remainMp >= 0)
+			{
+				_playerUnit.mp = remainMp;
+				p_Shot->GenerateShot(shotPos, _frontVec, false, pManager);
+			}
+		}
 		else
-			p_Missile->GenerateMissile(shotPos, _frontVec, false, pManager);
+		{
+			int remainMp = _playerUnit.mp - p_Missile->GetUseMp();
+			if (remainMp >= 0)
+			{
+				_playerUnit.mp = remainMp;
+				p_Missile->GenerateMissile(shotPos, _frontVec, false, pManager);
+
+			}
+		}
 
 		pCamera->SetCameraMode(false);
 	}
@@ -170,5 +223,16 @@ void Player::Draw()
 #ifdef _DEBUG
 	DrawHitBox(_playerUnit);
 	if (p_Shot->IsExist()) p_Shot->Draw();
+
+	DrawFormatString(0, 60, 0xffffff, "%.2f / %.2f", _playerUnit.mp, _playerUnit.maxMp);
 #endif
+}
+
+void Player::SetHit()
+{
+	if (!_playerUnit.isHit)
+	{
+		_playerUnit.isHit = true;
+		_damagedCount = true;
+	}
 }

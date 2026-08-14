@@ -21,6 +21,14 @@ public:
 		bool isHit;
 		// 当たり判定の色
 		int color;
+		// 現在体力
+		int hp;
+		// 最大体力
+		int maxHp;
+		// 現在魔力
+		float mp;
+		// 最大魔力
+		float maxMp;
 	};
 
 public:

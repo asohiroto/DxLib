@@ -37,7 +37,7 @@ public:
 	// プレイヤーデータのゲッター
 	CharacterData GetPlayerData() const { return _playerUnit; }
 	// 接触中処理
-	void SetHit(bool judge) { _playerUnit.isHit = judge; }
+	void SetHit();
 	// 当たり判定の色を変更
 	void SetColor(int col) { _playerUnit.color = col; }
 	// プレイヤーが向いている角度のゲッター
@@ -66,4 +66,6 @@ private:
 	PlayerState _nowState;
 	// ボタンを押している時間
 	int _pressFrame;
+	// ダメージを受けてからの時間
+	int _damagedCount;
 };

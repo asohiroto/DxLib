@@ -42,6 +42,10 @@ public:
 		VECTOR segmentEndPos;
 		// 目的地に到着したか
 		bool isArrived;
+		// ダメージ
+		int damage;
+		// 消費魔力
+		float useMp;
 	};
 
 public:

@@ -14,6 +14,10 @@ namespace
 	constexpr float POSITION_OFFSET = 50.0f;
 	// 生成高さの補正用
 	constexpr float HEIGHT_OFFSET = 300.0f;
+	// ダメージ
+	constexpr int DAMAGE = 30;
+	// 消費魔力
+	constexpr float USE_MP = 30.0f;
 }
 
 MagicShot::MagicShot() :
@@ -35,6 +39,9 @@ void MagicShot::Init()
 	_magicShot.isExist = false;
 	_magicShot.isEnemy = false;
 	_magicShot.color = 0xffffff;
+	// ステータス決定
+	_magicShot.damage = DAMAGE;
+	_magicShot.useMp = USE_MP;
 }
 
 void MagicShot::End()

@@ -44,7 +44,7 @@ void MagicCollision::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Ene
 
 	if (IsPlayerHit())
 	{
-		pPlayer->SetColor(0x00ff00);
+		pPlayer->SetHit();
 		enemyList[_hitEnemyMagicInd].isExist = false;
 	}
 

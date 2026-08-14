@@ -1,10 +1,11 @@
 ﻿#include "MagicMissile.h"
+#include "MagicMissile.h"
 #include "MagicManager.h"
 
 namespace
 {
 	// 当たり判定の半径
-	constexpr float RADIUS = 50.0f;
+	constexpr float RADIUS = 100.0f;
 	// 進む速さ
 	constexpr float FIRST_SPEED = 75.0f;
 	// 最大移動距離
@@ -13,6 +14,10 @@ namespace
 	constexpr float POSITION_OFFSET = 50.0f;
 	// 生成高さの補正用
 	constexpr float HEIGHT_OFFSET = 300.0f;
+	// ダメージ
+	constexpr int DAMAGE = 50;
+	// 消費魔力
+	constexpr float USE_MP = 50.0f;
 }
 
 
@@ -36,6 +41,9 @@ void MagicMissile::Init()
 	_magicMissile.isEnemy = false;
 	_magicMissile.color = 0xff0000;
 	_magicMissile.velo = VGet(0.0f, 0.0f, 0.0f);
+	// ステータス決定
+	_magicMissile.damage = DAMAGE;
+	_magicMissile.useMp = USE_MP;
 }
 
 void MagicMissile::End()
