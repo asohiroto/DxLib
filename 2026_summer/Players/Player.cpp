@@ -224,15 +224,18 @@ void Player::Draw()
 	DrawHitBox(_playerUnit);
 	if (p_Shot->IsExist()) p_Shot->Draw();
 
-	DrawFormatString(0, 60, 0xffffff, "%.2f / %.2f", _playerUnit.mp, _playerUnit.maxMp);
+	DrawFormatString(0, 60, 0xffffff, "NowHp : %d / MaxHp : %d", _playerUnit.hp, _playerUnit.maxHp);
+	DrawFormatString(0, 80, 0xffffff, "NowMp : %.2f / MaxMp : %.2f", _playerUnit.mp, _playerUnit.maxMp);
 #endif
 }
 
-void Player::SetHit()
+void Player::SetHit(int damage)
 {
 	if (!_playerUnit.isHit)
 	{
 		_playerUnit.isHit = true;
 		_damagedCount = true;
+
+		_playerUnit.hp -= damage;
 	}
 }

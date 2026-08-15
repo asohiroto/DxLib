@@ -44,13 +44,13 @@ void MagicCollision::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Ene
 
 	if (IsPlayerHit())
 	{
-		pPlayer->SetHit();
+		pPlayer->SetHit(enemyList[_hitEnemyMagicInd].damage);
 		enemyList[_hitEnemyMagicInd].isExist = false;
 	}
 
 	if (IsEnemyHit())
 	{
-		pEnemy->SetHit();
+		pEnemy->SetHit(playerList[_hitPlayerMagicInd].damage);
 		if (playerList[_hitPlayerMagicInd].type == MagicBase::MagicType::MagicFury)
 		{
 

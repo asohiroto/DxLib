@@ -14,6 +14,8 @@ namespace
 	constexpr int DAMAGED_COLOR = 0x00ff00;
 	// 【デバッグ用】通常の当たり判定の色
 	constexpr int NORM_COLOR = 0xff0000;
+	// 最大体力
+	constexpr int MAX_HP = 7500;
 }
 
 Enemy::Enemy() :
@@ -37,6 +39,9 @@ void Enemy::Init()
 	_enemyUnit.color = NORM_COLOR;
 	_enemyUnit.isHit = false;
 	_nowState = Move;
+	// ステータスを決定
+	_enemyUnit.maxHp = MAX_HP;
+	_enemyUnit.hp = _enemyUnit.maxHp;
 
 	// モデルを拡大
 	MV1SetScale(_enemyUnit.modelH, VGet(3.0f, 3.0f, 3.0f));
@@ -80,14 +85,18 @@ void Enemy::Draw()
 	MV1DrawModel(_enemyUnit.modelH);
 #ifdef _DEBUG
 	DrawHitBox(_enemyUnit);
+
+	DrawFormatString(0, 100, 0xffffff, "EneHp : %d / EneMaxHp : %d", _enemyUnit.hp, _enemyUnit.maxHp);
 #endif
 }
 
-void Enemy::SetHit()
+void Enemy::SetHit(int damage)
 {
 	if (!_enemyUnit.isHit)
 	{
 		_enemyUnit.isHit = true;
 		_damagedCount = 0;
+
+		_enemyUnit.hp -= damage;
 	}
 }

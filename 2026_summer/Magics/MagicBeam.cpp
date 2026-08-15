@@ -11,6 +11,8 @@ namespace
 	constexpr float POSITION_OFFSET = 50.0f;
 	// 生成高さの補正用
 	constexpr float HEIGHT_OFFSET = 300.0f;
+	// ダメージ
+	constexpr int DAMAGE = 75;
 }
 
 MagicBeam::MagicBeam() :
@@ -33,6 +35,7 @@ void MagicBeam::Init()
 	_magicBeam.color = 0x0000ff;
 	_magicBeam.segmentStPos = VGet(0.0f, 0.0f, 0.0f);
 	_magicBeam.segmentEndPos = VGet(0.0f, 0.0f, 0.0f);
+	_magicBeam.damage = DAMAGE;
 }
 
 void MagicBeam::End()

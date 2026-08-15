@@ -26,7 +26,7 @@ public:
 	// エネミーデータのゲッター
 	CharacterData GetEnemyData() const { return _enemyUnit; }
 	// 当たった瞬間の処理
-	void SetHit();
+	void SetHit(int damage);
 	// 当たり判定の色を変更
 	void SetColor(int col) { _enemyUnit.color = col; }
 	// 敵座標のゲッター

@@ -37,7 +37,7 @@ public:
 	// プレイヤーデータのゲッター
 	CharacterData GetPlayerData() const { return _playerUnit; }
 	// 接触中処理
-	void SetHit();
+	void SetHit(int damage);
 	// 当たり判定の色を変更
 	void SetColor(int col) { _playerUnit.color = col; }
 	// プレイヤーが向いている角度のゲッター

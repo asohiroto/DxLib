@@ -78,9 +78,6 @@
     <ClCompile Include="UIs\UIManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="UIs\CrossHair.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Magics\MagicMissile.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -150,9 +147,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="UIs\UIManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="UIs\CrossHair.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Magics\MagicMissile.h">
