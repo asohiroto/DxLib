@@ -20,6 +20,10 @@ public:
 	VECTOR GetEnemyPos() const;
 	// エネミーのポインタを渡す
 	std::shared_ptr<Enemy> GetEnemyPointer() const;
+	// 敵の最大HPのゲッター
+	float GetMaxHp() const;
+	// 敵の現在HPのゲッター
+	float GetNowHp() const;
 
 private:
 	// エネミーの共有ポインタ

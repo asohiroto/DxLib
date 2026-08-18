@@ -37,7 +37,10 @@ public:
 	void ChangeState(EnemyState state) { _nowState = state; }
 	// 座標のセッター
 	void SetPos(VECTOR pos) { _enemyUnit.pos = pos; }
-
+	// 最大HPのゲッター
+	float GetMaxHp() const { return _enemyUnit.maxHp; }
+	// 現在HPのゲッター
+	float GetNowHp() const { return _enemyUnit.hp; }
 private:
 	CharacterData _enemyUnit;
 	// 現在のステート

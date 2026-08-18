@@ -77,3 +77,13 @@ std::shared_ptr<Enemy> EnemyManager::GetEnemyPointer() const
 	return p_Enemy;
 }
 
+float EnemyManager::GetMaxHp() const
+{
+	return p_Enemy->GetMaxHp();
+}
+
+float EnemyManager::GetNowHp() const
+{
+	return p_Enemy->GetNowHp();
+}
+

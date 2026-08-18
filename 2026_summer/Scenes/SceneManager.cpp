@@ -1,8 +1,9 @@
 ﻿#include "SceneManager.h"
 #include "SceneMain.h"
 
-SceneManager::SceneManager():
-	p_SceneMain(nullptr)
+SceneManager::SceneManager() :
+	p_SceneMain(nullptr),
+	_nowScene(SceneState::Load)
 {
 }
 

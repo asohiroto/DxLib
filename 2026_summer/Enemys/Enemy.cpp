@@ -1,4 +1,5 @@
 ﻿#include "Enemy.h"
+#include <algorithm>
 
 namespace
 {
@@ -15,7 +16,11 @@ namespace
 	// 【デバッグ用】通常の当たり判定の色
 	constexpr int NORM_COLOR = 0xff0000;
 	// 最大体力
-	constexpr int MAX_HP = 7500;
+	constexpr int MAX_HP = 5000;
+	// X軸方向の移動制限
+	constexpr float POS_LIMIT_X = 3000.0f;
+	// Z軸方向の移動制限
+	constexpr float POS_LIMIT_Z = 3000.0f;
 }
 
 Enemy::Enemy() :
@@ -62,6 +67,9 @@ void Enemy::Update(float angle)
 
 	// 埋まり防止用
 	if (_enemyUnit.pos.y <= 0.0f) _enemyUnit.pos.y = 0.0f;
+
+	_enemyUnit.pos.x = std::clamp(_enemyUnit.pos.x, -POS_LIMIT_X, POS_LIMIT_X);
+	_enemyUnit.pos.z = std::clamp(_enemyUnit.pos.z, -POS_LIMIT_Z, POS_LIMIT_Z);
 
 	if (_enemyUnit.isHit)
 	{
