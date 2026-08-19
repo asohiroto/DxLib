@@ -25,6 +25,10 @@ public:
 	void Draw() override;
 	// グリッドを描画する関数
 	void DrawGrid();
+	// プレイヤーのHPのゲッター
+	int GetPlayerHp() const;
+	// エネミーのHPのゲッター
+	int GetEnemyHp() const;
 
 private:
 	// プレイヤークラスの共有ポインタ
@@ -45,6 +49,7 @@ private:
 	std::shared_ptr<UIManager> p_UI;
 	// スカイドームのポインタ
 	std::unique_ptr<SkyDome> p_Dome;
-
+	// 【デバッグ用】
 	int a, b, c;
+
 };

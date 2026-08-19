@@ -105,8 +105,9 @@ void SceneMain::Draw()
 	p_MManager->Draw();
 	p_UI->Draw();
 
-
+#ifdef _DEBUG
 	DrawFormatString(800, 450, 0x000000, "%d, %d, %d", a, b, c);
+#endif
 }
 
 void SceneMain::DrawGrid()
@@ -128,4 +129,14 @@ void SceneMain::DrawGrid()
 		float lineX = GRID_SIZE * x - GRID_SIZE * GRID_NUM * 0.5f;
 		DrawLine3D(VGet(lineX, 0, lineStartZ), VGet(lineX, 0, lineEndZ), 0xffffff);
 	}
+}
+
+int SceneMain::GetPlayerHp() const
+{
+	return p_Player->GetNowHp();
+}
+
+int SceneMain::GetEnemyHp() const
+{
+	return p_EManager->GetNowHp();
 }

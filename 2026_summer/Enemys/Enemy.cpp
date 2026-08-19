@@ -48,7 +48,7 @@ void Enemy::Init(int handle)
 	_enemyUnit.hp = _enemyUnit.maxHp;
 
 	// モデルを拡大
-	MV1SetScale(_enemyUnit.modelH, VGet(3.0f, 3.0f, 3.0f));
+	MV1SetScale(_enemyUnit.modelH, VGet(2.5f, 2.5f, 2.5f));
 }
 
 void Enemy::End()

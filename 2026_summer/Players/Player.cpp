@@ -85,7 +85,7 @@ void Player::Init(int handle)
 	assert(_playerUnit.modelH != -1);
 
 	// モデルの拡大
-	MV1SetScale(_playerUnit.modelH, VGet(3.0f, 3.0f, 3.0f));
+	MV1SetScale(_playerUnit.modelH, VGet(2.5f, 2.5f, 2.5f));
 
 	// 各ポインタの初期化
 	p_Move = std::make_shared<PlayerMove>();

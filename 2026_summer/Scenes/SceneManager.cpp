@@ -26,24 +26,40 @@ void SceneManager::End()
 
 void SceneManager::Update()
 {
-	if (p_LoadScene->CanSceneChange())
-		ChangeScene(SceneManager::SceneState::Game);
-
 	switch (_nowScene)
 	{
 	case SceneManager::SceneState::Load:
 		p_LoadScene->Update();
+
+		if (p_LoadScene->CanSceneChange())
+			ChangeScene(SceneManager::SceneState::Game);
+
 		break;
+
 	case SceneManager::SceneState::Start:
+
 		break;
+
 	case SceneManager::SceneState::Game:
 		p_SceneMain->Update();
+
+		if (p_SceneMain->GetPlayerHp() <= 0)
+			ChangeScene(SceneManager::SceneState::GameOver);
+		else if (p_SceneMain->GetEnemyHp() <= 0)
+			ChangeScene(SceneManager::SceneState::Clear);
+
 		break;
+
 	case SceneManager::SceneState::Clear:
+
 		break;
+
 	case SceneManager::SceneState::GameOver:
+
 		break;
+
 	default:
+
 		break;
 	}
 }
