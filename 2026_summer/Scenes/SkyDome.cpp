@@ -10,9 +10,9 @@ SkyDome::~SkyDome()
 {
 }
 
-void SkyDome::Init()
+void SkyDome::Init(int handle)
 {
-	_domeH = MV1LoadModel("data/sunny_dome.mv1");
+	_domeH = handle;
 	MV1SetScale(_domeH, VGet(5.0f, 5.0f, 5.0f));
 	MV1SetPosition(_domeH, VGet(0.0f, 0.0f, 0.0f));
 }

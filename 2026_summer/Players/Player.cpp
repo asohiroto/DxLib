@@ -65,10 +65,10 @@ Player::~Player()
 	MV1DeleteModel(_playerUnit.modelH);
 }
 
-void Player::Init()
+void Player::Init(int handle)
 {
 	// プレイヤーのキャラクターデータの初期設定
-	_playerUnit.modelH = MV1LoadModel("data/Model_army.mv1");
+	_playerUnit.modelH = handle;
 	_playerUnit.pos = VGet(1000.0f, 0.0f, 0.0f);
 	_playerUnit.radius = RADIUS;
 	_playerUnit.isHit = false;

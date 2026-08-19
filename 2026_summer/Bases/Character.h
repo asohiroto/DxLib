@@ -34,7 +34,7 @@ public:
 public:
 	Character() {};
 	virtual ~Character() {};
-	virtual void Init() {};
+	virtual void Init(int handle) {};
 	virtual void End() {};
 	virtual void Update() {};
 	virtual void Draw() {};

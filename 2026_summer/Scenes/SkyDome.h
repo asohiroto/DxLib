@@ -5,7 +5,7 @@ class SkyDome
 public:
 	SkyDome();
 	virtual ~SkyDome();
-	void Init();
+	void Init(int handle);
 	void End();
 	void Update();
 	void Draw();

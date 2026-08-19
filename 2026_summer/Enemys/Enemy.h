@@ -18,7 +18,7 @@ public:
 
 	Enemy();
 	virtual ~Enemy() override;
-	void Init() override;
+	void Init(int handle) override;
 	void End() override;
 	void Update(float angle);
 	void Draw() override;

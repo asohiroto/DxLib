@@ -26,7 +26,10 @@ SceneMain::SceneMain() :
 	p_MManager(nullptr),
 	p_MColl(nullptr),
 	p_UI(nullptr),
-	p_Dome(nullptr)
+	p_Dome(nullptr),
+	a(-1),
+	b(-1),
+	c(-1)
 {
 }
 
@@ -34,7 +37,7 @@ SceneMain::~SceneMain()
 {
 }
 
-void SceneMain::Init()
+void SceneMain::Init(int playerH, int enemyH, int domeH)
 {
 	p_Player = std::make_shared<Player>();
 	p_Camera = std::make_shared<Camera>();
@@ -46,13 +49,17 @@ void SceneMain::Init()
 	p_UI = std::make_shared<UIManager>();
 	p_Dome = std::make_unique<SkyDome>();
 
-	p_Player->Init();
+	p_Player->Init(playerH);
 	p_Camera->Init();
 	p_Input->Init();
-	p_EManager->Init();
+	p_EManager->Init(enemyH);
 	p_MManager->Init();
 	p_UI->Init(p_EManager->GetMaxHp(), p_Player->GetMaxHp());
-	p_Dome->Init();
+	p_Dome->Init(domeH);
+
+	a = playerH;
+	b = enemyH;
+	c = domeH;
 }
 
 void SceneMain::End()
@@ -72,6 +79,7 @@ void SceneMain::Update()
 	p_MColl->Update(p_Player, p_EManager->GetEnemyPointer(), p_MManager->GetPlayerList(), p_MManager->GetEnemyList());
 	p_MManager->RemoveList();
 	p_UI->Update(p_EManager->GetNowHp(), p_Player->GetNowHp());
+
 }
 
 void SceneMain::Draw()
@@ -97,6 +105,8 @@ void SceneMain::Draw()
 	p_MManager->Draw();
 	p_UI->Draw();
 
+
+	DrawFormatString(800, 450, 0x000000, "%d, %d, %d", a, b, c);
 }
 
 void SceneMain::DrawGrid()

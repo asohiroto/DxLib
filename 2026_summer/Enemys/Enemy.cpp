@@ -35,11 +35,10 @@ Enemy::~Enemy()
 	MV1DeleteModel(_enemyUnit.modelH);
 }
 
-void Enemy::Init()
+void Enemy::Init(int handle)
 {
-
 	_enemyUnit.pos = VGet(0.0f, 0.0f, 0.0f);
-	_enemyUnit.modelH = MV1LoadModel("data/Model_army.mv1");
+	_enemyUnit.modelH = handle;
 	_enemyUnit.radius = RADIUS;
 	_enemyUnit.color = NORM_COLOR;
 	_enemyUnit.isHit = false;

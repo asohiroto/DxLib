@@ -19,7 +19,7 @@ class SceneMain :
 public:
 	SceneMain();
 	virtual ~SceneMain() override;
-	void Init() override;
+	void Init(int playerH, int enemyH, int domeH);
 	void End() override;
 	void Update() override;
 	void Draw() override;
@@ -45,4 +45,6 @@ private:
 	std::shared_ptr<UIManager> p_UI;
 	// スカイドームのポインタ
 	std::unique_ptr<SkyDome> p_Dome;
+
+	int a, b, c;
 };
