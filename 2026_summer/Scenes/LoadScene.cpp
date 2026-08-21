@@ -17,6 +17,9 @@ LoadScene::LoadScene() :
 
 LoadScene::~LoadScene()
 {
+	MV1DeleteModel(_playerH);
+	MV1DeleteModel(_enemyH);
+	MV1DeleteModel(_domeH);
 }
 
 void LoadScene::Init()
@@ -39,6 +42,9 @@ void LoadScene::Init()
 
 void LoadScene::End()
 {
+	MV1DeleteModel(_playerH);
+	MV1DeleteModel(_enemyH);
+	MV1DeleteModel(_domeH);
 
 }
 

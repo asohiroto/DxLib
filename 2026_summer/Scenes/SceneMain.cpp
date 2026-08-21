@@ -8,6 +8,7 @@
 #include "Colls/MagicCollision.h"
 #include "UIs/UIManager.h"
 #include "SkyDome.h"
+#include "Effects/EffectManager.h"
 
 namespace
 {
@@ -27,6 +28,7 @@ SceneMain::SceneMain() :
 	p_MColl(nullptr),
 	p_UI(nullptr),
 	p_Dome(nullptr),
+	p_EffectManager(nullptr),
 	a(-1),
 	b(-1),
 	c(-1)
@@ -48,6 +50,7 @@ void SceneMain::Init(int playerH, int enemyH, int domeH)
 	p_MColl = std::make_shared<MagicCollision>();
 	p_UI = std::make_shared<UIManager>();
 	p_Dome = std::make_unique<SkyDome>();
+	p_EffectManager = std::make_shared<EffectManager>();
 
 	p_Player->Init(playerH);
 	p_Camera->Init();
@@ -56,6 +59,9 @@ void SceneMain::Init(int playerH, int enemyH, int domeH)
 	p_MManager->Init();
 	p_UI->Init(p_EManager->GetMaxHp(), p_Player->GetMaxHp());
 	p_Dome->Init(domeH);
+
+	p_EffectManager->Init();
+	p_EffectManager->Load();
 
 	a = playerH;
 	b = enemyH;
@@ -80,6 +86,7 @@ void SceneMain::Update()
 	p_MManager->RemoveList();
 	p_UI->Update(p_EManager->GetNowHp(), p_Player->GetNowHp());
 
+	p_EffectManager->Update(p_Player->GetPos());
 }
 
 void SceneMain::Draw()
@@ -104,6 +111,7 @@ void SceneMain::Draw()
 	p_EManager->Draw();
 	p_MManager->Draw();
 	p_UI->Draw();
+	p_EffectManager->Draw();
 
 #ifdef _DEBUG
 	DrawFormatString(800, 450, 0x000000, "%d, %d, %d", a, b, c);

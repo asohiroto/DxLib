@@ -12,6 +12,7 @@ class MagicManager;
 class MagicCollision;
 class UIManager;
 class SkyDome;
+class EffectManager;
 
 class SceneMain :
 	public SceneBase
@@ -49,6 +50,8 @@ private:
 	std::shared_ptr<UIManager> p_UI;
 	// スカイドームのポインタ
 	std::unique_ptr<SkyDome> p_Dome;
+	// エフェクトマネージャーの共有ポインタ
+	std::shared_ptr<EffectManager> p_EffectManager;
 	// 【デバッグ用】
 	int a, b, c;
 

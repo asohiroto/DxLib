@@ -62,7 +62,7 @@ Player::Player() :
 
 Player::~Player()
 {
-	MV1DeleteModel(_playerUnit.modelH);
+
 }
 
 void Player::Init(int handle)
@@ -102,7 +102,7 @@ void Player::Init(int handle)
 
 void Player::End()
 {
-	MV1DeleteModel(_playerUnit.modelH);
+
 }
 
 void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCamera, std::shared_ptr<MagicManager> pManager)

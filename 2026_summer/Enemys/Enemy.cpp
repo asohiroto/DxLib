@@ -32,7 +32,7 @@ Enemy::Enemy() :
 
 Enemy::~Enemy()
 {
-	MV1DeleteModel(_enemyUnit.modelH);
+
 }
 
 void Enemy::Init(int handle)
@@ -53,7 +53,7 @@ void Enemy::Init(int handle)
 
 void Enemy::End()
 {
-	DeleteGraph(_enemyUnit.modelH);
+
 }
 
 void Enemy::Update(float angle)
