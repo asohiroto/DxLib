@@ -1,6 +1,7 @@
 ﻿#include "Scenes/SceneManager.h"
 #include "GameDefine.h"
 #include <DxLib.h>
+#include <EffekseerForDXLib.h>
 #include <memory>
 
 using namespace GameDefine;
@@ -23,6 +24,16 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	{
 		return -1;			// エラーが起きたら直ちに終了
 	}
+
+	// 引数には画面に表示する最大パーティクル数を設定する。
+	if (Effkseer_Init(EffectParticleLimit) == -1)
+	{
+		return -1;
+	}
+
+	// DXライブラリのデバイスロストした時のコールバックを設定する。
+	// ウインドウとフルスクリーンの切り替えが発生する場合は必ず実行する。
+	Effekseer_SetGraphicsDeviceLostCallbackFunctions();
 
 	// フルスクリーン切り替え時におかしくならないように
 	SetChangeScreenModeGraphicsSystemResetFlag(false);
@@ -84,6 +95,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		}
 	}
 
+	Effkseer_End();
 
 	DxLib_End();				// ＤＸライブラリ使用の終了処理
 

@@ -86,7 +86,7 @@ void SceneMain::Update()
 	p_MManager->RemoveList();
 	p_UI->Update(p_EManager->GetNowHp(), p_Player->GetNowHp());
 
-	p_EffectManager->Update(p_Player->GetPos());
+	p_EffectManager->Update(VGet(0.0f, 0.0f, 0.0f));
 }
 
 void SceneMain::Draw()

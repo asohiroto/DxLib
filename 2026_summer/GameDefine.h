@@ -10,4 +10,6 @@ namespace GameDefine
 	constexpr int COLOR_BIT = 32;
 	// 消失点の高さ
 	constexpr float SCREEN_CENTER_Y = HEIGHT * 3 / 4;
+	// 画面に表示できる最大パーティクル数
+	const int	EffectParticleLimit = 20000;
 }
