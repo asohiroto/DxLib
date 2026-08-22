@@ -28,7 +28,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	// 引数には画面に表示する最大パーティクル数を設定する。
 	if (Effkseer_Init(EffectParticleLimit) == -1)
 	{
-		return -1;
+		DxLib_End();
 	}
 
 	// DXライブラリのデバイスロストした時のコールバックを設定する。
@@ -95,8 +95,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		}
 	}
 
-	Effkseer_End();
+	p_SceneManager.reset();
 
+	Effkseer_End();
 	DxLib_End();				// ＤＸライブラリ使用の終了処理
 
 	return 0;				// ソフトの終了 

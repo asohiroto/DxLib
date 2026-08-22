@@ -1,7 +1,6 @@
 ﻿#include "SceneMain.h"
 #include "Players/Player.h"
 #include "Cameras/Camera.h"
-#include "Inputs/Input.h"
 #include "Enemys/EnemyManager.h"
 #include "Colls/Collision.h"
 #include "Magics/MagicManager.h"
@@ -21,7 +20,6 @@ namespace
 SceneMain::SceneMain() :
 	p_Player(nullptr),
 	p_Camera(nullptr),
-	p_Input(nullptr),
 	p_EManager(nullptr),
 	p_Coll(nullptr),
 	p_MManager(nullptr),
@@ -43,7 +41,6 @@ void SceneMain::Init(int playerH, int enemyH, int domeH)
 {
 	p_Player = std::make_shared<Player>();
 	p_Camera = std::make_shared<Camera>();
-	p_Input = std::make_shared<Input>();
 	p_EManager = std::make_shared<EnemyManager>();
 	p_Coll = std::make_shared<Collision>();
 	p_MManager = std::make_shared<MagicManager>();
@@ -54,7 +51,6 @@ void SceneMain::Init(int playerH, int enemyH, int domeH)
 
 	p_Player->Init(playerH);
 	p_Camera->Init();
-	p_Input->Init();
 	p_EManager->Init(enemyH);
 	p_MManager->Init();
 	p_UI->Init(p_EManager->GetMaxHp(), p_Player->GetMaxHp());
@@ -73,12 +69,11 @@ void SceneMain::End()
 
 }
 
-void SceneMain::Update()
+void SceneMain::Update(std::shared_ptr<Input> pInput)
 {
 	p_Dome->Update();
-	p_Player->Update(p_Input, p_Camera, p_MManager);
-	p_Camera->Update(p_Player, p_EManager->GetEnemyPointer(), p_Input);
-	p_Input->Update();
+	p_Player->Update(pInput, p_Camera, p_MManager);
+	p_Camera->Update(p_Player, p_EManager->GetEnemyPointer(), pInput);
 	p_EManager->Update(p_Player->GetPos(), p_MManager);
 	p_Coll->Update(p_Player, p_EManager->GetEnemyPointer());
 	p_MManager->Update(p_Player->GetPos(), p_EManager->GetEnemyPos());
@@ -86,7 +81,7 @@ void SceneMain::Update()
 	p_MManager->RemoveList();
 	p_UI->Update(p_EManager->GetNowHp(), p_Player->GetNowHp());
 
-	p_EffectManager->Update(VGet(0.0f, 0.0f, 0.0f));
+	p_EffectManager->Update();
 }
 
 void SceneMain::Draw()
@@ -107,11 +102,10 @@ void SceneMain::Draw()
 	p_Dome->Draw();
 	p_Player->Draw();
 	p_Camera->Draw();
-	p_Input->Draw();
 	p_EManager->Draw();
 	p_MManager->Draw();
-	p_UI->Draw();
 	p_EffectManager->Draw();
+	p_UI->Draw();
 
 #ifdef _DEBUG
 	DrawFormatString(800, 450, 0x000000, "%d, %d, %d", a, b, c);

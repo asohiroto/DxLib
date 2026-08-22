@@ -1,4 +1,7 @@
 ﻿#pragma once
+#include <memory>
+
+class Input;
 
 class SceneBase
 {
@@ -7,6 +10,6 @@ public:
 	virtual ~SceneBase() {};
 	virtual void Init() {};
 	virtual void End() {};
-	virtual void Update() {};
+	virtual void Update(std::shared_ptr<Input> pInput) {};
 	virtual void Draw() {};
 };

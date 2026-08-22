@@ -11,7 +11,7 @@ public:
 	virtual ~LoadScene() override;
 	void Init() override;
 	void End() override;
-	void Update() override;
+	void Update(std::shared_ptr<Input> pInput) override;
 	void Draw() override;
 	// プレイヤーのモデルのハンドルを渡す
 	int GetPlayerH()const { return _playerH; }

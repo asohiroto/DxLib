@@ -3,6 +3,7 @@
 
 class SceneMain;
 class LoadScene;
+class Input;
 
 class SceneManager
 {
@@ -30,6 +31,8 @@ private:
 	std::shared_ptr<SceneMain> p_SceneMain;
 	// ロードシーンの共有ポインタ
 	std::shared_ptr<LoadScene> p_LoadScene;
+	// インプットクラスの共有ポインタ
+	std::shared_ptr<Input> p_Input;
 
 	// 現在のシーン
 	SceneState _nowScene;

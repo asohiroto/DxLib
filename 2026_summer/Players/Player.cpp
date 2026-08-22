@@ -155,7 +155,7 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 
 	if (pCamera->GetCameraMode())
 	{
-		_angle = pCamera->GetCameraYaw() + DX_PI_F;
+		_angle = pCamera->GetCameraYaw();
 		_frontVec = pCamera->GetEnemyDirection();
 	}
 
@@ -169,7 +169,7 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 
 	// マジックショットの生成位置を決定
 	// 正面の角度をとる
-	float facing = _angle - DX_PI_F;
+	float facing = _angle + DX_PI_F;
 	// 右向きベクトルを取得
 	VECTOR right = VGet(std::cosf(facing), 0.0f, -std::sinf(facing));
 

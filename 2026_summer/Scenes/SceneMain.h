@@ -22,7 +22,7 @@ public:
 	virtual ~SceneMain() override;
 	void Init(int playerH, int enemyH, int domeH);
 	void End() override;
-	void Update() override;
+	void Update(std::shared_ptr<Input> pInput) override;
 	void Draw() override;
 	// グリッドを描画する関数
 	void DrawGrid();
@@ -36,8 +36,6 @@ private:
 	std::shared_ptr<Player> p_Player;
 	// カメラクラスの共有ポインタ
 	std::shared_ptr<Camera> p_Camera;
-	// インプットクラスの共有ポインタ
-	std::shared_ptr<Input> p_Input;
 	// エネミー管理クラスの共有ポインタ
 	std::shared_ptr<EnemyManager> p_EManager;
 	// コリジョンクラスの共有ポインタ

@@ -29,7 +29,7 @@ void LoadScene::Init()
 	// 非同期処理開始
 	SetUseASyncLoadFlag(true);
 
-	_playerH = MV1LoadModel("data/PlayerModel.mv1");
+	_playerH = MV1LoadModel("data/Player_true.mv1");
 	_enemyH = MV1LoadModel("data/EnemyModel.mv1");
 	_domeH = MV1LoadModel("data/sunny_dome.mv1");
 
@@ -48,10 +48,11 @@ void LoadScene::End()
 
 }
 
-void LoadScene::Update()
+void LoadScene::Update(std::shared_ptr<Input> pInput)
 {
 	if (GetASyncLoadNum() == 0)
-		_sceneChange = true;
+		if (pInput->IsTrigger(PAD_INPUT_1))
+			_sceneChange = true;
 }
 
 void LoadScene::Draw()

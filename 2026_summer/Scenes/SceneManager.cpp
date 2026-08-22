@@ -1,9 +1,12 @@
 ﻿#include "SceneManager.h"
 #include "SceneMain.h"
 #include "LoadScene.h"
+#include "Inputs/Input.h"
 
 SceneManager::SceneManager() :
 	p_SceneMain(nullptr),
+	p_Input(nullptr),
+	p_LoadScene(nullptr),
 	_nowScene(SceneState::Load)
 {
 }
@@ -16,8 +19,10 @@ void SceneManager::Init()
 {
 	p_SceneMain = std::make_shared<SceneMain>();
 	p_LoadScene = std::make_shared<LoadScene>();
+	p_Input = std::make_shared<Input>();
 
 	p_LoadScene->Init();
+	p_Input->Init();
 }
 
 void SceneManager::End()
@@ -26,10 +31,12 @@ void SceneManager::End()
 
 void SceneManager::Update()
 {
+	p_Input->Update();
+
 	switch (_nowScene)
 	{
 	case SceneManager::SceneState::Load:
-		p_LoadScene->Update();
+		p_LoadScene->Update(p_Input);
 
 		if (p_LoadScene->CanSceneChange())
 			ChangeScene(SceneManager::SceneState::Game);
@@ -41,7 +48,7 @@ void SceneManager::Update()
 		break;
 
 	case SceneManager::SceneState::Game:
-		p_SceneMain->Update();
+		p_SceneMain->Update(p_Input);
 
 		if (p_SceneMain->GetPlayerHp() <= 0)
 			ChangeScene(SceneManager::SceneState::GameOver);
@@ -66,6 +73,8 @@ void SceneManager::Update()
 
 void SceneManager::Draw()
 {
+	p_Input->Draw();
+
 	switch (_nowScene)
 	{
 	case SceneManager::SceneState::Load:

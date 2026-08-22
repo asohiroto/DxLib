@@ -46,6 +46,10 @@ public:
 		int damage;
 		// 消費魔力
 		float useMp;
+		// エフェクトのハンドル
+		int effectResourceH;
+		// 着弾のハンドル
+		int hitResourceH;
 	};
 
 public:

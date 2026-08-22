@@ -1,0 +1,157 @@
+マジックショット　"Suzuki01\001_magma_effect"
+マジックミサイル
+マジックフューリー　"Pierre01\LightningStrike.efkproj" or "NextSoft01\MagicSword.efkproj" and "MAGICALxSPIRAL\MagicArea.efkproj"
+マジックビーム　"AndrewFM01\blue_laser.efkproj"　or "Effekseer01\Laser01.efkproj"
+敵を倒したとき　"AndrewFM01\boss_death.efkproj"
+ヒットエフェクト　"AndrewFM01\hit_eff.efkproj"
+魔法を撃つとき　"AndrewFM01\magic_circle.efkproj"
+なんかだしておきたい　"Pierre01\Atmosphere.efkproj"
+
+順序と、各段階で「何が確認できたら次へ進むか」をセットで示します。
+
+Phase 0:前提の確認
+
+0-1. Effekseer_Sync3DSetting()を追加して、現サンプルが表示されることを確認
+
+cpp
+void EffectManager::Draw()
+{
+	Effekseer_Sync3DSetting();
+	DrawEffekseer3D();
+}
+
+EffectPlayIntervalを60に下げ、再生位置をp_Player->GetPos()にすると判別しやすいです。
+
+ここが通らないと以降すべての切り分けが不能になるので、必ず最初に片付けてください。
+
+Phase 1:EffectManagerを「フレーム駆動係」に絞る
+
+1-1. EffectManagerから個別エフェクトの管理を削除
+
+effectResourceHandle・playingEffectHandle・playCountをメンバから外し、Load()も空にします。デストラクタのDeleteEffekseerEffectも削除(所有者が変わるため)。
+
+1-2. Update/Drawを最小化
+
+cpp
+void EffectManager::Update() { UpdateEffekseer3D(); }
+void EffectManager::Draw()   { Effekseer_Sync3DSetting(); DrawEffekseer3D(); }
+
+SceneMain::Updateの呼び出しから引数VGet(0,0,0)が消えます。
+
+1-3. SceneMain::Drawの順序を修正
+
+p_EffectManager->Draw()をp_UI->Draw()の前へ(3D→エフェクト→UIの順)。
+
+✅ 確認:ビルドが通り、エフェクトが出なくなる(=まだ誰も再生していない状態が正しい)
+
+Phase 2:着弾エフェクト(単発型)を1種類だけ
+
+2-1. MagicDataにリソースハンドルを追加
+
+cpp
+// MagicBase.h
+	// エフェクトのリソースハンドル(所有者はプロトタイプ側)
+	int effectResourceHandle;
+
+2-2. MagicShotでリソースを読み込む
+
+cpp
+void MagicShot::Init()
+{
+	// ...既存の初期化
+	_magicShot.effectResourceHandle = LoadEffekseerEffect("data/effect/Hit.efk", EFFECT_SIZE);
+}
+
+MagicShot::~MagicShot()
+{
+	DeleteEffekseerEffect(_magicShot.effectResourceHandle);
+}
+
+2-3. MagicCollisionで着弾時に再生
+
+cpp
+if (IsEnemyHit())
+{
+	const auto& magic = playerList[_hitPlayerMagicInd];
+	pEnemy->SetHit(magic.damage);
+
+	int handle = PlayEffekseer3DEffect(magic.effectResourceHandle);
+	SetPosPlayingEffekseer3DEffect(handle, magic.pos.x, magic.pos.y, magic.pos.z);
+
+	playerList[_hitPlayerMagicInd].isExist = false;
+}
+
+✅ 確認:敵にマジックショットを当てると、その位置で爆発が1回出る
+
+この段階が最初の達成点です。 ここまでで「エフェクトが魔法に紐づいて出る」体験が得られます。
+
+Phase 3:他の魔法へ展開
+
+3-1. MagicMissile/MagicBeam/MagicFuryにも同じ手順を適用
+
+各Init()で読み込み、各デストラクタで解放。MagicCollision側はeffectResourceHandleを使うだけなので変更不要です(魔法の種類を問わず同じコードで動く)。
+
+3-2. プレイヤー被弾側にも追加
+
+IsPlayerHit()のブロックに同じ処理を入れます。
+
+✅ 確認:全種類の魔法で、当たった位置にエフェクトが出る
+
+Phase 4:追従型(必要なら)
+
+ここから難易度が上がるので、Phase 3で満足なら省略可です。
+
+4-1. MagicDataに再生中ハンドルを追加
+
+cpp
+	int effectHandle;   // 初期値 -1
+
+4-2. 生成時に再生開始
+
+cpp
+void MagicShot::GenerateShot(...)
+{
+	// ...既存の処理
+	_magicShot.effectHandle = PlayEffekseer3DEffect(_magicShot.effectResourceHandle);
+	pManager->EntryList(_magicShot);
+}
+
+4-3. 移動時に位置追従
+
+cpp
+void MagicMove::ShotMove(MagicBase::MagicData& data)
+{
+	// ...既存の移動処理
+	if (data.effectHandle != -1)
+		SetPosPlayingEffekseer3DEffect(data.effectHandle, data.pos.x, data.pos.y, data.pos.z);
+}
+
+4-4. 消滅時に停止
+
+cpp
+void MagicManager::RemoveList()
+{
+	for (auto& m : _playerMagics)
+		if (!m.isExist && m.effectHandle != -1) StopEffekseer3DEffect(m.effectHandle);
+	// _enemyMagics も同様
+
+	std::erase_if(...);
+}
+
+✅ 確認:魔法が飛んでいる間エフェクトが追従し、消えると同時に止まる
+
+Phase 5:整理(任意)
+
+5-1. リソース読み込みをLoadSceneへ集約
+
+モデルと同じく、LoadSceneが全.efkを読み込んでハンドルを配る形にすると、所有権の所在が一箇所になります。プレイヤーと敵で同じ.efkが二重読み込みされる問題も解消します。
+
+5-2. ビームやフューリー用の位置調整
+
+これらはposではなくsegmentStPos/segmentEndPosで表現されているので、着弾位置の取り方を調整する必要があります。
+
+全体の進め方
+
+Phase 0 → 2 までを最初の目標にしてください。ここまでで仕組みが完成し、Phase 3は同じ作業の繰り返しなので機械的に進められます。Phase 4以降は、実際に動かして「軌跡が欲しい」と感じてから着手すれば十分です。
+
+Phase 0の確認が取れたら、次のフェーズで詰まったところを聞いてください。
