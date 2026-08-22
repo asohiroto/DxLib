@@ -77,7 +77,7 @@ void Camera::NormalCam(std::shared_ptr<Player> pPlayer)
 	if (pPlayer == nullptr) return;
 
 	// GetPlayerAngle()はモデル表示用に+DX_PI_Fされた角度なので、補正を外して実際の向きに戻す
-	_cameraYaw = pPlayer->GetPlayerAngle() - DX_PI_F;
+	_cameraYaw = pPlayer->GetPlayerAngle();
 
 	float sinYaw = std::sinf(_cameraYaw);
 	float cosYaw = std::cosf(_cameraYaw);
