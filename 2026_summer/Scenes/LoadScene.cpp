@@ -29,8 +29,8 @@ void LoadScene::Init()
 	// 非同期処理開始
 	SetUseASyncLoadFlag(true);
 
-	_playerH = MV1LoadModel("data/Player_true.mv1");
-	_enemyH = MV1LoadModel("data/EnemyModel.mv1");
+	_playerH = MV1LoadModel("data/models/Player_true.mv1");
+	_enemyH = MV1LoadModel("data/models/EnemyModel.mv1");
 	_domeH = MV1LoadModel("data/sunny_dome.mv1");
 
 	// 非同期処理終了
