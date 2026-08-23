@@ -24,6 +24,8 @@ public:
 	bool IsExist() const { return _magicShot.isExist; }
 	// 消費魔力のゲッター
 	int GetUseMp() const { return _magicShot.useMp; }
+	// エフェクトのハンドルのセッター
+	void SetMagicShotH(int handle) { _magicShot.effectResourceH = handle; }
 private:
 	// マジックショット
 	MagicData _magicShot;

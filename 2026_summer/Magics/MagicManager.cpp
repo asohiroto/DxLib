@@ -23,6 +23,7 @@ MagicManager::~MagicManager()
 void MagicManager::Init()
 {
 	p_MagicMove = std::make_shared<MagicMove>();
+	p_MagicMove->Init();
 }
 
 void MagicManager::End()

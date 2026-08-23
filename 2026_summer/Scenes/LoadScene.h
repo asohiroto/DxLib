@@ -19,6 +19,10 @@ public:
 	int GetEnemyH() const { return _enemyH; }
 	// スカイドームのモデルのハンドルを渡す
 	int GetDomeH() const { return _domeH; }
+	// マジックショットのハンドルを渡す
+	int GetMagicShotH()const { return _magicShotEffectH; }
+	// ヒット時のエフェクトのハンドルを渡す
+	int GetHitEffectH() const { return _hitEffectH; }
 	// シーン遷移を行うか
 	bool CanSceneChange() const { return _sceneChange; }
 
@@ -30,5 +34,9 @@ private:
 	int _totalRequestNum;
 	// シーンの変更を行うか
 	bool _sceneChange;
+	// マジックショットのエフェクトのハンドル
+	int _magicShotEffectH;
+	// ヒットエフェクトのハンドル
+	int _hitEffectH;
 
 };

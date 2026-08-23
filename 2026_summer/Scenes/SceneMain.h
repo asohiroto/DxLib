@@ -20,16 +20,20 @@ class SceneMain :
 public:
 	SceneMain();
 	virtual ~SceneMain() override;
-	void Init(int playerH, int enemyH, int domeH);
+	void Init();
 	void End() override;
 	void Update(std::shared_ptr<Input> pInput) override;
 	void Draw() override;
 	// グリッドを描画する関数
-	void DrawGrid();
+	void DrawStage();
 	// プレイヤーのHPのゲッター
 	int GetPlayerHp() const;
 	// エネミーのHPのゲッター
 	int GetEnemyHp() const;
+	// 各ハンドルのセッター
+	void SetCharacterH(int playerH, int enemyH) { _playerTempH = playerH; _enemyTempH = enemyH; }
+	void SetSkyDomeH(int domeH) { _domeTempH = domeH; }
+	void SetMagicH(int shotH, int hitH) { _shotTempH = shotH; _hitTempH = hitH; }
 
 private:
 	// プレイヤークラスの共有ポインタ
@@ -50,7 +54,12 @@ private:
 	std::unique_ptr<SkyDome> p_Dome;
 	// エフェクトマネージャーの共有ポインタ
 	std::shared_ptr<EffectManager> p_EffectManager;
-	// 【デバッグ用】
-	int a, b, c;
+	
+	// 各クラスに渡す用のハンドル
+	int _playerTempH;
+	int _enemyTempH;
+	int _domeTempH;
+	int _shotTempH;
+	int _hitTempH;
 
 };

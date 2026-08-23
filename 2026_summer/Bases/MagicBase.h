@@ -48,8 +48,6 @@ public:
 		float useMp;
 		// エフェクトのハンドル
 		int effectResourceH;
-		// 着弾のハンドル
-		int hitResourceH;
 	};
 
 public:

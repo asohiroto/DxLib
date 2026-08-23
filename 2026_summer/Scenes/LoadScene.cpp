@@ -1,15 +1,21 @@
 ﻿#include "LoadScene.h"
 #include "Inputs/Input.h"
 #include <DxLib.h>
+#include <EffekseerForDXLib.h>
 
 namespace
 {
 	// 読み込む最大数
-	constexpr int MAX_LOAD_NUM = 3;
+	constexpr int MAX_LOAD_NUM = 5;
+	// マジックショットのエフェクトサイズ
+	constexpr float SHOT_EFFECT_SIZE = 3.0f;
+	// ヒット時のエフェクトサイズ
+	constexpr float HIT_EFFECT_SIZE = 3.0f;
 }
 
 LoadScene::LoadScene() :
 	_playerH(-1), _enemyH(-1), _domeH(-1),
+	_magicShotEffectH(-1), _hitEffectH(-1),
 	_totalRequestNum(MAX_LOAD_NUM),
 	_sceneChange(false)
 {
@@ -32,6 +38,10 @@ void LoadScene::Init()
 	_playerH = MV1LoadModel("data/models/Player_true.mv1");
 	_enemyH = MV1LoadModel("data/models/EnemyModel.mv1");
 	_domeH = MV1LoadModel("data/sunny_dome.mv1");
+
+	_magicShotEffectH = LoadEffekseerEffect("data/effects/MagicShot.efk", SHOT_EFFECT_SIZE);
+	_hitEffectH = LoadEffekseerEffect("data/effects/HitEffect.efk", HIT_EFFECT_SIZE);
+
 
 	// 非同期処理終了
 	SetUseASyncLoadFlag(false);
