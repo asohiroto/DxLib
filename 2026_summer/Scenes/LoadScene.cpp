@@ -10,7 +10,7 @@ namespace
 	// マジックショットのエフェクトサイズ
 	constexpr float SHOT_EFFECT_SIZE = 3.0f;
 	// ヒット時のエフェクトサイズ
-	constexpr float HIT_EFFECT_SIZE = 3.0f;
+	constexpr float HIT_EFFECT_SIZE = 60.0f;
 }
 
 LoadScene::LoadScene() :
@@ -39,8 +39,8 @@ void LoadScene::Init()
 	_enemyH = MV1LoadModel("data/models/EnemyModel.mv1");
 	_domeH = MV1LoadModel("data/sunny_dome.mv1");
 
-	_magicShotEffectH = LoadEffekseerEffect("data/effects/MagicShot.efk", SHOT_EFFECT_SIZE);
-	_hitEffectH = LoadEffekseerEffect("data/effects/HitEffect.efk", HIT_EFFECT_SIZE);
+	_magicShotEffectH = LoadEffekseerEffect("data/effects/MagicShot.efkefc", SHOT_EFFECT_SIZE);
+	_hitEffectH = LoadEffekseerEffect("data/effects/hitEffe.efkefc", HIT_EFFECT_SIZE);
 
 
 	// 非同期処理終了

@@ -3,6 +3,13 @@
 #include "Enemys/Enemy.h"
 #include "Bases/MagicBase.h"
 #include <DxLib.h>
+#include <EffekseerForDXLib.h>
+
+namespace
+{
+	// ヒットエフェクトを出す高さの補正値
+	constexpr float EFFECT_HEIGHT_OFFSET = 400.0f;
+}
 
 MagicCollision::MagicCollision() :
 	_isPlayerHit(false),
@@ -10,16 +17,19 @@ MagicCollision::MagicCollision() :
 	_isEnemyHit(false),
 	_wasEnemyHit(false),
 	_hitEnemyMagicInd(-1),
-	_hitPlayerMagicInd(-1)
+	_hitPlayerMagicInd(-1),
+	_hitEffectH(-1)
 {
 }
 
 MagicCollision::~MagicCollision()
 {
+	DeleteEffekseerEffect(_hitEffectH);
 }
 
-void MagicCollision::Init()
+void MagicCollision::Init(int handle)
 {
+	_hitEffectH = handle;
 }
 
 void MagicCollision::End()
@@ -50,8 +60,14 @@ void MagicCollision::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Ene
 
 	if (IsEnemyHit())
 	{
-		pEnemy->SetHit(playerList[_hitPlayerMagicInd].damage);
-		if (playerList[_hitPlayerMagicInd].type == MagicBase::MagicType::MagicFury)
+		const auto& magic = playerList[_hitPlayerMagicInd];
+
+		pEnemy->SetHit(magic.damage);
+
+		int handle = PlayEffekseer3DEffect(_hitEffectH);
+		SetPosPlayingEffekseer3DEffect(handle, magic.pos.x, magic.pos.y - EFFECT_HEIGHT_OFFSET, magic.pos.z);
+
+		if (magic.type == MagicBase::MagicType::MagicFury)
 		{
 
 		}

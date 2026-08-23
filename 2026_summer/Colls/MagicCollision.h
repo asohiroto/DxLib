@@ -16,7 +16,7 @@ private:
 public:
 	MagicCollision();
 	virtual ~MagicCollision();
-	void Init();
+	void Init(int handle);
 	void End();
 	void Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Enemy>pEnemy, MagicList& playerList, MagicList& enemyList);
 	void Draw();
@@ -44,4 +44,6 @@ private:
 	int _hitEnemyMagicInd;
 	// 敵にヒットしたプレイヤーの魔法の番号
 	int _hitPlayerMagicInd;
+	// ヒット時のエフェクトのハンドル
+	int _hitEffectH;
 };

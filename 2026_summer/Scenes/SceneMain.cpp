@@ -56,7 +56,7 @@ void SceneMain::Init()
 	p_UI->Init(p_EManager->GetMaxHp(), p_Player->GetMaxHp());
 	p_Dome->Init(_domeTempH);
 	p_Coll->Init();
-	p_MColl->Init();
+	p_MColl->Init(_hitTempH);
 
 	p_EffectManager->Init();
 	p_EffectManager->Load();
