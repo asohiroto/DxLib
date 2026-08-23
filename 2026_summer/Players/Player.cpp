@@ -8,6 +8,7 @@
 #include "Magics/MagicFury.h"
 #include "Magics/MagicManager.h"
 #include <DxLib.h>
+#include <EffekseerForDXLib.h>
 #include <cassert>
 #include <algorithm>
 
@@ -43,6 +44,10 @@ namespace
 	constexpr int DAMAGED_COLOR = 0x00ff00;
 	// 通常時の色
 	constexpr int NORM_COLOR = 0xff0000;
+	// マジックサークルの再生位置を前方に補正
+	constexpr float CIRCLE_FRONT_OFFSET = 30.0f;
+	// マジックサークルの再生位置の高さを修正
+	constexpr float CIRCLE_HEIGHT_OFFSET = 300.0f;
 }
 
 Player::Player() :
@@ -56,7 +61,9 @@ Player::Player() :
 	_frontVec(VGet(0.0f, 0.0f, 0.0f)),
 	_nowState(PlayerState::Move),
 	_pressFrame(0),
-	_damagedCount(0)
+	_damagedCount(0),
+	_magicCircleH(-1),
+	_circlePlayingH(-1)
 {
 }
 
@@ -65,7 +72,7 @@ Player::~Player()
 
 }
 
-void Player::Init(int handle, int shotHandle, int missileHandle)
+void Player::Init(int handle, int shotHandle, int missileHandle, int furyHandle, int circleHandle)
 {
 	// プレイヤーのキャラクターデータの初期設定
 	_playerUnit.modelH = handle;
@@ -100,6 +107,9 @@ void Player::Init(int handle, int shotHandle, int missileHandle)
 	p_Missile->SetMagicMissileH(missileHandle);
 	p_Fury = std::make_shared<MagicFury>();
 	p_Fury->Init();
+	p_Fury->SetMagicFuryH(furyHandle);
+
+	_magicCircleH = circleHandle;
 }
 
 void Player::End()
@@ -174,15 +184,25 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 	float facing = _angle;
 	// 右向きベクトルを取得
 	VECTOR right = VGet(std::cosf(facing), 0.0f, -std::sinf(facing));
-
+	// 魔法を撃つ位置
 	VECTOR shotPos = VAdd(_playerUnit.pos, VScale(right, SHOT_RIGHT_OFFSET));
+	// マジックサークルの再生位置
+	VECTOR circlePos = VAdd(VAdd(_playerUnit.pos, VScale(_frontVec, CIRCLE_FRONT_OFFSET)), VScale(right, SHOT_RIGHT_OFFSET));
 
 	// RBを推している時間を計測
 	if (pInput->IsTrigger(PAD_INPUT_6))
+	{
 		_pressFrame = 0;
+		_circlePlayingH = PlayEffekseer3DEffect(_magicCircleH);
+	}
+
 	// マジックミサイル生成になればカメラがロックオン
 	if (pInput->IsPress(PAD_INPUT_6))
 	{
+		SetPosPlayingEffekseer3DEffect(_circlePlayingH, circlePos.x, circlePos.y + CIRCLE_HEIGHT_OFFSET, circlePos.z);
+
+		SetRotationPlayingEffekseer3DEffect(_circlePlayingH, 0.0f, facing, 0.0f);
+
 		if (_pressFrame < SHOT_SWITCH) pCamera->SetCameraMode(false);
 		else pCamera->SetCameraMode(true);
 	}
@@ -208,6 +228,8 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 
 			}
 		}
+
+		StopEffekseer3DEffect(_circlePlayingH);
 
 		pCamera->SetCameraMode(false);
 	}

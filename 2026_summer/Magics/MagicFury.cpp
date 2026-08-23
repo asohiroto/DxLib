@@ -1,5 +1,6 @@
 ﻿#include "MagicFury.h"
 #include "MagicManager.h"
+#include <EffekseerForDXLib.h>
 
 namespace
 {
@@ -14,7 +15,7 @@ namespace
 	// マジックフューリー生成の高さ
 	constexpr float FURY_HEIGHT = 2400.0f;
 	// ダメージ
-	constexpr int DAMAGE = 500;
+	constexpr int DAMAGE = 150;
 }
 
 MagicFury::MagicFury() :
@@ -63,6 +64,8 @@ void MagicFury::GenerateFury(VECTOR pos, VECTOR front, bool isEnemy, std::shared
 	_magicFury.isExist = true;
 	_magicFury.isEnemy = isEnemy;
 	_magicFury.moveDirection = VNorm(front);
+	_magicFury.effectH = PlayEffekseer3DEffect(_magicFury.effectResourceH);
+	SetScalePlayingEffekseer3DEffect(_magicFury.effectH, 1.0f, 1.5f, 1.0f);
 
 	pManager->EntryList(_magicFury);
 	pManager->LockOn();

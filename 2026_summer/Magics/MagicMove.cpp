@@ -15,6 +15,10 @@ namespace
 	constexpr float ACCEL_RATE = 25.0f;
 	// 加速度の補正
 	constexpr float ACCEL_OFFSET = 500.0f;
+	// マジックフューリーに欠ける線形補間度
+	constexpr float FURY_LERP_RATE = 0.15f;
+	// 到着したとみなす幅
+	constexpr float ARRIVED_LENGTH = 0.05f;
 }
 
 MagicMove::MagicMove()
@@ -98,9 +102,14 @@ void MagicMove::BeamMove(MagicBase::MagicData& data, VECTOR targetPos, VECTOR st
 
 void MagicMove::FuryMove(MagicBase::MagicData& data, VECTOR targetPos)
 {
-	data.segmentEndPos = VAdd(data.segmentEndPos, VScale(data.moveDirection, data.speed));
+	data.segmentEndPos = VAdd(data.segmentEndPos, VScale(VSub(targetPos, data.segmentEndPos), FURY_LERP_RATE));
 
-	if (data.segmentEndPos.y <= targetPos.y)
+	//if (data.effectH != -1)
+	//	SetPosPlayingEffekseer3DEffect(data.effectH, targetPos.x, 0.0f, targetPos.z);
+
+	SetPosPlayingEffekseer3DEffect(data.effectH, data.segmentEndPos.x, data.segmentEndPos.y, data.segmentEndPos.z);
+
+	if (data.segmentEndPos.y - targetPos.y <= ARRIVED_LENGTH)
 	{
 		data.isArrived = true;
 		data.movedDistance = 0.0f;

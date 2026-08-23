@@ -12,11 +12,11 @@ namespace
 	// マジックミサイルのエフェクトサイズ
 	constexpr float MISSILE_EFFECT_SIZE = 90.0f;
 	// マジックフューリーのエフェクトサイズ
-	constexpr float FURY_EFFECT_SIZE = 90.0f;
+	constexpr float FURY_EFFECT_SIZE = 180.0f;
 	// ヒット時のエフェクトサイズ
-	constexpr float HIT_EFFECT_SIZE = 90.0f;
+	constexpr float HIT_EFFECT_SIZE = 180.0f;
 	// マジックサークルのエフェクトサイズ
-	constexpr float CIRCLE_EFFECT_SIZE = 90.0f;
+	constexpr float CIRCLE_EFFECT_SIZE = 120.0f;
 
 }
 

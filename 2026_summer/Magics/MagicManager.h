@@ -26,8 +26,6 @@ public:
 	MagicList& GetPlayerList() { return _playerMagics; }
 	// 敵が使用した魔法のゲッター
 	MagicList& GetEnemyList() { return _enemyMagics; }
-	// プレイヤーの魔法を描画
-	void DrawPlayerMagic();
 	// 敵の魔法を描画
 	void DrawEnemyMagic();
 	// リストから条件を満たした魔法を消す関数

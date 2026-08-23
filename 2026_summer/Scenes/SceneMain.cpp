@@ -29,7 +29,8 @@ SceneMain::SceneMain() :
 	p_EffectManager(nullptr),
 	_playerTempH(-1), _enemyTempH(-1),
 	_domeTempH(-1),
-	_shotTempH(-1), _hitTempH(-1), _missileTempH(-1)
+	_shotTempH(-1), _missileTempH(-1), _furyTempH(-1),
+	_hitTempH(-1), _circleTempH(-1)
 {
 }
 
@@ -49,7 +50,7 @@ void SceneMain::Init()
 	p_Dome = std::make_unique<SkyDome>();
 	p_EffectManager = std::make_shared<EffectManager>();
 
-	p_Player->Init(_playerTempH, _shotTempH, _missileTempH);
+	p_Player->Init(_playerTempH, _shotTempH, _missileTempH, _furyTempH, _circleTempH);
 	p_Camera->Init();
 	p_EManager->Init(_enemyTempH);
 	p_MManager->Init();

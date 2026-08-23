@@ -7,7 +7,7 @@ namespace
 	// 高さ補正用
 	constexpr float ENEMY_HEIGHT_OFFSET = 300.0f;
 	// マジックフューリーの目的地の深さ
-	constexpr float FURY_DIPTH = 1200.0f;
+	constexpr float FURY_DIPTH = 0.0f;
 }
 
 MagicManager::MagicManager() :
@@ -70,7 +70,6 @@ void MagicManager::Update(VECTOR playerPos, VECTOR enemyPos)
 
 void MagicManager::Draw()
 {
-	DrawPlayerMagic();
 	DrawEnemyMagic();
 }
 
@@ -78,14 +77,6 @@ void MagicManager::EntryList(MagicBase::MagicData data)
 {
 	if (data.isEnemy) _enemyMagics.push_back(data);
 	else _playerMagics.push_back(data);
-}
-
-void MagicManager::DrawPlayerMagic()
-{
-	for (int i = 0; i < _playerMagics.size(); i++)
-	{
-		DrawMagic(_playerMagics[i]);
-	}
 }
 
 void MagicManager::DrawEnemyMagic()

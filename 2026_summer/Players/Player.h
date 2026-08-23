@@ -26,7 +26,7 @@ public:
 public:
 	Player();
 	virtual ~Player() override;
-	void Init(int handle, int shotHandle, int missileHandle);
+	void Init(int handle, int shotHandle, int missileHandle, int furyHandle, int circleHandle);
 	void End()override;
 	void Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCamera, std::shared_ptr<MagicManager> pManager);
 	void Draw() override;
@@ -72,4 +72,8 @@ private:
 	int _pressFrame;
 	// ダメージを受けてからの時間
 	int _damagedCount;
+	// マジックサークルのハンドル
+	int _magicCircleH;
+	// エフェクト再生中のハンドル
+	int _circlePlayingH;
 };

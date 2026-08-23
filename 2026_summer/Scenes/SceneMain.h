@@ -33,7 +33,8 @@ public:
 	// 各ハンドルのセッター
 	void SetCharacterH(int playerH, int enemyH) { _playerTempH = playerH; _enemyTempH = enemyH; }
 	void SetSkyDomeH(int domeH) { _domeTempH = domeH; }
-	void SetMagicH(int shotH, int missileH, int hitH) { _shotTempH = shotH; _missileTempH = missileH; _hitTempH = hitH; }
+	void SetMagicH(int shotH, int missileH, int furyH) { _shotTempH = shotH; _missileTempH = missileH; _furyTempH = furyH; }
+	void SetOtherH(int hitH, int circleH) { _hitTempH = hitH; _circleTempH = circleH; }
 
 private:
 	// プレイヤークラスの共有ポインタ
@@ -61,6 +62,7 @@ private:
 	int _domeTempH;
 	int _shotTempH;
 	int _missileTempH;
+	int _furyTempH;
 	int _hitTempH;
-
+	int _circleTempH;
 };
