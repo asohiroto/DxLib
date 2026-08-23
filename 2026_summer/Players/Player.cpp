@@ -65,7 +65,7 @@ Player::~Player()
 
 }
 
-void Player::Init(int handle, int shotHandle)
+void Player::Init(int handle, int shotHandle, int missileHandle)
 {
 	// プレイヤーのキャラクターデータの初期設定
 	_playerUnit.modelH = handle;
@@ -97,6 +97,7 @@ void Player::Init(int handle, int shotHandle)
 	p_Shot->SetMagicShotH(shotHandle);
 	p_Missile = std::make_shared<MagicMissile>();
 	p_Missile->Init();
+	p_Missile->SetMagicMissileH(missileHandle);
 	p_Fury = std::make_shared<MagicFury>();
 	p_Fury->Init();
 }

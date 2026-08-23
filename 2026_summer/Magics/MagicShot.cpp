@@ -1,6 +1,7 @@
 ﻿#include "MagicShot.h"
 #include "MagicManager.h"
 #include <DxLib.h>
+#include <EffekseerForDXLib.h>
 
 namespace
 {
@@ -50,7 +51,6 @@ void MagicShot::End()
 
 void MagicShot::Update()
 {
-
 }
 
 void MagicShot::Draw()
@@ -65,6 +65,7 @@ void MagicShot::GenerateShot(VECTOR pos, VECTOR front, bool isEnemy, std::shared
 	_magicShot.isExist = true;
 	_magicShot.isEnemy = isEnemy;
 	_magicShot.moveDirection = VNorm(front);
+	_magicShot.effectH = PlayEffekseer3DEffect(_magicShot.effectResourceH);
 
 	pManager->EntryList(_magicShot);
 }

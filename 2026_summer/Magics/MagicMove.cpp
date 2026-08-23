@@ -1,4 +1,5 @@
 ﻿#include "MagicMove.h"
+#include <EffekseerForDXLib.h>
 
 namespace
 {
@@ -46,6 +47,9 @@ void MagicMove::ShotMove(MagicBase::MagicData& data)
 	data.pos = VAdd(data.pos, VScale(data.moveDirection, data.speed));
 	data.movedDistance += data.speed;
 
+	if (data.effectH != -1)
+		SetPosPlayingEffekseer3DEffect(data.effectH, data.pos.x, data.pos.y, data.pos.z);
+
 	// 最大距離まで移動したら消す
 	if (data.movedDistance >= SHOT_DISTANCE_MAX)
 	{
@@ -67,6 +71,9 @@ void MagicMove::MissileMove(MagicBase::MagicData& data, VECTOR targetPos)
 	// 座標を更新	
 	data.pos = VAdd(data.pos, data.velo);
 	data.movedDistance += VSize(data.velo);
+
+	if (data.effectH != -1)
+		SetPosPlayingEffekseer3DEffect(data.effectH, data.pos.x, data.pos.y, data.pos.z);
 
 	// 最大距離まで移動したら消す
 	if (data.movedDistance >= MISSILE_DISTANCE_MAX)

@@ -8,14 +8,22 @@ namespace
 	// 読み込む最大数
 	constexpr int MAX_LOAD_NUM = 5;
 	// マジックショットのエフェクトサイズ
-	constexpr float SHOT_EFFECT_SIZE = 3.0f;
+	constexpr float SHOT_EFFECT_SIZE = 90.0f;
+	// マジックミサイルのエフェクトサイズ
+	constexpr float MISSILE_EFFECT_SIZE = 90.0f;
+	// マジックフューリーのエフェクトサイズ
+	constexpr float FURY_EFFECT_SIZE = 90.0f;
 	// ヒット時のエフェクトサイズ
-	constexpr float HIT_EFFECT_SIZE = 60.0f;
+	constexpr float HIT_EFFECT_SIZE = 90.0f;
+	// マジックサークルのエフェクトサイズ
+	constexpr float CIRCLE_EFFECT_SIZE = 90.0f;
+
 }
 
 LoadScene::LoadScene() :
 	_playerH(-1), _enemyH(-1), _domeH(-1),
-	_magicShotEffectH(-1), _hitEffectH(-1),
+	_magicShotEffectH(-1), _magicMissileEffectH(-1), _magicFuryEffectH(-1),
+	_hitEffectH(-1), _magicCircleEffectH(-1),
 	_totalRequestNum(MAX_LOAD_NUM),
 	_sceneChange(false)
 {
@@ -35,13 +43,19 @@ void LoadScene::Init()
 	// 非同期処理開始
 	SetUseASyncLoadFlag(true);
 
+	// ３Dモデルをロード
 	_playerH = MV1LoadModel("data/models/Player_true.mv1");
 	_enemyH = MV1LoadModel("data/models/EnemyModel.mv1");
 	_domeH = MV1LoadModel("data/sunny_dome.mv1");
 
+	// プレイヤーの魔法をロード
 	_magicShotEffectH = LoadEffekseerEffect("data/effects/MagicShot.efkefc", SHOT_EFFECT_SIZE);
-	_hitEffectH = LoadEffekseerEffect("data/effects/hitEffe.efkefc", HIT_EFFECT_SIZE);
+	_magicMissileEffectH = LoadEffekseerEffect("data/effects/MagicShot.efkefc", MISSILE_EFFECT_SIZE);
+	_magicFuryEffectH = LoadEffekseerEffect("data/effects/MagicFury2.efkefc", FURY_EFFECT_SIZE);
 
+	// その他のエフェクトをロード
+	_hitEffectH = LoadEffekseerEffect("data/effects/HitEffe.efkefc", HIT_EFFECT_SIZE);
+	_magicCircleEffectH = LoadEffekseerEffect("data/effects/MagicCircle.efkefc", CIRCLE_EFFECT_SIZE);
 
 	// 非同期処理終了
 	SetUseASyncLoadFlag(false);

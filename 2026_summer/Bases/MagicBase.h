@@ -48,6 +48,8 @@ public:
 		float useMp;
 		// エフェクトのハンドル
 		int effectResourceH;
+		// 再生中のエフェクトのハンドル
+		int effectH;
 	};
 
 public:

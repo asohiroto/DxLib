@@ -21,6 +21,8 @@ public:
 	void SetTarget(VECTOR target) { _magicMissile.moveDirection = target; }
 	// 消費魔力のゲッター
 	int GetUseMp() const { return _magicMissile.useMp; }
+	// マジックミサイルのハンドル
+	void SetMagicMissileH(int handle) { _magicMissile.effectResourceH = handle; }
 private:
 	MagicData _magicMissile;
 };

@@ -33,7 +33,7 @@ public:
 	// 各ハンドルのセッター
 	void SetCharacterH(int playerH, int enemyH) { _playerTempH = playerH; _enemyTempH = enemyH; }
 	void SetSkyDomeH(int domeH) { _domeTempH = domeH; }
-	void SetMagicH(int shotH, int hitH) { _shotTempH = shotH; _hitTempH = hitH; }
+	void SetMagicH(int shotH, int missileH, int hitH) { _shotTempH = shotH; _missileTempH = missileH; _hitTempH = hitH; }
 
 private:
 	// プレイヤークラスの共有ポインタ
@@ -54,12 +54,13 @@ private:
 	std::unique_ptr<SkyDome> p_Dome;
 	// エフェクトマネージャーの共有ポインタ
 	std::shared_ptr<EffectManager> p_EffectManager;
-	
+
 	// 各クラスに渡す用のハンドル
 	int _playerTempH;
 	int _enemyTempH;
 	int _domeTempH;
 	int _shotTempH;
+	int _missileTempH;
 	int _hitTempH;
 
 };

@@ -108,7 +108,7 @@ void SceneManager::ChangeScene(SceneState nextScene)
 	case SceneManager::SceneState::Game:
 		p_SceneMain->SetCharacterH(p_LoadScene->GetPlayerH(), p_LoadScene->GetEnemyH());
 		p_SceneMain->SetSkyDomeH(p_LoadScene->GetDomeH());
-		p_SceneMain->SetMagicH(p_LoadScene->GetMagicShotH(), p_LoadScene->GetHitEffectH());
+		p_SceneMain->SetMagicH(p_LoadScene->GetMagicShotH(), p_LoadScene->GetMissileH(), p_LoadScene->GetHitEffectH());
 		p_SceneMain->Init();
 		break;
 	case SceneManager::SceneState::Clear:

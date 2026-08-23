@@ -7,8 +7,8 @@
 
 namespace
 {
-	// ヒットエフェクトを出す高さの補正値
-	constexpr float EFFECT_HEIGHT_OFFSET = 400.0f;
+	// エフェクト再生高さの補正値
+	constexpr float EFFECT_HEIGHT_OFFSET = 300.0f;
 }
 
 MagicCollision::MagicCollision() :
@@ -55,6 +55,12 @@ void MagicCollision::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Ene
 	if (IsPlayerHit())
 	{
 		pPlayer->SetHit(enemyList[_hitEnemyMagicInd].damage);
+
+		VECTOR effectPos = pPlayer->GetPos();
+
+		int handle = PlayEffekseer3DEffect(_hitEffectH);
+		SetPosPlayingEffekseer3DEffect(handle, effectPos.x, effectPos.y + EFFECT_HEIGHT_OFFSET, effectPos.z);
+
 		enemyList[_hitEnemyMagicInd].isExist = false;
 	}
 
@@ -64,8 +70,10 @@ void MagicCollision::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Ene
 
 		pEnemy->SetHit(magic.damage);
 
+		VECTOR effectPos = pEnemy->GetPos();
+
 		int handle = PlayEffekseer3DEffect(_hitEffectH);
-		SetPosPlayingEffekseer3DEffect(handle, magic.pos.x, magic.pos.y - EFFECT_HEIGHT_OFFSET, magic.pos.z);
+		SetPosPlayingEffekseer3DEffect(handle, effectPos.x, effectPos.y + EFFECT_HEIGHT_OFFSET, effectPos.z);
 
 		if (magic.type == MagicBase::MagicType::MagicFury)
 		{

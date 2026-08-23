@@ -21,8 +21,14 @@ public:
 	int GetDomeH() const { return _domeH; }
 	// マジックショットのハンドルを渡す
 	int GetMagicShotH()const { return _magicShotEffectH; }
+	// マジックミサイルのハンドルを渡す
+	int GetMissileH() const { return _magicMissileEffectH; }
+	// マジックフューリーのハンドルを渡す
+	int GetFuryH() const { return _magicFuryEffectH; }
 	// ヒット時のエフェクトのハンドルを渡す
 	int GetHitEffectH() const { return _hitEffectH; }
+	// マジックサークルのハンドルを渡す
+	int GetCircleEffectH() const { return _magicCircleEffectH; }
 	// シーン遷移を行うか
 	bool CanSceneChange() const { return _sceneChange; }
 
@@ -36,6 +42,12 @@ private:
 	bool _sceneChange;
 	// マジックショットのエフェクトのハンドル
 	int _magicShotEffectH;
+	// マジックミサイルのエフェクトのハンドル
+	int _magicMissileEffectH;
+	// マジックフューリーのエフェクトのハンドル
+	int _magicFuryEffectH;
+	// マジックサークルのエフェクトのハンドル
+	int _magicCircleEffectH;
 	// ヒットエフェクトのハンドル
 	int _hitEffectH;
 

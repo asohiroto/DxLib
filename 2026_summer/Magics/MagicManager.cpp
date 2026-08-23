@@ -1,5 +1,6 @@
 ﻿#include "MagicManager.h"
 #include "MagicMove.h"
+#include <EffekseerForDXLib.h>
 
 namespace
 {
@@ -97,6 +98,10 @@ void MagicManager::DrawEnemyMagic()
 
 void MagicManager::RemoveList()
 {
+	for (auto& magic : _playerMagics)
+		if (!magic.isExist && magic.effectH != -1)
+			StopEffekseer3DEffect(magic.effectH);
+
 	std::erase_if(_playerMagics, [](const MagicBase::MagicData& data) {return !data.isExist; });
 	std::erase_if(_enemyMagics, [](const MagicBase::MagicData& data) {return !data.isExist; });
 }
@@ -107,7 +112,5 @@ void MagicManager::DrawMagic(MagicBase::MagicData data)
 	{
 		if (data.type == MagicBase::MagicType::MagicBeam || data.type == MagicBase::MagicType::MagicFury)
 			DrawCapsule3D(data.segmentStPos, data.segmentEndPos, data.radius, 16, data.color, data.color, true);
-		else
-			DrawSphere3D(data.pos, data.radius, 16, data.color, data.color, true);
 	}
 }

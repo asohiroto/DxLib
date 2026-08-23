@@ -1,6 +1,6 @@
 ﻿#include "MagicMissile.h"
-#include "MagicMissile.h"
 #include "MagicManager.h"
+#include <EffekseerForDXLib.h>
 
 namespace
 {
@@ -67,6 +67,7 @@ void MagicMissile::GenerateMissile(VECTOR pos, VECTOR front, bool isEnemy, std::
 	_magicMissile.isEnemy = isEnemy;
 	_magicMissile.moveDirection = VNorm(front);
 	_magicMissile.velo = VScale(_magicMissile.moveDirection, _magicMissile.speed);
+	_magicMissile.effectH = PlayEffekseer3DEffect(_magicMissile.effectResourceH);
 
 	pManager->EntryList(_magicMissile);
 }
