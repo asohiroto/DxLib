@@ -70,7 +70,6 @@ void MagicManager::Update(VECTOR playerPos, VECTOR enemyPos)
 
 void MagicManager::Draw()
 {
-	DrawEnemyMagic();
 }
 
 void MagicManager::EntryList(MagicBase::MagicData data)
@@ -79,13 +78,6 @@ void MagicManager::EntryList(MagicBase::MagicData data)
 	else _playerMagics.push_back(data);
 }
 
-void MagicManager::DrawEnemyMagic()
-{
-	for (int i = 0; i < _enemyMagics.size(); i++)
-	{
-		DrawMagic(_enemyMagics[i]);
-	}
-}
 
 void MagicManager::RemoveList()
 {
@@ -93,15 +85,10 @@ void MagicManager::RemoveList()
 		if (!magic.isExist && magic.effectH != -1)
 			StopEffekseer3DEffect(magic.effectH);
 
+	for (auto& eneMagic : _enemyMagics)
+		if (!eneMagic.isExist && eneMagic.effectH != -1)
+			StopEffekseer3DEffect(eneMagic.effectH);
+
 	std::erase_if(_playerMagics, [](const MagicBase::MagicData& data) {return !data.isExist; });
 	std::erase_if(_enemyMagics, [](const MagicBase::MagicData& data) {return !data.isExist; });
-}
-
-void MagicManager::DrawMagic(MagicBase::MagicData data)
-{
-	if (data.isExist)
-	{
-		if (data.type == MagicBase::MagicType::MagicBeam || data.type == MagicBase::MagicType::MagicFury)
-			DrawCapsule3D(data.segmentStPos, data.segmentEndPos, data.radius, 16, data.color, data.color, true);
-	}
 }

@@ -12,7 +12,7 @@ class EnemyManager
 public:
 	EnemyManager();
 	virtual ~EnemyManager();
-	void Init(int handle);
+	void Init(int handle, int beamH);
 	void End();
 	void Update(VECTOR playerPos, std::shared_ptr<MagicManager> pMManager);
 	void Draw();

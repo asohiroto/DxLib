@@ -59,7 +59,7 @@ void LoadScene::Init()
 	_magicFuryEffectH = LoadEffekseerEffect("data/effects/MagicFury2.efkefc", FURY_EFFECT_SIZE);
 
 	// 敵の魔法をロード
-	_magicBeamH = LoadEffekseerEffect("data/effects/MagicBeam1.efkefc", BEAM_EFFECT_SIZE);
+	_magicBeamH = LoadEffekseerEffect("data/effects/MagicBeam2.efkefc", BEAM_EFFECT_SIZE);
 
 	// その他のエフェクトをロード
 	_hitEffectH = LoadEffekseerEffect("data/effects/HitEffe.efkefc", HIT_EFFECT_SIZE);

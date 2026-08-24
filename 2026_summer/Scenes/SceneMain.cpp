@@ -30,7 +30,9 @@ SceneMain::SceneMain() :
 	_playerTempH(-1), _enemyTempH(-1),
 	_domeTempH(-1),
 	_shotTempH(-1), _missileTempH(-1), _furyTempH(-1),
-	_hitTempH(-1), _circleTempH(-1)
+	_beamTempH(-1),
+	_hitTempH(-1), _circleTempH(-1),
+	_atmosH(-1), _atmosPlayingH(-1), _atmosCount(0)
 {
 }
 
@@ -52,7 +54,7 @@ void SceneMain::Init()
 
 	p_Player->Init(_playerTempH, _shotTempH, _missileTempH, _furyTempH, _circleTempH);
 	p_Camera->Init();
-	p_EManager->Init(_enemyTempH);
+	p_EManager->Init(_enemyTempH, _beamTempH);
 	p_MManager->Init();
 	p_UI->Init(p_EManager->GetMaxHp(), p_Player->GetMaxHp());
 	p_Dome->Init(_domeTempH);
@@ -70,6 +72,8 @@ void SceneMain::End()
 
 void SceneMain::Update(std::shared_ptr<Input> pInput)
 {
+	_atmosCount++;
+
 	p_Dome->Update();
 	p_Player->Update(pInput, p_Camera, p_MManager);
 	p_Camera->Update(p_Player, p_EManager->GetEnemyPointer(), pInput);
@@ -82,6 +86,9 @@ void SceneMain::Update(std::shared_ptr<Input> pInput)
 	p_UI->Update(p_EManager->GetNowHp(), p_Player->GetNowHp());
 
 	p_EffectManager->Update();
+
+	if (_atmosCount % 240 == 0)
+		_atmosPlayingH = PlayEffekseer3DEffect(_atmosH);
 }
 
 void SceneMain::Draw()

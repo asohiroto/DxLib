@@ -1,5 +1,6 @@
 ﻿#include "MagicMove.h"
 #include <EffekseerForDXLib.h>
+#include <cmath>
 
 namespace
 {
@@ -89,14 +90,25 @@ void MagicMove::MissileMove(MagicBase::MagicData& data, VECTOR targetPos)
 
 void MagicMove::BeamMove(MagicBase::MagicData& data, VECTOR targetPos, VECTOR startPos)
 {
-	data.segmentStPos = startPos;
-	data.segmentEndPos = VAdd(data.segmentEndPos, VScale(data.moveDirection, data.speed));
-	data.movedDistance += data.speed;
+	data.chargeCount++;
 
-	if (data.movedDistance >= BEAM_DISTANCE_MAX)
+	float dirAngle = atan2f(data.moveDirection.x, data.moveDirection.z);
+
+	SetPosPlayingEffekseer3DEffect(data.effectH, startPos.x, startPos.y, startPos.z);
+	SetRotationPlayingEffekseer3DEffect(data.effectH, 0.0f, dirAngle + DX_PI_F, 0.0f);
+
+	if (data.chargeCount > 10)
 	{
-		data.isExist = false;
-		data.movedDistance = 0.0f;
+		data.segmentStPos = startPos;
+		data.segmentEndPos = VAdd(data.segmentEndPos, VScale(data.moveDirection, data.speed));
+		data.movedDistance += data.speed;
+
+		if (data.movedDistance >= BEAM_DISTANCE_MAX)
+		{
+			data.isExist = false;
+			data.movedDistance = 0.0f;
+			data.chargeCount = 0;
+		}
 	}
 }
 

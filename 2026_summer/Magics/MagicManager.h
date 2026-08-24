@@ -26,12 +26,8 @@ public:
 	MagicList& GetPlayerList() { return _playerMagics; }
 	// 敵が使用した魔法のゲッター
 	MagicList& GetEnemyList() { return _enemyMagics; }
-	// 敵の魔法を描画
-	void DrawEnemyMagic();
 	// リストから条件を満たした魔法を消す関数
 	void RemoveList();
-	// 魔法を描画する
-	void DrawMagic(MagicBase::MagicData data);
 	// 敵をロックオンする
 	void LockOn() { _enemyLock = true; }
 	// ロックオンしているか

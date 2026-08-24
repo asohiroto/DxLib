@@ -74,5 +74,6 @@ private:
 	// 再生中の大気表現のハンドル
 	int _atmosPlayingH;
 
+	// 大気表現のループ再生用のカウンタ
 	int _atmosCount;
 };

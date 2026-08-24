@@ -1,5 +1,6 @@
 ﻿#include "MagicBeam.h"
 #include "MagicManager.h"
+#include <EffekseerForDXLib.h>
 
 namespace
 {
@@ -36,6 +37,7 @@ void MagicBeam::Init()
 	_magicBeam.segmentStPos = VGet(0.0f, 0.0f, 0.0f);
 	_magicBeam.segmentEndPos = VGet(0.0f, 0.0f, 0.0f);
 	_magicBeam.damage = DAMAGE;
+	_magicBeam.chargeCount = 0;
 }
 
 void MagicBeam::End()
@@ -59,6 +61,8 @@ void MagicBeam::GenerateBeam(VECTOR pos, VECTOR front, bool isEnemy, std::shared
 	_magicBeam.isExist = true;
 	_magicBeam.isEnemy = isEnemy;
 	_magicBeam.moveDirection = VNorm(front);
+	_magicBeam.chargeCount = 0;
+	_magicBeam.effectH = PlayEffekseer3DEffect(_magicBeam.effectResourceH);
 
 	pManager->EntryList(_magicBeam);
 }

@@ -50,6 +50,8 @@ public:
 		int effectResourceH;
 		// 再生中のエフェクトのハンドル
 		int effectH;
+		// チャージ中のカウント
+		int chargeCount;
 	};
 
 public:
