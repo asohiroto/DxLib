@@ -17,13 +17,17 @@ namespace
 	constexpr float HIT_EFFECT_SIZE = 180.0f;
 	// マジックサークルのエフェクトサイズ
 	constexpr float CIRCLE_EFFECT_SIZE = 120.0f;
-
+	// マジックビームのエフェクトサイズ
+	constexpr float BEAM_EFFECT_SIZE = 180.0f;
+	// 大気のエフェクトのサイズ
+	constexpr float ATMOS_EFFECT_SIZE = 240.0f;
 }
 
 LoadScene::LoadScene() :
 	_playerH(-1), _enemyH(-1), _domeH(-1),
 	_magicShotEffectH(-1), _magicMissileEffectH(-1), _magicFuryEffectH(-1),
-	_hitEffectH(-1), _magicCircleEffectH(-1),
+	_magicBeamH(-1),
+	_hitEffectH(-1), _magicCircleEffectH(-1), _atmosEffectH(-1),
 	_totalRequestNum(MAX_LOAD_NUM),
 	_sceneChange(false)
 {
@@ -34,6 +38,7 @@ LoadScene::~LoadScene()
 	MV1DeleteModel(_playerH);
 	MV1DeleteModel(_enemyH);
 	MV1DeleteModel(_domeH);
+
 }
 
 void LoadScene::Init()
@@ -53,9 +58,13 @@ void LoadScene::Init()
 	_magicMissileEffectH = LoadEffekseerEffect("data/effects/MagicShot.efkefc", MISSILE_EFFECT_SIZE);
 	_magicFuryEffectH = LoadEffekseerEffect("data/effects/MagicFury2.efkefc", FURY_EFFECT_SIZE);
 
+	// 敵の魔法をロード
+	_magicBeamH = LoadEffekseerEffect("data/effects/MagicBeam1.efkefc", BEAM_EFFECT_SIZE);
+
 	// その他のエフェクトをロード
 	_hitEffectH = LoadEffekseerEffect("data/effects/HitEffe.efkefc", HIT_EFFECT_SIZE);
 	_magicCircleEffectH = LoadEffekseerEffect("data/effects/MagicCircle.efkefc", CIRCLE_EFFECT_SIZE);
+	_atmosEffectH = LoadEffekseerEffect("data/effects/atmo.efkefc", ATMOS_EFFECT_SIZE);
 
 	// 非同期処理終了
 	SetUseASyncLoadFlag(false);

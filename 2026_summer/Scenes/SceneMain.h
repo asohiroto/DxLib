@@ -33,8 +33,9 @@ public:
 	// 各ハンドルのセッター
 	void SetCharacterH(int playerH, int enemyH) { _playerTempH = playerH; _enemyTempH = enemyH; }
 	void SetSkyDomeH(int domeH) { _domeTempH = domeH; }
-	void SetMagicH(int shotH, int missileH, int furyH) { _shotTempH = shotH; _missileTempH = missileH; _furyTempH = furyH; }
-	void SetOtherH(int hitH, int circleH) { _hitTempH = hitH; _circleTempH = circleH; }
+	void SetPlayerMagicH(int shotH, int missileH, int furyH) { _shotTempH = shotH; _missileTempH = missileH; _furyTempH = furyH; }
+	void SetEnemyMagicH(int beamH) { _beamTempH = beamH; }
+	void SetOtherH(int hitH, int circleH, int atmosH) { _hitTempH = hitH; _circleTempH = circleH; _atmosH = atmosH; }
 
 private:
 	// プレイヤークラスの共有ポインタ
@@ -65,4 +66,13 @@ private:
 	int _furyTempH;
 	int _hitTempH;
 	int _circleTempH;
+	int _beamTempH;
+
+	// 大気表現のエフェクトハンドル
+	int _atmosH;
+
+	// 再生中の大気表現のハンドル
+	int _atmosPlayingH;
+
+	int _atmosCount;
 };
