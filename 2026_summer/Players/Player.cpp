@@ -244,7 +244,7 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 	{
 		if (_pressFrame < SHOT_SWITCH)
 		{
-			int remainMp = _playerUnit.mp - p_Shot->GetUseMp();
+			float remainMp = _playerUnit.mp - p_Shot->GetUseMp();
 			if (remainMp >= 0)
 			{
 				_playerUnit.mp = remainMp;
@@ -255,7 +255,7 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 		}
 		else
 		{
-			int remainMp = _playerUnit.mp - p_Missile->GetUseMp();
+			float remainMp = _playerUnit.mp - p_Missile->GetUseMp();
 			if (remainMp >= 0)
 			{
 				_playerUnit.mp = remainMp;
@@ -271,7 +271,11 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 
 	if (pInput->IsTrigger(PAD_INPUT_8))
 	{
-		p_Fury->GenerateFury(pManager->GetEnePos(), VGet(0.0f, -1.0f, 0.0f), false, pManager);
+		if (_playerUnit.ultCharge >= _playerUnit.maxUltCharge)
+		{
+			p_Fury->GenerateFury(pManager->GetEnePos(), VGet(0.0f, -1.0f, 0.0f), false, pManager);
+			_playerUnit.ultCharge = 0;
+		}
 	}
 }
 

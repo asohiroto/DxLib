@@ -175,6 +175,7 @@
     <ClCompile Include="UIs\EnemyHpBar.cpp" />
     <ClCompile Include="UIs\PlayerHpBar.cpp" />
     <ClCompile Include="UIs\PlayerMpBar.cpp" />
+    <ClCompile Include="UIs\PlayerUltGauge.cpp" />
     <ClCompile Include="UIs\UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -206,6 +207,7 @@
     <ClInclude Include="UIs\EnemyHpBar.h" />
     <ClInclude Include="UIs\PlayerHpBar.h" />
     <ClInclude Include="UIs\PlayerMpBar.h" />
+    <ClInclude Include="UIs\PlayerUltGauge.h" />
     <ClInclude Include="UIs\UIManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

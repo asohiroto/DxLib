@@ -56,6 +56,10 @@ public:
 	float GetNowMp() const { return _playerUnit.mp; }
 	// ジャスト回避成功によって引き起こされる効果
 	void JustDodgeEffect();
+	// 現在の必殺技のチャージ量
+	float GetNowCharge() const { return _playerUnit.ultCharge; }
+	// 必殺技の最大チャージ量
+	float GetMaxCharge() const { return _playerUnit.maxUltCharge; }
 
 private:
 	// プレイヤー
