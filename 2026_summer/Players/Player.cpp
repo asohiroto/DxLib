@@ -51,7 +51,7 @@ namespace
 	// 通常時のジャスト回避判定の半径（存在しないため０）
 	constexpr float NORM_JUST_RADIUS = 0.0f;
 	// ジャスト回避判定の半径
-	constexpr float JUST_DODGE_RADIUS = 390.0f;
+	constexpr float JUST_DODGE_RADIUS = 200.0f;
 	// ジャスト回避によって得ることのできる必殺技のチャージ量
 	constexpr float ULT_CHARGE_AMOUNT = 20;
 	// ジャスト回避によって得られるMPの量

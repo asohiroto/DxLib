@@ -4,9 +4,9 @@
 namespace
 {
 	// 回避速度
-	constexpr float SPEED = 20.0f;
+	constexpr float SPEED = 40.0f;
 	// 最大回避距離
-	constexpr float MAX_DISTANCE = 200.0f;
+	constexpr float MAX_DISTANCE = 600.0f;
 }
 
 PlayerDodge::PlayerDodge() :
@@ -41,7 +41,8 @@ void PlayerDodge::Update(std::shared_ptr<Input> pInput, float cameraAngle)
 		_dodgeDistance += SPEED;
 		if (_dodgeDistance <= MAX_DISTANCE)
 		{
-			_dodgedPos = VAdd(_dodgedPos, VScale(_dodgeDir, SPEED));
+			//_dodgedPos = VAdd(_dodgedPos, VScale(_dodgeDir, SPEED));
+			_dodgedPos = VScale(_dodgeDir, SPEED);
 		}
 		else if (_dodgeDistance > MAX_DISTANCE)
 		{
@@ -63,10 +64,11 @@ void PlayerDodge::CalDirection(std::shared_ptr<Input> pInput, float cameraAngle)
 	int _mz = pInput->GetLeftStickY();
 
 	// 回避方向を決定
-	_dodgeDir = VGet(static_cast<float>(_mx), 0.0f, static_cast<float>(-_mz));
+	VECTOR input = VGet(static_cast<float>(_mx), 0.0f, static_cast<float>(-_mz));
 
-	// 正規化し、方向を取得
-	_dodgeDir = VNorm(_dodgeDir);
+	if (VSize(input) > 0)
+		// 正規化し、方向を取得
+		_dodgeDir = VNorm(input);
 
 	// カメラのアングルを行列に変換
 	MATRIX _rotMatrix = MGetRotY(cameraAngle);

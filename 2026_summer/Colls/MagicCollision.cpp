@@ -42,15 +42,18 @@ void MagicCollision::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Ene
 	Character::CharacterData player = pPlayer->GetPlayerData();
 	Character::CharacterData enemy = pEnemy->GetEnemyData();
 
+	_wasJustDodge = _isJustDodge;
+	_wasPlayerHit = _isPlayerHit;
+	_wasEnemyHit = _isEnemyHit;
+
+	_isJustDodge = false;
+
 	_hitEnemyMagicInd = PlayerHitCheck(player, enemyList);
 	_hitPlayerMagicInd = EnemyHitCheck(enemy, playerList);
 
-	_wasJustDodge = _isJustDodge;
-	_wasPlayerHit = _isPlayerHit;
 	if (_hitEnemyMagicInd >= 0 && !pPlayer->IsDodge()) _isPlayerHit = true;
 	else _isPlayerHit = false;
 
-	_wasEnemyHit = _isEnemyHit;
 	if (_hitPlayerMagicInd >= 0) _isEnemyHit = true;
 	else _isEnemyHit = false;
 
@@ -118,10 +121,13 @@ int MagicCollision::PlayerHitCheck(const Character::CharacterData& player, const
 		float dipth = player.radius + enemyList[i].radius - distance;
 
 		// ジャスト回避判定とのめり込みの深さを計算
-		float justDipth = player.justRadius + enemyList[i].radius - distance;
+		if (player.justRadius > 0.0f)
+		{
+			float justDipth = player.justRadius + enemyList[i].radius - distance;
 
-		if (justDipth >= 0)
-			_isJustDodge = true;
+			if (justDipth >= 0)
+				_isJustDodge = true;
+		}
 
 		// 当たっている番号を返す
 		if (dipth >= 0)
