@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "Enemy.h"
 #include <DxLib.h>
 #include <memory>
 #include <vector>

@@ -18,7 +18,7 @@ namespace
 	// ダメージ
 	constexpr int DAMAGE = 30;
 	// 消費魔力
-	constexpr float USE_MP = 30.0f;
+	constexpr float USE_MP = 10.0f;
 }
 
 MagicShot::MagicShot() :

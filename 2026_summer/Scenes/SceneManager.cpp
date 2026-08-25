@@ -2,6 +2,7 @@
 #include "SceneMain.h"
 #include "LoadScene.h"
 #include "Inputs/Input.h"
+#include <DxLib.h>
 
 SceneManager::SceneManager() :
 	p_SceneMain(nullptr),
@@ -58,10 +59,14 @@ void SceneManager::Update()
 		break;
 
 	case SceneManager::SceneState::Clear:
+		if (p_Input->IsTrigger(PAD_INPUT_1))
+			ChangeScene(SceneManager::SceneState::Game);
 
 		break;
 
 	case SceneManager::SceneState::GameOver:
+		if (p_Input->IsTrigger(PAD_INPUT_1))
+			ChangeScene(SceneManager::SceneState::Game);
 
 		break;
 

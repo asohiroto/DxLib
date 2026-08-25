@@ -63,7 +63,9 @@ Player::Player() :
 	_pressFrame(0),
 	_damagedCount(0),
 	_magicCircleH(-1),
-	_circlePlayingH(-1)
+	_circlePlayingH(-1),
+	_targetPlayingH(-1),
+	_isDodge(false)
 {
 }
 
@@ -153,6 +155,9 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 	_playerUnit.pos = VAdd(_playerUnit.pos, p_Move->GetMovement());
 	_playerUnit.pos = VAdd(_playerUnit.pos, p_Dodge->GetDodgePos());
 
+	// 回避を行っているかを更新する
+	_isDodge = p_Dodge->IsDodge();
+
 	// 移動制限
 	_playerUnit.pos.x = std::clamp(_playerUnit.pos.x, -POS_LIMIT_X, POS_LIMIT_X);
 	_playerUnit.pos.z = std::clamp(_playerUnit.pos.z, -POS_LIMIT_Z, POS_LIMIT_Z);
@@ -189,17 +194,20 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 	// マジックサークルの再生位置
 	VECTOR circlePos = VAdd(VAdd(_playerUnit.pos, VScale(_frontVec, CIRCLE_FRONT_OFFSET)), VScale(right, SHOT_RIGHT_OFFSET));
 
+
 	// RBを推している時間を計測
 	if (pInput->IsTrigger(PAD_INPUT_6))
 	{
 		_pressFrame = 0;
 		_circlePlayingH = PlayEffekseer3DEffect(_magicCircleH);
+		//_targetPlayingH = PlayEffekseer3DEffect(_magicCircleH);
 	}
 
 	// マジックミサイル生成になればカメラがロックオン
 	if (pInput->IsPress(PAD_INPUT_6))
 	{
 		SetPosPlayingEffekseer3DEffect(_circlePlayingH, circlePos.x, circlePos.y + CIRCLE_HEIGHT_OFFSET, circlePos.z);
+		//SetPosPlayingEffekseer3DEffect(_targetPlayingH, );
 
 		SetRotationPlayingEffekseer3DEffect(_circlePlayingH, 0.0f, facing, 0.0f);
 
@@ -215,6 +223,8 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 			if (remainMp >= 0)
 			{
 				_playerUnit.mp = remainMp;
+				VECTOR camFront = VGet(GetCameraFrontVector().x, 0.0f, GetCameraFrontVector().z);
+				_frontVec = GetCameraFrontVector();
 				p_Shot->GenerateShot(shotPos, _frontVec, false, pManager);
 			}
 		}

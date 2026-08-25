@@ -48,6 +48,12 @@ public:
 	int GetMaxHp() const { return _playerUnit.maxHp; }
 	// 現在HPのゲッター
 	int GetNowHp() const { return _playerUnit.hp; }
+	// 回避を行っているか
+	bool IsDodge()const { return _isDodge; }
+	// 最大MPのゲッター
+	float GetMaxMp() const { return _playerUnit.maxMp; }
+	// 現在MPのゲッター
+	float GetNowMp() const { return _playerUnit.mp; }
 
 private:
 	// プレイヤー
@@ -76,4 +82,8 @@ private:
 	int _magicCircleH;
 	// エフェクト再生中のハンドル
 	int _circlePlayingH;
+	// 目標地点のハンドル
+	int _targetPlayingH;
+	// 回避中か
+	bool _isDodge;
 };

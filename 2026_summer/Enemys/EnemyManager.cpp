@@ -1,5 +1,4 @@
 ﻿#include "EnemyManager.h"
-#include "Enemy.h"
 #include "EnemyMove.h"
 #include "Magics/MagicBeam.h"
 #include "Magics/MagicManager.h"
@@ -7,7 +6,7 @@
 
 namespace
 {
-	constexpr std::vector<Enemy::EnemyState> NORM_ROUTINE =
+	const std::vector<Enemy::EnemyState> NORM_ROUTINE =
 	{
 		Enemy::EnemyState::Approach,
 		Enemy::EnemyState::MoveLeft,

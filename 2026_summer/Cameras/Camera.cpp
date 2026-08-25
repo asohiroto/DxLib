@@ -27,7 +27,7 @@ namespace
 	// カメラの垂直方向の角度
 	constexpr float CAMERA_PITCH = -0.8f;
 	// 注視点までの距離
-	constexpr float TARGET_DISTANCE = 1500.0f;
+	constexpr float TARGET_DISTANCE = 15000000.0f;
 }
 
 Camera::Camera() :
@@ -70,6 +70,8 @@ void Camera::Draw()
 	SetCameraScreenCenter(WIDTH / 2, SCREEN_CENTER_Y);
 	// カメラを設置
 	SetCameraPositionAndTargetAndUpVec(_cameraPos, _targetPos, VGet(0.0f, 1.0f, 0.0f));
+
+	SetupCamera_Perspective(DX_PI_F / 2);
 }
 
 void Camera::NormalCam(std::shared_ptr<Player> pPlayer)

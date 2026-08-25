@@ -56,7 +56,7 @@ void SceneMain::Init()
 	p_Camera->Init();
 	p_EManager->Init(_enemyTempH, _beamTempH);
 	p_MManager->Init();
-	p_UI->Init(p_EManager->GetMaxHp(), p_Player->GetMaxHp());
+	p_UI->Init(p_EManager->GetMaxHp(), p_Player->GetMaxHp(), p_Player->GetMaxMp());
 	p_Dome->Init(_domeTempH);
 	p_Coll->Init();
 	p_MColl->Init(_hitTempH);
@@ -83,12 +83,17 @@ void SceneMain::Update(std::shared_ptr<Input> pInput)
 	p_MColl->Update(p_Player, p_EManager->GetEnemyPointer(), p_MManager->GetPlayerList(), p_MManager->GetEnemyList());
 	p_MManager->RemoveList();
 
-	p_UI->Update(p_EManager->GetNowHp(), p_Player->GetNowHp());
+	p_UI->Update(p_EManager->GetNowHp(), p_Player->GetNowHp(), p_Player->GetNowMp());
 
 	p_EffectManager->Update();
 
 	if (_atmosCount % 240 == 0)
 		_atmosPlayingH = PlayEffekseer3DEffect(_atmosH);
+
+	if (_atmosCount % 240 == 239)
+		StopEffekseer3DEffect(_atmosPlayingH);
+
+
 }
 
 void SceneMain::Draw()

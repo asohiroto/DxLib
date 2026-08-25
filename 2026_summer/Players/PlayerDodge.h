@@ -17,6 +17,8 @@ public:
 	void CalDirection(std::shared_ptr<Input> pInput, float cameraAngle);
 	// 回避位置のゲッター
 	VECTOR GetDodgePos() const { return _dodgedPos; }
+	// 回避中かのゲッター
+	bool IsDodge() const { return _isDodge; }
 
 private:
 	// 回避方向

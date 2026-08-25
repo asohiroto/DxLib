@@ -44,7 +44,7 @@ void MagicCollision::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Ene
 	_hitPlayerMagicInd = EnemyHitCheck(enemy, playerList);
 
 	_wasPlayerHit = _isPlayerHit;
-	if (_hitEnemyMagicInd >= 0) _isPlayerHit = true;
+	if (_hitEnemyMagicInd >= 0 && !pPlayer->IsDodge()) _isPlayerHit = true;
 	else _isPlayerHit = false;
 
 	_wasEnemyHit = _isEnemyHit;
