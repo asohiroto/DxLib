@@ -52,6 +52,8 @@ public:
 		int effectH;
 		// チャージ中のカウント
 		int chargeCount;
+		// 生成カウンタ
+		int existCount;
 	};
 
 public:

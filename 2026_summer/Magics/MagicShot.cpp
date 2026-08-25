@@ -16,7 +16,7 @@ namespace
 	// 生成高さの補正用
 	constexpr float HEIGHT_OFFSET = 300.0f;
 	// ダメージ
-	constexpr int DAMAGE = 30;
+	constexpr int DAMAGE = 50;
 	// 消費魔力
 	constexpr float USE_MP = 10.0f;
 }

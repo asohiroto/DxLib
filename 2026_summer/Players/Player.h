@@ -54,6 +54,8 @@ public:
 	float GetMaxMp() const { return _playerUnit.maxMp; }
 	// 現在MPのゲッター
 	float GetNowMp() const { return _playerUnit.mp; }
+	// ジャスト回避成功によって引き起こされる効果
+	void JustDodgeEffect();
 
 private:
 	// プレイヤー

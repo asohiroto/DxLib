@@ -48,6 +48,18 @@ namespace
 	constexpr float CIRCLE_FRONT_OFFSET = 30.0f;
 	// マジックサークルの再生位置の高さを修正
 	constexpr float CIRCLE_HEIGHT_OFFSET = 300.0f;
+	// 通常時のジャスト回避判定の半径（存在しないため０）
+	constexpr float NORM_JUST_RADIUS = 0.0f;
+	// ジャスト回避判定の半径
+	constexpr float JUST_DODGE_RADIUS = 390.0f;
+	// ジャスト回避によって得ることのできる必殺技のチャージ量
+	constexpr float ULT_CHARGE_AMOUNT = 20;
+	// ジャスト回避によって得られるMPの量
+	constexpr float MP_GAIN_AMOUNT = 150.0f;
+	// ジャスト回避によって得られるHPの量
+	constexpr int HP_HEAL_AMOUNT = 100;
+	// 必殺技チャージの最大量
+	constexpr float MAX_ULT_CHARGE = 100.0f;
 }
 
 Player::Player() :
@@ -87,6 +99,9 @@ void Player::Init(int handle, int shotHandle, int missileHandle, int furyHandle,
 	_playerUnit.hp = _playerUnit.maxHp;
 	_playerUnit.maxMp = MAX_MP;
 	_playerUnit.mp = _playerUnit.maxMp;
+	_playerUnit.justRadius = NORM_JUST_RADIUS;
+	_playerUnit.ultCharge = 0.0f;
+	_playerUnit.maxUltCharge = MAX_ULT_CHARGE;
 
 	_nowState = PlayerState::Move;
 
@@ -130,6 +145,16 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 		_playerUnit.mp = _playerUnit.maxMp;
 
 	int rx = pInput->GetRightStickX();
+
+	// 回避中ならジャスト回避判定の半径を有効化する
+	if (p_Dodge->IsDodge())
+	{
+		_playerUnit.justRadius = JUST_DODGE_RADIUS;
+	}
+	else
+	{
+		_playerUnit.justRadius = NORM_JUST_RADIUS;
+	}
 
 	// 埋まり防止用
 	if (_playerUnit.pos.y <= 0.0f) _playerUnit.pos.y = 0.0f;
@@ -272,4 +297,19 @@ void Player::SetHit(int damage)
 
 		_playerUnit.hp -= damage;
 	}
+}
+
+void Player::JustDodgeEffect()
+{
+	_playerUnit.ultCharge += ULT_CHARGE_AMOUNT;
+	if (_playerUnit.ultCharge >= _playerUnit.maxUltCharge)
+		_playerUnit.ultCharge = _playerUnit.maxUltCharge;
+
+	_playerUnit.hp += HP_HEAL_AMOUNT;
+	if (_playerUnit.hp >= _playerUnit.maxHp)
+		_playerUnit.hp = _playerUnit.maxHp;
+
+	_playerUnit.mp += MP_GAIN_AMOUNT;
+	if (_playerUnit.mp >= _playerUnit.maxMp)
+		_playerUnit.mp = _playerUnit.maxMp;
 }

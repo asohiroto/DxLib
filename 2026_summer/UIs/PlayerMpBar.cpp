@@ -8,7 +8,7 @@ namespace
 	// 画面の左端からずらす幅
 	constexpr int WIDTH_OFFSET = 30;
 	// 画面の上端からずらす高さ
-	constexpr int HEIGHT_OFFSET = 1200;
+	constexpr int HEIGHT_OFFSET = 860;
 	// MPバーの幅
 	constexpr int BAR_WIDTH = 200;
 	// MPバーの太さ

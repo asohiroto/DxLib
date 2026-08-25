@@ -46,4 +46,8 @@ private:
 	int _hitPlayerMagicInd;
 	// ヒット時のエフェクトのハンドル
 	int _hitEffectH;
+	// 今のフレームでジャスト回避が成功したか
+	bool _isJustDodge;
+	// 前のフレームでジャスト回避が成功したか
+	bool _wasJustDodge;
 };

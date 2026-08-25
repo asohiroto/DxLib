@@ -29,6 +29,12 @@ public:
 		float mp;
 		// 最大魔力
 		float maxMp;
+		// ジャスト回避判定の半径
+		float justRadius;
+		// 必殺技チャージ量
+		float ultCharge;
+		// 必殺技の最大チャージ量
+		float maxUltCharge;
 	};
 
 public:

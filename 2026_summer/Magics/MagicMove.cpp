@@ -20,9 +20,16 @@ namespace
 	constexpr float FURY_LERP_RATE = 0.15f;
 	// 到着したとみなす幅
 	constexpr float ARRIVED_LENGTH = 0.05f;
+	// ビームを生成する時間
+	constexpr int BEAM_EXIST_COUNT = 30;
+	// ビームをチャージする時間
+	constexpr int BEAM_CHARGE_COUNT = 10;
+	// マジックビームが目標地点を定めてから攻撃を行うまでの猶予時間
+	constexpr int LOCKON_DELAY = 4;
 }
 
-MagicMove::MagicMove()
+MagicMove::MagicMove() :
+	_beamTargetPos(VGet(0.0f, 0.0f, 0.0f))
 {
 }
 
@@ -91,23 +98,30 @@ void MagicMove::MissileMove(MagicBase::MagicData& data, VECTOR targetPos)
 void MagicMove::BeamMove(MagicBase::MagicData& data, VECTOR targetPos, VECTOR startPos)
 {
 	data.chargeCount++;
+	data.existCount++;
 
 	float dirAngle = atan2f(data.moveDirection.x, data.moveDirection.z);
 
 	SetPosPlayingEffekseer3DEffect(data.effectH, startPos.x, startPos.y, startPos.z);
 	SetRotationPlayingEffekseer3DEffect(data.effectH, 0.0f, dirAngle + DX_PI_F, 0.0f);
 
-	if (data.chargeCount > 10)
+	if (data.chargeCount < BEAM_CHARGE_COUNT - LOCKON_DELAY)
+	{
+		_beamTargetPos = targetPos;
+		data.segmentEndPos = data.segmentStPos;
+	}
+	else if (data.chargeCount > BEAM_CHARGE_COUNT + (LOCKON_DELAY * 3))
 	{
 		data.segmentStPos = startPos;
-		data.segmentEndPos = VAdd(data.segmentEndPos, VScale(data.moveDirection, data.speed));
-		data.movedDistance += data.speed;
+		data.segmentEndPos = _beamTargetPos;
 
-		if (data.movedDistance >= BEAM_DISTANCE_MAX)
+		if (data.existCount >= BEAM_EXIST_COUNT)
 		{
 			data.isExist = false;
 			data.movedDistance = 0.0f;
 			data.chargeCount = 0;
+			data.existCount = 0;
+
 		}
 	}
 }
