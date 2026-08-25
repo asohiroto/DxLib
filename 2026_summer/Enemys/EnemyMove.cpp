@@ -59,18 +59,18 @@ void EnemyMove::Update(VECTOR playerPos, std::shared_ptr<Enemy> pEnemy)
 	{
 		_isGoLeft = GetRand(1);
 		_moveLR = true;
-		if (_isGoLeft) _leftCount = 0;
+		if (_isGoLeft == 1) _leftCount = 0;
 		else _rightCount = 0;
 	}
 
 	if (_moveLR)
 	{
-		if (_isGoLeft)
+		if (_isGoLeft == 1)
 		{
 			if (_leftCount <= TIMER) MoveLeft(pEnemy);
 			if (_leftCount > TIMER) _moveLR = false;
 		}
-		else if (!_isGoLeft)
+		else if (_isGoLeft == 0)
 		{
 			if (_rightCount <= TIMER) MoveRight(pEnemy);
 			if (_rightCount > TIMER) _moveLR = false;

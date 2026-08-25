@@ -24,7 +24,6 @@ MagicCollision::MagicCollision() :
 
 MagicCollision::~MagicCollision()
 {
-	DeleteEffekseerEffect(_hitEffectH);
 }
 
 void MagicCollision::Init(int handle)

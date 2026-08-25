@@ -258,7 +258,7 @@ void Player::SetHit(int damage)
 	if (!_playerUnit.isHit)
 	{
 		_playerUnit.isHit = true;
-		_damagedCount = true;
+		_damagedCount = 0;
 
 		_playerUnit.hp -= damage;
 	}

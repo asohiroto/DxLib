@@ -30,7 +30,7 @@ public:
 	// マジックサークルのハンドルを渡す
 	int GetCircleEffectH() const { return _magicCircleEffectH; }
 	// マジックビームのハンドルを渡す
-	int GetBeamH() const { return _magicBeamH; }
+	int GetBeamH() const { return _magicBeamEffectH; }
 	// 大気エフェクトのハンドルを渡す
 	int GetAtmosH() const { return _atmosEffectH; }
 	// シーン遷移を行うか
@@ -55,7 +55,7 @@ private:
 	// ヒットエフェクトのハンドル
 	int _hitEffectH;
 	// マジックビームのエフェクトのハンドル
-	int _magicBeamH;
+	int _magicBeamEffectH;
 	// 大気エフェクトのハンドル
 	int _atmosEffectH;
 };

@@ -95,9 +95,9 @@ void SceneMain::Draw()
 {
 	DrawStage();
 
+	p_Camera->Draw();
 	p_Dome->Draw();
 	p_Player->Draw();
-	p_Camera->Draw();
 	p_EManager->Draw();
 	p_MManager->Draw();
 	p_EffectManager->Draw();

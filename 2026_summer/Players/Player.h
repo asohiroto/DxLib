@@ -45,9 +45,9 @@ public:
 	// 状態を変更
 	void StateChange(PlayerState state) { _nowState = state; }
 	// 最大HPのゲッター
-	float GetMaxHp() const { return _playerUnit.maxHp; }
+	int GetMaxHp() const { return _playerUnit.maxHp; }
 	// 現在HPのゲッター
-	float GetNowHp() const { return _playerUnit.hp; }
+	int GetNowHp() const { return _playerUnit.hp; }
 
 private:
 	// プレイヤー
