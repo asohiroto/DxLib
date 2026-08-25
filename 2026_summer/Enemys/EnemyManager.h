@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <DxLib.h>
 #include <memory>
+#include <vector>
 
 class Enemy;
 class EnemyMove;
@@ -24,6 +25,10 @@ public:
 	float GetMaxHp() const;
 	// 敵の現在HPのゲッター
 	float GetNowHp() const;
+	// ルーチンテーブルをせっとする
+	void SetRoutine(std::vector<Enemy::EnemyState> routine) { _nowRoutine = routine; }
+	// 次の行動に進める
+	void ProceedNextAction();
 
 private:
 	// エネミーの共有ポインタ
@@ -36,4 +41,6 @@ private:
 	bool _wasLock;
 	// 今ロックされているか
 	bool _isLock;
+	// 今のルーチンテーブル
+	std::vector<Enemy::EnemyState> _nowRoutine;
 };

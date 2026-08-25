@@ -25,7 +25,10 @@ public:
 	void CalDistDir(VECTOR playerPos, std::shared_ptr<Enemy> pEnemy);
 	// プレイヤー方向のゲッター
 	VECTOR GetDir() const { return _toPlayerDir; }
-
+	// 行動を終了したか
+	bool IsActionFinished() const { return _isActionFinished; }
+	// フラグを変更
+	void SetActionFinished(bool judge) { _isActionFinished = judge; }
 private:
 	// プレイヤーまでの距離
 	float _toPlayerDistance;
@@ -35,12 +38,12 @@ private:
 	bool _tooAway;
 	// 近すぎる
 	bool _tooNear;
-	// 左方向移動カウンタ
-	int _leftCount;
-	// 右方向移動カウンタ
-	int _rightCount;
 	// 左に移動するか
 	bool _isGoLeft;
 	// 左右移動を行うか
 	bool _moveLR;
+	// 行動完了フラグ
+	bool _isActionFinished;
+	// 移動距離
+	float _movedDistance;
 };

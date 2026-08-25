@@ -25,7 +25,7 @@ namespace
 
 Enemy::Enemy() :
 	_enemyUnit(),
-	_nowState(EnemyState::Move),
+	_nowState(EnemyState::MoveAway),
 	_damagedCount(0)
 {
 }
@@ -42,7 +42,7 @@ void Enemy::Init(int handle)
 	_enemyUnit.radius = RADIUS;
 	_enemyUnit.color = NORM_COLOR;
 	_enemyUnit.isHit = false;
-	_nowState = Move;
+	_nowState = MoveAway;
 	// ステータスを決定
 	_enemyUnit.maxHp = MAX_HP;
 	_enemyUnit.hp = _enemyUnit.maxHp;

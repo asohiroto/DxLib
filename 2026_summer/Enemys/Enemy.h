@@ -6,9 +6,15 @@ class Enemy : public Character
 public:
 	enum EnemyState
 	{
-		// プレイヤーとの距離を調整
-		Move,
-		// 攻撃（後に追加）
+		// 近づく
+		Approach,
+		// 遠ざかる
+		MoveAway,
+		// 左移動
+		MoveLeft,
+		// 右移動
+		MoveRight,
+		// 攻撃
 		Attack,
 		// 被弾硬直
 		HitStun,

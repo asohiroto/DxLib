@@ -11,6 +11,12 @@ namespace
 	constexpr float SPEED = 10.0f;
 	// 左右移動時間
 	constexpr int TIMER = 60;
+	// 左右に動く距離
+	constexpr float MOVE_LR_DISTANCE = 500.0f;
+	// 近づく距離
+	constexpr float APPROACH_DISTANCE = 500.0f;
+	// 遠ざかる距離
+	constexpr float MOVE_AWAY_DISTANCE = 500.0f;
 }
 
 EnemyMove::EnemyMove() :
@@ -18,10 +24,10 @@ EnemyMove::EnemyMove() :
 	_toPlayerDir(VGet(0.0f, 0.0f, 0.0f)),
 	_tooAway(false),
 	_tooNear(false),
-	_leftCount(0),
-	_rightCount(0),
 	_isGoLeft(false),
-	_moveLR(false)
+	_moveLR(false),
+	_isActionFinished(true),
+	_movedDistance(0.0f)
 {
 }
 
@@ -39,11 +45,6 @@ void EnemyMove::End()
 
 void EnemyMove::Update(VECTOR playerPos, std::shared_ptr<Enemy> pEnemy)
 {
-	_leftCount++;
-	_rightCount++;
-
-	int rand = GetRand(99);
-	if (rand < 1) pEnemy->ChangeState(Enemy::EnemyState::Attack);
 
 	// 距離と方向を計算し代入
 	CalDistDir(playerPos, pEnemy);
@@ -53,29 +54,6 @@ void EnemyMove::Update(VECTOR playerPos, std::shared_ptr<Enemy> pEnemy)
 	else if (_toPlayerDistance >= MAX_DISTANCE) { _tooNear = false; _tooAway = true; }
 	else { _tooNear = false; _tooAway = false; }
 
-	if (_tooNear) MoveAway(pEnemy);
-	else if (_tooAway) Approach(pEnemy);
-	else if (!_moveLR)
-	{
-		_isGoLeft = GetRand(1);
-		_moveLR = true;
-		if (_isGoLeft == 1) _leftCount = 0;
-		else _rightCount = 0;
-	}
-
-	if (_moveLR)
-	{
-		if (_isGoLeft == 1)
-		{
-			if (_leftCount <= TIMER) MoveLeft(pEnemy);
-			if (_leftCount > TIMER) _moveLR = false;
-		}
-		else if (_isGoLeft == 0)
-		{
-			if (_rightCount <= TIMER) MoveRight(pEnemy);
-			if (_rightCount > TIMER) _moveLR = false;
-		}
-	}
 }
 
 void EnemyMove::Draw()
@@ -85,12 +63,28 @@ void EnemyMove::Draw()
 void EnemyMove::Approach(std::shared_ptr<Enemy> pEnemy)
 {
 	pEnemy->SetPos(VAdd(pEnemy->GetPos(), VScale(_toPlayerDir, SPEED)));
+
+	_movedDistance += SPEED;
+
+	if (_movedDistance >= APPROACH_DISTANCE)
+	{
+		_isActionFinished = true;
+		_movedDistance = 0.0f;
+	}
 }
 
 void EnemyMove::MoveAway(std::shared_ptr<Enemy> pEnemy)
 {
 	VECTOR opposite = VGet(-_toPlayerDir.x, 0.0f, -_toPlayerDir.z);
 	pEnemy->SetPos(VAdd(pEnemy->GetPos(), VScale(opposite, SPEED)));
+
+	_movedDistance += SPEED;
+
+	if (_movedDistance >= MOVE_AWAY_DISTANCE)
+	{
+		_isActionFinished = true;
+		_movedDistance = 0.0f;
+	}
 }
 
 void EnemyMove::MoveLeft(std::shared_ptr<Enemy> pEnemy)
@@ -99,6 +93,14 @@ void EnemyMove::MoveLeft(std::shared_ptr<Enemy> pEnemy)
 	VECTOR left = VGet(-_toPlayerDir.z, 0.0f, _toPlayerDir.x);
 
 	pEnemy->SetPos(VAdd(pEnemy->GetPos(), VScale(left, SPEED)));
+
+	_movedDistance += SPEED;
+
+	if (_movedDistance >= MOVE_LR_DISTANCE)
+	{
+		_isActionFinished = true;
+		_movedDistance = 0.0f;
+	}
 }
 
 void EnemyMove::MoveRight(std::shared_ptr<Enemy> pEnemy)
@@ -107,6 +109,14 @@ void EnemyMove::MoveRight(std::shared_ptr<Enemy> pEnemy)
 	VECTOR right = VGet(_toPlayerDir.z, 0.0f, -_toPlayerDir.x);
 
 	pEnemy->SetPos(VAdd(pEnemy->GetPos(), VScale(right, SPEED)));
+
+	_movedDistance += SPEED;
+
+	if (_movedDistance >= MOVE_LR_DISTANCE)
+	{
+		_isActionFinished = true;
+		_movedDistance = 0.0f;
+	}
 }
 
 void EnemyMove::CalDistDir(VECTOR playerPos, std::shared_ptr<Enemy> pEnemy)
