@@ -51,7 +51,7 @@ namespace
 	// 通常時のジャスト回避判定の半径（存在しないため０）
 	constexpr float NORM_JUST_RADIUS = 0.0f;
 	// ジャスト回避判定の半径
-	constexpr float JUST_DODGE_RADIUS = 260.0f;
+	constexpr float JUST_DODGE_RADIUS = 300.0f;
 	// ジャスト回避によって得ることのできる必殺技のチャージ量
 	constexpr float ULT_CHARGE_AMOUNT = 20;
 	// ジャスト回避によって得られるMPの量
@@ -288,6 +288,15 @@ void Player::Draw()
 
 	DrawFormatString(0, 60, 0xffffff, "NowHp : %d / MaxHp : %d", _playerUnit.hp, _playerUnit.maxHp);
 	DrawFormatString(0, 80, 0xffffff, "NowMp : %.2f / MaxMp : %.2f", _playerUnit.mp, _playerUnit.maxMp);
+
+	int animNum = MV1GetAnimNum(_playerUnit.modelH);
+	DrawFormatString(0, 200, 0xffffff, "AnimNum : %d", animNum);
+
+	for (int i = 0; i < animNum; i++)
+	{
+		DrawFormatString(0, 220 + (i * 20), 0xffffff, "[%d], %s", i, MV1GetAnimName(_playerUnit.modelH, i));
+	}
+
 #endif
 }
 

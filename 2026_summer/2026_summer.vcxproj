@@ -150,6 +150,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Anims\AnimManager.cpp" />
     <ClCompile Include="Cameras\Camera.cpp" />
     <ClCompile Include="Colls\Collision.cpp" />
     <ClCompile Include="Colls\MagicCollision.cpp" />
@@ -182,6 +183,7 @@
     <ClCompile Include="UIs\UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Anims\AnimManager.h" />
     <ClInclude Include="Bases\MagicBase.h" />
     <ClInclude Include="Cameras\Camera.h" />
     <ClInclude Include="Bases\Character.h" />
