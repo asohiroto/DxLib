@@ -16,14 +16,6 @@ class Player :
 	public Character
 {
 public:
-	enum class PlayerState
-	{
-		Move,
-		Dodge,
-		Shot
-	};
-
-public:
 	Player();
 	virtual ~Player() override;
 	void Init(int handle, int shotHandle, int missileHandle, int furyHandle, int circleHandle);
@@ -42,8 +34,6 @@ public:
 	void SetColor(int col) { _playerUnit.color = col; }
 	// プレイヤーが向いている角度のゲッター
 	float GetPlayerAngle() const { return _angle; }
-	// 状態を変更
-	void StateChange(PlayerState state) { _nowState = state; }
 	// 最大HPのゲッター
 	int GetMaxHp() const { return _playerUnit.maxHp; }
 	// 現在HPのゲッター
@@ -78,8 +68,6 @@ private:
 	std::shared_ptr<MagicFury> p_Fury;
 	// プレイヤーの正面ベクトル
 	VECTOR _frontVec;
-	// 現在のステート
-	PlayerState _nowState;
 	// ボタンを押している時間
 	int _pressFrame;
 	// ダメージを受けてからの時間

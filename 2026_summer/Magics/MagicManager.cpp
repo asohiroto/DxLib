@@ -70,6 +70,19 @@ void MagicManager::Update(VECTOR playerPos, VECTOR enemyPos)
 
 void MagicManager::Draw()
 {
+#ifdef _DEBUG
+	for (int i = 0; i < _playerMagics.size(); i++)
+	{
+		if (_playerMagics[i].isExist)
+			DrawMagicHitBox(_playerMagics[i]);
+	}
+
+	for (int i = 0; i < _enemyMagics.size(); i++)
+	{
+		if (_enemyMagics[i].isExist)
+			DrawMagicHitBox(_enemyMagics[i]);
+	}
+#endif
 }
 
 void MagicManager::EntryList(MagicBase::MagicData data)
@@ -91,4 +104,16 @@ void MagicManager::RemoveList()
 
 	std::erase_if(_playerMagics, [](const MagicBase::MagicData& data) {return !data.isExist; });
 	std::erase_if(_enemyMagics, [](const MagicBase::MagicData& data) {return !data.isExist; });
+}
+
+void MagicManager::DrawMagicHitBox(MagicBase::MagicData data)
+{
+	if (data.type == MagicBase::MagicType::MagicBeam || data.type == MagicBase::MagicType::MagicFury)
+	{
+		DrawCapsule3D(data.segmentStPos, data.segmentEndPos, data.radius, 16, data.color, data.color, false);
+	}
+	else
+	{
+		DrawSphere3D(data.pos, data.radius, 16, data.color, data.color, false);
+	}
 }

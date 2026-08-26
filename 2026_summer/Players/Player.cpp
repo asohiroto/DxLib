@@ -51,13 +51,13 @@ namespace
 	// 通常時のジャスト回避判定の半径（存在しないため０）
 	constexpr float NORM_JUST_RADIUS = 0.0f;
 	// ジャスト回避判定の半径
-	constexpr float JUST_DODGE_RADIUS = 200.0f;
+	constexpr float JUST_DODGE_RADIUS = 260.0f;
 	// ジャスト回避によって得ることのできる必殺技のチャージ量
 	constexpr float ULT_CHARGE_AMOUNT = 20;
 	// ジャスト回避によって得られるMPの量
-	constexpr float MP_GAIN_AMOUNT = 150.0f;
+	constexpr float MP_GAIN_AMOUNT = 100.0f;
 	// ジャスト回避によって得られるHPの量
-	constexpr int HP_HEAL_AMOUNT = 100;
+	constexpr int HP_HEAL_AMOUNT = 50;
 	// 必殺技チャージの最大量
 	constexpr float MAX_ULT_CHARGE = 100.0f;
 }
@@ -71,7 +71,6 @@ Player::Player() :
 	p_Missile(nullptr),
 	p_Fury(nullptr),
 	_frontVec(VGet(0.0f, 0.0f, 0.0f)),
-	_nowState(PlayerState::Move),
 	_pressFrame(0),
 	_damagedCount(0),
 	_magicCircleH(-1),
@@ -102,8 +101,6 @@ void Player::Init(int handle, int shotHandle, int missileHandle, int furyHandle,
 	_playerUnit.justRadius = NORM_JUST_RADIUS;
 	_playerUnit.ultCharge = 0.0f;
 	_playerUnit.maxUltCharge = MAX_ULT_CHARGE;
-
-	_nowState = PlayerState::Move;
 
 	// 安全策
 	assert(_playerUnit.modelH != -1);
@@ -282,6 +279,8 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 void Player::Draw()
 {
 	MV1DrawModel(_playerUnit.modelH);
+
+	p_Dodge->Draw();
 
 #ifdef _DEBUG
 	DrawHitBox(_playerUnit);

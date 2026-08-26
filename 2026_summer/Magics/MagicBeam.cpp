@@ -13,7 +13,7 @@ namespace
 	// 生成高さの補正用
 	constexpr float HEIGHT_OFFSET = 300.0f;
 	// ダメージ
-	constexpr int DAMAGE = 50;
+	constexpr int DAMAGE = 75;
 }
 
 MagicBeam::MagicBeam() :

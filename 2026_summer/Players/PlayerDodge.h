@@ -19,6 +19,8 @@ public:
 	VECTOR GetDodgePos() const { return _dodgedPos; }
 	// 回避中かのゲッター
 	bool IsDodge() const { return _isDodge; }
+	// 回避クールダウンのバー
+	void DodgeCoolBar();
 
 private:
 	// 回避方向
@@ -29,4 +31,6 @@ private:
 	float _dodgeDistance;
 	// 回避先座標
 	VECTOR _dodgedPos;
+	// 回避のクールダウン
+	int _dodgeCoolCount;
 };

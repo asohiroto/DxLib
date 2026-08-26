@@ -34,7 +34,8 @@ public:
 	bool IsLockOn() const { return _enemyLock; }
 	// 敵座標のゲッター
 	VECTOR GetEnePos() const { return _enePos; }
-
+	// 魔法の当たり判定を描画する
+	void DrawMagicHitBox(MagicBase::MagicData data);
 private:
 	// プレイヤーが使用した魔法のリスト
 	MagicList _playerMagics;

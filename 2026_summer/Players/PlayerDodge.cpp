@@ -1,5 +1,7 @@
 ﻿#include "PlayerDodge.h"
 #include "Inputs/Input.h"
+#include <DxLib.h>
+#include <algorithm>
 
 namespace
 {
@@ -7,13 +9,24 @@ namespace
 	constexpr float SPEED = 40.0f;
 	// 最大回避距離
 	constexpr float MAX_DISTANCE = 600.0f;
+	// 回避のクールダウンフレーム
+	constexpr int DODGE_COOLDOWN = 30;
+	// 画面の左端からずらす幅
+	constexpr int WIDTH_OFFSET = 1250;
+	// 画面の上端からずらす高さ
+	constexpr int HEIGHT_OFFSET = 860;
+	// クールダウンバーの幅
+	constexpr int BAR_WIDTH = 200;
+	// クールダウンバーの太さ
+	constexpr int BAR_THICKNESS = 30;
 }
 
 PlayerDodge::PlayerDodge() :
 	_dodgeDir(VGet(0.0f, 0.0f, 0.0f)),
 	_isDodge(false),
 	_dodgeDistance(0.0f),
-	_dodgedPos(VGet(0.0f, 0.0f, 0.0f))
+	_dodgedPos(VGet(0.0f, 0.0f, 0.0f)),
+	_dodgeCoolCount(60)
 {
 }
 
@@ -32,8 +45,9 @@ void PlayerDodge::End()
 void PlayerDodge::Update(std::shared_ptr<Input> pInput, float cameraAngle)
 {
 	CalDirection(pInput, cameraAngle);
+	_dodgeCoolCount++;
 
-	if (pInput->IsTrigger(PAD_INPUT_5))
+	if (pInput->IsTrigger(PAD_INPUT_5) && _dodgeCoolCount >= DODGE_COOLDOWN)
 		_isDodge = true;
 
 	if (_isDodge)
@@ -49,12 +63,14 @@ void PlayerDodge::Update(std::shared_ptr<Input> pInput, float cameraAngle)
 			_dodgedPos = VGet(0.0f, 0.0f, 0.0f);
 			_isDodge = false;
 			_dodgeDistance = 0.0f;
+			_dodgeCoolCount = 0;
 		}
 	}
 }
 
 void PlayerDodge::Draw()
 {
+	DodgeCoolBar();
 }
 
 void PlayerDodge::CalDirection(std::shared_ptr<Input> pInput, float cameraAngle)
@@ -75,4 +91,13 @@ void PlayerDodge::CalDirection(std::shared_ptr<Input> pInput, float cameraAngle)
 
 	// 移動方向を決定
 	_dodgeDir = VTransform(_dodgeDir, _rotMatrix);
+}
+
+void PlayerDodge::DodgeCoolBar()
+{
+	float rate = static_cast<float>(_dodgeCoolCount) / static_cast<float>(DODGE_COOLDOWN);
+	rate = std::clamp(rate, 0.0f, 1.0f);
+
+	DrawBox(WIDTH_OFFSET, HEIGHT_OFFSET, WIDTH_OFFSET + BAR_WIDTH, HEIGHT_OFFSET + BAR_THICKNESS, 0x000000, true);
+	DrawBox(WIDTH_OFFSET, HEIGHT_OFFSET, WIDTH_OFFSET + (BAR_WIDTH * rate), HEIGHT_OFFSET + BAR_THICKNESS, 0xffffff, true);
 }

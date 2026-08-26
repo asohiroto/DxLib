@@ -50,6 +50,7 @@ protected:
 	void DrawHitBox(CharacterData data)
 	{
 		DrawCapsule3D(data.segmentStPos, data.segmentEndPos, data.radius, 16, data.color, data.color, false);
+		DrawCapsule3D(data.segmentStPos, data.segmentEndPos, data.justRadius, 16, 0xffff00, 0xffff00, false);
 	}
 };
 

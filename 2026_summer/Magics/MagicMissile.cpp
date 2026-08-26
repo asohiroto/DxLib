@@ -5,7 +5,7 @@
 namespace
 {
 	// 当たり判定の半径
-	constexpr float RADIUS = 100.0f;
+	constexpr float RADIUS = 120.0f;
 	// 進む速さ
 	constexpr float FIRST_SPEED = 75.0f;
 	// 最大移動距離
