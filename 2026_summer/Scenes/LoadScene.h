@@ -33,8 +33,6 @@ public:
 	int GetBeamH() const { return _magicBeamEffectH; }
 	// 大気エフェクトのハンドルを渡す
 	int GetAtmosH() const { return _atmosEffectH; }
-	// シーン遷移を行うか
-	bool CanSceneChange() const { return _sceneChange; }
 
 private:
 	// モデルのハンドルたち
@@ -42,8 +40,6 @@ private:
 	int _domeH;
 	// モデルをロードしている数
 	int _totalRequestNum;
-	// シーンの変更を行うか
-	bool _sceneChange;
 	// マジックショットのエフェクトのハンドル
 	int _magicShotEffectH;
 	// マジックミサイルのエフェクトのハンドル

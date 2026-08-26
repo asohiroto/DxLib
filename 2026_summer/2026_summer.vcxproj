@@ -168,10 +168,13 @@
     <ClCompile Include="Players\Player.cpp" />
     <ClCompile Include="Players\PlayerDodge.cpp" />
     <ClCompile Include="Players\PlayerMove.cpp" />
+    <ClCompile Include="Scenes\ClearScene.cpp" />
+    <ClCompile Include="Scenes\GameOverScene.cpp" />
     <ClCompile Include="Scenes\LoadScene.cpp" />
     <ClCompile Include="Scenes\SceneMain.cpp" />
     <ClCompile Include="Scenes\SceneManager.cpp" />
     <ClCompile Include="Scenes\SkyDome.cpp" />
+    <ClCompile Include="Scenes\StartScene.cpp" />
     <ClCompile Include="UIs\EnemyHpBar.cpp" />
     <ClCompile Include="UIs\PlayerHpBar.cpp" />
     <ClCompile Include="UIs\PlayerMpBar.cpp" />
@@ -200,10 +203,13 @@
     <ClInclude Include="Players\PlayerDodge.h" />
     <ClInclude Include="Players\PlayerMove.h" />
     <ClInclude Include="Bases\SceneBase.h" />
+    <ClInclude Include="Scenes\ClearScene.h" />
+    <ClInclude Include="Scenes\GameOverScene.h" />
     <ClInclude Include="Scenes\LoadScene.h" />
     <ClInclude Include="Scenes\SceneMain.h" />
     <ClInclude Include="Scenes\SceneManager.h" />
     <ClInclude Include="Scenes\SkyDome.h" />
+    <ClInclude Include="Scenes\StartScene.h" />
     <ClInclude Include="UIs\EnemyHpBar.h" />
     <ClInclude Include="UIs\PlayerHpBar.h" />
     <ClInclude Include="UIs\PlayerMpBar.h" />

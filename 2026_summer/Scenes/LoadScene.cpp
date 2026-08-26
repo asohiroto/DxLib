@@ -6,7 +6,7 @@
 namespace
 {
 	// 読み込む最大数
-	constexpr int MAX_LOAD_NUM = 5;
+	constexpr int MAX_LOAD_NUM = 3;
 	// マジックショットのエフェクトサイズ
 	constexpr float SHOT_EFFECT_SIZE = 90.0f;
 	// マジックミサイルのエフェクトサイズ
@@ -28,8 +28,7 @@ LoadScene::LoadScene() :
 	_magicShotEffectH(-1), _magicMissileEffectH(-1), _magicFuryEffectH(-1),
 	_magicBeamEffectH(-1),
 	_hitEffectH(-1), _magicCircleEffectH(-1), _atmosEffectH(-1),
-	_totalRequestNum(MAX_LOAD_NUM),
-	_sceneChange(false)
+	_totalRequestNum(MAX_LOAD_NUM)
 {
 }
 
@@ -43,7 +42,7 @@ LoadScene::~LoadScene()
 
 void LoadScene::Init()
 {
-	_sceneChange = false;
+	_isSceneChange = false;
 
 	// 非同期処理開始
 	SetUseASyncLoadFlag(true);
@@ -52,6 +51,9 @@ void LoadScene::Init()
 	_playerH = MV1LoadModel("data/models/Player_true.mv1");
 	_enemyH = MV1LoadModel("data/models/EnemyModel.mv1");
 	_domeH = MV1LoadModel("data/sunny_dome.mv1");
+
+	// 非同期処理終了
+	SetUseASyncLoadFlag(false);
 
 	// プレイヤーの魔法をロード
 	_magicShotEffectH = LoadEffekseerEffect("data/effects/MagicShot.efkefc", SHOT_EFFECT_SIZE);
@@ -65,9 +67,6 @@ void LoadScene::Init()
 	_hitEffectH = LoadEffekseerEffect("data/effects/HitEffe.efkefc", HIT_EFFECT_SIZE);
 	_magicCircleEffectH = LoadEffekseerEffect("data/effects/MagicCircle.efkefc", CIRCLE_EFFECT_SIZE);
 	_atmosEffectH = LoadEffekseerEffect("data/effects/atmo.efkefc", ATMOS_EFFECT_SIZE);
-
-	// 非同期処理終了
-	SetUseASyncLoadFlag(false);
 
 	// 読み込み数を取得（ロード数を）
 	_totalRequestNum = GetASyncLoadNum();
@@ -93,7 +92,7 @@ void LoadScene::Update(std::shared_ptr<Input> pInput)
 {
 	if (GetASyncLoadNum() == 0)
 		if (pInput->IsTrigger(PAD_INPUT_1))
-			_sceneChange = true;
+			_isSceneChange = true;
 }
 
 void LoadScene::Draw()

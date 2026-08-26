@@ -95,7 +95,6 @@ void SceneMain::Update(std::shared_ptr<Input> pInput)
 	if (_atmosCount % 240 == 239)
 		StopEffekseer3DEffect(_atmosPlayingH);
 
-
 }
 
 void SceneMain::Draw()
