@@ -6,6 +6,7 @@
 #include "Magics/MagicShot.h"
 #include "Magics/MagicMissile.h"
 #include "Magics/MagicFury.h"
+#include "Magics/MagicBeam.h"
 #include "Magics/MagicManager.h"
 #include <DxLib.h>
 #include <EffekseerForDXLib.h>
@@ -70,6 +71,7 @@ Player::Player() :
 	p_Shot(nullptr),
 	p_Missile(nullptr),
 	p_Fury(nullptr),
+	p_Beam(nullptr),
 	_frontVec(VGet(0.0f, 0.0f, 0.0f)),
 	_pressFrame(0),
 	_damagedCount(0),
@@ -85,7 +87,7 @@ Player::~Player()
 
 }
 
-void Player::Init(int handle, int shotHandle, int missileHandle, int furyHandle, int circleHandle)
+void Player::Init(int handle, int shotHandle, int missileHandle, int furyHandle, int circleHandle, int beamHandle)
 {
 	// プレイヤーのキャラクターデータの初期設定
 	_playerUnit.modelH = handle;
@@ -122,6 +124,9 @@ void Player::Init(int handle, int shotHandle, int missileHandle, int furyHandle,
 	p_Fury = std::make_shared<MagicFury>();
 	p_Fury->Init();
 	p_Fury->SetMagicFuryH(furyHandle);
+	p_Beam = std::make_shared<MagicBeam>();
+	p_Beam->Init();
+	p_Beam->SetMagicBeamH(beamHandle);
 
 	_magicCircleH = circleHandle;
 }
@@ -145,13 +150,9 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 
 	// 回避中ならジャスト回避判定の半径を有効化する
 	if (p_Dodge->IsDodge())
-	{
 		_playerUnit.justRadius = JUST_DODGE_RADIUS;
-	}
 	else
-	{
 		_playerUnit.justRadius = NORM_JUST_RADIUS;
-	}
 
 	// 埋まり防止用
 	if (_playerUnit.pos.y <= 0.0f) _playerUnit.pos.y = 0.0f;
@@ -159,9 +160,7 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 	if (_playerUnit.isHit)
 	{
 		if (_damagedCount <= DAMAGED_FRAME)
-		{
 			_playerUnit.color = DAMAGED_COLOR;
-		}
 		else if (_damagedCount > DAMAGED_FRAME)
 		{
 			_playerUnit.color = NORM_COLOR;
@@ -216,7 +215,6 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 	// マジックサークルの再生位置
 	VECTOR circlePos = VAdd(VAdd(_playerUnit.pos, VScale(_frontVec, CIRCLE_FRONT_OFFSET)), VScale(right, SHOT_RIGHT_OFFSET));
 
-
 	// RBを推している時間を計測
 	if (pInput->IsTrigger(PAD_INPUT_6))
 	{
@@ -236,6 +234,7 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 		if (_pressFrame < SHOT_SWITCH) pCamera->SetCameraMode(false);
 		else pCamera->SetCameraMode(true);
 	}
+
 	// 離したときの時間で生成する魔法を切り替え
 	if (pInput->IsRelease(PAD_INPUT_6))
 	{
@@ -257,20 +256,23 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 			{
 				_playerUnit.mp = remainMp;
 				p_Missile->GenerateMissile(shotPos, _frontVec, false, pManager);
-
 			}
 		}
-
 		StopEffekseer3DEffect(_circlePlayingH);
 
 		pCamera->SetCameraMode(false);
 	}
 
-	if (pInput->IsTrigger(PAD_INPUT_8))
+	if (_playerUnit.ultCharge >= _playerUnit.maxUltCharge)
 	{
-		if (_playerUnit.ultCharge >= _playerUnit.maxUltCharge)
+		if (pInput->IsTrigger(PAD_INPUT_8))
 		{
 			p_Fury->GenerateFury(pManager->GetEnePos(), VGet(0.0f, -1.0f, 0.0f), false, pManager);
+			_playerUnit.ultCharge = 0;
+		}
+		else if (pInput->IsTrigger(PAD_INPUT_7))
+		{
+			p_Beam->GenerateBeam(shotPos, _frontVec, false, pManager);
 			_playerUnit.ultCharge = 0;
 		}
 	}
@@ -293,9 +295,7 @@ void Player::Draw()
 	DrawFormatString(0, 200, 0xffffff, "AnimNum : %d", animNum);
 
 	for (int i = 0; i < animNum; i++)
-	{
 		DrawFormatString(0, 220 + (i * 20), 0xffffff, "[%d], %s", i, MV1GetAnimName(_playerUnit.modelH, i));
-	}
 
 #endif
 }

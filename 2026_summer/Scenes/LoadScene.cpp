@@ -49,7 +49,7 @@ void LoadScene::Init()
 
 	// ３Dモデルをロード
 	_playerH = MV1LoadModel("data/models/Player_true.mv1");
-	_enemyH = MV1LoadModel("data/models/EnemyModel.mv1");
+	_enemyH = MV1DuplicateModel(_playerH);
 	_domeH = MV1LoadModel("data/sunny_dome.mv1");
 
 	// 非同期処理終了

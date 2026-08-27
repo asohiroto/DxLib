@@ -105,7 +105,7 @@ int MagicCollision::PlayerHitCheck(const Character::CharacterData& player, const
 
 		float distance = 0.0f;
 
-		if (enemyList[i].type == MagicBase::MagicType::MagicBeam)
+		if (enemyList[i].type == MagicBase::MagicType::MagicBeam || enemyList[i].type == MagicBase::MagicType::MagicBeam)
 		{
 			distance = Segment_Segment_MinLength
 			(player.segmentStPos, player.segmentEndPos,
@@ -134,9 +134,7 @@ int MagicCollision::PlayerHitCheck(const Character::CharacterData& player, const
 		{
 			return i;
 		}
-
 	}
-
 	return -1;
 }
 
@@ -149,7 +147,7 @@ int MagicCollision::EnemyHitCheck(const Character::CharacterData& enemy, const M
 
 		float distance = 0.0f;
 
-		if (playerList[i].type == MagicBase::MagicType::MagicFury)
+		if (playerList[i].type == MagicBase::MagicType::MagicFury || playerList[i].type == MagicBase::MagicType::MagicBeam)
 		{
 			distance = Segment_Segment_MinLength
 			(enemy.segmentStPos, enemy.segmentEndPos,
@@ -167,6 +165,5 @@ int MagicCollision::EnemyHitCheck(const Character::CharacterData& enemy, const M
 			return i;
 		}
 	}
-
 	return -1;
 }

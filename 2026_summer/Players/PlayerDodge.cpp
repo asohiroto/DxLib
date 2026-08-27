@@ -12,7 +12,7 @@ namespace
 	// 回避のクールダウンフレーム
 	constexpr int DODGE_COOLDOWN = 30;
 	// 画面の左端からずらす幅
-	constexpr int WIDTH_OFFSET = 1250;
+	constexpr int WIDTH_OFFSET = 1370;
 	// 画面の上端からずらす高さ
 	constexpr int HEIGHT_OFFSET = 860;
 	// クールダウンバーの幅

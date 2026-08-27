@@ -25,7 +25,6 @@ namespace
 
 Enemy::Enemy() :
 	_enemyUnit(),
-	_nowState(EnemyState::MoveAway),
 	_damagedCount(0)
 {
 }
@@ -42,7 +41,7 @@ void Enemy::Init(int handle)
 	_enemyUnit.radius = RADIUS;
 	_enemyUnit.color = NORM_COLOR;
 	_enemyUnit.isHit = false;
-	_nowState = MoveAway;
+	_enemyUnit.nowState = CharacterState::MoveAway;
 	// ステータスを決定
 	_enemyUnit.maxHp = MAX_HP;
 	_enemyUnit.hp = _enemyUnit.maxHp;
@@ -90,11 +89,13 @@ void Enemy::Draw()
 {
 	MV1SetPosition(_enemyUnit.modelH, _enemyUnit.pos);
 	MV1DrawModel(_enemyUnit.modelH);
+
 #ifdef _DEBUG
 	DrawHitBox(_enemyUnit);
 
 	DrawFormatString(0, 100, 0xffffff, "EneHp : %d / EneMaxHp : %d", _enemyUnit.hp, _enemyUnit.maxHp);
 #endif
+
 }
 
 void Enemy::SetHit(int damage)
@@ -106,4 +107,9 @@ void Enemy::SetHit(int damage)
 
 		_enemyUnit.hp -= damage;
 	}
+}
+
+void Enemy::ChangeState(CharacterState state)
+{
+	_enemyUnit.nowState = state;
 }

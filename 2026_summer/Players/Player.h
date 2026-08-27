@@ -11,14 +11,16 @@ class MagicShot;
 class MagicMissile;
 class MagicFury;
 class MagicManager;
+class MagicBeam;
 
-class Player :
-	public Character
+class Player : public Character
 {
+public:
+
 public:
 	Player();
 	virtual ~Player() override;
-	void Init(int handle, int shotHandle, int missileHandle, int furyHandle, int circleHandle);
+	void Init(int handle, int shotHandle, int missileHandle, int furyHandle, int circleHandle, int beamHandle);
 	void End()override;
 	void Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCamera, std::shared_ptr<MagicManager> pManager);
 	void Draw() override;
@@ -66,6 +68,8 @@ private:
 	std::shared_ptr<MagicMissile> p_Missile;
 	// マジックフューリーの共有ポインタ
 	std::shared_ptr<MagicFury> p_Fury;
+	// マジックビームの共有ポインタ
+	std::shared_ptr<MagicBeam> p_Beam;
 	// プレイヤーの正面ベクトル
 	VECTOR _frontVec;
 	// ボタンを押している時間

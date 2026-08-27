@@ -4,7 +4,9 @@
 
 namespace
 {
-	// 高さ補正用
+	// プレイヤーの高さ補正用
+	constexpr float PLAYER_HEIGHT_OFFSET = 300.0f;
+	// 敵の高さ補正用
 	constexpr float ENEMY_HEIGHT_OFFSET = 300.0f;
 	// マジックフューリーの目的地の深さ
 	constexpr float FURY_DIPTH = 0.0f;
@@ -45,6 +47,8 @@ void MagicManager::Update(VECTOR playerPos, VECTOR enemyPos)
 				p_MagicMove->MissileMove(_playerMagics[i], enemyPos);
 			else if (_playerMagics[i].type == MagicBase::MagicType::MagicFury)
 				p_MagicMove->FuryMove(_playerMagics[i], VAdd(enemyPos, VGet(0.0f, -FURY_DIPTH, 0.0f)));
+			else if (_playerMagics[i].type == MagicBase::MagicType::MagicBeam)
+				p_MagicMove->BeamMove(_playerMagics[i], enemyPos, VAdd(playerPos, VGet(0.0f, PLAYER_HEIGHT_OFFSET, 0.0f)));
 		}
 
 		if (_playerMagics[i].isArrived)

@@ -27,7 +27,7 @@ namespace
 	// マジックビームが目標地点を定めてから攻撃を行うまでの猶予時間
 	constexpr int LOCKON_DELAY = 4;
 	// マジックビームの長さの倍率
-	constexpr float BEAM_LENGTH_SCALE = 1.2f;
+	constexpr float BEAM_LENGTH_SCALE = 1.5f;
 }
 
 MagicMove::MagicMove() :
@@ -115,7 +115,10 @@ void MagicMove::BeamMove(MagicBase::MagicData& data, VECTOR targetPos, VECTOR st
 	else if (data.chargeCount > BEAM_CHARGE_COUNT + (LOCKON_DELAY * 3))
 	{
 		data.segmentStPos = startPos;
-		data.segmentEndPos = VGet(_beamTargetPos.x, _beamTargetPos.y + HEIGHT_OFFSET, _beamTargetPos.z);
+		if (data.isEnemy)
+			data.segmentEndPos = VGet(_beamTargetPos.x, _beamTargetPos.y + HEIGHT_OFFSET, _beamTargetPos.z);
+		else
+			data.segmentEndPos = targetPos;
 
 		if (data.existCount >= BEAM_EXIST_COUNT)
 		{
@@ -123,7 +126,6 @@ void MagicMove::BeamMove(MagicBase::MagicData& data, VECTOR targetPos, VECTOR st
 			data.movedDistance = 0.0f;
 			data.chargeCount = 0;
 			data.existCount = 0;
-
 		}
 	}
 }

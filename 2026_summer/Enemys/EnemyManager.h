@@ -27,7 +27,7 @@ public:
 	// 敵の現在HPのゲッター
 	float GetNowHp() const;
 	// ルーチンテーブルをせっとする
-	void SetRoutine(std::vector<Enemy::EnemyState> routine) { _nowRoutine = routine; }
+	void SetRoutine(std::vector<Enemy::CharacterState> routine) { _nowRoutine = routine; }
 	// 次の行動に進める
 	void ProceedNextAction();
 
@@ -43,5 +43,5 @@ private:
 	// 今ロックされているか
 	bool _isLock;
 	// 今のルーチンテーブル
-	std::vector<Enemy::EnemyState> _nowRoutine;
+	std::vector<Enemy::CharacterState> _nowRoutine;
 };

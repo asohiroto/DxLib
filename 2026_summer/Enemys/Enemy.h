@@ -4,24 +4,6 @@
 class Enemy : public Character
 {
 public:
-	enum EnemyState
-	{
-		// 近づく
-		Approach,
-		// 遠ざかる
-		MoveAway,
-		// 左移動
-		MoveLeft,
-		// 右移動
-		MoveRight,
-		// 攻撃
-		Attack,
-		// 被弾硬直
-		HitStun,
-		// 死亡
-		Dead
-	};
-
 	Enemy();
 	virtual ~Enemy() override;
 	void Init(int handle) override;
@@ -38,9 +20,9 @@ public:
 	// 敵座標のゲッター
 	VECTOR GetPos() const { return _enemyUnit.pos; }
 	// ステートのゲッター
-	EnemyState GetState() const { return _nowState; }
+	CharacterState GetState() const { return _enemyUnit.nowState; }
 	// ステートを変更
-	void ChangeState(EnemyState state) { _nowState = state; }
+	void ChangeState(CharacterState state);
 	// 座標のセッター
 	void SetPos(VECTOR pos) { _enemyUnit.pos = pos; }
 	// 最大HPのゲッター
@@ -49,8 +31,6 @@ public:
 	int GetNowHp() const { return _enemyUnit.hp; }
 private:
 	CharacterData _enemyUnit;
-	// 現在のステート
-	EnemyState _nowState;
 	// やられのカウンタ
 	int _damagedCount;
 };

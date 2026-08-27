@@ -52,7 +52,7 @@ void SceneMain::Init()
 	p_Dome = std::make_unique<SkyDome>();
 	p_EffectManager = std::make_shared<EffectManager>();
 
-	p_Player->Init(_playerTempH, _shotTempH, _missileTempH, _furyTempH, _circleTempH);
+	p_Player->Init(_playerTempH, _shotTempH, _missileTempH, _furyTempH, _circleTempH, _beamTempH);
 	p_Camera->Init();
 	p_EManager->Init(_enemyTempH, _beamTempH);
 	p_MManager->Init();

@@ -6,7 +6,7 @@ namespace
 	// 補間度
 	constexpr float LERP_RATE = 0.15f;
 	// 画面の左端からずらす幅
-	constexpr int WIDTH_OFFSET = 1250;
+	constexpr int WIDTH_OFFSET = 1270;
 	// 画面の上端からずらす高さ
 	constexpr int HEIGHT_OFFSET = 800;
 	// 必殺技ゲージの幅

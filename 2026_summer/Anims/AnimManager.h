@@ -25,4 +25,8 @@ private:
 	float _playSpeed;
 	// アタッチされているアニメーションの識別子
 	int _attachInd;
+	// ループ再生を行うか
+	bool _isLoop;
+	// アニメーションが終了したか
+	bool _isFinished;
 };

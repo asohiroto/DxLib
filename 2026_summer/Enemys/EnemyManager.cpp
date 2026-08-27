@@ -6,14 +6,14 @@
 
 namespace
 {
-	const std::vector<Enemy::EnemyState> NORM_ROUTINE =
+	const std::vector<Enemy::CharacterState> NORM_ROUTINE =
 	{
-		Enemy::EnemyState::Approach,
-		Enemy::EnemyState::MoveLeft,
-		Enemy::EnemyState::Attack,
-		Enemy::EnemyState::MoveRight,
-		Enemy::EnemyState::Attack,
-		Enemy::EnemyState::MoveAway
+		Enemy::CharacterState::Approach,
+		Enemy::CharacterState::MoveLeft,
+		Enemy::CharacterState::Beam,
+		Enemy::CharacterState::MoveRight,
+		Enemy::CharacterState::Beam,
+		Enemy::CharacterState::MoveAway
 	};
 }
 
@@ -48,7 +48,7 @@ void EnemyManager::End()
 void EnemyManager::Update(VECTOR playerPos, std::shared_ptr<MagicManager> pMManager)
 {
 	VECTOR rota = p_Move->GetDir();
-	float angle = atan2f(rota.x, rota.z) + DX_PI_F;
+	float angle = atan2f(rota.x, rota.z);
 
 	p_Enemy->Update(angle);
 	p_Move->Update(playerPos, p_Enemy);
@@ -56,7 +56,7 @@ void EnemyManager::Update(VECTOR playerPos, std::shared_ptr<MagicManager> pMMana
 	_wasLock = _isLock;
 	_isLock = pMManager->IsLockOn();
 
-	if (_isLock) p_Enemy->ChangeState(Enemy::EnemyState::HitStun);
+	if (_isLock) p_Enemy->ChangeState(Enemy::CharacterState::HitStun);
 	if (_wasLock && !_isLock) ProceedNextAction();
 
 	if (p_Move->IsActionFinished())
@@ -67,37 +67,45 @@ void EnemyManager::Update(VECTOR playerPos, std::shared_ptr<MagicManager> pMMana
 	{
 		switch (p_Enemy->GetState())
 		{
-		case Enemy::EnemyState::Approach:
+		case Enemy::CharacterState::Approach:
 			p_Move->Approach(p_Enemy);
 
 			break;
 
-		case Enemy::EnemyState::MoveAway:
+		case Enemy::CharacterState::MoveAway:
 			p_Move->MoveAway(p_Enemy);
 
 			break;
 
-		case Enemy::EnemyState::MoveLeft:
+		case Enemy::CharacterState::MoveLeft:
 			p_Move->MoveLeft(p_Enemy);
 
 			break;
 
-		case Enemy::EnemyState::MoveRight:
+		case Enemy::CharacterState::MoveRight:
 			p_Move->MoveRight(p_Enemy);
 
 			break;
 
-		case Enemy::EnemyState::Attack:
+		case Enemy::CharacterState::Shot:
+
+			break;
+
+		case Enemy::CharacterState::Missile:
+
+			break;
+
+		case Enemy::CharacterState::Beam:
 			p_Beam->GenerateBeam(p_Enemy->GetPos(), p_Move->GetDir(), true, pMManager);
 			p_Move->SetActionFinished(true);
 
 			break;
 
-		case Enemy::EnemyState::HitStun:
+		case Enemy::CharacterState::HitStun:
 
 			break;
 
-		case Enemy::EnemyState::Dead:
+		case Enemy::CharacterState::Dead:
 
 			break;
 

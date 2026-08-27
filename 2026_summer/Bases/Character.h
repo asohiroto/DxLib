@@ -5,6 +5,30 @@
 class Character
 {
 public:
+	enum class CharacterState
+	{
+		// 近づく
+		Approach,
+		// 遠ざかる
+		MoveAway,
+		// 左移動
+		MoveLeft,
+		// 右移動
+		MoveRight,
+		// マジックショット
+		Shot,
+		// マジックミサイル
+		Missile,
+		// マジックフューリー
+		Fury,
+		// マジックビーム
+		Beam,
+		// 被弾硬直
+		HitStun,
+		// 死亡
+		Dead
+	};
+
 	struct CharacterData
 	{
 		// モデルのハンドル
@@ -35,6 +59,8 @@ public:
 		float ultCharge;
 		// 必殺技の最大チャージ量
 		float maxUltCharge;
+		// 現在のステート
+		CharacterState nowState;
 	};
 
 public:
