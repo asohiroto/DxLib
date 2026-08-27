@@ -8,6 +8,7 @@
 #include "Magics/MagicFury.h"
 #include "Magics/MagicBeam.h"
 #include "Magics/MagicManager.h"
+#include "Anims/AnimManager.h"
 #include <DxLib.h>
 #include <EffekseerForDXLib.h>
 #include <cassert>
@@ -72,6 +73,7 @@ Player::Player() :
 	p_Missile(nullptr),
 	p_Fury(nullptr),
 	p_Beam(nullptr),
+	p_AManager(nullptr),
 	_frontVec(VGet(0.0f, 0.0f, 0.0f)),
 	_pressFrame(0),
 	_damagedCount(0),
@@ -127,6 +129,8 @@ void Player::Init(int handle, int shotHandle, int missileHandle, int furyHandle,
 	p_Beam = std::make_shared<MagicBeam>();
 	p_Beam->Init();
 	p_Beam->SetMagicBeamH(beamHandle);
+	p_AManager = std::make_shared<AnimManager>();
+	p_AManager->Init(_playerUnit.modelH);
 
 	_magicCircleH = circleHandle;
 }
@@ -171,6 +175,7 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 	// プレイヤーの挙動の更新
 	p_Move->Update(pInput, pCamera->GetCameraYaw());
 	p_Dodge->Update(pInput, pCamera->GetCameraYaw());
+	p_AManager->Update();
 
 	// プレイヤー座標の更新
 	_playerUnit.pos = VAdd(_playerUnit.pos, p_Move->GetMovement());
@@ -283,6 +288,7 @@ void Player::Draw()
 	MV1DrawModel(_playerUnit.modelH);
 
 	p_Dodge->Draw();
+	p_AManager->Draw();
 
 #ifdef _DEBUG
 	DrawHitBox(_playerUnit);

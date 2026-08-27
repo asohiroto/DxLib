@@ -3,7 +3,7 @@
 
 AnimManager::AnimManager() :
 	_modelH(-1), _nowAnimInd(-1),
-	_totalAnimTime(0.0f), _playTime(0),
+	_totalAnimTime(0.0f), _playTime(0.0f),
 	_playSpeed(0.0f), _attachInd(-1), _isLoop(false),
 	_isFinished(false)
 {
@@ -28,7 +28,7 @@ void AnimManager::Update()
 
 	_playTime += _playSpeed;
 
-	if (_playTime = _totalAnimTime)
+	if (_playTime == _totalAnimTime)
 	{
 		if (_isLoop) _playTime = 0.0f;
 		else
@@ -51,7 +51,7 @@ void AnimManager::AnimChange(int animInd, bool isLoop, int playFrame)
 	if (_attachInd != -1) MV1DetachAnim(_modelH, _attachInd);
 
 	_attachInd = MV1AttachAnim(_modelH, animInd, -1, false);
-	_totalAnimTime = MV1GetAnimTotalTime(_modelH, _nowAnimInd);
+	_totalAnimTime = MV1GetAttachAnimTotalTime(_modelH, _attachInd);
 
 	_playSpeed = _totalAnimTime / static_cast<float>(playFrame);
 

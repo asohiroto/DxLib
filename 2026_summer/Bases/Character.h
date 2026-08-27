@@ -15,6 +15,10 @@ public:
 		MoveLeft,
 		// 右移動
 		MoveRight,
+		// 右側回避
+		DodgeRight,
+		// 左側回避
+		DodgeLeft,
 		// マジックショット
 		Shot,
 		// マジックミサイル
@@ -78,5 +82,25 @@ protected:
 		DrawCapsule3D(data.segmentStPos, data.segmentEndPos, data.radius, 16, data.color, data.color, false);
 		DrawCapsule3D(data.segmentStPos, data.segmentEndPos, data.justRadius, 16, 0xffff00, 0xffff00, false);
 	}
-};
 
+	// ステートに応じて数値を取得する
+	static int TranslateState(CharacterState state)
+	{
+		switch (state)
+		{
+		case CharacterState::Approach:   return 7;
+		case CharacterState::MoveAway:   return 6;
+		case CharacterState::MoveLeft:   return 8;
+		case CharacterState::MoveRight:  return 9;
+		case CharacterState::Shot:       return 5;
+		case CharacterState::Missile:    return 4;
+		case CharacterState::Fury:       return 3;
+		case CharacterState::Beam:       return 4;
+		case CharacterState::DodgeLeft:  return 0;
+		case CharacterState::DodgeRight: return 1;
+		case CharacterState::Dead:       return 11;
+		case CharacterState::HitStun:    return 10;
+		default:                         return 7;
+		}
+	}
+};

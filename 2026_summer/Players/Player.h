@@ -12,6 +12,7 @@ class MagicMissile;
 class MagicFury;
 class MagicManager;
 class MagicBeam;
+class AnimManager;
 
 class Player : public Character
 {
@@ -70,6 +71,9 @@ private:
 	std::shared_ptr<MagicFury> p_Fury;
 	// マジックビームの共有ポインタ
 	std::shared_ptr<MagicBeam> p_Beam;
+	// アニメーションマネージャーの共有ポインタ
+	std::shared_ptr<AnimManager> p_AManager;
+
 	// プレイヤーの正面ベクトル
 	VECTOR _frontVec;
 	// ボタンを押している時間

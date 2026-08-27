@@ -1,12 +1,15 @@
 ﻿#pragma once
 #include "Bases/Character.h"
+#include <memory>
+
+class EnemyManager;
 
 class Enemy : public Character
 {
 public:
 	Enemy();
 	virtual ~Enemy() override;
-	void Init(int handle) override;
+	void Init(int handle, std::shared_ptr<EnemyManager> pEManager);
 	void End() override;
 	void Update(float angle);
 	void Draw() override;
@@ -29,6 +32,7 @@ public:
 	int GetMaxHp() const { return _enemyUnit.maxHp; }
 	// 現在HPのゲッター
 	int GetNowHp() const { return _enemyUnit.hp; }
+
 private:
 	CharacterData _enemyUnit;
 	// やられのカウンタ

@@ -22,7 +22,8 @@ EnemyManager::EnemyManager() :
 	p_Move(nullptr),
 	_wasLock(false),
 	_isLock(false),
-	_nowRoutine(NORM_ROUTINE)
+	_nowRoutine(NORM_ROUTINE),
+	_canAnimChange(false)
 {
 }
 
@@ -150,5 +151,6 @@ void EnemyManager::ProceedNextAction()
 		_nowRoutine = NORM_ROUTINE;
 	}
 	p_Move->SetActionFinished(false);
+	_canAnimChange = true;
 }
 

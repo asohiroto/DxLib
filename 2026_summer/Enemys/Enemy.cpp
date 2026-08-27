@@ -1,4 +1,5 @@
 ﻿#include "Enemy.h"
+#include "EnemyManager.h"
 #include <algorithm>
 
 namespace
@@ -34,7 +35,7 @@ Enemy::~Enemy()
 
 }
 
-void Enemy::Init(int handle)
+void Enemy::Init(int handle, std::shared_ptr<EnemyManager> pEManager)
 {
 	_enemyUnit.pos = VGet(0.0f, 0.0f, 0.0f);
 	_enemyUnit.modelH = handle;
@@ -42,6 +43,7 @@ void Enemy::Init(int handle)
 	_enemyUnit.color = NORM_COLOR;
 	_enemyUnit.isHit = false;
 	_enemyUnit.nowState = CharacterState::MoveAway;
+
 	// ステータスを決定
 	_enemyUnit.maxHp = MAX_HP;
 	_enemyUnit.hp = _enemyUnit.maxHp;

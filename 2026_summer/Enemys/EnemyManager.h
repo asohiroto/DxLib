@@ -30,6 +30,10 @@ public:
 	void SetRoutine(std::vector<Enemy::CharacterState> routine) { _nowRoutine = routine; }
 	// 次の行動に進める
 	void ProceedNextAction();
+	// ステートを変更したか
+	bool CanAnimChange() const { return _canAnimChange; }
+	// アニメーション変更フラグのセッター
+	bool SetAnimChangeFlag(bool judge) { _canAnimChange = judge; }
 
 private:
 	// エネミーの共有ポインタ
@@ -44,4 +48,6 @@ private:
 	bool _isLock;
 	// 今のルーチンテーブル
 	std::vector<Enemy::CharacterState> _nowRoutine;
+	// アニメーションの変更を行うか
+	bool _canAnimChange;
 };
