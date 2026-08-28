@@ -21,6 +21,9 @@ namespace
 	constexpr int MISSILE_COUNT = 30;
 	constexpr int BEAM_COUNT = 30;
 	constexpr int FURY_COUNT = 30;
+
+	// 各行動のアニメーション補正フレーム
+	constexpr int BEAM_FRAME_OFFSET = 5;
 }
 
 EnemyManager::EnemyManager() :
@@ -59,6 +62,8 @@ void EnemyManager::Update(VECTOR playerPos, std::shared_ptr<MagicManager> pMMana
 
 	p_Enemy->Update(angle);
 	p_Move->Update(playerPos, p_Enemy);
+
+	_actionCount++;
 
 	_wasLock = _isLock;
 	_isLock = pMManager->IsLockOn();
@@ -101,11 +106,10 @@ void EnemyManager::Update(VECTOR playerPos, std::shared_ptr<MagicManager> pMMana
 			break;
 
 		case Enemy::CharacterState::Beam:
-			if (_actionCount >= BEAM_COUNT)
-			{
+			if (_actionCount == BEAM_COUNT - BEAM_FRAME_OFFSET)
 				p_Beam->GenerateBeam(p_Enemy->GetPos(), p_Move->GetDir(), true, pMManager);
+			if (_actionCount >= BEAM_COUNT)
 				p_Move->SetActionFinished(true);
-			}
 			break;
 
 		case Enemy::CharacterState::HitStun:
@@ -155,7 +159,7 @@ void EnemyManager::ProceedNextAction()
 	if (_nowRoutine.empty())
 		_nowRoutine = NORM_ROUTINE;
 
-	_actionCount++;
+	_actionCount = 0;
 	p_Move->SetActionFinished(false);
 }
 

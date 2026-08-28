@@ -35,7 +35,7 @@ Camera::Camera() :
 	_dispCameraYaw(0.0f),
 	_cameraPos(VGet(0.0f, 0.0f, 0.0f)),
 	_targetPos(VGet(0.0f, 0.0f, 0.0f)),
-	_cameraMode(false),
+	_cameraMode(true),
 	_dirToEnemy(VGet(0.0f, 0.0f, 0.0f))
 {
 }
@@ -58,10 +58,10 @@ void Camera::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Enemy>pEnem
 	int rx = pInput->GetRightStickX();
 	int ry = -(pInput->GetRightStickY());
 
-	if (!_cameraMode)
-		NormalCam(pPlayer);
-	else
+	if (_cameraMode)
 		LockOnCam(pPlayer, pEnemy);
+	else
+		NormalCam(pPlayer);
 }
 
 void Camera::Draw()
