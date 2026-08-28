@@ -1,6 +1,6 @@
 ﻿#pragma once
+#include "Anims/AnimInfo.h"
 #include <DxLib.h>
-#include <memory>
 
 class Character
 {
@@ -84,23 +84,36 @@ protected:
 	}
 
 	// ステートに応じて数値を取得する
-	static int TranslateState(CharacterState state)
+	static AnimInfo TranslateState(CharacterState state)
 	{
 		switch (state)
 		{
-		case CharacterState::Approach:   return 7;
-		case CharacterState::MoveAway:   return 6;
-		case CharacterState::MoveLeft:   return 8;
-		case CharacterState::MoveRight:  return 9;
-		case CharacterState::Shot:       return 5;
-		case CharacterState::Missile:    return 4;
-		case CharacterState::Fury:       return 3;
-		case CharacterState::Beam:       return 4;
-		case CharacterState::DodgeLeft:  return 0;
-		case CharacterState::DodgeRight: return 1;
-		case CharacterState::Dead:       return 11;
-		case CharacterState::HitStun:    return 10;
-		default:                         return 7;
+		case CharacterState::Approach:
+			return { 7, true, 60 };
+		case CharacterState::MoveAway:
+			return { 6, true, 60 };
+		case CharacterState::MoveLeft:
+			return { 8, true, 60 };
+		case CharacterState::MoveRight:
+			return { 9, true, 60 };
+		case CharacterState::Shot:
+			return { 5, false, 20 };
+		case CharacterState::Missile:
+			return { 4, false, 30 };
+		case CharacterState::Fury:
+			return { 3, false, 30 };
+		case CharacterState::Beam:
+			return { 4, false, 30 };
+		case CharacterState::DodgeLeft:
+			return { 0, false, 15 };
+		case CharacterState::DodgeRight:
+			return { 1, false, 15 };
+		case CharacterState::Dead:
+			return { 11, false, 30 };
+		case CharacterState::HitStun:
+			return { 10, false, 5 };
+		default:
+			return { 7, true, 10 };
 		}
 	}
 };

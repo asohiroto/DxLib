@@ -15,6 +15,12 @@ namespace
 		Enemy::CharacterState::Beam,
 		Enemy::CharacterState::MoveAway
 	};
+
+	// 各行動のアニメーション保証フレーム
+	constexpr int SHOT_COUNT = 20;
+	constexpr int MISSILE_COUNT = 30;
+	constexpr int BEAM_COUNT = 30;
+	constexpr int FURY_COUNT = 30;
 }
 
 EnemyManager::EnemyManager() :
@@ -23,7 +29,7 @@ EnemyManager::EnemyManager() :
 	_wasLock(false),
 	_isLock(false),
 	_nowRoutine(NORM_ROUTINE),
-	_canAnimChange(false)
+	_actionCount(0)
 {
 }
 
@@ -51,7 +57,7 @@ void EnemyManager::Update(VECTOR playerPos, std::shared_ptr<MagicManager> pMMana
 	VECTOR rota = p_Move->GetDir();
 	float angle = atan2f(rota.x, rota.z);
 
-	p_Enemy->Update(angle, std::shared_ptr<EnemyManager>(this));
+	p_Enemy->Update(angle);
 	p_Move->Update(playerPos, p_Enemy);
 
 	_wasLock = _isLock;
@@ -61,9 +67,7 @@ void EnemyManager::Update(VECTOR playerPos, std::shared_ptr<MagicManager> pMMana
 	if (_wasLock && !_isLock) ProceedNextAction();
 
 	if (p_Move->IsActionFinished())
-	{
 		ProceedNextAction();
-	}
 	else
 	{
 		switch (p_Enemy->GetState())
@@ -97,9 +101,11 @@ void EnemyManager::Update(VECTOR playerPos, std::shared_ptr<MagicManager> pMMana
 			break;
 
 		case Enemy::CharacterState::Beam:
-			p_Beam->GenerateBeam(p_Enemy->GetPos(), p_Move->GetDir(), true, pMManager);
-			p_Move->SetActionFinished(true);
-
+			if (_actionCount >= BEAM_COUNT)
+			{
+				p_Beam->GenerateBeam(p_Enemy->GetPos(), p_Move->GetDir(), true, pMManager);
+				p_Move->SetActionFinished(true);
+			}
 			break;
 
 		case Enemy::CharacterState::HitStun:
@@ -147,10 +153,9 @@ void EnemyManager::ProceedNextAction()
 	_nowRoutine.erase(_nowRoutine.begin());
 
 	if (_nowRoutine.empty())
-	{
 		_nowRoutine = NORM_ROUTINE;
-	}
+
+	_actionCount++;
 	p_Move->SetActionFinished(false);
-	_canAnimChange = true;
 }
 

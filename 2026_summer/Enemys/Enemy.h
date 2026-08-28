@@ -12,7 +12,7 @@ public:
 	virtual ~Enemy() override;
 	void Init(int handle) override;
 	void End() override;
-	void Update(float angle, std::shared_ptr<EnemyManager> pEManager);
+	void Update(float angle);
 	void Draw() override;
 
 	// エネミーデータのゲッター

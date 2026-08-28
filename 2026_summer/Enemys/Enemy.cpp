@@ -62,7 +62,7 @@ void Enemy::End()
 
 }
 
-void Enemy::Update(float angle, std::shared_ptr<EnemyManager> pEManager)
+void Enemy::Update(float angle)
 {
 	// 【当たり判定用】線分の始点と終点を設定
 	_enemyUnit.segmentStPos = VGet(_enemyUnit.pos.x, SEGMENT_HEIGHT_COR, _enemyUnit.pos.z);
@@ -73,9 +73,9 @@ void Enemy::Update(float angle, std::shared_ptr<EnemyManager> pEManager)
 	// 埋まり防止用
 	if (_enemyUnit.pos.y <= 0.0f) _enemyUnit.pos.y = 0.0f;
 
-	// アニメの切り替え
-	if (pEManager->CanAnimChange())
-		p_AManager->AnimChange(TranslateState(_enemyUnit.nowState), false, 60);
+	//// アニメの切り替え
+	//if (pEManager->CanAnimChange())
+	//	p_AManager->AnimChange(TranslateState(_enemyUnit.nowState), false, 60);
 
 	_enemyUnit.pos.x = std::clamp(_enemyUnit.pos.x, -POS_LIMIT_X, POS_LIMIT_X);
 	_enemyUnit.pos.z = std::clamp(_enemyUnit.pos.z, -POS_LIMIT_Z, POS_LIMIT_Z);
@@ -93,7 +93,8 @@ void Enemy::Update(float angle, std::shared_ptr<EnemyManager> pEManager)
 		}
 	}
 
-	MV1SetRotationXYZ(_enemyUnit.modelH, VGet(0.0f, angle, 0.0f));
+	MV1SetRotationXYZ(_enemyUnit.modelH, VGet(0.0f, angle + DX_PI_F, 0.0f));
+	p_AManager->AnimChange(TranslateState(_enemyUnit.nowState));
 	p_AManager->Update();
 }
 

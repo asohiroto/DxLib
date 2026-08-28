@@ -204,7 +204,7 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 
 	// モデルの設定
 	MV1SetPosition(_playerUnit.modelH, _playerUnit.pos);
-	MV1SetRotationXYZ(_playerUnit.modelH, VGet(0.0f, _angle, 0.0f));
+	MV1SetRotationXYZ(_playerUnit.modelH, VGet(0.0f, _angle + DX_PI_F, 0.0f));
 
 	// 【当たり判定用】線分の始点と終点を設定
 	_playerUnit.segmentStPos = VGet(_playerUnit.pos.x, SEGMENT_HEIGHT_COR, _playerUnit.pos.z);

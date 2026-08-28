@@ -20,6 +20,11 @@ void AnimManager::Init(int handle)
 
 void AnimManager::End()
 {
+	if (_attachInd != -1)
+	{
+		MV1DetachAnim(_modelH, _attachInd);
+		_attachInd = -1;
+	}
 }
 
 void AnimManager::Update()
@@ -28,7 +33,7 @@ void AnimManager::Update()
 
 	_playTime += _playSpeed;
 
-	if (_playTime == _totalAnimTime)
+	if (_playTime >= _totalAnimTime)
 	{
 		if (_isLoop) _playTime = 0.0f;
 		else
@@ -44,19 +49,20 @@ void AnimManager::Draw()
 {
 }
 
-void AnimManager::AnimChange(int animInd, bool isLoop, int playFrame)
+void AnimManager::AnimChange(AnimInfo info)
 {
-	if (_nowAnimInd == animInd) return;
+	if (_nowAnimInd == info.animInd) return;
 
 	if (_attachInd != -1) MV1DetachAnim(_modelH, _attachInd);
 
-	_attachInd = MV1AttachAnim(_modelH, animInd, -1, false);
+	_attachInd = MV1AttachAnim(_modelH, info.animInd, -1, false);
 	_totalAnimTime = MV1GetAttachAnimTotalTime(_modelH, _attachInd);
 
-	_playSpeed = _totalAnimTime / static_cast<float>(playFrame);
+	_playSpeed = _totalAnimTime / static_cast<float>(info.playFrame);
 
 	_playTime = 0.0f;
-	_nowAnimInd = animInd;
-	_isLoop = isLoop;
+	_nowAnimInd = info.animInd;
+	_isLoop = info.isLoop;
 	_isFinished = false;
+
 }

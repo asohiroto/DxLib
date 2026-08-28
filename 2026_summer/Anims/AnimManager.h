@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "AnimInfo.h"
 
 class AnimManager
 {
@@ -10,7 +11,7 @@ public:
 	void Update();
 	void Draw();
 	// アニメーションを変更する
-	void AnimChange(int animInd, bool isLoop, int playFrame);
+	void AnimChange(AnimInfo info);
 
 private:
 	// このクラスで参照するモデルのハンドル

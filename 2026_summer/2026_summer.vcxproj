@@ -183,6 +183,7 @@
     <ClCompile Include="UIs\UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Anims\AnimInfo.h" />
     <ClInclude Include="Anims\AnimManager.h" />
     <ClInclude Include="Bases\MagicBase.h" />
     <ClInclude Include="Cameras\Camera.h" />
