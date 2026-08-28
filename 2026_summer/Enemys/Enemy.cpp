@@ -1,5 +1,6 @@
 ﻿#include "Enemy.h"
 #include "EnemyManager.h"
+#include "Anims/AnimManager.h"
 #include <algorithm>
 
 namespace
@@ -26,7 +27,8 @@ namespace
 
 Enemy::Enemy() :
 	_enemyUnit(),
-	_damagedCount(0)
+	_damagedCount(0),
+	p_AManager(nullptr)
 {
 }
 
@@ -35,7 +37,7 @@ Enemy::~Enemy()
 
 }
 
-void Enemy::Init(int handle, std::shared_ptr<EnemyManager> pEManager)
+void Enemy::Init(int handle)
 {
 	_enemyUnit.pos = VGet(0.0f, 0.0f, 0.0f);
 	_enemyUnit.modelH = handle;
@@ -48,6 +50,9 @@ void Enemy::Init(int handle, std::shared_ptr<EnemyManager> pEManager)
 	_enemyUnit.maxHp = MAX_HP;
 	_enemyUnit.hp = _enemyUnit.maxHp;
 
+	p_AManager = std::make_shared<AnimManager>();
+	p_AManager->Init(_enemyUnit.modelH);
+
 	// モデルを拡大
 	MV1SetScale(_enemyUnit.modelH, VGet(2.5f, 2.5f, 2.5f));
 }
@@ -57,7 +62,7 @@ void Enemy::End()
 
 }
 
-void Enemy::Update(float angle)
+void Enemy::Update(float angle, std::shared_ptr<EnemyManager> pEManager)
 {
 	// 【当たり判定用】線分の始点と終点を設定
 	_enemyUnit.segmentStPos = VGet(_enemyUnit.pos.x, SEGMENT_HEIGHT_COR, _enemyUnit.pos.z);
@@ -67,6 +72,10 @@ void Enemy::Update(float angle)
 
 	// 埋まり防止用
 	if (_enemyUnit.pos.y <= 0.0f) _enemyUnit.pos.y = 0.0f;
+
+	// アニメの切り替え
+	if (pEManager->CanAnimChange())
+		p_AManager->AnimChange(TranslateState(_enemyUnit.nowState), false, 60);
 
 	_enemyUnit.pos.x = std::clamp(_enemyUnit.pos.x, -POS_LIMIT_X, POS_LIMIT_X);
 	_enemyUnit.pos.z = std::clamp(_enemyUnit.pos.z, -POS_LIMIT_Z, POS_LIMIT_Z);
@@ -85,6 +94,7 @@ void Enemy::Update(float angle)
 	}
 
 	MV1SetRotationXYZ(_enemyUnit.modelH, VGet(0.0f, angle, 0.0f));
+	p_AManager->Update();
 }
 
 void Enemy::Draw()

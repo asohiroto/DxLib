@@ -51,7 +51,7 @@ void EnemyManager::Update(VECTOR playerPos, std::shared_ptr<MagicManager> pMMana
 	VECTOR rota = p_Move->GetDir();
 	float angle = atan2f(rota.x, rota.z);
 
-	p_Enemy->Update(angle);
+	p_Enemy->Update(angle, std::shared_ptr<EnemyManager>(this));
 	p_Move->Update(playerPos, p_Enemy);
 
 	_wasLock = _isLock;

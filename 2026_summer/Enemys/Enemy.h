@@ -3,15 +3,16 @@
 #include <memory>
 
 class EnemyManager;
+class AnimManager;
 
 class Enemy : public Character
 {
 public:
 	Enemy();
 	virtual ~Enemy() override;
-	void Init(int handle, std::shared_ptr<EnemyManager> pEManager);
+	void Init(int handle) override;
 	void End() override;
-	void Update(float angle);
+	void Update(float angle, std::shared_ptr<EnemyManager> pEManager);
 	void Draw() override;
 
 	// エネミーデータのゲッター
@@ -34,6 +35,8 @@ public:
 	int GetNowHp() const { return _enemyUnit.hp; }
 
 private:
+	// アニメマネージャーの共有ポインタ
+	std::shared_ptr<AnimManager> p_AManager;
 	CharacterData _enemyUnit;
 	// やられのカウンタ
 	int _damagedCount;
