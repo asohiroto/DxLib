@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Bases/SceneBase.h"
+#include "Effects/EffectHandles.h"
 #include<memory>
 
 class Player;
@@ -33,9 +34,8 @@ public:
 	// 各ハンドルのセッター
 	void SetCharacterH(int playerH, int enemyH) { _playerTempH = playerH; _enemyTempH = enemyH; }
 	void SetSkyDomeH(int domeH) { _domeTempH = domeH; }
-	void SetPlayerMagicH(int shotH, int missileH, int furyH) { _shotTempH = shotH; _missileTempH = missileH; _furyTempH = furyH; }
-	void SetEnemyMagicH(int beamH) { _beamTempH = beamH; }
-	void SetOtherH(int hitH, int circleH, int atmosH) { _hitTempH = hitH; _circleTempH = circleH; _atmosH = atmosH; }
+	void SetOtherH(int hitH, int atmosH) { _hitTempH = hitH; _atmosH = atmosH; }
+	void SetMagics(EffectHandles playerMagicTemp) { _playerMagicsTemp = playerMagicTemp; }
 
 private:
 	// プレイヤークラスの共有ポインタ
@@ -61,12 +61,7 @@ private:
 	int _playerTempH;
 	int _enemyTempH;
 	int _domeTempH;
-	int _shotTempH;
-	int _missileTempH;
-	int _furyTempH;
 	int _hitTempH;
-	int _circleTempH;
-	int _beamTempH;
 
 	// 大気表現のエフェクトハンドル
 	int _atmosH;
@@ -76,4 +71,7 @@ private:
 
 	// 大気表現のループ再生用のカウンタ
 	int _atmosCount;
+
+	// プレイヤーに渡す用のやつ
+	EffectHandles _playerMagicsTemp;
 };

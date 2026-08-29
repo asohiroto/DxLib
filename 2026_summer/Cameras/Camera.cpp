@@ -36,7 +36,8 @@ Camera::Camera() :
 	_cameraPos(VGet(0.0f, 0.0f, 0.0f)),
 	_targetPos(VGet(0.0f, 0.0f, 0.0f)),
 	_cameraMode(true),
-	_dirToEnemy(VGet(0.0f, 0.0f, 0.0f))
+	_dirToEnemy(VGet(0.0f, 0.0f, 0.0f)),
+	_cameraCount(0)
 {
 }
 
@@ -57,6 +58,11 @@ void Camera::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Enemy>pEnem
 	// 右スティックの入力を保存
 	int rx = pInput->GetRightStickX();
 	int ry = -(pInput->GetRightStickY());
+
+	_cameraCount++;
+
+	if (_cameraCount == 1)
+		_cameraMode = false;
 
 	if (_cameraMode)
 		LockOnCam(pPlayer, pEnemy);

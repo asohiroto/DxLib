@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Bases/Character.h"
+#include "Effects/EffectHandles.h"
 #include <DxLib.h>
 #include <memory>
 
@@ -21,7 +22,7 @@ public:
 public:
 	Player();
 	virtual ~Player() override;
-	void Init(int handle, int shotHandle, int missileHandle, int furyHandle, int circleHandle, int beamHandle);
+	void Init(int handle, EffectHandles playerMagics);
 	void End()override;
 	void Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCamera, std::shared_ptr<MagicManager> pManager);
 	void Draw() override;
@@ -53,6 +54,8 @@ public:
 	float GetNowCharge() const { return _playerUnit.ultCharge; }
 	// 必殺技の最大チャージ量
 	float GetMaxCharge() const { return _playerUnit.maxUltCharge; }
+	// プレイヤーの今のステートを返す
+	Character::CharacterState GetNowState() const { return _playerUnit.nowState; }
 
 private:
 	// プレイヤー
@@ -88,4 +91,5 @@ private:
 	int _targetPlayingH;
 	// 回避中か
 	bool _isDodge;
+
 };

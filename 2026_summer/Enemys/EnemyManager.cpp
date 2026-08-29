@@ -40,7 +40,7 @@ EnemyManager::~EnemyManager()
 {
 }
 
-void EnemyManager::Init(int handle, int beamH)
+void EnemyManager::Init(int handle, EffectHandles enemyMagics)
 {
 	p_Enemy = std::make_shared<Enemy>();
 	p_Enemy->Init(handle);
@@ -48,7 +48,7 @@ void EnemyManager::Init(int handle, int beamH)
 	p_Move->Init();
 	p_Beam = std::make_shared<MagicBeam>();
 	p_Beam->Init();
-	p_Beam->SetMagicBeamH(beamH);
+	p_Beam->SetMagicBeamH(enemyMagics.beamHandle);
 }
 
 void EnemyManager::End()
@@ -81,45 +81,36 @@ void EnemyManager::Update(VECTOR playerPos, std::shared_ptr<MagicManager> pMMana
 			p_Move->Approach(p_Enemy);
 
 			break;
-
 		case Enemy::CharacterState::MoveAway:
 			p_Move->MoveAway(p_Enemy);
 
 			break;
-
 		case Enemy::CharacterState::MoveLeft:
 			p_Move->MoveLeft(p_Enemy);
 
 			break;
-
 		case Enemy::CharacterState::MoveRight:
 			p_Move->MoveRight(p_Enemy);
 
 			break;
-
 		case Enemy::CharacterState::Shot:
 
 			break;
-
 		case Enemy::CharacterState::Missile:
 
 			break;
-
 		case Enemy::CharacterState::Beam:
 			if (_actionCount == BEAM_COUNT - BEAM_FRAME_OFFSET)
 				p_Beam->GenerateBeam(p_Enemy->GetPos(), p_Move->GetDir(), true, pMManager);
 			if (_actionCount >= BEAM_COUNT)
 				p_Move->SetActionFinished(true);
 			break;
-
 		case Enemy::CharacterState::HitStun:
 
 			break;
-
 		case Enemy::CharacterState::Dead:
 
 			break;
-
 		default:
 			break;
 		}

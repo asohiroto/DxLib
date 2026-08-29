@@ -29,9 +29,7 @@ SceneMain::SceneMain() :
 	p_EffectManager(nullptr),
 	_playerTempH(-1), _enemyTempH(-1),
 	_domeTempH(-1),
-	_shotTempH(-1), _missileTempH(-1), _furyTempH(-1),
-	_beamTempH(-1),
-	_hitTempH(-1), _circleTempH(-1),
+	_hitTempH(-1),
 	_atmosH(-1), _atmosPlayingH(-1), _atmosCount(0)
 {
 }
@@ -52,9 +50,9 @@ void SceneMain::Init()
 	p_Dome = std::make_unique<SkyDome>();
 	p_EffectManager = std::make_shared<EffectManager>();
 
-	p_Player->Init(_playerTempH, _shotTempH, _missileTempH, _furyTempH, _circleTempH, _beamTempH);
+	p_Player->Init(_playerTempH, _playerMagicsTemp);
 	p_Camera->Init();
-	p_EManager->Init(_enemyTempH, _beamTempH);
+	p_EManager->Init(_enemyTempH, _playerMagicsTemp);
 	p_MManager->Init();
 	p_UI->Init(p_EManager->GetMaxHp(), p_Player->GetMaxHp(),
 		p_Player->GetMaxMp(), p_Player->GetMaxCharge());

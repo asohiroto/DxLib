@@ -101,3 +101,8 @@ void PlayerDodge::DodgeCoolBar()
 	DrawBox(WIDTH_OFFSET, HEIGHT_OFFSET, WIDTH_OFFSET + BAR_WIDTH, HEIGHT_OFFSET + BAR_THICKNESS, 0x000000, true);
 	DrawBox(WIDTH_OFFSET, HEIGHT_OFFSET, WIDTH_OFFSET + (BAR_WIDTH * rate), HEIGHT_OFFSET + BAR_THICKNESS, 0xffffff, true);
 }
+
+void PlayerDodge::ResetDodgeCoolCount()
+{
+	_dodgeCoolCount = DODGE_COOLDOWN;
+}

@@ -1,4 +1,5 @@
 ﻿#include "LoadScene.h"
+#include "LoadScene.h"
 #include "Inputs/Input.h"
 #include <DxLib.h>
 #include <EffekseerForDXLib.h>
@@ -25,9 +26,7 @@ namespace
 
 LoadScene::LoadScene() :
 	_playerH(-1), _enemyH(-1), _domeH(-1),
-	_magicShotEffectH(-1), _magicMissileEffectH(-1), _magicFuryEffectH(-1),
-	_magicBeamEffectH(-1),
-	_hitEffectH(-1), _magicCircleEffectH(-1), _atmosEffectH(-1),
+	_hitEffectH(-1), _atmosEffectH(-1),
 	_totalRequestNum(MAX_LOAD_NUM)
 {
 }
@@ -56,16 +55,16 @@ void LoadScene::Init()
 	SetUseASyncLoadFlag(false);
 
 	// プレイヤーの魔法をロード
-	_magicShotEffectH = LoadEffekseerEffect("data/effects/MagicShot.efkefc", SHOT_EFFECT_SIZE);
-	_magicMissileEffectH = LoadEffekseerEffect("data/effects/MagicShot.efkefc", MISSILE_EFFECT_SIZE);
-	_magicFuryEffectH = LoadEffekseerEffect("data/effects/MagicFury2.efkefc", FURY_EFFECT_SIZE);
+	_playerMagics.shotHandle = LoadEffekseerEffect("data/effects/MagicShot.efkefc", SHOT_EFFECT_SIZE);
+	_playerMagics.missileHandle = LoadEffekseerEffect("data/effects/MagicShot.efkefc", MISSILE_EFFECT_SIZE);
+	_playerMagics.furyHandle = LoadEffekseerEffect("data/effects/MagicFury2.efkefc", FURY_EFFECT_SIZE);
 
 	// 敵の魔法をロード
-	_magicBeamEffectH = LoadEffekseerEffect("data/effects/MagicBeam2.efkefc", BEAM_EFFECT_SIZE);
+	_playerMagics.beamHandle = LoadEffekseerEffect("data/effects/MagicBeam2.efkefc", BEAM_EFFECT_SIZE);
 
 	// その他のエフェクトをロード
 	_hitEffectH = LoadEffekseerEffect("data/effects/HitEffe.efkefc", HIT_EFFECT_SIZE);
-	_magicCircleEffectH = LoadEffekseerEffect("data/effects/MagicCircle.efkefc", CIRCLE_EFFECT_SIZE);
+	_playerMagics.circleHandle = LoadEffekseerEffect("data/effects/MagicCircle.efkefc", CIRCLE_EFFECT_SIZE);
 	_atmosEffectH = LoadEffekseerEffect("data/effects/atmo.efkefc", ATMOS_EFFECT_SIZE);
 
 	// 読み込み数を取得（ロード数を）
@@ -78,12 +77,12 @@ void LoadScene::End()
 	MV1DeleteModel(_enemyH);
 	MV1DeleteModel(_domeH);
 
-	DeleteEffekseerEffect(_magicShotEffectH);
-	DeleteEffekseerEffect(_magicMissileEffectH);
-	DeleteEffekseerEffect(_magicFuryEffectH);
-	DeleteEffekseerEffect(_magicCircleEffectH);
+	DeleteEffekseerEffect(_playerMagics.shotHandle);
+	DeleteEffekseerEffect(_playerMagics.missileHandle);
+	DeleteEffekseerEffect(_playerMagics.circleHandle);
+	DeleteEffekseerEffect(_playerMagics.furyHandle);
 	DeleteEffekseerEffect(_hitEffectH);
-	DeleteEffekseerEffect(_magicBeamEffectH);
+	DeleteEffekseerEffect(_playerMagics.beamHandle);
 	DeleteEffekseerEffect(_atmosEffectH);
 
 }

@@ -89,7 +89,7 @@ Player::~Player()
 
 }
 
-void Player::Init(int handle, int shotHandle, int missileHandle, int furyHandle, int circleHandle, int beamHandle)
+void Player::Init(int handle, EffectHandles playerMagics)
 {
 	// プレイヤーのキャラクターデータの初期設定
 	_playerUnit.modelH = handle;
@@ -119,20 +119,20 @@ void Player::Init(int handle, int shotHandle, int missileHandle, int furyHandle,
 	p_Dodge->Init();
 	p_Shot = std::make_shared<MagicShot>();
 	p_Shot->Init();
-	p_Shot->SetMagicShotH(shotHandle);
+	p_Shot->SetMagicShotH(playerMagics.shotHandle);
 	p_Missile = std::make_shared<MagicMissile>();
 	p_Missile->Init();
-	p_Missile->SetMagicMissileH(missileHandle);
+	p_Missile->SetMagicMissileH(playerMagics.missileHandle);
 	p_Fury = std::make_shared<MagicFury>();
 	p_Fury->Init();
-	p_Fury->SetMagicFuryH(furyHandle);
+	p_Fury->SetMagicFuryH(playerMagics.furyHandle);
 	p_Beam = std::make_shared<MagicBeam>();
 	p_Beam->Init();
-	p_Beam->SetMagicBeamH(beamHandle);
+	p_Beam->SetMagicBeamH(playerMagics.beamHandle);
 	p_AManager = std::make_shared<AnimManager>();
 	p_AManager->Init(_playerUnit.modelH);
 
-	_magicCircleH = circleHandle;
+	_magicCircleH = playerMagics.circleHandle;
 }
 
 void Player::End()
@@ -225,14 +225,13 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 	{
 		_pressFrame = 0;
 		_circlePlayingH = PlayEffekseer3DEffect(_magicCircleH);
-		//_targetPlayingH = PlayEffekseer3DEffect(_magicCircleH);
+		SetPosPlayingEffekseer3DEffect(_circlePlayingH, circlePos.x, circlePos.y + CIRCLE_HEIGHT_OFFSET, circlePos.z);
 	}
 
 	// マジックミサイル生成になればカメラがロックオン
 	if (pInput->IsPress(PAD_INPUT_6))
 	{
 		SetPosPlayingEffekseer3DEffect(_circlePlayingH, circlePos.x, circlePos.y + CIRCLE_HEIGHT_OFFSET, circlePos.z);
-		//SetPosPlayingEffekseer3DEffect(_targetPlayingH, );
 
 		SetRotationPlayingEffekseer3DEffect(_circlePlayingH, 0.0f, facing, 0.0f);
 
@@ -330,4 +329,6 @@ void Player::JustDodgeEffect()
 	_playerUnit.mp += MP_GAIN_AMOUNT;
 	if (_playerUnit.mp >= _playerUnit.maxMp)
 		_playerUnit.mp = _playerUnit.maxMp;
+
+	p_Dodge->ResetDodgeCoolCount();
 }

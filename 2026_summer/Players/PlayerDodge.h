@@ -21,6 +21,8 @@ public:
 	bool IsDodge() const { return _isDodge; }
 	// 回避クールダウンのバー
 	void DodgeCoolBar();
+	// 回避のクールダウンをリセットする
+	void ResetDodgeCoolCount();
 
 private:
 	// 回避方向

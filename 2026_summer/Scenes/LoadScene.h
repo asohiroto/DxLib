@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Bases/SceneBase.h"
+#include "Effects/EffectHandles.h"
 #include <memory>
 
 class Input;
@@ -19,20 +20,12 @@ public:
 	int GetEnemyH() const { return _enemyH; }
 	// スカイドームのモデルのハンドルを渡す
 	int GetDomeH() const { return _domeH; }
-	// マジックショットのハンドルを渡す
-	int GetMagicShotH()const { return _magicShotEffectH; }
-	// マジックミサイルのハンドルを渡す
-	int GetMissileH() const { return _magicMissileEffectH; }
-	// マジックフューリーのハンドルを渡す
-	int GetFuryH() const { return _magicFuryEffectH; }
 	// ヒット時のエフェクトのハンドルを渡す
 	int GetHitEffectH() const { return _hitEffectH; }
-	// マジックサークルのハンドルを渡す
-	int GetCircleEffectH() const { return _magicCircleEffectH; }
-	// マジックビームのハンドルを渡す
-	int GetBeamH() const { return _magicBeamEffectH; }
 	// 大気エフェクトのハンドルを渡す
 	int GetAtmosH() const { return _atmosEffectH; }
+
+	EffectHandles GetHandles() const { return _playerMagics; }
 
 private:
 	// モデルのハンドルたち
@@ -40,18 +33,10 @@ private:
 	int _domeH;
 	// モデルをロードしている数
 	int _totalRequestNum;
-	// マジックショットのエフェクトのハンドル
-	int _magicShotEffectH;
-	// マジックミサイルのエフェクトのハンドル
-	int _magicMissileEffectH;
-	// マジックフューリーのエフェクトのハンドル
-	int _magicFuryEffectH;
-	// マジックサークルのエフェクトのハンドル
-	int _magicCircleEffectH;
+	// プレイヤーが使用する魔法のハンドル
+	EffectHandles _playerMagics;
 	// ヒットエフェクトのハンドル
 	int _hitEffectH;
-	// マジックビームのエフェクトのハンドル
-	int _magicBeamEffectH;
 	// 大気エフェクトのハンドル
 	int _atmosEffectH;
 };

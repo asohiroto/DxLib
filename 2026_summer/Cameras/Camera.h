@@ -44,4 +44,6 @@ private:
 	bool _cameraMode;
 	// 敵までの水平方向
 	VECTOR _dirToEnemy;
+
+	int _cameraCount;
 };

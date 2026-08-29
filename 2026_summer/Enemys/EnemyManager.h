@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Enemy.h"
+#include "Effects/EffectHandles.h"
 #include <DxLib.h>
 #include <memory>
 #include <vector>
@@ -14,7 +15,7 @@ class EnemyManager
 public:
 	EnemyManager();
 	virtual ~EnemyManager();
-	void Init(int handle, int beamH);
+	void Init(int handle, EffectHandles enemyMagics);
 	void End();
 	void Update(VECTOR playerPos, std::shared_ptr<MagicManager> pMManager);
 	void Draw();

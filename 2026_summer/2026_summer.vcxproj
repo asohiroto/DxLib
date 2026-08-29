@@ -168,6 +168,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Players\Player.cpp" />
     <ClCompile Include="Players\PlayerDodge.cpp" />
+    <ClCompile Include="Players\PlayerManager.cpp" />
     <ClCompile Include="Players\PlayerMove.cpp" />
     <ClCompile Include="Scenes\ClearScene.cpp" />
     <ClCompile Include="Scenes\GameOverScene.cpp" />
@@ -190,6 +191,7 @@
     <ClInclude Include="Bases\Character.h" />
     <ClInclude Include="Colls\Collision.h" />
     <ClInclude Include="Colls\MagicCollision.h" />
+    <ClInclude Include="Effects\EffectHandles.h" />
     <ClInclude Include="Effects\EffectManager.h" />
     <ClInclude Include="Enemys\Enemy.h" />
     <ClInclude Include="Enemys\EnemyManager.h" />
@@ -204,6 +206,7 @@
     <ClInclude Include="Magics\MagicShot.h" />
     <ClInclude Include="Players\Player.h" />
     <ClInclude Include="Players\PlayerDodge.h" />
+    <ClInclude Include="Players\PlayerManager.h" />
     <ClInclude Include="Players\PlayerMove.h" />
     <ClInclude Include="Bases\SceneBase.h" />
     <ClInclude Include="Scenes\ClearScene.h" />
