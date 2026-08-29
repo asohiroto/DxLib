@@ -364,6 +364,20 @@ void Player::UpdateState(std::shared_ptr<Input> pInput)
 		return;
 	}
 
+	if (_isDodge)
+	{
+		if (lx >= 0) _playerUnit.nowState = CharacterState::DodgeRight;
+		else _playerUnit.nowState = CharacterState::DodgeLeft;
+
+		return;
+	}
+
+	if (lx == 0 && ly == 0)
+	{
+		_playerUnit.nowState = CharacterState::Wait;
+		return;
+	}
+
 	if (lx > 0 && std::abs(lx) > std::abs(ly))
 	{
 		_playerUnit.nowState = CharacterState::Approach;
@@ -387,15 +401,4 @@ void Player::UpdateState(std::shared_ptr<Input> pInput)
 		_playerUnit.nowState = CharacterState::MoveLeft;
 		return;
 	}
-
-	if (_isDodge)
-	{
-		if (lx >= 0) _playerUnit.nowState = CharacterState::DodgeRight;
-		else _playerUnit.nowState = CharacterState::DodgeLeft;
-
-		return;
-	}
-
-	_playerUnit.nowState = CharacterState::Wait;
-	return;
 }
