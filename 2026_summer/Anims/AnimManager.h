@@ -12,6 +12,8 @@ public:
 	void Draw();
 	// アニメーションを変更する
 	void AnimChange(AnimInfo info);
+	// アニメーションが終了したか
+	bool IsFinished() const { return _isFinished; }
 
 private:
 	// このクラスで参照するモデルのハンドル

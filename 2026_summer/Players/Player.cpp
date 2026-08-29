@@ -97,6 +97,7 @@ void Player::Init(int handle, EffectHandles playerMagics)
 	_playerUnit.radius = RADIUS;
 	_playerUnit.isHit = false;
 	_playerUnit.color = NORM_COLOR;
+	_playerUnit.nowState = CharacterState::Wait;
 	// プレイヤーのステータスの初期設定
 	_playerUnit.maxHp = MAX_HP;
 	_playerUnit.hp = _playerUnit.maxHp;
@@ -175,6 +176,11 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 	// プレイヤーの挙動の更新
 	p_Move->Update(pInput, pCamera->GetCameraYaw());
 	p_Dodge->Update(pInput, pCamera->GetCameraYaw());
+
+	UpdateState(pInput);
+
+	// アニメションの更新
+	p_AManager->AnimChange(TranslateState(_playerUnit.nowState));
 	p_AManager->Update();
 
 	// プレイヤー座標の更新
@@ -251,6 +257,7 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 				VECTOR camFront = VGet(GetCameraFrontVector().x, 0.0f, GetCameraFrontVector().z);
 				_frontVec = GetCameraFrontVector();
 				p_Shot->GenerateShot(shotPos, _frontVec, false, pManager);
+				_playerUnit.nowState = CharacterState::Shot;
 			}
 		}
 		else
@@ -260,6 +267,7 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 			{
 				_playerUnit.mp = remainMp;
 				p_Missile->GenerateMissile(shotPos, _frontVec, false, pManager);
+				_playerUnit.nowState = CharacterState::Missile;
 			}
 		}
 		StopEffekseer3DEffect(_circlePlayingH);
@@ -272,11 +280,13 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 		if (pInput->IsTrigger(PAD_INPUT_8))
 		{
 			p_Fury->GenerateFury(pManager->GetEnePos(), VGet(0.0f, -1.0f, 0.0f), false, pManager);
+			_playerUnit.nowState = CharacterState::Fury;
 			_playerUnit.ultCharge = 0;
 		}
 		else if (pInput->IsTrigger(PAD_INPUT_7))
 		{
 			p_Beam->GenerateBeam(shotPos, _frontVec, false, pManager);
+			_playerUnit.nowState = CharacterState::Beam;
 			_playerUnit.ultCharge = 0;
 		}
 	}
@@ -331,4 +341,59 @@ void Player::JustDodgeEffect()
 		_playerUnit.mp = _playerUnit.maxMp;
 
 	p_Dodge->ResetDodgeCoolCount();
+}
+
+void Player::UpdateState(std::shared_ptr<Input> pInput)
+{
+	int lx = pInput->GetLeftStickX();
+	int ly = pInput->GetLeftStickY();
+
+	if (!p_AManager->IsFinished()) return;
+
+	if (_playerUnit.hp <= 0)
+	{
+		_playerUnit.nowState = CharacterState::Dead;
+		return;
+	}
+
+	if (_playerUnit.isHit)
+	{
+		_playerUnit.nowState = CharacterState::HitStun;
+		return;
+	}
+
+	if (lx > 0 && std::abs(lx) > std::abs(ly))
+	{
+		_playerUnit.nowState = CharacterState::Approach;
+		return;
+	}
+
+	if (lx < 0 && std::abs(lx) > std::abs(ly))
+	{
+		_playerUnit.nowState = CharacterState::MoveAway;
+		return;
+	}
+
+	if (ly > 0 && std::abs(ly) > std::abs(lx))
+	{
+		_playerUnit.nowState = CharacterState::MoveRight;
+		return;
+	}
+
+	if (ly < 0 && std::abs(ly) > std::abs(lx))
+	{
+		_playerUnit.nowState = CharacterState::MoveLeft;
+		return;
+	}
+
+	if (_isDodge)
+	{
+		if (lx >= 0) _playerUnit.nowState = CharacterState::DodgeRight;
+		else _playerUnit.nowState = CharacterState::DodgeLeft;
+
+		return;
+	}
+
+	_playerUnit.nowState = CharacterState::Wait;
+	return;
 }

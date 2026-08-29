@@ -18,8 +18,6 @@ class AnimManager;
 class Player : public Character
 {
 public:
-
-public:
 	Player();
 	virtual ~Player() override;
 	void Init(int handle, EffectHandles playerMagics);
@@ -56,6 +54,10 @@ public:
 	float GetMaxCharge() const { return _playerUnit.maxUltCharge; }
 	// プレイヤーの今のステートを返す
 	Character::CharacterState GetNowState() const { return _playerUnit.nowState; }
+
+private:
+	// 状況に応じてステートを変化させる
+	void UpdateState(std::shared_ptr<Input> pInput);
 
 private:
 	// プレイヤー

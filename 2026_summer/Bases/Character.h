@@ -30,7 +30,9 @@ public:
 		// 被弾硬直
 		HitStun,
 		// 死亡
-		Dead
+		Dead,
+		// 待機
+		Wait
 	};
 
 	struct CharacterData

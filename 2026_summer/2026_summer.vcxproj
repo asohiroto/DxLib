@@ -168,7 +168,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Players\Player.cpp" />
     <ClCompile Include="Players\PlayerDodge.cpp" />
-    <ClCompile Include="Players\PlayerManager.cpp" />
     <ClCompile Include="Players\PlayerMove.cpp" />
     <ClCompile Include="Scenes\ClearScene.cpp" />
     <ClCompile Include="Scenes\GameOverScene.cpp" />
@@ -206,7 +205,6 @@
     <ClInclude Include="Magics\MagicShot.h" />
     <ClInclude Include="Players\Player.h" />
     <ClInclude Include="Players\PlayerDodge.h" />
-    <ClInclude Include="Players\PlayerManager.h" />
     <ClInclude Include="Players\PlayerMove.h" />
     <ClInclude Include="Bases\SceneBase.h" />
     <ClInclude Include="Scenes\ClearScene.h" />
