@@ -179,12 +179,6 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 	p_Move->Update(pInput, pCamera->GetCameraYaw());
 	p_Dodge->Update(pInput, pCamera->GetCameraYaw());
 
-	UpdateState(pInput);
-
-	// アニメションの更新
-	p_AManager->AnimChange(TranslateState(_playerUnit.nowState));
-	p_AManager->Update();
-
 	// プレイヤー座標の更新
 	_playerUnit.pos = VAdd(_playerUnit.pos, p_Move->GetMovement());
 	_playerUnit.pos = VAdd(_playerUnit.pos, p_Dodge->GetDodgePos());
@@ -292,6 +286,14 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 			_playerUnit.ultCharge = 0;
 		}
 	}
+
+
+	// ステートの更新
+	UpdateState(pInput);
+
+	// アニメションの更新
+	p_AManager->AnimChange(TranslateState(_playerUnit.nowState));
+	p_AManager->Update();
 }
 
 void Player::Draw()
@@ -350,12 +352,17 @@ void Player::UpdateState(std::shared_ptr<Input> pInput)
 	int lx = pInput->GetLeftStickX();
 	int ly = pInput->GetLeftStickY();
 
-	if (!p_AManager->IsFinished()) return;
-
 	if (_playerUnit.hp <= 0)
 	{
 		_playerUnit.nowState = CharacterState::Dead;
 		return;
+	}
+
+	AnimInfo nowAnim = TranslateState(_playerUnit.nowState);
+
+	if (nowAnim.isLoop = false)
+	{
+		if (!p_AManager->IsFinished()) return;
 	}
 
 	if (_playerUnit.isHit)
