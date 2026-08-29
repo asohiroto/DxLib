@@ -134,6 +134,8 @@ void Player::Init(int handle, EffectHandles playerMagics)
 	p_AManager->Init(_playerUnit.modelH);
 
 	_magicCircleH = playerMagics.circleHandle;
+
+	p_AManager->AnimChange(TranslateState(_playerUnit.nowState));
 }
 
 void Player::End()

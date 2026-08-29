@@ -115,7 +115,7 @@ protected:
 		case CharacterState::HitStun:
 			return { 10, false, 5 };
 		default:
-			return { 7, true, 10 };
+			return { 2, true, 30 };
 		}
 	}
 };
