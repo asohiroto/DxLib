@@ -54,6 +54,8 @@ public:
 		int chargeCount;
 		// 生成カウンタ
 		int existCount;
+		// マジックビームが目的とする位置
+		VECTOR beamTargetPos;
 	};
 
 public:

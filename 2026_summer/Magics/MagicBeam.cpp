@@ -64,7 +64,7 @@ void MagicBeam::GenerateBeam(VECTOR pos, VECTOR front, bool isEnemy, std::shared
 	_magicBeam.moveDirection = VNorm(front);
 	_magicBeam.chargeCount = 0;
 	_magicBeam.existCount = 0;
-	_magicBeam.effectH = PlayEffekseer3DEffect(_magicBeam.effectResourceH);
+	//_magicBeam.effectH = PlayEffekseer3DEffect(_magicBeam.effectResourceH);
 
 	pManager->EntryList(_magicBeam);
 }

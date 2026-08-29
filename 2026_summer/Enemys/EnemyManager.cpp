@@ -23,7 +23,7 @@ namespace
 	constexpr int FURY_COUNT = 30;
 
 	// 各行動のアニメーション補正フレーム
-	constexpr int BEAM_FRAME_OFFSET = 5;
+	constexpr int BEAM_FRAME_OFFSET = 15;
 }
 
 EnemyManager::EnemyManager() :
@@ -100,7 +100,7 @@ void EnemyManager::Update(VECTOR playerPos, std::shared_ptr<MagicManager> pMMana
 
 			break;
 		case Enemy::CharacterState::Beam:
-			if (_actionCount == BEAM_COUNT - BEAM_FRAME_OFFSET)
+			if (_actionCount == (BEAM_COUNT - BEAM_FRAME_OFFSET))
 				p_Beam->GenerateBeam(p_Enemy->GetPos(), p_Move->GetDir(), true, pMManager);
 			if (_actionCount >= BEAM_COUNT)
 				p_Move->SetActionFinished(true);

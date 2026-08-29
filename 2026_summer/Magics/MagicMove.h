@@ -22,6 +22,4 @@ public:
 	void FuryMove(MagicBase::MagicData& data, VECTOR targetPos);
 
 private:
-	// マジックビームが目的とする位置
-	VECTOR _beamTargetPos;
 };
