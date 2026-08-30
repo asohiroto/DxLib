@@ -39,6 +39,7 @@ void MagicBeam::Init()
 	_magicBeam.damage = DAMAGE;
 	_magicBeam.chargeCount = 0;
 	_magicBeam.existCount = 0;
+	_magicBeam.chargeAmount = 0;
 }
 
 void MagicBeam::End()

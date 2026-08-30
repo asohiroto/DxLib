@@ -254,6 +254,7 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 				_frontVec = GetCameraFrontVector();
 				p_Shot->GenerateShot(shotPos, _frontVec, false, pManager);
 				_playerUnit.nowState = CharacterState::Shot;
+				p_AManager->AnimChange(TranslateState(_playerUnit.nowState));
 			}
 		}
 		else
@@ -264,6 +265,7 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 				_playerUnit.mp = remainMp;
 				p_Missile->GenerateMissile(shotPos, _frontVec, false, pManager);
 				_playerUnit.nowState = CharacterState::Missile;
+				p_AManager->AnimChange(TranslateState(_playerUnit.nowState));
 			}
 		}
 		StopEffekseer3DEffect(_circlePlayingH);
@@ -277,13 +279,19 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 		{
 			p_Fury->GenerateFury(pManager->GetEnePos(), VGet(0.0f, -1.0f, 0.0f), false, pManager);
 			_playerUnit.nowState = CharacterState::Fury;
+			p_AManager->AnimChange(TranslateState(_playerUnit.nowState));
 			_playerUnit.ultCharge = 0;
 		}
-		else if (pInput->IsTrigger(PAD_INPUT_7))
+	}
+
+	if (_playerUnit.ultCharge >= _playerUnit.maxUltCharge / 2)
+	{
+		if (pInput->IsTrigger(PAD_INPUT_7))
 		{
 			p_Beam->GenerateBeam(shotPos, _frontVec, false, pManager);
 			_playerUnit.nowState = CharacterState::Beam;
-			_playerUnit.ultCharge = 0;
+			p_AManager->AnimChange(TranslateState(_playerUnit.nowState));
+			_playerUnit.ultCharge -= (_playerUnit.maxUltCharge / 2);
 		}
 	}
 

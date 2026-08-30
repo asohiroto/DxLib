@@ -53,6 +53,7 @@ void PlayerUltGauge::Draw()
 		DrawUltGauge(_nowRate, 0x00ff00);
 	else if (_nowCharge >= _maxCharge)
 		DrawUltGauge(_nowRate, 0xffff00);
+	DrawLine(WIDTH_OFFSET + (BAR_WIDTH / 2), HEIGHT_OFFSET, WIDTH_OFFSET + (BAR_WIDTH) / 2, HEIGHT_OFFSET + BAR_THICKNESS, 0x000000);
 }
 
 void PlayerUltGauge::DrawUltGauge(float rate, int color)

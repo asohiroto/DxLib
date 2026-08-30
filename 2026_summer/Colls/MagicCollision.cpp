@@ -10,7 +10,7 @@ namespace
 	// エフェクト再生高さの補正値
 	constexpr float EFFECT_HEIGHT_OFFSET = 300.0f;
 	// プレイヤーの使うビームのダメージ
-	constexpr int BEAM_DAMAGE = 250;
+	constexpr int BEAM_DAMAGE = 300;
 }
 
 MagicCollision::MagicCollision() :
@@ -86,6 +86,8 @@ void MagicCollision::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Ene
 			pEnemy->SetHit(BEAM_DAMAGE);
 		else
 			pEnemy->SetHit(magic.damage);
+
+		pPlayer->SetUltCharge(magic.chargeAmount);
 
 		VECTOR effectPos = pEnemy->GetPos();
 

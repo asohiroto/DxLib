@@ -18,6 +18,8 @@ namespace
 	constexpr int DAMAGE = 40;
 	// 消費魔力
 	constexpr float USE_MP = 30.0f;
+	// 必殺技チャージ量
+	constexpr int CHARGE_AMOUNT = 8;
 }
 
 
@@ -44,6 +46,7 @@ void MagicMissile::Init()
 	// ステータス決定
 	_magicMissile.damage = DAMAGE;
 	_magicMissile.useMp = USE_MP;
+	_magicMissile.chargeAmount = CHARGE_AMOUNT;
 }
 
 void MagicMissile::End()

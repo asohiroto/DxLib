@@ -54,6 +54,8 @@ public:
 	float GetMaxCharge() const { return _playerUnit.maxUltCharge; }
 	// プレイヤーの今のステートを返す
 	Character::CharacterState GetNowState() const { return _playerUnit.nowState; }
+	// 必殺技をチャージする
+	void SetUltCharge(int amount) { _playerUnit.ultCharge += amount; }
 
 private:
 	// 状況に応じてステートを変化させる

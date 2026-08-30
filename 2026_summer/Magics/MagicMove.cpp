@@ -21,11 +21,11 @@ namespace
 	// 到着したとみなす幅
 	constexpr float ARRIVED_LENGTH = 0.05f;
 
-	constexpr int BEAM_AIM_COUNT = 10;
+	constexpr int BEAM_AIM_COUNT = 20;
 
-	constexpr int BEAM_FIRE_COUNT = 10;
+	constexpr int BEAM_FIRE_COUNT = 20;
 
-	constexpr int BEAM_EXIST_COUNT = 20;
+	constexpr int BEAM_EXIST_COUNT = 30;
 	// マジックビームの長さの倍率
 	constexpr float BEAM_LENGTH_SCALE = 3000.0f;
 }

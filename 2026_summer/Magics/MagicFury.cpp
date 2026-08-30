@@ -15,7 +15,7 @@ namespace
 	// マジックフューリー生成の高さ
 	constexpr float FURY_HEIGHT = 2400.0f;
 	// ダメージ
-	constexpr int DAMAGE = 150;
+	constexpr int DAMAGE = 200;
 }
 
 MagicFury::MagicFury() :
@@ -41,6 +41,7 @@ void MagicFury::Init()
 	_magicFury.isArrived = false;
 	// ステータス決定
 	_magicFury.damage = DAMAGE;
+	_magicFury.chargeAmount = 0;
 }
 
 void MagicFury::End()

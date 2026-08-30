@@ -56,6 +56,8 @@ public:
 		int existCount;
 		// マジックビームが目的とする位置
 		VECTOR beamTargetPos;
+		// ヒット時に必殺技をチャージする量
+		int chargeAmount;
 	};
 
 public:
