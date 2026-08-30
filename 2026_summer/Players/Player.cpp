@@ -368,7 +368,7 @@ void Player::UpdateState(std::shared_ptr<Input> pInput)
 
 	AnimInfo nowAnim = TranslateState(_playerUnit.nowState);
 
-	if (nowAnim.isLoop = false)
+	if (nowAnim.isLoop == false)
 	{
 		if (!p_AManager->IsFinished()) return;
 	}
