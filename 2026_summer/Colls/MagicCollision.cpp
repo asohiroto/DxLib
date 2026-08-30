@@ -9,6 +9,8 @@ namespace
 {
 	// エフェクト再生高さの補正値
 	constexpr float EFFECT_HEIGHT_OFFSET = 300.0f;
+	// プレイヤーの使うビームのダメージ
+	constexpr int BEAM_DAMAGE = 250;
 }
 
 MagicCollision::MagicCollision() :
@@ -59,28 +61,38 @@ void MagicCollision::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Ene
 
 	if (IsPlayerHit())
 	{
-		pPlayer->SetHit(enemyList[_hitEnemyMagicInd].damage);
+		const auto& magic = enemyList[_hitEnemyMagicInd];
+
+		pPlayer->SetHit(magic.damage);
 
 		VECTOR effectPos = pPlayer->GetPos();
 
 		int handle = PlayEffekseer3DEffect(_hitEffectH);
 		SetPosPlayingEffekseer3DEffect(handle, effectPos.x, effectPos.y + EFFECT_HEIGHT_OFFSET, effectPos.z);
 
-		enemyList[_hitEnemyMagicInd].isExist = false;
+		if (magic.type == MagicBase::MagicType::MagicFury || magic.type == MagicBase::MagicType::MagicBeam)
+		{
+
+		}
+		else
+			enemyList[_hitEnemyMagicInd].isExist = false;
 	}
 
 	if (IsEnemyHit())
 	{
 		const auto& magic = playerList[_hitPlayerMagicInd];
 
-		pEnemy->SetHit(magic.damage);
+		if (magic.type == MagicBase::MagicType::MagicBeam)
+			pEnemy->SetHit(BEAM_DAMAGE);
+		else
+			pEnemy->SetHit(magic.damage);
 
 		VECTOR effectPos = pEnemy->GetPos();
 
 		int handle = PlayEffekseer3DEffect(_hitEffectH);
 		SetPosPlayingEffekseer3DEffect(handle, effectPos.x, effectPos.y + EFFECT_HEIGHT_OFFSET, effectPos.z);
 
-		if (magic.type == MagicBase::MagicType::MagicFury)
+		if (magic.type == MagicBase::MagicType::MagicFury || magic.type == MagicBase::MagicType::MagicBeam)
 		{
 
 		}

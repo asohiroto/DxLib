@@ -20,12 +20,12 @@ namespace
 	constexpr float FURY_LERP_RATE = 0.15f;
 	// 到着したとみなす幅
 	constexpr float ARRIVED_LENGTH = 0.05f;
-	// ビームを生成する時間
+
+	constexpr int BEAM_AIM_COUNT = 10;
+
+	constexpr int BEAM_FIRE_COUNT = 10;
+
 	constexpr int BEAM_EXIST_COUNT = 20;
-	// ビームをチャージする時間
-	constexpr int BEAM_CHARGE_COUNT = 5;
-	// マジックビームが目標地点を定めてから攻撃を行うまでの猶予時間
-	constexpr int LOCKON_DELAY = 4;
 	// マジックビームの長さの倍率
 	constexpr float BEAM_LENGTH_SCALE = 3000.0f;
 }
@@ -106,23 +106,28 @@ void MagicMove::BeamMove(MagicBase::MagicData& data, VECTOR targetPos, VECTOR st
 	SetPosPlayingEffekseer3DEffect(data.effectH, startPos.x, startPos.y, startPos.z);
 	SetRotationPlayingEffekseer3DEffect(data.effectH, 0.0f, dirAngle + DX_PI_F, 0.0f);
 
-	if (data.chargeCount < BEAM_CHARGE_COUNT - LOCKON_DELAY)
+	if (data.chargeCount <= BEAM_AIM_COUNT)
 	{
 		VECTOR toTarget = VSub(targetPos, startPos);
 		toTarget.y = 0.0f;
 		data.beamTargetPos = VScale(VNorm(toTarget), BEAM_LENGTH_SCALE);
 		data.segmentEndPos = data.segmentStPos;
 	}
-	else if (data.chargeCount > BEAM_CHARGE_COUNT + (LOCKON_DELAY * 3))
+	else if (data.chargeCount >= BEAM_FIRE_COUNT)
 	{
+		if (data.chargeCount == BEAM_FIRE_COUNT) data.chargeCount = 0;
+
 		data.segmentStPos = startPos;
 		if (data.isEnemy)
 		{
 			data.segmentEndPos = VAdd(startPos, data.beamTargetPos);
-			data.segmentEndPos.y += HEIGHT_OFFSET;
+
 		}
 		else
+		{
 			data.segmentEndPos = targetPos;
+			data.segmentEndPos.y += HEIGHT_OFFSET;
+		}
 
 		if (data.existCount >= BEAM_EXIST_COUNT)
 		{

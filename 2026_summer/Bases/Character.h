@@ -107,9 +107,9 @@ protected:
 		case CharacterState::Beam:
 			return { 4, false, 30 };
 		case CharacterState::DodgeLeft:
-			return { 0, false, 15 };
+			return { 0, false, 30 };
 		case CharacterState::DodgeRight:
-			return { 1, false, 15 };
+			return { 1, false, 30 };
 		case CharacterState::Dead:
 			return { 11, false, 30 };
 		case CharacterState::HitStun:

@@ -8,7 +8,7 @@ namespace
 	// 回避速度
 	constexpr float SPEED = 40.0f;
 	// 最大回避距離
-	constexpr float MAX_DISTANCE = 600.0f;
+	constexpr float MAX_DISTANCE = 1200.0f;
 	// 回避のクールダウンフレーム
 	constexpr int DODGE_COOLDOWN = 30;
 	// 画面の左端からずらす幅
