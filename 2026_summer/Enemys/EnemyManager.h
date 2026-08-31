@@ -8,6 +8,8 @@
 class Enemy;
 class EnemyMove;
 class MagicBeam;
+class MagicShot;
+class MagicMissile;
 class MagicManager;
 
 class EnemyManager
@@ -27,8 +29,8 @@ public:
 	float GetMaxHp() const;
 	// 敵の現在HPのゲッター
 	float GetNowHp() const;
-	// ルーチンテーブルをせっとする
-	void SetRoutine(std::vector<Enemy::CharacterState> routine) { _nowRoutine = routine; }
+	// ルーチンテーブルをセットする
+	void SetRoutine();
 	// 次の行動に進める
 	void ProceedNextAction();
 
@@ -37,8 +39,10 @@ private:
 	std::shared_ptr<Enemy> p_Enemy;
 	// エネミーの移動状態時処理
 	std::shared_ptr<EnemyMove> p_Move;
-	// マジックビームの共有ポインタ
+	// マジックの共有ポインタ
 	std::shared_ptr<MagicBeam> p_Beam;
+	std::shared_ptr<MagicShot> p_Shot;
+	std::shared_ptr<MagicMissile> p_Missile;
 	// ロックされていたか
 	bool _wasLock;
 	// 今ロックされているか
@@ -47,4 +51,6 @@ private:
 	std::vector<Enemy::CharacterState> _nowRoutine;
 	// 行動のフレーム計測
 	int _actionCount;
+	// 距離の判定
+	bool _tooNear, _tooAway;
 };

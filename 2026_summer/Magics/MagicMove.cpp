@@ -5,11 +5,11 @@
 namespace
 {
 	// マジックショットの最大移動距離
-	constexpr float SHOT_DISTANCE_MAX = 3000.0f;
+	constexpr float SHOT_DISTANCE_MAX = 7500.0f;
 	// マジックミサイルの最大移動距離
-	constexpr float MISSILE_DISTANCE_MAX = 5000.0f;
+	constexpr float MISSILE_DISTANCE_MAX = 7500.0f;
 	// マジックビームの最大移動距離
-	constexpr float BEAM_DISTANCE_MAX = 5000.0f;
+	constexpr float BEAM_DISTANCE_MAX = 7500.0f;
 	// 目標位置の高さ補正用
 	constexpr float HEIGHT_OFFSET = 300.0f;
 	// 加速度
@@ -20,11 +20,11 @@ namespace
 	constexpr float FURY_LERP_RATE = 0.15f;
 	// 到着したとみなす幅
 	constexpr float ARRIVED_LENGTH = 0.05f;
-
+	// ビームが狙っているフレーム
 	constexpr int BEAM_AIM_COUNT = 20;
-
+	// ビームを発射するまでのフレーム
 	constexpr int BEAM_FIRE_COUNT = 20;
-
+	// ビームが存在できるフレーム
 	constexpr int BEAM_EXIST_COUNT = 30;
 	// マジックビームの長さの倍率
 	constexpr float BEAM_LENGTH_SCALE = 10000.0f;

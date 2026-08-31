@@ -11,6 +11,8 @@ namespace
 	constexpr float EFFECT_HEIGHT_OFFSET = 300.0f;
 	// プレイヤーの使うビームのダメージ
 	constexpr int BEAM_DAMAGE = 300;
+	// スコアによるダメージ増加の係数
+	constexpr int DAMAGE_MAGNI = 10;
 }
 
 MagicCollision::MagicCollision() :
@@ -23,7 +25,8 @@ MagicCollision::MagicCollision() :
 	_hitEffectH(-1),
 	_isJustDodge(false),
 	_wasJustDodge(false),
-	_hitStopTemp(0)
+	_hitStopTemp(0),
+	_score(0)
 {
 }
 
@@ -31,9 +34,10 @@ MagicCollision::~MagicCollision()
 {
 }
 
-void MagicCollision::Init(int handle)
+void MagicCollision::Init(int handle, int score)
 {
 	_hitEffectH = handle;
+	_score = score;
 }
 
 void MagicCollision::End()
@@ -71,7 +75,7 @@ void MagicCollision::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Ene
 		int handle = PlayEffekseer3DEffect(_hitEffectH);
 		SetPosPlayingEffekseer3DEffect(handle, effectPos.x, effectPos.y + EFFECT_HEIGHT_OFFSET, effectPos.z);
 
-		if (magic.type == MagicBase::MagicType::MagicFury || magic.type == MagicBase::MagicType::MagicBeam)
+		if (magic.type == MagicBase::MagicType::MagicBeam)
 		{
 
 		}
@@ -88,7 +92,7 @@ void MagicCollision::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Ene
 		if (magic.type == MagicBase::MagicType::MagicBeam)
 			pEnemy->SetHit(BEAM_DAMAGE);
 		else
-			pEnemy->SetHit(magic.damage);
+			pEnemy->SetHit(magic.damage + (_score * DAMAGE_MAGNI));
 
 		pPlayer->SetUltCharge(magic.chargeAmount);
 

@@ -8,8 +8,6 @@ namespace
 	constexpr float RADIUS = 120.0f;
 	// 進む速さ
 	constexpr float FIRST_SPEED = 75.0f;
-	// 最大移動距離
-	constexpr float DISTANCE_MAX = 900.0f;
 	// 生成位置の補正用
 	constexpr float POSITION_OFFSET = 50.0f;
 	// 生成高さの補正用

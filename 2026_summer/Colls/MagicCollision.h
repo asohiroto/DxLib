@@ -16,7 +16,7 @@ private:
 public:
 	MagicCollision();
 	virtual ~MagicCollision();
-	void Init(int handle);
+	void Init(int handle, int score);
 	void End();
 	void Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Enemy>pEnemy, MagicList& playerList, MagicList& enemyList);
 	void Draw();
@@ -32,7 +32,7 @@ private:
 	bool IsPlayerHit() { return (_isPlayerHit && !_wasPlayerHit); }
 	// 敵に当たった瞬間を取得
 	bool IsEnemyHit() { return (_isEnemyHit && !_wasEnemyHit); }
-	
+
 private:
 	// 今のフレームでプレイヤーに魔法がヒットしたか
 	bool _isPlayerHit;
@@ -54,4 +54,6 @@ private:
 	bool _wasJustDodge;
 	// ヒットストップするフレーム数
 	int _hitStopTemp;
+	// 現在のスコア
+	int _score;
 };

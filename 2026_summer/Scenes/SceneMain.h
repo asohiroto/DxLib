@@ -62,19 +62,16 @@ private:
 	int _enemyTempH;
 	int _domeTempH;
 	int _hitTempH;
-
 	// 大気表現のエフェクトハンドル
 	int _atmosH;
-
 	// 再生中の大気表現のハンドル
 	int _atmosPlayingH;
-
 	// 大気表現のループ再生用のカウンタ
 	int _atmosCount;
-
 	// プレイヤーに渡す用のやつ
 	EffectHandles _playerMagicsTemp;
-
 	// ヒットストップする用のカウンタ
 	int _hitStopCount;
+	// スコア
+	int _score;
 };

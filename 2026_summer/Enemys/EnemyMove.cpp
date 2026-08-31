@@ -3,10 +3,6 @@
 
 namespace
 {
-	// プレイヤーとエネミーの最小距離
-	constexpr float MIN_DISTANCE = 1000.0f;
-	// プレイヤーと敵の最大距離
-	constexpr float MAX_DISTANCE = 2500.0f;
 	// 移動速度
 	constexpr float SPEED = 10.0f;
 	// 左右移動時間
@@ -45,15 +41,8 @@ void EnemyMove::End()
 
 void EnemyMove::Update(VECTOR playerPos, std::shared_ptr<Enemy> pEnemy)
 {
-
 	// 距離と方向を計算し代入
 	CalDistDir(playerPos, pEnemy);
-
-	// 距離の判定
-	if (_toPlayerDistance <= MIN_DISTANCE) { _tooNear = true; _tooAway = false; }
-	else if (_toPlayerDistance >= MAX_DISTANCE) { _tooNear = false; _tooAway = true; }
-	else { _tooNear = false; _tooAway = false; }
-
 }
 
 void EnemyMove::Draw()

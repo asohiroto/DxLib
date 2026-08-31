@@ -31,7 +31,7 @@ SceneMain::SceneMain() :
 	_domeTempH(-1),
 	_hitTempH(-1),
 	_atmosH(-1), _atmosPlayingH(-1), _atmosCount(0),
-	_hitStopCount(0)
+	_hitStopCount(0), _score(0)
 {
 }
 
@@ -41,6 +41,8 @@ SceneMain::~SceneMain()
 
 void SceneMain::Init(int score)
 {
+	_score = score;
+
 	p_Player = std::make_shared<Player>();
 	p_Camera = std::make_shared<Camera>();
 	p_EManager = std::make_shared<EnemyManager>();
@@ -53,13 +55,13 @@ void SceneMain::Init(int score)
 
 	p_Player->Init(_playerTempH, _playerMagicsTemp);
 	p_Camera->Init();
-	p_EManager->Init(_enemyTempH, _playerMagicsTemp, score);
+	p_EManager->Init(_enemyTempH, _playerMagicsTemp, _score);
 	p_MManager->Init();
 	p_UI->Init(p_EManager->GetMaxHp(), p_Player->GetMaxHp(),
 		p_Player->GetMaxMp(), p_Player->GetMaxCharge());
 	p_Dome->Init(_domeTempH);
 	p_Coll->Init();
-	p_MColl->Init(_hitTempH);
+	p_MColl->Init(_hitTempH, _score);
 
 	p_EffectManager->Init();
 	p_EffectManager->Load();
@@ -117,6 +119,10 @@ void SceneMain::Draw()
 	p_MManager->Draw();
 	p_EffectManager->Draw();
 	p_UI->Draw();
+
+#ifdef _DEBUG
+	DrawFormatString(1300, 300, 0x000000, "score : %d", _score);
+#endif
 }
 
 void SceneMain::DrawStage()

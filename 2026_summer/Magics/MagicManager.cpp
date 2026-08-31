@@ -21,6 +21,11 @@ MagicManager::MagicManager() :
 
 MagicManager::~MagicManager()
 {
+	for (auto& magic : _playerMagics)
+		StopEffekseer3DEffect(magic.effectH);
+
+	for (auto& eneMagic : _enemyMagics)
+		StopEffekseer3DEffect(eneMagic.effectH);
 }
 
 void MagicManager::Init()
@@ -31,6 +36,7 @@ void MagicManager::Init()
 
 void MagicManager::End()
 {
+
 }
 
 void MagicManager::Update(VECTOR playerPos, VECTOR enemyPos)

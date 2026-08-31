@@ -29,6 +29,9 @@ public:
 	bool IsActionFinished() const { return _isActionFinished; }
 	// フラグを変更
 	void SetActionFinished(bool judge) { _isActionFinished = judge; }
+	// プレイヤーまでの距離のゲッター
+	float GetDistance() const { return _toPlayerDistance; }
+
 private:
 	// プレイヤーまでの距離
 	float _toPlayerDistance;
