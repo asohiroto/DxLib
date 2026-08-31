@@ -2,8 +2,7 @@
 #include "SceneMain.h"
 #include "LoadScene.h"
 #include "StartScene.h"
-#include "ClearScene.h"
-#include "GameOverScene.h"
+#include "ResultScene.h"
 #include "Inputs/Input.h"
 #include <DxLib.h>
 
@@ -12,9 +11,10 @@ SceneManager::SceneManager() :
 	p_Input(nullptr),
 	p_Load(nullptr),
 	p_Start(nullptr),
-	p_Clear(nullptr),
-	p_GameOver(nullptr),
-	_nowScene(SceneState::Load)
+	p_Result(nullptr),
+	_nowScene(SceneState::Load),
+	_score(0),
+	_defeatNum(0)
 {
 }
 
@@ -27,8 +27,7 @@ void SceneManager::Init()
 	p_Main = std::make_shared<SceneMain>();
 	p_Load = std::make_shared<LoadScene>();
 	p_Start = std::make_shared<StartScene>();
-	p_Clear = std::make_shared<ClearScene>();
-	p_GameOver = std::make_shared<GameOverScene>();
+	p_Result = std::make_shared<ResultScene>();
 	p_Input = std::make_shared<Input>();
 
 	p_Load->Init();
@@ -52,39 +51,28 @@ void SceneManager::Update()
 			ChangeScene(SceneManager::SceneState::Start);
 
 		break;
-
 	case SceneManager::SceneState::Start:
 		p_Start->Update(p_Input);
 
 		if (p_Start->CanSceneChange())
 			ChangeScene(SceneManager::SceneState::Main);
 		break;
-
 	case SceneManager::SceneState::Main:
 		p_Main->Update(p_Input);
 
 		if (p_Main->GetPlayerHp() <= 0)
-			ChangeScene(SceneManager::SceneState::GameOver);
+			ChangeScene(SceneManager::SceneState::Result);
 		else if (p_Main->GetEnemyHp() <= 0)
-			ChangeScene(SceneManager::SceneState::Clear);
+		{
+			ChangeScene(SceneManager::SceneState::Main);
+			_defeatNum++;
+			_score += _defeatNum;
+		}
+		break;
+	case SceneManager::SceneState::Result:
+		p_Result->Update();
 
 		break;
-
-	case SceneManager::SceneState::Clear:
-		p_Clear->Update(p_Input);
-
-		if (p_Clear->CanSceneChange())
-			ChangeScene(SceneManager::SceneState::Start);
-		break;
-
-	case SceneManager::SceneState::GameOver:
-		p_GameOver->Update(p_Input);
-
-		if (p_GameOver->CanSceneChange())
-			ChangeScene(SceneManager::SceneState::Start);
-
-		break;
-
 	default:
 
 		break;
@@ -106,11 +94,8 @@ void SceneManager::Draw()
 	case SceneManager::SceneState::Main:
 		p_Main->Draw();
 		break;
-	case SceneManager::SceneState::Clear:
-		p_Clear->Draw();
-		break;
-	case SceneManager::SceneState::GameOver:
-		p_GameOver->Draw();
+	case SceneManager::SceneState::Result:
+		p_Result->Draw();
 		break;
 	default:
 		break;
@@ -134,13 +119,10 @@ void SceneManager::ChangeScene(SceneState nextScene)
 		p_Main->SetSkyDomeH(p_Load->GetDomeH());
 		p_Main->SetOtherH(p_Load->GetHitEffectH(), p_Load->GetAtmosH());
 		p_Main->SetMagics(p_Load->GetHandles());
-		p_Main->Init();
+		p_Main->Init(_score);
 		break;
-	case SceneManager::SceneState::Clear:
-		p_Clear->Init();
-		break;
-	case SceneManager::SceneState::GameOver:
-		p_GameOver->Init();
+	case SceneManager::SceneState::Result:
+		p_Result->Init();
 		break;
 	default:
 		break;

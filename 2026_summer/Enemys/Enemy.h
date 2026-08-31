@@ -10,7 +10,7 @@ class Enemy : public Character
 public:
 	Enemy();
 	virtual ~Enemy() override;
-	void Init(int handle) override;
+	void Init(int handle, int score);
 	void End() override;
 	void Update(float angle);
 	void Draw() override;

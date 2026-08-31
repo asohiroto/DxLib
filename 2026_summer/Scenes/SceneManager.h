@@ -4,8 +4,7 @@
 class SceneMain;
 class LoadScene;
 class StartScene;
-class ClearScene;
-class GameOverScene;
+class ResultScene;
 class Input;
 
 class SceneManager
@@ -16,8 +15,7 @@ public:
 		Load,
 		Start,
 		Main,
-		Clear,
-		GameOver
+		Result
 	};
 
 public:
@@ -38,11 +36,14 @@ private:
 	std::shared_ptr<Input> p_Input;
 	// スタートシーンの共有ポインタ
 	std::shared_ptr<StartScene> p_Start;
-	// クリアシーンの共有ポインタ
-	std::shared_ptr<ClearScene> p_Clear;
-	// ゲームオーバーシーンの共有ポインタ
-	std::shared_ptr<GameOverScene> p_GameOver;
+	// リザルトシーンの共有ポインタ
+	std::shared_ptr<ResultScene> p_Result;
 
 	// 現在のシーン
 	SceneState _nowScene;
+
+	// スコア
+	int _score;
+	// 倒した数
+	int _defeatNum;
 };

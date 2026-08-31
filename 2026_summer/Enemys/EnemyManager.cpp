@@ -40,10 +40,10 @@ EnemyManager::~EnemyManager()
 {
 }
 
-void EnemyManager::Init(int handle, EffectHandles enemyMagics)
+void EnemyManager::Init(int handle, EffectHandles enemyMagics, int score)
 {
 	p_Enemy = std::make_shared<Enemy>();
-	p_Enemy->Init(handle);
+	p_Enemy->Init(handle, score);
 	p_Move = std::make_shared<EnemyMove>();
 	p_Move->Init();
 	p_Beam = std::make_shared<MagicBeam>();

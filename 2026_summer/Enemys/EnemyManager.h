@@ -15,7 +15,7 @@ class EnemyManager
 public:
 	EnemyManager();
 	virtual ~EnemyManager();
-	void Init(int handle, EffectHandles enemyMagics);
+	void Init(int handle, EffectHandles enemyMagics, int score);
 	void End();
 	void Update(VECTOR playerPos, std::shared_ptr<MagicManager> pMManager);
 	void Draw();

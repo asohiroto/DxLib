@@ -18,11 +18,13 @@ namespace
 	// 【デバッグ用】通常の当たり判定の色
 	constexpr int NORM_COLOR = 0xff0000;
 	// 最大体力
-	constexpr int MAX_HP = 5000;
+	constexpr int MAX_HP = 1000;
 	// X軸方向の移動制限
 	constexpr float POS_LIMIT_X = 3000.0f;
 	// Z軸方向の移動制限
 	constexpr float POS_LIMIT_Z = 3000.0f;
+	// スケールするHPの増加量
+	constexpr int HP_BASE = 150;
 }
 
 Enemy::Enemy() :
@@ -37,7 +39,7 @@ Enemy::~Enemy()
 
 }
 
-void Enemy::Init(int handle)
+void Enemy::Init(int handle, int score)
 {
 	_enemyUnit.pos = VGet(0.0f, 0.0f, 0.0f);
 	_enemyUnit.modelH = handle;
@@ -47,7 +49,7 @@ void Enemy::Init(int handle)
 	_enemyUnit.nowState = CharacterState::MoveAway;
 
 	// ステータスを決定
-	_enemyUnit.maxHp = MAX_HP;
+	_enemyUnit.maxHp = MAX_HP + (HP_BASE * score);
 	_enemyUnit.hp = _enemyUnit.maxHp;
 
 	p_AManager = std::make_shared<AnimManager>();

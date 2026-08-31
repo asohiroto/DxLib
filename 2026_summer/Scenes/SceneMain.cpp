@@ -38,7 +38,7 @@ SceneMain::~SceneMain()
 {
 }
 
-void SceneMain::Init()
+void SceneMain::Init(int score)
 {
 	p_Player = std::make_shared<Player>();
 	p_Camera = std::make_shared<Camera>();
@@ -52,7 +52,7 @@ void SceneMain::Init()
 
 	p_Player->Init(_playerTempH, _playerMagicsTemp);
 	p_Camera->Init();
-	p_EManager->Init(_enemyTempH, _playerMagicsTemp);
+	p_EManager->Init(_enemyTempH, _playerMagicsTemp, score);
 	p_MManager->Init();
 	p_UI->Init(p_EManager->GetMaxHp(), p_Player->GetMaxHp(),
 		p_Player->GetMaxMp(), p_Player->GetMaxCharge());
