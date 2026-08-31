@@ -15,6 +15,8 @@ namespace
 	constexpr float GRID_SIZE = 100;
 	// 床に描画するグリッドの数
 	constexpr float GRID_NUM = 60;
+	// リポップするまでのフレーム数
+	constexpr int REPOP_FRAME = 60;
 }
 
 SceneMain::SceneMain() :
@@ -28,10 +30,11 @@ SceneMain::SceneMain() :
 	p_Dome(nullptr),
 	p_EffectManager(nullptr),
 	_playerTempH(-1), _enemyTempH(-1),
+	_playerMagicsTemp(),
 	_domeTempH(-1),
 	_hitTempH(-1),
 	_atmosH(-1), _atmosPlayingH(-1), _atmosCount(0),
-	_hitStopCount(0), _score(0)
+	_hitStopCount(0), _score(0), _repopCount(0)
 {
 }
 
@@ -65,6 +68,8 @@ void SceneMain::Init(int score)
 
 	p_EffectManager->Init();
 	p_EffectManager->Load();
+
+	_repopCount = REPOP_FRAME;
 }
 
 void SceneMain::End()
@@ -77,6 +82,15 @@ void SceneMain::Update(std::shared_ptr<Input> pInput)
 	_atmosCount++;
 
 	p_Camera->Update(p_Player, p_EManager->GetEnemyPointer(), pInput);
+
+	if (_repopCount > 0)
+	{
+		p_Camera->SetCameraMode(true);
+		p_Player->SetRotate(p_Camera->GetCameraYaw());
+		_repopCount--;
+		if (_repopCount == 0) p_Camera->SetCameraMode(false);
+		return;
+	}
 
 	if (_hitStopCount > 0)
 	{
@@ -104,7 +118,6 @@ void SceneMain::Update(std::shared_ptr<Input> pInput)
 
 	if (_atmosCount % 240 == 239)
 		StopEffekseer3DEffect(_atmosPlayingH);
-
 }
 
 void SceneMain::Draw()

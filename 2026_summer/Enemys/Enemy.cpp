@@ -41,7 +41,7 @@ Enemy::~Enemy()
 
 void Enemy::Init(int handle, int score)
 {
-	_enemyUnit.pos = VGet(0.0f, 0.0f, 0.0f);
+	_enemyUnit.pos = VGet(-1000.0f, 0.0f, -1000.0f);
 	_enemyUnit.modelH = handle;
 	_enemyUnit.radius = RADIUS;
 	_enemyUnit.color = NORM_COLOR;

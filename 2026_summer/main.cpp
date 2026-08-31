@@ -73,10 +73,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		p_SceneManager->Update();
 		p_SceneManager->Draw();
 
-
+#ifdef _DEBUG
 		//表示
 		DrawFormatString(0.0f, 0.0f, 0xffffff, "経過フレーム：%d", _frameCount);
-
+#endif
 
 		// 画面が切り替わるのを待つ
 		ScreenFlip();

@@ -74,4 +74,6 @@ private:
 	int _hitStopCount;
 	// スコア
 	int _score;
+	// リポップ用のカウンタ
+	int _repopCount;
 };

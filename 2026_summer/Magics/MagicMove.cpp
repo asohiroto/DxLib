@@ -23,7 +23,7 @@ namespace
 	// ビームが狙っているフレーム
 	constexpr int BEAM_AIM_COUNT = 20;
 	// ビームを発射するまでのフレーム
-	constexpr int BEAM_FIRE_COUNT = 20;
+	constexpr int BEAM_FIRE_COUNT = 30;
 	// ビームが存在できるフレーム
 	constexpr int BEAM_EXIST_COUNT = 30;
 	// マジックビームの長さの倍率
@@ -101,21 +101,20 @@ void MagicMove::BeamMove(MagicBase::MagicData& data, VECTOR targetPos, VECTOR st
 	data.chargeCount++;
 	data.existCount++;
 
-	float dirAngle = atan2f(data.moveDirection.x, data.moveDirection.z);
-
-	SetPosPlayingEffekseer3DEffect(data.effectH, startPos.x, startPos.y, startPos.z);
-	SetRotationPlayingEffekseer3DEffect(data.effectH, 0.0f, dirAngle + DX_PI_F, 0.0f);
-
 	if (data.chargeCount <= BEAM_AIM_COUNT)
 	{
 		VECTOR toTarget = VSub(targetPos, startPos);
 		toTarget.y = 0.0f;
-		data.beamTargetPos = VScale(VNorm(toTarget), BEAM_LENGTH_SCALE);
+		if (VSize(toTarget) > 1.0f)
+		{
+			data.moveDirection = VNorm(toTarget);
+			data.beamTargetPos = VScale(data.moveDirection, BEAM_LENGTH_SCALE);
+		}
 		data.segmentEndPos = data.segmentStPos;
 	}
 	else if (data.chargeCount >= BEAM_FIRE_COUNT)
 	{
-		if (data.chargeCount == BEAM_FIRE_COUNT) data.chargeCount = 0;
+		if (data.chargeCount == BEAM_FIRE_COUNT) data.existCount = 0;
 
 		data.segmentStPos = startPos;
 		if (data.isEnemy)
@@ -137,6 +136,10 @@ void MagicMove::BeamMove(MagicBase::MagicData& data, VECTOR targetPos, VECTOR st
 			data.existCount = 0;
 		}
 	}
+
+	float dirAngle = atan2f(data.moveDirection.x, data.moveDirection.z);
+	SetPosPlayingEffekseer3DEffect(data.effectH, startPos.x, startPos.y, startPos.z);
+	SetRotationPlayingEffekseer3DEffect(data.effectH, 0.0f, dirAngle + DX_PI_F, 0.0f);
 }
 
 void MagicMove::FuryMove(MagicBase::MagicData& data, VECTOR targetPos)

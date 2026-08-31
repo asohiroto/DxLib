@@ -93,7 +93,7 @@ void Player::Init(int handle, EffectHandles playerMagics)
 {
 	// プレイヤーのキャラクターデータの初期設定
 	_playerUnit.modelH = handle;
-	_playerUnit.pos = VGet(1000.0f, 0.0f, 0.0f);
+	_playerUnit.pos = VGet(1000.0f, 0.0f, 1000.0f);
 	_playerUnit.radius = RADIUS;
 	_playerUnit.isHit = false;
 	_playerUnit.color = NORM_COLOR;
