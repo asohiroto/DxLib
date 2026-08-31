@@ -226,6 +226,10 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 	if (pInput->IsTrigger(PAD_INPUT_6))
 	{
 		_pressFrame = 0;
+
+		// 前の魔法陣が残っていれば先に止める
+		if (_circlePlayingH != -1) StopEffekseer3DEffect(_circlePlayingH);
+
 		_circlePlayingH = PlayEffekseer3DEffect(_magicCircleH);
 		SetPosPlayingEffekseer3DEffect(_circlePlayingH, circlePos.x, circlePos.y + CIRCLE_HEIGHT_OFFSET, circlePos.z);
 	}

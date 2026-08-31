@@ -194,6 +194,7 @@
     <ClInclude Include="Enemys\Enemy.h" />
     <ClInclude Include="Enemys\EnemyManager.h" />
     <ClInclude Include="Enemys\EnemyMove.h" />
+    <ClInclude Include="Enemys\EnemyRoutine.h" />
     <ClInclude Include="GameDefine.h" />
     <ClInclude Include="Inputs\Input.h" />
     <ClInclude Include="Magics\MagicBeam.h" />

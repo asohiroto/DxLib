@@ -1,21 +1,12 @@
 ﻿#include "EnemyManager.h"
 #include "EnemyMove.h"
+#include "EnemyRoutine.h"
 #include "Magics/MagicBeam.h"
 #include "Magics/MagicManager.h"
 #include <vector>
 
 namespace
 {
-	const std::vector<Enemy::CharacterState> NORM_ROUTINE =
-	{
-		Enemy::CharacterState::Approach,
-		Enemy::CharacterState::MoveLeft,
-		Enemy::CharacterState::Beam,
-		Enemy::CharacterState::MoveRight,
-		Enemy::CharacterState::Beam,
-		Enemy::CharacterState::MoveAway
-	};
-
 	// 各行動のアニメーション保証フレーム
 	constexpr int SHOT_COUNT = 20;
 	constexpr int MISSILE_COUNT = 30;
