@@ -57,7 +57,7 @@ public:
 	// 必殺技をチャージする
 	void SetUltCharge(int amount) { _playerUnit.ultCharge += amount; }
 	// プレイヤーのモデルを回転
-	void SetRotate(float angle) { MV1SetRotationXYZ(_playerUnit.modelH, VGet(0.0f, angle, 0.0f)); };
+	void SetRotate(float angle) { _angle = angle; MV1SetRotationXYZ(_playerUnit.modelH, VGet(0.0f, angle, 0.0f)); };
 
 private:
 	// 状況に応じてステートを変化させる

@@ -112,7 +112,7 @@ void SceneManager::ChangeScene(SceneState nextScene)
 		p_Load->Init();
 		break;
 	case SceneManager::SceneState::Start:
-		p_Start->Init();
+		p_Start->Init(p_Load->GetDomeH());
 		break;
 	case SceneManager::SceneState::Main:
 		p_Main->SetCharacterH(p_Load->GetPlayerH(), p_Load->GetEnemyH());

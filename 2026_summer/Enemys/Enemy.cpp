@@ -46,7 +46,7 @@ void Enemy::Init(int handle, int score)
 	_enemyUnit.radius = RADIUS;
 	_enemyUnit.color = NORM_COLOR;
 	_enemyUnit.isHit = false;
-	_enemyUnit.nowState = CharacterState::MoveAway;
+	_enemyUnit.nowState = CharacterState::Wait;
 
 	// ステータスを決定
 	_enemyUnit.maxHp = MAX_HP + (HP_BASE * score);

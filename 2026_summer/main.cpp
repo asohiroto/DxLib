@@ -16,6 +16,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	//横1280,縦720、カラービット数32で設定
 	SetGraphMode(WIDTH, HEIGHT, COLOR_BIT);
 
+	// フォントを変更する
+	ChangeFont("Noto Sans JP Black");
+
 	// DirectX11を使用するようにする。(DirectX9も可、一部機能不可)
 	// Effekseerを使用するには必ず設定する。
 	SetUseDirect3DVersion(DX_DIRECT3D_11);

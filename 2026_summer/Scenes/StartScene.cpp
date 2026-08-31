@@ -1,8 +1,23 @@
 ﻿#include "StartScene.h"
 #include "Inputs/Input.h"
+#include "SkyDome.h"
 #include <DxLib.h>
+#include <cmath>
 
-StartScene::StartScene()
+namespace
+{
+	// ドームの回転速度
+	constexpr float ROTATE_SPEED = 0.01f;
+	// フォントサイズ
+	constexpr int FONT_SIZE = 120;
+}
+
+StartScene::StartScene() :
+	p_Dome(nullptr),
+	_logoH(-1),
+	_angle(0.0f),
+	_startY1(0), _startY2(0),
+	_count(0)
 {
 }
 
@@ -10,8 +25,13 @@ StartScene::~StartScene()
 {
 }
 
-void StartScene::Init()
+void StartScene::Init(int domeH)
 {
+	p_Dome = std::make_shared<SkyDome>();
+	p_Dome->Init(domeH);
+
+	_logoH = LoadGraph("data/2026_summer_Logo.png");
+
 	_isSceneChange = false;
 }
 
@@ -21,10 +41,26 @@ void StartScene::End()
 
 void StartScene::Update(std::shared_ptr<Input> pInput)
 {
+	_angle += ROTATE_SPEED;
+	_count++;
+
+	_startY1 = static_cast<int>(sin(_count * 0.1f) * 10);
+	_startY2 = static_cast<int>(sin(_count * 0.1f) * 12 + 2);
+
+	p_Dome->Update();
+	p_Dome->SetRotate(_angle);
+
 	if (pInput->IsTrigger(PAD_INPUT_1))
 		_isSceneChange = true;
 }
 
 void StartScene::Draw()
 {
+	p_Dome->Draw();
+	DrawGraph(-100, 50, _logoH, true);
+
+	SetFontSize(FONT_SIZE);
+	DrawFormatString(600, 750 + _startY1, 0xff00ff, "Press ■ to Start");
+	DrawFormatString(600, 750 + _startY2, 0xffffff, "Press ■ to Start");
+	SetFontSize(20);
 }

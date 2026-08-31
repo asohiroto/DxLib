@@ -22,12 +22,16 @@ namespace
 	constexpr float BEAM_EFFECT_SIZE = 180.0f;
 	// 大気のエフェクトのサイズ
 	constexpr float ATMOS_EFFECT_SIZE = 240.0f;
+	// フォントのサイズ
+	constexpr int FONT_SIZE = 50;
 }
 
 LoadScene::LoadScene() :
 	_playerH(-1), _enemyH(-1), _domeH(-1),
 	_hitEffectH(-1), _atmosEffectH(-1),
-	_totalRequestNum(MAX_LOAD_NUM)
+	_playerMagics(),
+	_totalRequestNum(MAX_LOAD_NUM),
+	_count(0)
 {
 }
 
@@ -89,12 +93,28 @@ void LoadScene::End()
 
 void LoadScene::Update(std::shared_ptr<Input> pInput)
 {
+	_count++;
+
 	if (GetASyncLoadNum() == 0)
-		if (pInput->IsTrigger(PAD_INPUT_1))
-			_isSceneChange = true;
+		_isSceneChange = true;
 }
 
 void LoadScene::Draw()
 {
+	int xOffset = 0;
+	if (_count % 60 <= 20)
+		xOffset = 0;
+	else if (_count % 60 > 40)
+		xOffset = 2;
+	else
+		xOffset = 1;
+
+	SetFontSize(FONT_SIZE);
+	DrawFormatString(700, 300, 0xffffff, "Now Loading");
+	DrawFormatString(700 + (7 * FONT_SIZE) + (xOffset * FONT_SIZE), 300, 0xffffff, ".");
+	SetFontSize(20);
+
+#ifdef _DEBUG
 	DrawFormatString(800, 450, 0xffffff, "%d / %d", _totalRequestNum, MAX_LOAD_NUM);
+#endif
 }

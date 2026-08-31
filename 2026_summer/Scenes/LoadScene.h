@@ -39,4 +39,6 @@ private:
 	int _hitEffectH;
 	// 大気エフェクトのハンドル
 	int _atmosEffectH;
+	// カウンタ
+	int _count;
 };
