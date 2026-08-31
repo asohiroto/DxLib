@@ -30,7 +30,8 @@ SceneMain::SceneMain() :
 	_playerTempH(-1), _enemyTempH(-1),
 	_domeTempH(-1),
 	_hitTempH(-1),
-	_atmosH(-1), _atmosPlayingH(-1), _atmosCount(0)
+	_atmosH(-1), _atmosPlayingH(-1), _atmosCount(0),
+	_hitStopCount(0)
 {
 }
 
@@ -73,9 +74,16 @@ void SceneMain::Update(std::shared_ptr<Input> pInput)
 {
 	_atmosCount++;
 
+	p_Camera->Update(p_Player, p_EManager->GetEnemyPointer(), pInput);
+
+	if (_hitStopCount > 0)
+	{
+		_hitStopCount--;
+		return;
+	}
+
 	p_Dome->Update();
 	p_Player->Update(pInput, p_Camera, p_MManager);
-	p_Camera->Update(p_Player, p_EManager->GetEnemyPointer(), pInput);
 	p_EManager->Update(p_Player->GetPos(), p_MManager);
 	p_Coll->Update(p_Player, p_EManager->GetEnemyPointer());
 	p_MManager->Update(p_Player->GetPos(), p_EManager->GetEnemyPos());
@@ -86,6 +94,8 @@ void SceneMain::Update(std::shared_ptr<Input> pInput)
 		p_Player->GetNowMp(), p_Player->GetNowCharge());
 
 	p_EffectManager->Update();
+
+	_hitStopCount = p_MColl->GetHitStopFrame();
 
 	if (_atmosCount % 240 == 0)
 		_atmosPlayingH = PlayEffekseer3DEffect(_atmosH);

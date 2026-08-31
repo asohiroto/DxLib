@@ -14,6 +14,8 @@ namespace
 	constexpr float HEIGHT_OFFSET = 300.0f;
 	// ダメージ
 	constexpr int DAMAGE = 75;
+	// ヒットストップするフレーム数
+	constexpr int HIT_STOP_FRAME = 5;
 }
 
 MagicBeam::MagicBeam() :
@@ -40,6 +42,7 @@ void MagicBeam::Init()
 	_magicBeam.chargeCount = 0;
 	_magicBeam.existCount = 0;
 	_magicBeam.chargeAmount = 0;
+	_magicBeam.hitStopFrame = HIT_STOP_FRAME;
 }
 
 void MagicBeam::End()

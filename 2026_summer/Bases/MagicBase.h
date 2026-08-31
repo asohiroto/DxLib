@@ -58,6 +58,8 @@ public:
 		VECTOR beamTargetPos;
 		// ヒット時に必殺技をチャージする量
 		int chargeAmount;
+		// ヒットストップするフレーム
+		int hitStopFrame;
 	};
 
 public:

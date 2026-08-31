@@ -11,6 +11,11 @@ AnimManager::AnimManager() :
 
 AnimManager::~AnimManager()
 {
+	if (_attachInd != -1)
+	{
+		MV1DetachAnim(_modelH, _attachInd);
+		_attachInd = -1;
+	}
 }
 
 void AnimManager::Init(int handle)

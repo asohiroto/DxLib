@@ -22,7 +22,8 @@ MagicCollision::MagicCollision() :
 	_hitPlayerMagicInd(-1),
 	_hitEffectH(-1),
 	_isJustDodge(false),
-	_wasJustDodge(false)
+	_wasJustDodge(false),
+	_hitStopTemp(0)
 {
 }
 
@@ -76,6 +77,8 @@ void MagicCollision::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Ene
 		}
 		else
 			enemyList[_hitEnemyMagicInd].isExist = false;
+
+		_hitStopTemp = magic.hitStopFrame;
 	}
 
 	if (IsEnemyHit())
@@ -100,6 +103,8 @@ void MagicCollision::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Ene
 		}
 		else
 			playerList[_hitPlayerMagicInd].isExist = false;
+
+		_hitStopTemp = magic.hitStopFrame;
 	}
 
 	if (_isJustDodge && !_wasJustDodge)
@@ -119,7 +124,7 @@ int MagicCollision::PlayerHitCheck(const Character::CharacterData& player, const
 
 		float distance = 0.0f;
 
-		if (enemyList[i].type == MagicBase::MagicType::MagicBeam || enemyList[i].type == MagicBase::MagicType::MagicBeam)
+		if (enemyList[i].type == MagicBase::MagicType::MagicFury || enemyList[i].type == MagicBase::MagicType::MagicBeam)
 		{
 			distance = Segment_Segment_MinLength
 			(player.segmentStPos, player.segmentEndPos,
@@ -180,4 +185,11 @@ int MagicCollision::EnemyHitCheck(const Character::CharacterData& enemy, const M
 		}
 	}
 	return -1;
+}
+
+int MagicCollision::GetHitStopFrame()
+{
+	int frameTemp = _hitStopTemp;
+	_hitStopTemp = 0;
+	return frameTemp;
 }

@@ -74,4 +74,7 @@ private:
 
 	// プレイヤーに渡す用のやつ
 	EffectHandles _playerMagicsTemp;
+
+	// ヒットストップする用のカウンタ
+	int _hitStopCount;
 };

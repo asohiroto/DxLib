@@ -20,6 +20,8 @@ public:
 	void End();
 	void Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Enemy>pEnemy, MagicList& playerList, MagicList& enemyList);
 	void Draw();
+	// ヒットストップするフレーム数を取得する
+	int GetHitStopFrame();
 
 private:
 	// プレイヤーに何番目の敵の魔法が当たったか
@@ -30,7 +32,7 @@ private:
 	bool IsPlayerHit() { return (_isPlayerHit && !_wasPlayerHit); }
 	// 敵に当たった瞬間を取得
 	bool IsEnemyHit() { return (_isEnemyHit && !_wasEnemyHit); }
-
+	
 private:
 	// 今のフレームでプレイヤーに魔法がヒットしたか
 	bool _isPlayerHit;
@@ -50,4 +52,6 @@ private:
 	bool _isJustDodge;
 	// 前のフレームでジャスト回避が成功したか
 	bool _wasJustDodge;
+	// ヒットストップするフレーム数
+	int _hitStopTemp;
 };

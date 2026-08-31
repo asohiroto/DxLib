@@ -27,7 +27,7 @@ namespace
 
 	constexpr int BEAM_EXIST_COUNT = 30;
 	// マジックビームの長さの倍率
-	constexpr float BEAM_LENGTH_SCALE = 3000.0f;
+	constexpr float BEAM_LENGTH_SCALE = 10000.0f;
 }
 
 MagicMove::MagicMove()

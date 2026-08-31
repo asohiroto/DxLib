@@ -20,6 +20,8 @@ namespace
 	constexpr float USE_MP = 30.0f;
 	// 必殺技チャージ量
 	constexpr int CHARGE_AMOUNT = 8;
+	// ヒットストップするフレーム数
+	constexpr int HIT_STOP_FRAME = 4;
 }
 
 
@@ -47,6 +49,7 @@ void MagicMissile::Init()
 	_magicMissile.damage = DAMAGE;
 	_magicMissile.useMp = USE_MP;
 	_magicMissile.chargeAmount = CHARGE_AMOUNT;
+	_magicMissile.hitStopFrame = HIT_STOP_FRAME;
 }
 
 void MagicMissile::End()

@@ -57,6 +57,8 @@ void Enemy::Init(int handle, int score)
 
 	// モデルを拡大
 	MV1SetScale(_enemyUnit.modelH, VGet(2.5f, 2.5f, 2.5f));
+	// 敵は青みがかった色にする
+	MV1SetDifColorScale(_enemyUnit.modelH, GetColorF(0.5f, 0.4f, 1.0f, 1.0f));
 }
 
 void Enemy::End()

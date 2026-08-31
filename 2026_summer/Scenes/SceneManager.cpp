@@ -64,9 +64,9 @@ void SceneManager::Update()
 			ChangeScene(SceneManager::SceneState::Result);
 		else if (p_Main->GetEnemyHp() <= 0)
 		{
-			ChangeScene(SceneManager::SceneState::Main);
 			_defeatNum++;
 			_score += _defeatNum;
+			ChangeScene(SceneManager::SceneState::Main);
 		}
 		break;
 	case SceneManager::SceneState::Result:

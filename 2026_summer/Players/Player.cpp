@@ -86,7 +86,7 @@ Player::Player() :
 
 Player::~Player()
 {
-
+	StopEffekseer3DEffect(_circlePlayingH);
 }
 
 void Player::Init(int handle, EffectHandles playerMagics)
@@ -268,6 +268,7 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 				p_AManager->AnimChange(TranslateState(_playerUnit.nowState));
 			}
 		}
+
 		StopEffekseer3DEffect(_circlePlayingH);
 
 		pCamera->SetCameraMode(false);

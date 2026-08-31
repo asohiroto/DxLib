@@ -21,6 +21,8 @@ namespace
 	constexpr float USE_MP = 10.0f;
 	// 必殺技チャージ量
 	constexpr int CHARGE_AMOUNT = 5;
+	// ヒットストップするフレーム数
+	constexpr int HIT_STOP_FRAME = 3;
 }
 
 MagicShot::MagicShot() :
@@ -46,6 +48,7 @@ void MagicShot::Init()
 	_magicShot.damage = DAMAGE;
 	_magicShot.useMp = USE_MP;
 	_magicShot.chargeAmount = CHARGE_AMOUNT;
+	_magicShot.hitStopFrame = HIT_STOP_FRAME;
 }
 
 void MagicShot::End()

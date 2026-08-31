@@ -16,6 +16,8 @@ namespace
 	constexpr float FURY_HEIGHT = 2400.0f;
 	// ダメージ
 	constexpr int DAMAGE = 200;
+	// ヒットストップするフレーム数
+	constexpr int HIT_STOP_FRAME = 2;
 }
 
 MagicFury::MagicFury() :
@@ -42,6 +44,7 @@ void MagicFury::Init()
 	// ステータス決定
 	_magicFury.damage = DAMAGE;
 	_magicFury.chargeAmount = 0;
+	_magicFury.hitStopFrame = HIT_STOP_FRAME;
 }
 
 void MagicFury::End()
