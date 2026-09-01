@@ -57,9 +57,9 @@ namespace
 	// ジャスト回避によって得ることのできる必殺技のチャージ量
 	constexpr float ULT_CHARGE_AMOUNT = 20;
 	// ジャスト回避によって得られるMPの量
-	constexpr float MP_GAIN_AMOUNT = 100.0f;
+	constexpr float MP_GAIN_AMOUNT = 50.0f;
 	// ジャスト回避によって得られるHPの量
-	constexpr int HP_HEAL_AMOUNT = 50;
+	constexpr int HP_HEAL_AMOUNT = 200;
 	// 必殺技チャージの最大量
 	constexpr float MAX_ULT_CHARGE = 100.0f;
 }
@@ -358,6 +358,13 @@ void Player::JustDodgeEffect()
 		_playerUnit.mp = _playerUnit.maxMp;
 
 	p_Dodge->ResetDodgeCoolCount();
+}
+
+void Player::SetUltCharge(int amount)
+{
+	_playerUnit.ultCharge += amount;
+	if (_playerUnit.ultCharge >= _playerUnit.maxUltCharge)
+		_playerUnit.ultCharge = _playerUnit.maxUltCharge;
 }
 
 void Player::UpdateState(std::shared_ptr<Input> pInput)

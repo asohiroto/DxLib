@@ -12,6 +12,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	// 一部の関数はDxLib_Init()の前に実行する必要がある
 	ChangeWindowMode(true);
 
+	SetWindowText("魔術師流自分の殺し方");
+
 	//画面サイズの変更
 	//横1280,縦720、カラービット数32で設定
 	SetGraphMode(WIDTH, HEIGHT, COLOR_BIT);

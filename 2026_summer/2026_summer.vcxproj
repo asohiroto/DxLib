@@ -169,6 +169,7 @@
     <ClCompile Include="Players\Player.cpp" />
     <ClCompile Include="Players\PlayerDodge.cpp" />
     <ClCompile Include="Players\PlayerMove.cpp" />
+    <ClCompile Include="Scenes\ExplainScene.cpp" />
     <ClCompile Include="Scenes\LoadScene.cpp" />
     <ClCompile Include="Scenes\ResultScene.cpp" />
     <ClCompile Include="Scenes\SceneMain.cpp" />
@@ -207,6 +208,7 @@
     <ClInclude Include="Players\PlayerDodge.h" />
     <ClInclude Include="Players\PlayerMove.h" />
     <ClInclude Include="Bases\SceneBase.h" />
+    <ClInclude Include="Scenes\ExplainScene.h" />
     <ClInclude Include="Scenes\LoadScene.h" />
     <ClInclude Include="Scenes\ResultScene.h" />
     <ClInclude Include="Scenes\SceneMain.h" />

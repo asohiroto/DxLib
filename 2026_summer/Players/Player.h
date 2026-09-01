@@ -55,7 +55,7 @@ public:
 	// プレイヤーの今のステートを返す
 	Character::CharacterState GetNowState() const { return _playerUnit.nowState; }
 	// 必殺技をチャージする
-	void SetUltCharge(int amount) { _playerUnit.ultCharge += amount; }
+	void SetUltCharge(int amount);
 	// プレイヤーのモデルを回転
 	void SetRotate(float angle) { _angle = angle; MV1SetRotationXYZ(_playerUnit.modelH, VGet(0.0f, angle, 0.0f)); };
 

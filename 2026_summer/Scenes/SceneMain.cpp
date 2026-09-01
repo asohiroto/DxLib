@@ -34,7 +34,7 @@ SceneMain::SceneMain() :
 	_domeTempH(-1),
 	_hitTempH(-1),
 	_atmosH(-1), _atmosPlayingH(-1), _atmosCount(0),
-	_hitStopCount(0), _score(0), _repopCount(0)
+	_hitStopCount(0), _score(0), _repopCount(0), _killCount(0)
 {
 }
 
@@ -134,9 +134,21 @@ void SceneMain::Draw()
 	p_EffectManager->Draw();
 	p_UI->Draw();
 
-	SetFontSize(50);
-	DrawFormatString(1000, 130, 0xffffff, "%d 人目！", _killCount);
-	SetFontSize(20);
+	if (_repopCount > 0)
+	{
+		DrawBox(0, 200, 1600, 800, 0x000000, true);
+
+		SetFontSize(400);
+		DrawFormatString(0, 300, 0xffffff, "%d 人目!!", _killCount + 1);
+		SetFontSize(20);
+	}
+	else
+	{
+		SetFontSize(50);
+		DrawFormatString(1000, 130, 0xffffff, "%d 人目...", _killCount + 1);
+		SetFontSize(20);
+	}
+
 
 #ifdef _DEBUG
 	DrawFormatString(1300, 300, 0x000000, "score : %d", _score);

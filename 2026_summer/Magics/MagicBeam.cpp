@@ -15,7 +15,7 @@ namespace
 	// ダメージ
 	constexpr int DAMAGE = 75;
 	// ヒットストップするフレーム数
-	constexpr int HIT_STOP_FRAME = 5;
+	constexpr int HIT_STOP_FRAME = 3;
 }
 
 MagicBeam::MagicBeam() :

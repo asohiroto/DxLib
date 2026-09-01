@@ -72,7 +72,11 @@ void SceneManager::Update()
 	case SceneManager::SceneState::Result:
 		p_Result->Update(p_Input);
 		if (p_Result->CanSceneChange())
+		{
+			_defeatNum = 0;
+			_score = 0;
 			ChangeScene(SceneManager::SceneState::Start);
+		}
 
 		break;
 	default:

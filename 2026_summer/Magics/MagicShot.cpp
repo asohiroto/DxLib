@@ -20,7 +20,7 @@ namespace
 	// 必殺技チャージ量
 	constexpr int CHARGE_AMOUNT = 5;
 	// ヒットストップするフレーム数
-	constexpr int HIT_STOP_FRAME = 3;
+	constexpr int HIT_STOP_FRAME = 1;
 }
 
 MagicShot::MagicShot() :
