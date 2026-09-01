@@ -24,6 +24,10 @@ public:
 	int GetHitEffectH() const { return _hitEffectH; }
 	// 大気エフェクトのハンドルを渡す
 	int GetAtmosH() const { return _atmosEffectH; }
+	// UIのハンドルを渡す
+	int GetPlayerHpBarH() const { return _playerHpBarH; }
+	int GetEnemyHpBarH() const { return _enemyHpBarH; }
+	int GetUltGaugeH() const { return _ultGaugeH; }
 
 	EffectHandles GetHandles() const { return _playerMagics; }
 
@@ -41,4 +45,6 @@ private:
 	int _atmosEffectH;
 	// カウンタ
 	int _count;
+	// 各種UIのハンドル
+	int _playerHpBarH, _enemyHpBarH, _ultGaugeH;
 };

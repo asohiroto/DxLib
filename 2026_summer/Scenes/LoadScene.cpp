@@ -31,7 +31,8 @@ LoadScene::LoadScene() :
 	_hitEffectH(-1), _atmosEffectH(-1),
 	_playerMagics(),
 	_totalRequestNum(MAX_LOAD_NUM),
-	_count(0)
+	_count(0),
+	_playerHpBarH(-1), _enemyHpBarH(-1), _ultGaugeH(-1)
 {
 }
 
@@ -70,6 +71,11 @@ void LoadScene::Init()
 	_hitEffectH = LoadEffekseerEffect("data/effects/HitEffe.efkefc", HIT_EFFECT_SIZE);
 	_playerMagics.circleHandle = LoadEffekseerEffect("data/effects/MagicCircle.efkefc", CIRCLE_EFFECT_SIZE);
 	_atmosEffectH = LoadEffekseerEffect("data/effects/atmo.efkefc", ATMOS_EFFECT_SIZE);
+
+	// UIをロード
+	_playerHpBarH = LoadGraph("data/PlayerHpBar.png");
+	_enemyHpBarH = LoadGraph("data/EnemyHpBar.png");
+	_ultGaugeH = LoadGraph("data/UltGauge.png");
 
 	// 読み込み数を取得（ロード数を）
 	_totalRequestNum = GetASyncLoadNum();

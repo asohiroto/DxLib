@@ -10,9 +10,9 @@
 namespace
 {
 	// プレイヤーとエネミーの最小距離
-	constexpr float MIN_DISTANCE = 1750.0f;
+	constexpr float MIN_DISTANCE = 1500.0f;
 	// プレイヤーと敵の最大距離
-	constexpr float MAX_DISTANCE = 3000.0f;
+	constexpr float MAX_DISTANCE = 2000.0f;
 	// 各行動のアニメーション保証フレーム
 	constexpr int SHOT_COUNT = 20;
 	constexpr int MISSILE_COUNT = 30;

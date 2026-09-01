@@ -11,7 +11,9 @@ class UIManager
 public:
 	UIManager();
 	virtual ~UIManager();
-	void Init(float eneMaxHp, float playMaxHp, float playMaxMp, float maxCharge);
+	void Init(float eneMaxHp, float playMaxHp, 
+		float playMaxMp, float maxCharge, 
+		int pHpH, int eHpH, int ultH);
 	void End();
 	void Update(float eneNowHp, float playNowHp, float playNowMp, float nowCharge);
 	void Draw();

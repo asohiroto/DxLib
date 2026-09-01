@@ -42,7 +42,7 @@ SceneMain::~SceneMain()
 {
 }
 
-void SceneMain::Init(int score, int killCount)
+void SceneMain::Init(int score, int killCount, int pHpH, int eHpH, int ultH)
 {
 	_score = score;
 	_killCount = killCount;
@@ -62,7 +62,8 @@ void SceneMain::Init(int score, int killCount)
 	p_EManager->Init(_enemyTempH, _playerMagicsTemp, _score);
 	p_MManager->Init();
 	p_UI->Init(p_EManager->GetMaxHp(), p_Player->GetMaxHp(),
-		p_Player->GetMaxMp(), p_Player->GetMaxCharge());
+		p_Player->GetMaxMp(), p_Player->GetMaxCharge(),
+		pHpH, eHpH, ultH);
 	p_Dome->Init(_domeTempH);
 	p_Coll->Init();
 	p_MColl->Init(_hitTempH, _score);

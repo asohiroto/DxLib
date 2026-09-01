@@ -125,10 +125,11 @@ void SceneManager::ChangeScene(SceneState nextScene)
 		p_Main->SetSkyDomeH(p_Load->GetDomeH());
 		p_Main->SetOtherH(p_Load->GetHitEffectH(), p_Load->GetAtmosH());
 		p_Main->SetMagics(p_Load->GetHandles());
-		p_Main->Init(_score, _defeatNum);
+		p_Main->Init(_score, _defeatNum,
+			p_Load->GetPlayerHpBarH(), p_Load->GetEnemyHpBarH(), p_Load->GetUltGaugeH());
 		break;
 	case SceneManager::SceneState::Result:
-		p_Result->Init(_score);
+		p_Result->Init(_defeatNum);
 		break;
 	default:
 		break;

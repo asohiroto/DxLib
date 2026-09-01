@@ -24,11 +24,13 @@ PlayerHpBar::~PlayerHpBar()
 {
 }
 
-void PlayerHpBar::Init(float maxHp)
+void PlayerHpBar::Init(float maxHp, int handle)
 {
 	_maxHp = maxHp;
 	_nowHp = maxHp;
 	_dispHp = maxHp;
+
+	_playerHpBarH = handle;
 }
 
 void PlayerHpBar::End()
@@ -51,6 +53,8 @@ void PlayerHpBar::Draw()
 	DrawHpBar(_dispRate, 0xff0000);
 	// 直ちに減るHP
 	DrawHpBar(_nowRate, 0x00ff00);
+
+	DrawGraph(0, 700, _playerHpBarH, true);
 }
 
 void PlayerHpBar::DrawHpBar(float rate, int color)

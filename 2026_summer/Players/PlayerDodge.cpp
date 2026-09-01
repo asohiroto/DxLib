@@ -70,7 +70,7 @@ void PlayerDodge::Update(std::shared_ptr<Input> pInput, float cameraAngle)
 
 void PlayerDodge::Draw()
 {
-	DodgeCoolBar();
+	//DodgeCoolBar();
 }
 
 void PlayerDodge::CalDirection(std::shared_ptr<Input> pInput, float cameraAngle)

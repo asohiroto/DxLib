@@ -5,7 +5,7 @@ class PlayerUltGauge
 public:
 	PlayerUltGauge();
 	virtual ~PlayerUltGauge();
-	void Init(float maxCharge);
+	void Init(float maxCharge, int handle);
 	void End();
 	void Update(float nowCharge);
 	void Draw();
@@ -18,4 +18,6 @@ private:
 	float _maxCharge;
 	float _nowRate;
 	float _dispRate;
+
+	int _ultGaugeH;
 };

@@ -143,7 +143,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>c:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\EffekseerForDXLib_1.80.7_324f\プロジェクトに追加すべきファイル_VC用;C:\EffekseerForDXLib_1.80.7_324f\プロジェクトに追加すべきファイル_VC用C:\EffekseerForDXLib\プロジェクトに追加すべきファイル_VC用</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>c:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\EffekseerForDXLib_1.80.7_324f\プロジェクトに追加すべきファイル_VC用;C:\EffekseerForDXLib\プロジェクトに追加すべきファイル_VC用</AdditionalLibraryDirectories>
     </Link>
     <Manifest>
       <EnableSegmentHeap>true</EnableSegmentHeap>

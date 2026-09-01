@@ -8,9 +8,9 @@ namespace
 	// 左右移動時間
 	constexpr int TIMER = 60;
 	// 左右に動く距離
-	constexpr float MOVE_LR_DISTANCE = 500.0f;
+	constexpr float MOVE_LR_DISTANCE = 400.0f;
 	// 近づく距離
-	constexpr float APPROACH_DISTANCE = 500.0f;
+	constexpr float APPROACH_DISTANCE = 550.0f;
 	// 遠ざかる距離
 	constexpr float MOVE_AWAY_DISTANCE = 500.0f;
 }

@@ -24,11 +24,13 @@ EnemyHpBar::~EnemyHpBar()
 {
 }
 
-void EnemyHpBar::Init(float maxHp)
+void EnemyHpBar::Init(float maxHp, int handle)
 {
 	_maxHp = maxHp;
 	_nowHp = maxHp;
 	_dispHp = maxHp;
+
+	_enemyHpBarH = handle;
 }
 
 void EnemyHpBar::End()
@@ -51,6 +53,8 @@ void EnemyHpBar::Draw()
 	DrawHpBar(_dispRate, 0xffffff);
 	// 直ちに減るHP
 	DrawHpBar(_nowRate, 0xff0000);
+
+	DrawGraph(100,0, _enemyHpBarH, true);
 }
 
 void EnemyHpBar::DrawHpBar(float rate, int color)

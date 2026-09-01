@@ -5,7 +5,7 @@ class PlayerHpBar
 public:
 	PlayerHpBar();
 	virtual ~PlayerHpBar();
-	void Init(float maxHp);
+	void Init(float maxHp, int handle);
 	void End();
 	void Update(float nowHp);
 	void Draw();
@@ -18,4 +18,6 @@ private:
 	float _maxHp;
 	float _nowRate;
 	float _dispRate;
+
+	int _playerHpBarH;
 };

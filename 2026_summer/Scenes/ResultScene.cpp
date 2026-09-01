@@ -32,6 +32,6 @@ void ResultScene::Update(std::shared_ptr<Input> pInput)
 void ResultScene::Draw()
 {
 	SetFontSize(120);
-	DrawFormatString(100, 400, 0xffffff, "SCORE : %d !!!", _score);
+	DrawFormatString(100, 400, 0xffffff, "%d 人殺し!!!", _score);
 	SetFontSize(20);
 }

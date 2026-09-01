@@ -21,7 +21,7 @@ class SceneMain :
 public:
 	SceneMain();
 	virtual ~SceneMain() override;
-	void Init(int score, int killCount);
+	void Init(int score, int killCount, int pHpH, int eHpH, int ultH);
 	void End() override;
 	void Update(std::shared_ptr<Input> pInput) override;
 	void Draw() override;
