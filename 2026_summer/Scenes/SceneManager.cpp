@@ -70,7 +70,9 @@ void SceneManager::Update()
 		}
 		break;
 	case SceneManager::SceneState::Result:
-		p_Result->Update();
+		p_Result->Update(p_Input);
+		if (p_Result->CanSceneChange())
+			ChangeScene(SceneManager::SceneState::Start);
 
 		break;
 	default:
@@ -119,10 +121,10 @@ void SceneManager::ChangeScene(SceneState nextScene)
 		p_Main->SetSkyDomeH(p_Load->GetDomeH());
 		p_Main->SetOtherH(p_Load->GetHitEffectH(), p_Load->GetAtmosH());
 		p_Main->SetMagics(p_Load->GetHandles());
-		p_Main->Init(_score);
+		p_Main->Init(_score, _defeatNum);
 		break;
 	case SceneManager::SceneState::Result:
-		p_Result->Init();
+		p_Result->Init(_score);
 		break;
 	default:
 		break;

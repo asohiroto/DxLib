@@ -68,7 +68,7 @@ void MagicCollision::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Ene
 	{
 		const auto& magic = enemyList[_hitEnemyMagicInd];
 
-		pPlayer->SetHit(magic.damage);
+		pPlayer->SetHit(magic.damage + (_score * DAMAGE_MAGNI));
 
 		VECTOR effectPos = pPlayer->GetPos();
 
@@ -92,7 +92,7 @@ void MagicCollision::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Ene
 		if (magic.type == MagicBase::MagicType::MagicBeam)
 			pEnemy->SetHit(BEAM_DAMAGE);
 		else
-			pEnemy->SetHit(magic.damage + (_score * DAMAGE_MAGNI));
+			pEnemy->SetHit(magic.damage);
 
 		pPlayer->SetUltCharge(magic.chargeAmount);
 

@@ -21,7 +21,7 @@ class SceneMain :
 public:
 	SceneMain();
 	virtual ~SceneMain() override;
-	void Init(int score);
+	void Init(int score, int killCount);
 	void End() override;
 	void Update(std::shared_ptr<Input> pInput) override;
 	void Draw() override;
@@ -76,4 +76,6 @@ private:
 	int _score;
 	// リポップ用のカウンタ
 	int _repopCount;
+	// 倒した数
+	int _killCount;
 };

@@ -61,10 +61,10 @@ void LoadScene::Init()
 	// プレイヤーの魔法をロード
 	_playerMagics.shotHandle = LoadEffekseerEffect("data/effects/MagicShot.efkefc", SHOT_EFFECT_SIZE);
 	_playerMagics.missileHandle = LoadEffekseerEffect("data/effects/MagicShot.efkefc", MISSILE_EFFECT_SIZE);
-	_playerMagics.furyHandle = LoadEffekseerEffect("data/effects/MagicFury2.efkefc", FURY_EFFECT_SIZE);
+	_playerMagics.furyHandle = LoadEffekseerEffect("data/effects/MagicFury.efkefc", FURY_EFFECT_SIZE);
 
 	// 敵の魔法をロード
-	_playerMagics.beamHandle = LoadEffekseerEffect("data/effects/MagicBeam2.efkefc", BEAM_EFFECT_SIZE);
+	_playerMagics.beamHandle = LoadEffekseerEffect("data/effects/MagicBeam.efkefc", BEAM_EFFECT_SIZE);
 
 	// その他のエフェクトをロード
 	_hitEffectH = LoadEffekseerEffect("data/effects/HitEffe.efkefc", HIT_EFFECT_SIZE);

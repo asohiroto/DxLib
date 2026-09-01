@@ -42,9 +42,10 @@ SceneMain::~SceneMain()
 {
 }
 
-void SceneMain::Init(int score)
+void SceneMain::Init(int score, int killCount)
 {
 	_score = score;
+	_killCount = killCount;
 
 	p_Player = std::make_shared<Player>();
 	p_Camera = std::make_shared<Camera>();
@@ -132,6 +133,10 @@ void SceneMain::Draw()
 	p_MManager->Draw();
 	p_EffectManager->Draw();
 	p_UI->Draw();
+
+	SetFontSize(50);
+	DrawFormatString(1000, 130, 0xffffff, "%d 人目！", _killCount);
+	SetFontSize(20);
 
 #ifdef _DEBUG
 	DrawFormatString(1300, 300, 0x000000, "score : %d", _score);
