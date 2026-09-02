@@ -145,8 +145,9 @@ void SceneMain::Draw()
 	}
 	else
 	{
-		SetFontSize(50);
-		DrawFormatString(1000, 130, 0xffffff, "%d 人目...", _killCount + 1);
+		SetFontSize(70);
+		DrawFormatString(975, 35, 0xff0000, "%d 人目...", _killCount + 1);
+		DrawFormatString(970, 30, 0xffffff, "%d 人目...", _killCount + 1);
 		SetFontSize(20);
 	}
 

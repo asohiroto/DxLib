@@ -49,7 +49,6 @@ void SceneManager::Update()
 
 		if (p_Load->CanSceneChange())
 			ChangeScene(SceneManager::SceneState::Start);
-
 		break;
 	case SceneManager::SceneState::Start:
 		p_Start->Update(p_Input);

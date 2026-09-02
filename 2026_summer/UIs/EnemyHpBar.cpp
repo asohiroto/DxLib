@@ -6,13 +6,13 @@ namespace
 	// 補間度
 	constexpr float LERP_RATE = 0.15f;
 	// 画面の左端からずらす幅
-	constexpr int WIDTH_OFFSET = 100;
+	constexpr int WIDTH_OFFSET = 160;
 	// 画面の上端からずらす高さ
-	constexpr int HEIGHT_OFFSET = 50;
+	constexpr int HEIGHT_OFFSET = 120;
 	// HPバーの幅
-	constexpr int BAR_WIDTH = 1400;
+	constexpr int BAR_WIDTH = 1200;
 	// HPバーの太さ
-	constexpr int BAR_THICKNESS = 75;
+	constexpr int BAR_THICKNESS = 85;
 }
 
 EnemyHpBar::EnemyHpBar() :

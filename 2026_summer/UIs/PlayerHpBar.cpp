@@ -6,11 +6,11 @@ namespace
 	// 補間度
 	constexpr float LERP_RATE = 0.15f;
 	// 画面の左端からずらす幅
-	constexpr int WIDTH_OFFSET = 30;
+	constexpr int WIDTH_OFFSET = 80;
 	// 画面の上端からずらす高さ
-	constexpr int HEIGHT_OFFSET = 800;
+	constexpr int HEIGHT_OFFSET = 760;
 	// HPバーの幅
-	constexpr int BAR_WIDTH = 300;
+	constexpr int BAR_WIDTH = 380;
 	// HPバーの太さ
 	constexpr int BAR_THICKNESS = 50;
 }

@@ -5,6 +5,7 @@ class SceneMain;
 class LoadScene;
 class StartScene;
 class ResultScene;
+class ExplainScene;
 class Input;
 
 class SceneManager
@@ -13,6 +14,7 @@ public:
 	enum class SceneState
 	{
 		Load,
+		Explain,
 		Start,
 		Main,
 		Result
@@ -38,6 +40,8 @@ private:
 	std::shared_ptr<StartScene> p_Start;
 	// リザルトシーンの共有ポインタ
 	std::shared_ptr<ResultScene> p_Result;
+
+	std::shared_ptr<ExplainScene> p_Explain;
 
 	// 現在のシーン
 	SceneState _nowScene;

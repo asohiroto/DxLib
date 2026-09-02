@@ -6,9 +6,9 @@ namespace
 	// 補間度
 	constexpr float LERP_RATE = 0.15f;
 	// 画面の左端からずらす幅
-	constexpr int WIDTH_OFFSET = 1200;
+	constexpr int WIDTH_OFFSET = 1205;
 	// 画面の上端からずらす高さ
-	constexpr int HEIGHT_OFFSET = 800;
+	constexpr int HEIGHT_OFFSET = 770;
 	// 必殺技ゲージの幅
 	constexpr int BAR_WIDTH = 300;
 	// 必殺技ゲージの太さ
@@ -59,18 +59,18 @@ void PlayerUltGauge::Draw()
 	else if (_nowCharge >= _maxCharge)
 		DrawUltGauge(_nowRate, 0xffff00);
 
-	// チャージ量が私大の半分を超えたら描画
+	// チャージ量が最大の半分を超えたら描画
 	if (_nowCharge >= (_maxCharge / 2))
 		DrawQuadrangle(
-			WIDTH_OFFSET, HEIGHT_OFFSET, WIDTH_OFFSET + (BAR_WIDTH * 0.5f), HEIGHT_OFFSET,
-			WIDTH_OFFSET + DISCRE_OFFSET + (BAR_WIDTH * 0.5f), HEIGHT_OFFSET + BAR_THICKNESS, WIDTH_OFFSET + DISCRE_OFFSET, HEIGHT_OFFSET + BAR_THICKNESS,
+			WIDTH_OFFSET + DISCRE_OFFSET, HEIGHT_OFFSET, WIDTH_OFFSET + (BAR_WIDTH * 0.5f) + DISCRE_OFFSET, HEIGHT_OFFSET,
+			WIDTH_OFFSET + (BAR_WIDTH * 0.5f), HEIGHT_OFFSET + BAR_THICKNESS, WIDTH_OFFSET, HEIGHT_OFFSET + BAR_THICKNESS,
 			0xffff00, true);
 
-	DrawQuadrangle(
+	/*DrawQuadrangle(
 		WIDTH_OFFSET - 2 + (BAR_WIDTH * 0.5f), HEIGHT_OFFSET, WIDTH_OFFSET + (BAR_WIDTH * 0.5f) + 2, HEIGHT_OFFSET,
 		WIDTH_OFFSET + 2 + DISCRE_OFFSET + (BAR_WIDTH * 0.5f), HEIGHT_OFFSET + BAR_THICKNESS, WIDTH_OFFSET - 2 + DISCRE_OFFSET + (BAR_WIDTH * 0.5f), HEIGHT_OFFSET + BAR_THICKNESS,
 		0x000000, true
-	);
+	);*/
 
 	DrawGraph(1100, 700, _ultGaugeH, true);
 }
@@ -78,7 +78,7 @@ void PlayerUltGauge::Draw()
 void PlayerUltGauge::DrawUltGauge(float rate, int color)
 {
 	DrawQuadrangle(
-		WIDTH_OFFSET, HEIGHT_OFFSET, WIDTH_OFFSET + (BAR_WIDTH * rate), HEIGHT_OFFSET,
-		WIDTH_OFFSET + DISCRE_OFFSET + (BAR_WIDTH * rate), HEIGHT_OFFSET + BAR_THICKNESS, WIDTH_OFFSET + DISCRE_OFFSET, HEIGHT_OFFSET + BAR_THICKNESS,
+		WIDTH_OFFSET + DISCRE_OFFSET, HEIGHT_OFFSET, WIDTH_OFFSET + (BAR_WIDTH * rate) + DISCRE_OFFSET, HEIGHT_OFFSET,
+		WIDTH_OFFSET + (BAR_WIDTH * rate), HEIGHT_OFFSET + BAR_THICKNESS, WIDTH_OFFSET, HEIGHT_OFFSET + BAR_THICKNESS,
 		color, true);
 }
