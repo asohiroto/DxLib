@@ -26,7 +26,7 @@ MagicCollision::MagicCollision() :
 	_isJustDodge(false),
 	_wasJustDodge(false),
 	_hitStopTemp(0),
-	_score(0)
+	_score(0), _gameSE()
 {
 }
 
@@ -34,10 +34,11 @@ MagicCollision::~MagicCollision()
 {
 }
 
-void MagicCollision::Init(int handle, int score)
+void MagicCollision::Init(int handle, int score, SeHandles se)
 {
 	_hitEffectH = handle;
 	_score = score;
+	_gameSE = se;
 }
 
 void MagicCollision::End()
@@ -82,6 +83,7 @@ void MagicCollision::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Ene
 		else
 			enemyList[_hitEnemyMagicInd].isExist = false;
 
+		PlaySoundMem(_gameSE.hitH, DX_PLAYTYPE_BACK);
 		_hitStopTemp = magic.hitStopFrame;
 	}
 
@@ -108,6 +110,7 @@ void MagicCollision::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Ene
 		else
 			playerList[_hitPlayerMagicInd].isExist = false;
 
+		PlaySoundMem(_gameSE.hitH, DX_PLAYTYPE_BACK);
 		_hitStopTemp = magic.hitStopFrame;
 	}
 

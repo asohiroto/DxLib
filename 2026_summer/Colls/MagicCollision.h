@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Bases/Character.h"
 #include "Bases/MagicBase.h"
+#include "Sounds/SoundInfo.h"
 #include <memory>
 #include <vector>
 
@@ -16,7 +17,7 @@ private:
 public:
 	MagicCollision();
 	virtual ~MagicCollision();
-	void Init(int handle, int score);
+	void Init(int handle, int score, SeHandles se);
 	void End();
 	void Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Enemy>pEnemy, MagicList& playerList, MagicList& enemyList);
 	void Draw();
@@ -56,4 +57,6 @@ private:
 	int _hitStopTemp;
 	// 現在のスコア
 	int _score;
+	// SE
+	SeHandles _gameSE;
 };

@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "Sounds/SoundInfo.h"
 #include <memory>
 
 class SceneMain;
@@ -43,7 +44,7 @@ private:
 	std::shared_ptr<StartScene> p_Start;
 	// リザルトシーンの共有ポインタ
 	std::shared_ptr<ResultScene> p_Result;
-
+	// 説明シーンの共有ポインタ
 	std::shared_ptr<ExplainScene> p_Explain;
 
 	// 現在のシーン
@@ -55,4 +56,10 @@ private:
 	int _defeatNum;
 	// カウンタ
 	int _count;
+	// BGM
+	BgmHandles _gameBgm;
+	// SE
+	SeHandles _gameSe;
+	// プレイヤーが死んでからのカウンタ
+	int _deadCount;
 };

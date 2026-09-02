@@ -89,7 +89,7 @@ Player::~Player()
 	StopEffekseer3DEffect(_circlePlayingH);
 }
 
-void Player::Init(int handle, EffectHandles playerMagics)
+void Player::Init(int handle, EffectHandles playerMagics, SeHandles se)
 {
 	// プレイヤーのキャラクターデータの初期設定
 	_playerUnit.modelH = handle;
@@ -136,6 +136,8 @@ void Player::Init(int handle, EffectHandles playerMagics)
 	_magicCircleH = playerMagics.circleHandle;
 
 	p_AManager->AnimChange(TranslateState(_playerUnit.nowState));
+
+	_gameSE = se;
 }
 
 void Player::End()
@@ -241,6 +243,8 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 
 		SetRotationPlayingEffekseer3DEffect(_circlePlayingH, 0.0f, facing, 0.0f);
 
+		PlaySoundMem(_gameSE.circleH, DX_PLAYTYPE_LOOP);
+
 		if (_pressFrame < SHOT_SWITCH) pCamera->SetCameraMode(false);
 		else pCamera->SetCameraMode(true);
 	}
@@ -248,6 +252,7 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 	// 離したときの時間で生成する魔法を切り替え
 	if (pInput->IsRelease(PAD_INPUT_6))
 	{
+		StopSoundMem(_gameSE.circleH);
 		if (_pressFrame < SHOT_SWITCH)
 		{
 			float remainMp = _playerUnit.mp - p_Shot->GetUseMp();
@@ -256,6 +261,7 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 				_playerUnit.mp = remainMp;
 				VECTOR camFront = VGet(GetCameraFrontVector().x, 0.0f, GetCameraFrontVector().z);
 				_frontVec = GetCameraFrontVector();
+				PlaySoundMem(_gameSE.shotH, DX_PLAYTYPE_BACK);
 				p_Shot->GenerateShot(shotPos, _frontVec, false, pManager);
 				_playerUnit.nowState = CharacterState::Shot;
 				p_AManager->AnimChange(TranslateState(_playerUnit.nowState));
@@ -267,12 +273,12 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 			if (remainMp >= 0)
 			{
 				_playerUnit.mp = remainMp;
+				PlaySoundMem(_gameSE.missileH, DX_PLAYTYPE_BACK);
 				p_Missile->GenerateMissile(shotPos, _frontVec, false, pManager);
 				_playerUnit.nowState = CharacterState::Missile;
 				p_AManager->AnimChange(TranslateState(_playerUnit.nowState));
 			}
 		}
-
 		StopEffekseer3DEffect(_circlePlayingH);
 
 		pCamera->SetCameraMode(false);
@@ -284,6 +290,7 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 		{
 			p_Fury->GenerateFury(pManager->GetEnePos(), VGet(0.0f, -1.0f, 0.0f), false, pManager);
 			_playerUnit.nowState = CharacterState::Fury;
+			PlaySoundMem(_gameSE.furyH, DX_PLAYTYPE_BACK);
 			p_AManager->AnimChange(TranslateState(_playerUnit.nowState));
 			_playerUnit.ultCharge = 0;
 		}
@@ -295,11 +302,11 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 		{
 			p_Beam->GenerateBeam(shotPos, _frontVec, false, pManager);
 			_playerUnit.nowState = CharacterState::Beam;
+			PlaySoundMem(_gameSE.beamH, DX_PLAYTYPE_BACK);
 			p_AManager->AnimChange(TranslateState(_playerUnit.nowState));
 			_playerUnit.ultCharge -= (_playerUnit.maxUltCharge / 2);
 		}
 	}
-
 
 	// ステートの更新
 	UpdateState(pInput);
@@ -345,9 +352,17 @@ void Player::SetHit(int damage)
 
 void Player::JustDodgeEffect()
 {
+	int ultTemp = _playerUnit.ultCharge;
 	_playerUnit.ultCharge += ULT_CHARGE_AMOUNT;
 	if (_playerUnit.ultCharge >= _playerUnit.maxUltCharge)
+	{
+		PlaySoundMem(_gameSE.secondChargeH, DX_PLAYTYPE_BACK);
 		_playerUnit.ultCharge = _playerUnit.maxUltCharge;
+	}
+	else if (ultTemp < _playerUnit.maxUltCharge / 2 && _playerUnit.ultCharge >= _playerUnit.maxUltCharge / 2)
+	{
+		PlaySoundMem(_gameSE.firstChargeH, DX_PLAYTYPE_BACK);
+	}
 
 	_playerUnit.hp += HP_HEAL_AMOUNT;
 	if (_playerUnit.hp >= _playerUnit.maxHp)
@@ -357,14 +372,23 @@ void Player::JustDodgeEffect()
 	if (_playerUnit.mp >= _playerUnit.maxMp)
 		_playerUnit.mp = _playerUnit.maxMp;
 
+	PlaySoundMem(_gameSE.dodgeH, DX_PLAYTYPE_BACK);
 	p_Dodge->ResetDodgeCoolCount();
 }
 
 void Player::SetUltCharge(int amount)
 {
+	int ultTemp = _playerUnit.ultCharge;
 	_playerUnit.ultCharge += amount;
 	if (_playerUnit.ultCharge >= _playerUnit.maxUltCharge)
+	{
+		PlaySoundMem(_gameSE.secondChargeH, DX_PLAYTYPE_BACK);
 		_playerUnit.ultCharge = _playerUnit.maxUltCharge;
+	}
+	else if (ultTemp < _playerUnit.maxUltCharge / 2 && _playerUnit.ultCharge >= _playerUnit.maxUltCharge / 2)
+	{
+		PlaySoundMem(_gameSE.firstChargeH, DX_PLAYTYPE_BACK);
+	}
 }
 
 void Player::UpdateState(std::shared_ptr<Input> pInput)

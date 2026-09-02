@@ -34,7 +34,7 @@ LoadScene::LoadScene() :
 	_totalRequestNum(MAX_LOAD_NUM),
 	_count(0),
 	_playerHpBarH(-1), _enemyHpBarH(-1), _ultGaugeH(-1),
-	_startBgmH(-1), _explainBgmH(-1), _mainBgmH(-1), _resultBgmH(-1)
+	_gameBgm(), _gameSE()
 {
 }
 
@@ -61,9 +61,6 @@ void LoadScene::Init()
 	_nightDomeH = MV1LoadModel("data/night_dome.mv1");
 	_sunnyDomeH = MV1LoadModel("data/sunny_dome.mv1");
 
-	// 非同期処理終了
-	SetUseASyncLoadFlag(false);
-
 	// プレイヤーの魔法をロード
 	_playerMagics.shotHandle = LoadEffekseerEffect("data/effects/MagicShot.efkefc", SHOT_EFFECT_SIZE);
 	_playerMagics.missileHandle = LoadEffekseerEffect("data/effects/MagicShot.efkefc", MISSILE_EFFECT_SIZE);
@@ -83,10 +80,25 @@ void LoadScene::Init()
 	_ultGaugeH = LoadGraph("data/UltGauge.png");
 
 	// BGMをロードする
-	_startBgmH = LoadBGM("data/sound/Crystal brilliance.mp3");
-	_explainBgmH = LoadBGM("data/sound/Insane-Loop.mp3");
-	_mainBgmH = LoadBGM("data/sound/Goodbye-曖昧-my-mind-イントロ無　ループ用.mp3");
-	_resultBgmH = LoadBGM("data/sound/ReStart-Loop.mp3");
+	_gameBgm.startBgmH = LoadBGM("data/sound/Crystal brilliance.mp3");
+	_gameBgm.explainBgmH = LoadBGM("data/sound/Insane-Loop.mp3");
+	_gameBgm.mainBgmH = LoadBGM("data/sound/Goodbye-曖昧-my-mind-イントロ無　ループ用.mp3");
+	_gameBgm.resultBgmH = LoadBGM("data/sound/ReStart-Loop.mp3");
+
+	// SEをロードする
+	_gameSE.shotH = LoadSoundMem("data/SoundEffect/マジックショット.mp3");
+	_gameSE.missileH = LoadSoundMem("data/SoundEffect/マジックミサイル.mp3");
+	_gameSE.furyH = LoadSoundMem("data/SoundEffect/マジックフューリー.mp3");
+	_gameSE.beamH = LoadSoundMem("data/SoundEffect/マジックビーム.mp3");
+	_gameSE.hitH = LoadSoundMem("data/SoundEffect/ヒット音.mp3");
+	_gameSE.dodgeH = LoadSoundMem("data/SoundEffect/ジャスト回避.mp3");
+	_gameSE.killH = LoadSoundMem("data/SoundEffect/登場時.mp3");
+	_gameSE.circleH = LoadSoundMem("data/SoundEffect/チャージ時.mp3");
+	_gameSE.firstChargeH = LoadSoundMem("data/SoundEffect/チャージ１段階.mp3");
+	_gameSE.secondChargeH = LoadSoundMem("data/SoundEffect/チャージ２段階.mp3");
+
+	// 非同期処理終了
+	SetUseASyncLoadFlag(false);
 
 	// 読み込み数を取得（ロード数を）
 	_totalRequestNum = GetASyncLoadNum();

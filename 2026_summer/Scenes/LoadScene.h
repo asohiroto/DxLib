@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Bases/SceneBase.h"
 #include "Effects/EffectHandles.h"
+#include "Sounds/SoundInfo.h"
 #include <memory>
 
 class Input;
@@ -29,8 +30,10 @@ public:
 	int GetPlayerHpBarH() const { return _playerHpBarH; }
 	int GetEnemyHpBarH() const { return _enemyHpBarH; }
 	int GetUltGaugeH() const { return _ultGaugeH; }
-
-	EffectHandles GetHandles() const { return _playerMagics; }
+	// ハンドル構造体を取得する
+	EffectHandles GetEffectHandles() const { return _playerMagics; }
+	BgmHandles GetBGMHanadles() const { return _gameBgm; }
+	SeHandles GetSeHandles() const { return _gameSE; }
 
 private:
 	// モデルのハンドルたち
@@ -50,6 +53,8 @@ private:
 	int _count;
 	// 各種UIのハンドル
 	int _playerHpBarH, _enemyHpBarH, _ultGaugeH;
-	// BGMの音声ハンドル
-	int _startBgmH, _explainBgmH, _mainBgmH, _resultBgmH;
+	// BGM
+	BgmHandles _gameBgm;
+	// SE
+	SeHandles _gameSE;
 };

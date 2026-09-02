@@ -34,7 +34,8 @@ SceneMain::SceneMain() :
 	_domeTempH(-1),
 	_hitTempH(-1),
 	_atmosH(-1), _atmosPlayingH(-1), _atmosCount(0),
-	_hitStopCount(0), _score(0), _repopCount(0), _killCount(0)
+	_hitStopCount(0), _score(0), _repopCount(0), _killCount(0),
+	_gameSE()
 {
 }
 
@@ -57,7 +58,7 @@ void SceneMain::Init(int score, int killCount, int pHpH, int eHpH, int ultH)
 	p_Dome = std::make_unique<SkyDome>();
 	p_EffectManager = std::make_shared<EffectManager>();
 
-	p_Player->Init(_playerTempH, _playerMagicsTemp);
+	p_Player->Init(_playerTempH, _playerMagicsTemp, _gameSE);
 	p_Camera->Init();
 	p_EManager->Init(_enemyTempH, _playerMagicsTemp, _score);
 	p_MManager->Init();
@@ -66,7 +67,7 @@ void SceneMain::Init(int score, int killCount, int pHpH, int eHpH, int ultH)
 		pHpH, eHpH, ultH);
 	p_Dome->Init(_domeTempH);
 	p_Coll->Init();
-	p_MColl->Init(_hitTempH, _score);
+	p_MColl->Init(_hitTempH, _score, _gameSE);
 
 	p_EffectManager->Init();
 	p_EffectManager->Load();

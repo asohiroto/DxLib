@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Bases/Character.h"
 #include "Effects/EffectHandles.h"
+#include "Sounds/SoundInfo.h"
 #include <DxLib.h>
 #include <memory>
 
@@ -20,7 +21,7 @@ class Player : public Character
 public:
 	Player();
 	virtual ~Player() override;
-	void Init(int handle, EffectHandles playerMagics);
+	void Init(int handle, EffectHandles playerMagics, SeHandles se);
 	void End()override;
 	void Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCamera, std::shared_ptr<MagicManager> pManager);
 	void Draw() override;
@@ -97,5 +98,6 @@ private:
 	int _targetPlayingH;
 	// 回避中か
 	bool _isDodge;
-
+	// SE
+	SeHandles _gameSE;
 };

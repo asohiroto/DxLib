@@ -16,7 +16,8 @@ SceneManager::SceneManager() :
 	_nowScene(SceneState::Load),
 	_score(0),
 	_defeatNum(0),
-	_count(0)
+	_count(0), _gameBgm(),
+	_gameSe(), _deadCount(0)
 {
 }
 
@@ -37,6 +38,14 @@ void SceneManager::Init()
 
 	p_Load->Init();
 	p_Input->Init();
+
+	_gameBgm = p_Load->GetBGMHanadles();
+	_gameSe = p_Load->GetSeHandles();
+
+	ChangeVolumeSoundMem(255 / 100 * 80, _gameBgm.startBgmH);
+	ChangeVolumeSoundMem(255 / 100 * 80, _gameBgm.explainBgmH);
+	ChangeVolumeSoundMem(255 / 100 * 80, _gameBgm.mainBgmH);
+	ChangeVolumeSoundMem(255 / 100 * 80, _gameBgm.resultBgmH);
 }
 
 void SceneManager::End()
@@ -60,19 +69,28 @@ void SceneManager::Update()
 		p_Start->Update(p_Input);
 
 		if (p_Start->CanSceneChange())
+		{
+			StopSoundMem(_gameBgm.startBgmH);
 			ChangeScene(SceneManager::SceneState::Explain);
+		}
 		break;
 	case SceneManager::SceneState::Explain:
 		p_Explain->Update(p_Input);
 
 		if (p_Explain->CanSceneChange())
+		{
+			StopSoundMem(_gameBgm.explainBgmH);
 			ChangeScene(SceneManager::SceneState::Main);
+		}
 		break;
 	case SceneManager::SceneState::Main:
 		p_Main->Update(p_Input);
 
 		if (p_Main->GetPlayerHp() <= 0)
+		{
+			StopSoundMem(_gameBgm.mainBgmH);
 			ChangeScene(SceneManager::SceneState::Result);
+		}
 		else if (p_Main->GetEnemyHp() <= 0)
 		{
 			_defeatNum++;
@@ -82,10 +100,12 @@ void SceneManager::Update()
 		break;
 	case SceneManager::SceneState::Result:
 		p_Result->Update(p_Input);
+
 		if (p_Result->CanSceneChange())
 		{
 			_defeatNum = 0;
 			_score = 0;
+			StopSoundMem(_gameBgm.resultBgmH);
 			ChangeScene(SceneManager::SceneState::Start);
 		}
 
@@ -135,20 +155,30 @@ void SceneManager::ChangeScene(SceneState nextScene)
 		break;
 	case SceneManager::SceneState::Start:
 		p_Start->Init(p_Load->GetNightDomeH());
+
+		PlaySoundMem(_gameBgm.startBgmH, DX_PLAYTYPE_LOOP);
 		break;
 	case SceneManager::SceneState::Explain:
 		p_Explain->Init();
+
+		PlaySoundMem(_gameBgm.explainBgmH, DX_PLAYTYPE_LOOP);
 		break;
 	case SceneManager::SceneState::Main:
 		p_Main->SetCharacterH(p_Load->GetPlayerH(), p_Load->GetEnemyH());
 		p_Main->SetSkyDomeH(p_Load->GetNightDomeH());
 		p_Main->SetOtherH(p_Load->GetHitEffectH(), p_Load->GetAtmosH());
-		p_Main->SetMagics(p_Load->GetHandles());
+		p_Main->SetMagics(p_Load->GetEffectHandles());
+		p_Main->SetSE(_gameSe);
 		p_Main->Init(_score, _defeatNum,
 			p_Load->GetPlayerHpBarH(), p_Load->GetEnemyHpBarH(), p_Load->GetUltGaugeH());
+
+		if (_defeatNum == 0)
+			PlaySoundMem(_gameBgm.mainBgmH, DX_PLAYTYPE_LOOP);
 		break;
 	case SceneManager::SceneState::Result:
 		p_Result->Init(_defeatNum, p_Load->GetSunnyDomeH());
+
+		PlaySoundMem(_gameBgm.resultBgmH, DX_PLAYTYPE_LOOP);
 		break;
 	default:
 		break;

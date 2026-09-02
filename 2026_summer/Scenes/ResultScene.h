@@ -21,4 +21,5 @@ private:
 	int _score;
 	int _domeH;
 	float _count;
+	int _uiCount;
 };

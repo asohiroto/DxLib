@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Bases/SceneBase.h"
 #include "Effects/EffectHandles.h"
+#include "Sounds/SoundInfo.h"
 #include<memory>
 
 class Player;
@@ -36,6 +37,7 @@ public:
 	void SetSkyDomeH(int domeH) { _domeTempH = domeH; }
 	void SetOtherH(int hitH, int atmosH) { _hitTempH = hitH; _atmosH = atmosH; }
 	void SetMagics(EffectHandles playerMagicTemp) { _playerMagicsTemp = playerMagicTemp; }
+	void SetSE(SeHandles se) { _gameSE = se; }
 
 private:
 	// プレイヤークラスの共有ポインタ
@@ -78,6 +80,6 @@ private:
 	int _repopCount;
 	// 倒した数
 	int _killCount;
-
-
+	// SE
+	SeHandles _gameSE;
 };

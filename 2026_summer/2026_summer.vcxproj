@@ -215,6 +215,7 @@
     <ClInclude Include="Scenes\SceneManager.h" />
     <ClInclude Include="Scenes\SkyDome.h" />
     <ClInclude Include="Scenes\StartScene.h" />
+    <ClInclude Include="Sounds\SoundInfo.h" />
     <ClInclude Include="UIs\EnemyHpBar.h" />
     <ClInclude Include="UIs\PlayerHpBar.h" />
     <ClInclude Include="UIs\PlayerMpBar.h" />
