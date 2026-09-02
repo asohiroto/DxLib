@@ -19,4 +19,6 @@ private:
 	int _explainH;
 	// シーンの遷移を行うか
 	bool _canSceneChange;
+	// カウンタ
+	int _count;
 };

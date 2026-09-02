@@ -140,14 +140,15 @@ void SceneMain::Draw()
 		DrawBox(0, 200, 1600, 800, 0x000000, true);
 
 		SetFontSize(400);
-		DrawFormatString(0, 300, 0xffffff, "%d 人目!!", _killCount + 1);
+		DrawFormatString(60, 310, 0xff0000, "%d KILL", _killCount);
+		DrawFormatString(50, 300, 0xffffff, "%d KILL", _killCount);
 		SetFontSize(20);
 	}
 	else
 	{
-		SetFontSize(70);
-		DrawFormatString(975, 35, 0xff0000, "%d 人目...", _killCount + 1);
-		DrawFormatString(970, 30, 0xffffff, "%d 人目...", _killCount + 1);
+		SetFontSize(65);
+		DrawFormatString(920, 10, 0xff0000, "%d KILL", _killCount);
+		DrawFormatString(915, 5, 0xffffff, "%d KILL", _killCount);
 		SetFontSize(20);
 	}
 

@@ -3,6 +3,7 @@
 #include "LoadScene.h"
 #include "StartScene.h"
 #include "ResultScene.h"
+#include "ExplainScene.h"
 #include "Inputs/Input.h"
 #include <DxLib.h>
 
@@ -14,7 +15,8 @@ SceneManager::SceneManager() :
 	p_Result(nullptr),
 	_nowScene(SceneState::Load),
 	_score(0),
-	_defeatNum(0)
+	_defeatNum(0),
+	_count(0)
 {
 }
 
@@ -24,10 +26,13 @@ SceneManager::~SceneManager()
 
 void SceneManager::Init()
 {
+	_count = 0;
+
 	p_Main = std::make_shared<SceneMain>();
 	p_Load = std::make_shared<LoadScene>();
 	p_Start = std::make_shared<StartScene>();
 	p_Result = std::make_shared<ResultScene>();
+	p_Explain = std::make_shared<ExplainScene>();
 	p_Input = std::make_shared<Input>();
 
 	p_Load->Init();
@@ -41,6 +46,7 @@ void SceneManager::End()
 void SceneManager::Update()
 {
 	p_Input->Update();
+	_count += 5;
 
 	switch (_nowScene)
 	{
@@ -54,6 +60,12 @@ void SceneManager::Update()
 		p_Start->Update(p_Input);
 
 		if (p_Start->CanSceneChange())
+			ChangeScene(SceneManager::SceneState::Explain);
+		break;
+	case SceneManager::SceneState::Explain:
+		p_Explain->Update(p_Input);
+
+		if (p_Explain->CanSceneChange())
 			ChangeScene(SceneManager::SceneState::Main);
 		break;
 	case SceneManager::SceneState::Main:
@@ -87,6 +99,7 @@ void SceneManager::Update()
 void SceneManager::Draw()
 {
 	p_Input->Draw();
+	Fade(_count);
 
 	switch (_nowScene)
 	{
@@ -95,6 +108,9 @@ void SceneManager::Draw()
 		break;
 	case SceneManager::SceneState::Start:
 		p_Start->Draw();
+		break;
+	case SceneManager::SceneState::Explain:
+		p_Explain->Draw();
 		break;
 	case SceneManager::SceneState::Main:
 		p_Main->Draw();
@@ -110,6 +126,7 @@ void SceneManager::Draw()
 void SceneManager::ChangeScene(SceneState nextScene)
 {
 	_nowScene = nextScene;
+	_count = 0;
 
 	switch (_nowScene)
 	{
@@ -117,20 +134,34 @@ void SceneManager::ChangeScene(SceneState nextScene)
 		p_Load->Init();
 		break;
 	case SceneManager::SceneState::Start:
-		p_Start->Init(p_Load->GetDomeH());
+		p_Start->Init(p_Load->GetNightDomeH());
+		break;
+	case SceneManager::SceneState::Explain:
+		p_Explain->Init();
 		break;
 	case SceneManager::SceneState::Main:
 		p_Main->SetCharacterH(p_Load->GetPlayerH(), p_Load->GetEnemyH());
-		p_Main->SetSkyDomeH(p_Load->GetDomeH());
+		p_Main->SetSkyDomeH(p_Load->GetNightDomeH());
 		p_Main->SetOtherH(p_Load->GetHitEffectH(), p_Load->GetAtmosH());
 		p_Main->SetMagics(p_Load->GetHandles());
 		p_Main->Init(_score, _defeatNum,
 			p_Load->GetPlayerHpBarH(), p_Load->GetEnemyHpBarH(), p_Load->GetUltGaugeH());
 		break;
 	case SceneManager::SceneState::Result:
-		p_Result->Init(_defeatNum);
+		p_Result->Init(_defeatNum, p_Load->GetSunnyDomeH());
 		break;
 	default:
 		break;
+	}
+}
+
+void SceneManager::Fade(int count)
+{
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, count);
+	DrawBox(0, 0, 1600, 900, 0x000000, true);
+
+	if (count > 255)
+	{
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, count);
 	}
 }

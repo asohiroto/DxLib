@@ -19,7 +19,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	SetGraphMode(WIDTH, HEIGHT, COLOR_BIT);
 
 	// フォントを変更する
-	ChangeFont("Noto Sans JP Black");
+	ChangeFont("Algerian");
 
 	// DirectX11を使用するようにする。(DirectX9も可、一部機能不可)
 	// Effekseerを使用するには必ず設定する。

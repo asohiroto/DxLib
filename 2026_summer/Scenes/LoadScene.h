@@ -19,7 +19,8 @@ public:
 	// エネミーのモデルのハンドルを渡す
 	int GetEnemyH() const { return _enemyH; }
 	// スカイドームのモデルのハンドルを渡す
-	int GetDomeH() const { return _domeH; }
+	int GetNightDomeH() const { return _nightDomeH; }
+	int GetSunnyDomeH() const { return _sunnyDomeH; }
 	// ヒット時のエフェクトのハンドルを渡す
 	int GetHitEffectH() const { return _hitEffectH; }
 	// 大気エフェクトのハンドルを渡す
@@ -34,7 +35,9 @@ public:
 private:
 	// モデルのハンドルたち
 	int _playerH, _enemyH;
-	int _domeH;
+	// ドームのハンドル
+	int _nightDomeH;
+	int _sunnyDomeH;
 	// モデルをロードしている数
 	int _totalRequestNum;
 	// プレイヤーが使用する魔法のハンドル
@@ -47,4 +50,6 @@ private:
 	int _count;
 	// 各種UIのハンドル
 	int _playerHpBarH, _enemyHpBarH, _ultGaugeH;
+	// BGMの音声ハンドル
+	int _startBgmH, _explainBgmH, _mainBgmH, _resultBgmH;
 };

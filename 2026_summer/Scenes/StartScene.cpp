@@ -44,8 +44,8 @@ void StartScene::Update(std::shared_ptr<Input> pInput)
 	_angle += ROTATE_SPEED;
 	_count++;
 
-	_startY1 = static_cast<int>(sin(_count * 0.1f) * 10);
-	_startY2 = static_cast<int>(sin(_count * 0.1f) * 12 + 2);
+	_startY1 = static_cast<int>(sin(_count * 0.1f) * 25);
+	_startY2 = static_cast<int>(sin(_count * 0.1f) * 30);
 
 	p_Dome->Update();
 	p_Dome->SetRotate(_angle);
@@ -57,10 +57,10 @@ void StartScene::Update(std::shared_ptr<Input> pInput)
 void StartScene::Draw()
 {
 	p_Dome->Draw();
-	DrawGraph(-100, 50, _logoH, true);
+	DrawGraph(200, 50, _logoH, true);
 
 	SetFontSize(FONT_SIZE);
-	DrawFormatString(600, 750 + _startY1, 0xff00ff, "Press ■ to Start");
-	DrawFormatString(600, 750 + _startY2, 0xffffff, "Press ■ to Start");
+	DrawFormatString(100, 750 + _startY1, 0xff00ff, "Press X to Start...");
+	DrawFormatString(100, 750 + _startY2, 0x000000, "Press X to Start...");
 	SetFontSize(20);
 }

@@ -27,12 +27,14 @@ namespace
 }
 
 LoadScene::LoadScene() :
-	_playerH(-1), _enemyH(-1), _domeH(-1),
+	_playerH(-1), _enemyH(-1),
+	_nightDomeH(-1), _sunnyDomeH(-1),
 	_hitEffectH(-1), _atmosEffectH(-1),
 	_playerMagics(),
 	_totalRequestNum(MAX_LOAD_NUM),
 	_count(0),
-	_playerHpBarH(-1), _enemyHpBarH(-1), _ultGaugeH(-1)
+	_playerHpBarH(-1), _enemyHpBarH(-1), _ultGaugeH(-1),
+	_startBgmH(-1), _explainBgmH(-1), _mainBgmH(-1), _resultBgmH(-1)
 {
 }
 
@@ -40,7 +42,7 @@ LoadScene::~LoadScene()
 {
 	MV1DeleteModel(_playerH);
 	MV1DeleteModel(_enemyH);
-	MV1DeleteModel(_domeH);
+	MV1DeleteModel(_nightDomeH);
 
 }
 
@@ -54,7 +56,10 @@ void LoadScene::Init()
 	// ３Dモデルをロード
 	_playerH = MV1LoadModel("data/models/Player_true.mv1");
 	_enemyH = MV1LoadModel("data/models/Player_true.mv1");
-	_domeH = MV1LoadModel("data/sunny_dome.mv1");
+
+	// スカイドームをロード
+	_nightDomeH = MV1LoadModel("data/night_dome.mv1");
+	_sunnyDomeH = MV1LoadModel("data/sunny_dome.mv1");
 
 	// 非同期処理終了
 	SetUseASyncLoadFlag(false);
@@ -77,6 +82,12 @@ void LoadScene::Init()
 	_enemyHpBarH = LoadGraph("data/EnemyHpBar.png");
 	_ultGaugeH = LoadGraph("data/UltGauge.png");
 
+	// BGMをロードする
+	_startBgmH = LoadBGM("data/sound/Crystal brilliance.mp3");
+	_explainBgmH = LoadBGM("data/sound/Insane-Loop.mp3");
+	_mainBgmH = LoadBGM("data/sound/Goodbye-曖昧-my-mind-イントロ無　ループ用.mp3");
+	_resultBgmH = LoadBGM("data/sound/ReStart-Loop.mp3");
+
 	// 読み込み数を取得（ロード数を）
 	_totalRequestNum = GetASyncLoadNum();
 }
@@ -85,7 +96,7 @@ void LoadScene::End()
 {
 	MV1DeleteModel(_playerH);
 	MV1DeleteModel(_enemyH);
-	MV1DeleteModel(_domeH);
+	MV1DeleteModel(_nightDomeH);
 
 	DeleteEffekseerEffect(_playerMagics.shotHandle);
 	DeleteEffekseerEffect(_playerMagics.missileHandle);
@@ -117,7 +128,7 @@ void LoadScene::Draw()
 
 	SetFontSize(FONT_SIZE);
 	DrawFormatString(700, 300, 0xffffff, "Now Loading");
-	DrawFormatString(700 + (7 * FONT_SIZE) + (xOffset * FONT_SIZE), 300, 0xffffff, ".");
+	DrawFormatString(750 + (7 * FONT_SIZE) + (xOffset * FONT_SIZE), 300, 0xffffff, ".");
 	SetFontSize(20);
 
 #ifdef _DEBUG

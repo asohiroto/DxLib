@@ -78,4 +78,6 @@ private:
 	int _repopCount;
 	// 倒した数
 	int _killCount;
+
+
 };

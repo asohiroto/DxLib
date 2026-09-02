@@ -53,4 +53,6 @@ private:
 	int _actionCount;
 	// 距離の判定
 	bool _tooNear, _tooAway;
+	// 倒した数
+	int _score;
 };

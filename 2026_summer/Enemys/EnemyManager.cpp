@@ -32,7 +32,7 @@ EnemyManager::EnemyManager() :
 	_isLock(false),
 	_nowRoutine(NORM_ROUTINE),
 	_actionCount(0),
-	_tooNear(false), _tooAway(false)
+	_tooNear(false), _tooAway(false), _score(0)
 {
 }
 
@@ -55,6 +55,8 @@ void EnemyManager::Init(int handle, EffectHandles enemyMagics, int score)
 	p_Beam->SetMagicBeamH(enemyMagics.beamHandle);
 	p_Shot->SetMagicShotH(enemyMagics.shotHandle);
 	p_Missile->SetMagicMissileH(enemyMagics.missileHandle);
+
+	_score = score;
 }
 
 void EnemyManager::End()
@@ -164,17 +166,17 @@ float EnemyManager::GetNowHp() const
 
 void EnemyManager::SetRoutine()
 {
-	if (p_Enemy->GetNowHp() <= p_Enemy->GetMaxHp() * HARD_RATE && _nowRoutine != HARD_ROUTINE)
+	if (p_Enemy->GetNowHp() <= p_Enemy->GetMaxHp() * HARD_RATE && _nowRoutine != HARD_ROUTINE && _score > 10)
 	{
 		_nowRoutine = HARD_ROUTINE;
 		return;
 	}
-	else if (_tooNear && _nowRoutine != NEAR_ROUTINE)
+	else if (_tooNear && _nowRoutine != NEAR_ROUTINE && _score > 3)
 	{
 		_nowRoutine = NEAR_ROUTINE;
 		return;
 	}
-	else if (_tooAway && _nowRoutine != AWAY_ROUTINE)
+	else if (_tooAway && _nowRoutine != AWAY_ROUTINE && _score > 3)
 	{
 		_nowRoutine = AWAY_ROUTINE;
 		return;
@@ -192,7 +194,7 @@ void EnemyManager::ProceedNextAction()
 	_nowRoutine.erase(_nowRoutine.begin());
 
 	if (_nowRoutine.empty())
-		_nowRoutine = NORM_ROUTINE;
+		SetRoutine();
 
 	_actionCount = 0;
 	p_Move->SetActionFinished(false);

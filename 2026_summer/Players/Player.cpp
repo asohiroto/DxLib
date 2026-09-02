@@ -405,25 +405,25 @@ void Player::UpdateState(std::shared_ptr<Input> pInput)
 		return;
 	}
 
-	if (lx > 0 && std::abs(lx) > std::abs(ly))
-	{
-		_playerUnit.nowState = CharacterState::Approach;
-		return;
-	}
-
-	if (lx < 0 && std::abs(lx) > std::abs(ly))
+	if (ly > 0 && std::abs(ly) > std::abs(lx))
 	{
 		_playerUnit.nowState = CharacterState::MoveAway;
 		return;
 	}
 
-	if (ly > 0 && std::abs(ly) > std::abs(lx))
+	if (ly < 0 && std::abs(ly) > std::abs(lx))
+	{
+		_playerUnit.nowState = CharacterState::Approach;
+		return;
+	}
+
+	if (lx > 0 && std::abs(lx) > std::abs(ly))
 	{
 		_playerUnit.nowState = CharacterState::MoveRight;
 		return;
 	}
 
-	if (ly < 0 && std::abs(ly) > std::abs(lx))
+	if (lx < 0 && std::abs(lx) > std::abs(ly))
 	{
 		_playerUnit.nowState = CharacterState::MoveLeft;
 		return;

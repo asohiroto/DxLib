@@ -29,6 +29,9 @@ public:
 	void Draw();
 	// シーンを切り替え
 	void ChangeScene(SceneState nextScene);
+	// フェードインを行う関数
+	void Fade(int count);
+
 private:
 	// メインシーンの共有ポインタ
 	std::shared_ptr<SceneMain> p_Main;
@@ -50,4 +53,6 @@ private:
 	int _score;
 	// 倒した数
 	int _defeatNum;
+	// カウンタ
+	int _count;
 };
