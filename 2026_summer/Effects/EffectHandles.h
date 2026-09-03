@@ -7,4 +7,5 @@ struct EffectHandles
 	int furyHandle;
 	int circleHandle;
 	int beamHandle;
+	int dodgeHandle;
 };

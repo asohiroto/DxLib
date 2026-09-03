@@ -7,7 +7,7 @@
 namespace
 {
 	// ドームの回転速度
-	constexpr float ROTATE_SPEED = 0.01f;
+	constexpr float ROTATE_SPEED = 0.005f;
 	// フォントサイズ
 	constexpr int FONT_SIZE = 120;
 }
@@ -17,7 +17,8 @@ StartScene::StartScene() :
 	_logoH(-1),
 	_angle(0.0f),
 	_startY1(0), _startY2(0),
-	_count(0)
+	_count(0),
+	_xButtonH(-1)
 {
 }
 
@@ -31,6 +32,7 @@ void StartScene::Init(int domeH)
 	p_Dome->Init(domeH);
 
 	_logoH = LoadGraph("data/2026_summer_Logo.png");
+	_xButtonH = LoadGraph("data/GUI/xbox_X_blue.png");
 
 	_isSceneChange = false;
 }
@@ -60,7 +62,10 @@ void StartScene::Draw()
 	DrawGraph(200, 50, _logoH, true);
 
 	SetFontSize(FONT_SIZE);
-	DrawFormatString(100, 750 + _startY1, 0xff00ff, "Press X to Start...");
-	DrawFormatString(100, 750 + _startY2, 0x000000, "Press X to Start...");
+	DrawFormatString(100 + _startY1, 750, 0xff00ff, "Press");
+	DrawFormatString(100 + _startY2, 750, 0x000000, "Press");
+	DrawGraph(550 + _startY1, 710, _xButtonH, true);
+	DrawFormatString(770 + _startY1, 750, 0xff00ff, "to Start...");
+	DrawFormatString(770 + _startY2, 750, 0x000000, "to Start...");
 	SetFontSize(20);
 }

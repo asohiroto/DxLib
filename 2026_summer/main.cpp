@@ -10,7 +10,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 {
 
 	// 一部の関数はDxLib_Init()の前に実行する必要がある
-	ChangeWindowMode(false);
+	ChangeWindowMode(true);
 
 	SetWindowText("魔術師流自分の殺し方");
 

@@ -24,6 +24,8 @@ namespace
 	constexpr float ATMOS_EFFECT_SIZE = 240.0f;
 	// フォントのサイズ
 	constexpr int FONT_SIZE = 50;
+	// 回避のエフェクトのサイズ
+	constexpr float DODGE_EFFECT_SIZE = 12.0f;
 }
 
 LoadScene::LoadScene() :
@@ -68,6 +70,7 @@ void LoadScene::Init()
 
 	// 敵の魔法をロード
 	_playerMagics.beamHandle = LoadEffekseerEffect("data/effects/MagicBeam.efkefc", BEAM_EFFECT_SIZE);
+	_playerMagics.dodgeHandle = LoadEffekseerEffect("data/effects/JustDodge.efkefc", DODGE_EFFECT_SIZE);
 
 	// その他のエフェクトをロード
 	_hitEffectH = LoadEffekseerEffect("data/effects/HitEffe.efkefc", HIT_EFFECT_SIZE);

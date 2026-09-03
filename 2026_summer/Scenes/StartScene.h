@@ -28,4 +28,6 @@ private:
 	int _startY2;
 	// カウンタ
 	int _count;
+	// Xボタンのハンドル
+	int _xButtonH;
 };

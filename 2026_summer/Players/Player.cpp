@@ -80,7 +80,7 @@ Player::Player() :
 	_magicCircleH(-1),
 	_circlePlayingH(-1),
 	_targetPlayingH(-1),
-	_isDodge(false)
+	_isDodge(false), _playerMagics()
 {
 }
 
@@ -110,6 +110,8 @@ void Player::Init(int handle, EffectHandles playerMagics, SeHandles se)
 	// 安全策
 	assert(_playerUnit.modelH != -1);
 
+	_playerMagics = playerMagics;
+
 	// モデルの拡大
 	MV1SetScale(_playerUnit.modelH, VGet(2.5f, 2.5f, 2.5f));
 
@@ -120,20 +122,20 @@ void Player::Init(int handle, EffectHandles playerMagics, SeHandles se)
 	p_Dodge->Init();
 	p_Shot = std::make_shared<MagicShot>();
 	p_Shot->Init();
-	p_Shot->SetMagicShotH(playerMagics.shotHandle);
+	p_Shot->SetMagicShotH(_playerMagics.shotHandle);
 	p_Missile = std::make_shared<MagicMissile>();
 	p_Missile->Init();
-	p_Missile->SetMagicMissileH(playerMagics.missileHandle);
+	p_Missile->SetMagicMissileH(_playerMagics.missileHandle);
 	p_Fury = std::make_shared<MagicFury>();
 	p_Fury->Init();
-	p_Fury->SetMagicFuryH(playerMagics.furyHandle);
+	p_Fury->SetMagicFuryH(_playerMagics.furyHandle);
 	p_Beam = std::make_shared<MagicBeam>();
 	p_Beam->Init();
-	p_Beam->SetMagicBeamH(playerMagics.beamHandle);
+	p_Beam->SetMagicBeamH(_playerMagics.beamHandle);
 	p_AManager = std::make_shared<AnimManager>();
 	p_AManager->Init(_playerUnit.modelH);
 
-	_magicCircleH = playerMagics.circleHandle;
+	_magicCircleH = _playerMagics.circleHandle;
 
 	p_AManager->AnimChange(TranslateState(_playerUnit.nowState));
 
@@ -234,6 +236,8 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 
 		_circlePlayingH = PlayEffekseer3DEffect(_magicCircleH);
 		SetPosPlayingEffekseer3DEffect(_circlePlayingH, circlePos.x, circlePos.y + CIRCLE_HEIGHT_OFFSET, circlePos.z);
+
+		PlaySoundMem(_gameSE.circleH, DX_PLAYTYPE_LOOP);
 	}
 
 	// マジックミサイル生成になればカメラがロックオン
@@ -242,8 +246,6 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 		SetPosPlayingEffekseer3DEffect(_circlePlayingH, circlePos.x, circlePos.y + CIRCLE_HEIGHT_OFFSET, circlePos.z);
 
 		SetRotationPlayingEffekseer3DEffect(_circlePlayingH, 0.0f, facing, 0.0f);
-
-		PlaySoundMem(_gameSE.circleH, DX_PLAYTYPE_LOOP);
 
 		if (_pressFrame < SHOT_SWITCH) pCamera->SetCameraMode(false);
 		else pCamera->SetCameraMode(true);
@@ -371,6 +373,9 @@ void Player::JustDodgeEffect()
 	_playerUnit.mp += MP_GAIN_AMOUNT;
 	if (_playerUnit.mp >= _playerUnit.maxMp)
 		_playerUnit.mp = _playerUnit.maxMp;
+
+	PlayEffekseer3DEffect(_playerMagics.dodgeHandle);
+	SetPosPlayingEffekseer3DEffect(_playerMagics.dodgeHandle, _playerUnit.pos.x, _playerUnit.pos.y, _playerUnit.pos.z);
 
 	PlaySoundMem(_gameSE.dodgeH, DX_PLAYTYPE_BACK);
 	p_Dodge->ResetDodgeCoolCount();

@@ -100,4 +100,6 @@ private:
 	bool _isDodge;
 	// SE
 	SeHandles _gameSE;
+
+	EffectHandles _playerMagics;
 };
