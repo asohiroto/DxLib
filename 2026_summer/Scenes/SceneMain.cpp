@@ -100,7 +100,7 @@ void SceneMain::End()
 
 }
 
-void SceneMain::Update(std::shared_ptr<Input> pInput)
+void SceneMain::Update(const std::shared_ptr<Input>& pInput)
 {
 	_atmosCount++;
 

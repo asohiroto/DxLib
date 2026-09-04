@@ -12,7 +12,7 @@ public:
 	virtual ~StartScene() override;
 	void Init(int domeH);
 	void End() override;
-	void Update(std::shared_ptr<Input> pInput)override;
+	void Update(const std::shared_ptr<Input>& pInput)override;
 	void Draw()override;
 
 private:

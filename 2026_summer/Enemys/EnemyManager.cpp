@@ -67,7 +67,7 @@ void EnemyManager::End()
 {
 }
 
-void EnemyManager::Update(VECTOR playerPos, std::shared_ptr<MagicManager> pMManager)
+void EnemyManager::Update(VECTOR playerPos, const std::shared_ptr<MagicManager>& pMManager)
 {
 	VECTOR rota = p_Move->GetDir();
 	float angle = atan2f(rota.x, rota.z);

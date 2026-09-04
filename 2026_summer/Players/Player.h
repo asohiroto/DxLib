@@ -23,7 +23,7 @@ public:
 	virtual ~Player() override;
 	void Init(int handle, EffectHandles playerMagics, SeHandles se);
 	void End()override;
-	void Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCamera, std::shared_ptr<MagicManager> pManager);
+	void Update(const std::shared_ptr<Input>& pInput, const std::shared_ptr<Camera>& pCamera, const std::shared_ptr<MagicManager>& pManager);
 	void Draw() override;
 	// プレイヤー座標のゲッター
 	VECTOR GetPos() const { return _playerUnit.pos; }
@@ -62,7 +62,7 @@ public:
 
 private:
 	// 状況に応じてステートを変化させる
-	void UpdateState(std::shared_ptr<Input> pInput);
+	void UpdateState(const std::shared_ptr<Input>& pInput);
 
 private:
 	// プレイヤー
@@ -88,14 +88,20 @@ private:
 	VECTOR _frontVec;
 	// ボタンを押している時間
 	int _pressFrame;
+	// 必殺技ボタン(A)を押している時間
+	int _ultPressFrame;
 	// ダメージを受けてからの時間
 	int _damagedCount;
 	// マジックサークルのハンドル
 	int _magicCircleH;
 	// エフェクト再生中のハンドル
 	int _circlePlayingH;
+	// 必殺技チャージ中の魔法陣再生中のハンドル
+	int _ultCirclePlayingH;
 	// 目標地点のハンドル
 	int _targetPlayingH;
+	// ジャスト回避エフェクトの再生中ハンドル
+	int _dodgeEffectPlayingH;
 	// 回避中か
 	bool _isDodge;
 	// SE

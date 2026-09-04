@@ -16,7 +16,7 @@ public:
 	void Draw() override;
 
 	// マジックミサイルを生成 
-	void GenerateMissile(VECTOR pos, VECTOR front, bool isEnemy, std::shared_ptr<MagicManager> pManager);
+	void GenerateMissile(VECTOR pos, VECTOR front, bool isEnemy, const std::shared_ptr<MagicManager>& pManager);
 	// 目標を設定
 	void SetTarget(VECTOR target) { _magicMissile.moveDirection = target; }
 	// 消費魔力のゲッター

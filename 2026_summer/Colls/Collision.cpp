@@ -29,7 +29,7 @@ void Collision::End()
 {
 }
 
-void Collision::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Enemy> pEnemy)
+void Collision::Update(const std::shared_ptr<Player>& pPlayer, const std::shared_ptr<Enemy>& pEnemy)
 {
 	Character::CharacterData player = pPlayer->GetPlayerData();
 	Character::CharacterData enemy = pEnemy->GetEnemyData();

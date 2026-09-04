@@ -56,7 +56,7 @@ void ResultScene::End()
 {
 }
 
-void ResultScene::Update(std::shared_ptr<Input> pInput)
+void ResultScene::Update(const std::shared_ptr<Input>& pInput)
 {
 	_count += DOME_ROTATE_SPEED;
 	_uiCount++;

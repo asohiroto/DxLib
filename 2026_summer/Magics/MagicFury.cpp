@@ -63,7 +63,7 @@ void MagicFury::Draw()
 {
 }
 
-void MagicFury::GenerateFury(VECTOR pos, VECTOR front, bool isEnemy, std::shared_ptr<MagicManager> pManager)
+void MagicFury::GenerateFury(VECTOR pos, VECTOR front, bool isEnemy, const std::shared_ptr<MagicManager>& pManager)
 {
 	VECTOR tempPos = VAdd(pos, VGet(0.0f, FURY_HEIGHT, 0.0f));
 

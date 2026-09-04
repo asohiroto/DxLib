@@ -53,7 +53,7 @@ void Camera::End()
 {
 }
 
-void Camera::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Enemy>pEnemy, std::shared_ptr<Input> pInput)
+void Camera::Update(const std::shared_ptr<Player>& pPlayer, const std::shared_ptr<Enemy>& pEnemy, const std::shared_ptr<Input>& pInput)
 {
 	// 右スティックの入力を保存
 	int rx = pInput->GetRightStickX();
@@ -80,7 +80,7 @@ void Camera::Draw()
 	SetupCamera_Perspective(DX_PI_F / 2);
 }
 
-void Camera::NormalCam(std::shared_ptr<Player> pPlayer)
+void Camera::NormalCam(const std::shared_ptr<Player>& pPlayer)
 {
 	if (pPlayer == nullptr) return;
 
@@ -109,7 +109,7 @@ void Camera::NormalCam(std::shared_ptr<Player> pPlayer)
 	_targetPos = VAdd(_targetPos, VScale(VSub(targetLookPos, _targetPos), LERP_RATE));
 }
 
-void Camera::LockOnCam(std::shared_ptr<Player>pPlayer, std::shared_ptr<Enemy>pEnemy)
+void Camera::LockOnCam(const std::shared_ptr<Player>& pPlayer, const std::shared_ptr<Enemy>& pEnemy)
 {
 	// 注視点を設定
 	if (pEnemy == nullptr || pPlayer == nullptr) return;

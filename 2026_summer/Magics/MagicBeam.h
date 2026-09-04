@@ -14,7 +14,7 @@ public:
 	void Update() override;
 	void Draw() override;
 	// ビームを生成
-	void GenerateBeam(VECTOR pos, VECTOR front, bool isEnemy, std::shared_ptr<MagicManager> pManager);
+	void GenerateBeam(VECTOR pos, VECTOR front, bool isEnemy, const std::shared_ptr<MagicManager>& pManager);
 	// マジックビームのエフェクトハンドルのセッター
 	void SetMagicBeamH(int handle) { _magicBeam.effectResourceH = handle; }
 private:

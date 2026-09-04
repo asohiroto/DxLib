@@ -39,7 +39,7 @@ void EnemyMove::End()
 {
 }
 
-void EnemyMove::Update(VECTOR playerPos, std::shared_ptr<Enemy> pEnemy)
+void EnemyMove::Update(VECTOR playerPos, const std::shared_ptr<Enemy>& pEnemy)
 {
 	// 距離と方向を計算し代入
 	CalDistDir(playerPos, pEnemy);
@@ -49,7 +49,7 @@ void EnemyMove::Draw()
 {
 }
 
-void EnemyMove::Approach(std::shared_ptr<Enemy> pEnemy)
+void EnemyMove::Approach(const std::shared_ptr<Enemy>& pEnemy)
 {
 	pEnemy->SetPos(VAdd(pEnemy->GetPos(), VScale(_toPlayerDir, SPEED)));
 
@@ -62,7 +62,7 @@ void EnemyMove::Approach(std::shared_ptr<Enemy> pEnemy)
 	}
 }
 
-void EnemyMove::MoveAway(std::shared_ptr<Enemy> pEnemy)
+void EnemyMove::MoveAway(const std::shared_ptr<Enemy>& pEnemy)
 {
 	VECTOR opposite = VGet(-_toPlayerDir.x, 0.0f, -_toPlayerDir.z);
 	pEnemy->SetPos(VAdd(pEnemy->GetPos(), VScale(opposite, SPEED)));
@@ -76,7 +76,7 @@ void EnemyMove::MoveAway(std::shared_ptr<Enemy> pEnemy)
 	}
 }
 
-void EnemyMove::MoveLeft(std::shared_ptr<Enemy> pEnemy)
+void EnemyMove::MoveLeft(const std::shared_ptr<Enemy>& pEnemy)
 {
 	// 左側ベクトル
 	VECTOR left = VGet(-_toPlayerDir.z, 0.0f, _toPlayerDir.x);
@@ -92,7 +92,7 @@ void EnemyMove::MoveLeft(std::shared_ptr<Enemy> pEnemy)
 	}
 }
 
-void EnemyMove::MoveRight(std::shared_ptr<Enemy> pEnemy)
+void EnemyMove::MoveRight(const std::shared_ptr<Enemy>& pEnemy)
 {
 	// 右側ベクトル
 	VECTOR right = VGet(_toPlayerDir.z, 0.0f, -_toPlayerDir.x);
@@ -108,7 +108,7 @@ void EnemyMove::MoveRight(std::shared_ptr<Enemy> pEnemy)
 	}
 }
 
-void EnemyMove::CalDistDir(VECTOR playerPos, std::shared_ptr<Enemy> pEnemy)
+void EnemyMove::CalDistDir(VECTOR playerPos, const std::shared_ptr<Enemy>& pEnemy)
 {
 	// エネミーからプレイヤーへのベクトルをとる
 	_toPlayerDir = VSub(playerPos, pEnemy->GetPos());

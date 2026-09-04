@@ -41,7 +41,7 @@ void ExplainScene::End()
 {
 }
 
-void ExplainScene::Update(std::shared_ptr<Input> pInput)
+void ExplainScene::Update(const std::shared_ptr<Input>& pInput)
 {
 	_count++;
 

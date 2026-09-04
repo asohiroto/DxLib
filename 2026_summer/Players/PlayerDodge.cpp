@@ -48,12 +48,12 @@ void PlayerDodge::End()
 {
 }
 
-void PlayerDodge::Update(std::shared_ptr<Input> pInput, float cameraAngle)
+void PlayerDodge::Update(const std::shared_ptr<Input>& pInput, float cameraAngle)
 {
 	CalDirection(pInput, cameraAngle);
 	_dodgeCoolCount++;
 
-	if (pInput->IsTrigger(PAD_INPUT_5) && _dodgeCoolCount >= DODGE_COOLDOWN)
+	if (pInput->IsTrigger(PAD_INPUT_2) && _dodgeCoolCount >= DODGE_COOLDOWN)
 		_isDodge = true;
 
 	if (_isDodge)
@@ -79,7 +79,7 @@ void PlayerDodge::Draw()
 	//DodgeCoolBar();
 }
 
-void PlayerDodge::CalDirection(std::shared_ptr<Input> pInput, float cameraAngle)
+void PlayerDodge::CalDirection(const std::shared_ptr<Input>& pInput, float cameraAngle)
 {
 	// 移動の方向に代入
 	int _mx = pInput->GetLeftStickX();

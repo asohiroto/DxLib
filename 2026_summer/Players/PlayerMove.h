@@ -11,7 +11,7 @@ public:
 	virtual ~PlayerMove();
 	void Init();
 	void End();
-	void Update(std::shared_ptr<Input> pInput, float cameraAngle);
+	void Update(const std::shared_ptr<Input>& pInput, float cameraAngle);
 	void Draw();
 	// 移動量のゲッター
 	VECTOR GetMovement() const { return _movementDirection; }

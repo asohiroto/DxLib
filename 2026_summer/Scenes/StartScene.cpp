@@ -53,7 +53,7 @@ void StartScene::End()
 {
 }
 
-void StartScene::Update(std::shared_ptr<Input> pInput)
+void StartScene::Update(const std::shared_ptr<Input>& pInput)
 {
 	_angle += ROTATE_SPEED;
 	_count++;

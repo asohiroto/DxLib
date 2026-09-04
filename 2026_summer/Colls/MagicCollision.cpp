@@ -45,7 +45,7 @@ void MagicCollision::End()
 {
 }
 
-void MagicCollision::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Enemy>pEnemy, MagicList& playerList, MagicList& enemyList)
+void MagicCollision::Update(const std::shared_ptr<Player>& pPlayer, const std::shared_ptr<Enemy>& pEnemy, MagicList& playerList, MagicList& enemyList)
 {
 	Character::CharacterData player = pPlayer->GetPlayerData();
 	Character::CharacterData enemy = pEnemy->GetEnemyData();

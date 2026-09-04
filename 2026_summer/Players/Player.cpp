@@ -50,6 +50,17 @@ namespace
 	constexpr float CIRCLE_FRONT_OFFSET = 30.0f;
 	// マジックサークルの再生位置の高さを修正
 	constexpr float CIRCLE_HEIGHT_OFFSET = 300.0f;
+	// 必殺技チャージ中の魔法陣の色（黄色）
+	constexpr int ULT_CIRCLE_COLOR_R = 255;
+	constexpr int ULT_CIRCLE_COLOR_G = 255;
+	constexpr int ULT_CIRCLE_COLOR_B = 0;
+	constexpr int ULT_CIRCLE_ALPHA = 255;
+	// 通常時の魔法陣の拡大率
+	constexpr float ULT_CIRCLE_NORMAL_SCALE = 1.0f;
+	// マジックフューリーが出るときの魔法陣の拡大率
+	constexpr float ULT_CIRCLE_FURY_SCALE = 1.5f;
+	// ジャスト回避エフェクトの拡大率
+	constexpr float DODGE_EFFECT_SCALE = 2.0f;
 	// 通常時のジャスト回避判定の半径（存在しないため０）
 	constexpr float NORM_JUST_RADIUS = 0.0f;
 	// ジャスト回避判定の半径
@@ -81,10 +92,13 @@ Player::Player() :
 	p_AManager(nullptr),
 	_frontVec(VGet(0.0f, 0.0f, 0.0f)),
 	_pressFrame(0),
+	_ultPressFrame(0),
 	_damagedCount(0),
 	_magicCircleH(-1),
 	_circlePlayingH(-1),
+	_ultCirclePlayingH(-1),
 	_targetPlayingH(-1),
+	_dodgeEffectPlayingH(-1),
 	_isDodge(false), _playerMagics()
 {
 }
@@ -92,6 +106,8 @@ Player::Player() :
 Player::~Player()
 {
 	StopEffekseer3DEffect(_circlePlayingH);
+	StopEffekseer3DEffect(_ultCirclePlayingH);
+	StopEffekseer3DEffect(_dodgeEffectPlayingH);
 }
 
 void Player::Init(int handle, EffectHandles playerMagics, SeHandles se)
@@ -152,9 +168,10 @@ void Player::End()
 
 }
 
-void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCamera, std::shared_ptr<MagicManager> pManager)
+void Player::Update(const std::shared_ptr<Input>& pInput, const std::shared_ptr<Camera>& pCamera, const std::shared_ptr<MagicManager>& pManager)
 {
 	_pressFrame++;
+	_ultPressFrame++;
 	_damagedCount++;
 
 	// 魔力を最大値まで自動回復
@@ -193,7 +210,12 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 	_playerUnit.pos = VAdd(_playerUnit.pos, p_Dodge->GetDodgePos());
 
 	// 回避を行っているかを更新する
+	bool wasDodge = _isDodge;
 	_isDodge = p_Dodge->IsDodge();
+
+	// 回避が終了した瞬間にジャスト回避エフェクトを止める
+	if (wasDodge && !_isDodge)
+		StopEffekseer3DEffect(_dodgeEffectPlayingH);
 
 	// 移動制限
 	_playerUnit.pos.x = std::clamp(_playerUnit.pos.x, -POS_LIMIT_X, POS_LIMIT_X);
@@ -231,8 +253,8 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 	// マジックサークルの再生位置
 	VECTOR circlePos = VAdd(VAdd(_playerUnit.pos, VScale(_frontVec, CIRCLE_FRONT_OFFSET)), VScale(right, SHOT_RIGHT_OFFSET));
 
-	// RBを推している時間を計測
-	if (pInput->IsTrigger(PAD_INPUT_6))
+	// Bを推している時間を計測
+	if (pInput->IsTrigger(PAD_INPUT_3))
 	{
 		_pressFrame = 0;
 
@@ -246,7 +268,7 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 	}
 
 	// マジックミサイル生成になればカメラがロックオン
-	if (pInput->IsPress(PAD_INPUT_6))
+	if (pInput->IsPress(PAD_INPUT_3))
 	{
 		SetPosPlayingEffekseer3DEffect(_circlePlayingH, circlePos.x, circlePos.y + CIRCLE_HEIGHT_OFFSET, circlePos.z);
 
@@ -257,7 +279,7 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 	}
 
 	// 離したときの時間で生成する魔法を切り替え
-	if (pInput->IsRelease(PAD_INPUT_6))
+	if (pInput->IsRelease(PAD_INPUT_3))
 	{
 		StopSoundMem(_gameSE.circleH);
 		if (_pressFrame < SHOT_SWITCH)
@@ -291,27 +313,62 @@ void Player::Update(std::shared_ptr<Input> pInput, std::shared_ptr<Camera> pCame
 		pCamera->SetCameraMode(false);
 	}
 
-	if (_playerUnit.ultCharge >= _playerUnit.maxUltCharge)
-	{
-		if (pInput->IsTrigger(PAD_INPUT_8))
-		{
-			p_Fury->GenerateFury(pManager->GetEnePos(), VGet(0.0f, -1.0f, 0.0f), false, pManager);
-			_playerUnit.nowState = CharacterState::Fury;
-			PlaySoundMem(_gameSE.furyH, DX_PLAYTYPE_BACK);
-			p_AManager->AnimChange(TranslateState(_playerUnit.nowState));
-			_playerUnit.ultCharge = 0;
-		}
-	}
-
+	// Aの入力時間を計測し、必殺技を発動する（チャージが半分未満の場合は何も反応しない）
 	if (_playerUnit.ultCharge >= _playerUnit.maxUltCharge / 2)
 	{
-		if (pInput->IsTrigger(PAD_INPUT_7))
+		// Aを押した瞬間からロックオンカメラにし、黄色い魔法陣を出す
+		if (pInput->IsTrigger(PAD_INPUT_4))
 		{
-			p_Beam->GenerateBeam(shotPos, _frontVec, false, pManager);
-			_playerUnit.nowState = CharacterState::Beam;
-			PlaySoundMem(_gameSE.beamH, DX_PLAYTYPE_BACK);
-			p_AManager->AnimChange(TranslateState(_playerUnit.nowState));
-			_playerUnit.ultCharge -= (_playerUnit.maxUltCharge / 2);
+			_ultPressFrame = 0;
+			pCamera->SetCameraMode(true);
+
+			// 元の魔法陣が残っていれば消す
+			StopSoundMem(_gameSE.circleH);
+			StopEffekseer3DEffect(_circlePlayingH);
+
+			// 前の魔法陣が残っていれば先に止める
+			if (_ultCirclePlayingH != -1) StopEffekseer3DEffect(_ultCirclePlayingH);
+
+			_ultCirclePlayingH = PlayEffekseer3DEffect(_magicCircleH);
+			SetPosPlayingEffekseer3DEffect(_ultCirclePlayingH, circlePos.x, circlePos.y + CIRCLE_HEIGHT_OFFSET, circlePos.z);
+			SetColorPlayingEffekseer3DEffect(_ultCirclePlayingH, ULT_CIRCLE_COLOR_R, ULT_CIRCLE_COLOR_G, ULT_CIRCLE_COLOR_B, ULT_CIRCLE_ALPHA);
+		}
+
+		// 押している間は魔法陣を追従させる
+		if (pInput->IsPress(PAD_INPUT_4))
+		{
+			SetPosPlayingEffekseer3DEffect(_ultCirclePlayingH, circlePos.x, circlePos.y + CIRCLE_HEIGHT_OFFSET, circlePos.z);
+			SetRotationPlayingEffekseer3DEffect(_ultCirclePlayingH, 0.0f, facing, 0.0f);
+
+			// 放つ技がマジックフューリーになる条件を満たしていれば魔法陣を拡大する
+			if (_ultPressFrame >= SHOT_SWITCH && _playerUnit.ultCharge >= _playerUnit.maxUltCharge)
+				SetScalePlayingEffekseer3DEffect(_ultCirclePlayingH, ULT_CIRCLE_FURY_SCALE, ULT_CIRCLE_FURY_SCALE, ULT_CIRCLE_FURY_SCALE);
+			else
+				SetScalePlayingEffekseer3DEffect(_ultCirclePlayingH, ULT_CIRCLE_NORMAL_SCALE, ULT_CIRCLE_NORMAL_SCALE, ULT_CIRCLE_NORMAL_SCALE);
+		}
+
+		// 離したときの押していた時間で発動する必殺技を切り替え
+		if (pInput->IsRelease(PAD_INPUT_4))
+		{
+			if (_ultPressFrame >= SHOT_SWITCH && _playerUnit.ultCharge >= _playerUnit.maxUltCharge)
+			{
+				p_Fury->GenerateFury(pManager->GetEnePos(), VGet(0.0f, -1.0f, 0.0f), false, pManager);
+				_playerUnit.nowState = CharacterState::Fury;
+				PlaySoundMem(_gameSE.furyH, DX_PLAYTYPE_BACK);
+				p_AManager->AnimChange(TranslateState(_playerUnit.nowState));
+				_playerUnit.ultCharge = 0;
+			}
+			else
+			{
+				p_Beam->GenerateBeam(shotPos, _frontVec, false, pManager);
+				_playerUnit.nowState = CharacterState::Beam;
+				PlaySoundMem(_gameSE.beamH, DX_PLAYTYPE_BACK);
+				p_AManager->AnimChange(TranslateState(_playerUnit.nowState));
+				_playerUnit.ultCharge -= (_playerUnit.maxUltCharge / 2);
+			}
+
+			StopEffekseer3DEffect(_ultCirclePlayingH);
+			pCamera->SetCameraMode(false);
 		}
 	}
 
@@ -354,6 +411,11 @@ void Player::SetHit(int damage)
 		_damagedCount = 0;
 
 		_playerUnit.hp -= damage;
+
+		// 攻撃を受けたら出ている魔法陣を消す
+		StopSoundMem(_gameSE.circleH);
+		StopEffekseer3DEffect(_circlePlayingH);
+		StopEffekseer3DEffect(_ultCirclePlayingH);
 	}
 }
 
@@ -379,8 +441,9 @@ void Player::JustDodgeEffect()
 	if (_playerUnit.mp >= _playerUnit.maxMp)
 		_playerUnit.mp = _playerUnit.maxMp;
 
-	PlayEffekseer3DEffect(_playerMagics.dodgeHandle);
-	SetPosPlayingEffekseer3DEffect(_playerMagics.dodgeHandle, _playerUnit.pos.x, _playerUnit.pos.y, _playerUnit.pos.z);
+	_dodgeEffectPlayingH = PlayEffekseer3DEffect(_playerMagics.dodgeHandle);
+	SetPosPlayingEffekseer3DEffect(_dodgeEffectPlayingH, _playerUnit.pos.x, _playerUnit.pos.y, _playerUnit.pos.z);
+	SetScalePlayingEffekseer3DEffect(_dodgeEffectPlayingH, DODGE_EFFECT_SCALE, DODGE_EFFECT_SCALE, DODGE_EFFECT_SCALE);
 
 	PlaySoundMem(_gameSE.dodgeH, DX_PLAYTYPE_BACK);
 	p_Dodge->ResetDodgeCoolCount();
@@ -401,7 +464,7 @@ void Player::SetUltCharge(int amount)
 	}
 }
 
-void Player::UpdateState(std::shared_ptr<Input> pInput)
+void Player::UpdateState(const std::shared_ptr<Input>& pInput)
 {
 	int lx = pInput->GetLeftStickX();
 	int ly = pInput->GetLeftStickY();

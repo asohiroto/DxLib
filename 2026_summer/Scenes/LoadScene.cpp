@@ -133,12 +133,24 @@ void LoadScene::End()
 
 }
 
-void LoadScene::Update(std::shared_ptr<Input> pInput)
+void LoadScene::Update(const std::shared_ptr<Input>& pInput)
 {
 	_count++;
 
 	if (GetASyncLoadNum() == 0)
+	{
+		if (!_isSceneChange)
+		{
+			// アニメーションの初回アタッチにかかる内部コストをロード画面中に前倒しして解消する
+			int warmAnimH = MV1AttachAnim(_playerH, 0, -1, false);
+			MV1DetachAnim(_playerH, warmAnimH);
+
+			warmAnimH = MV1AttachAnim(_enemyH, 0, -1, false);
+			MV1DetachAnim(_enemyH, warmAnimH);
+		}
+
 		_isSceneChange = true;
+	}
 }
 
 void LoadScene::Draw()

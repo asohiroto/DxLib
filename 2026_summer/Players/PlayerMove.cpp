@@ -30,7 +30,7 @@ void PlayerMove::End()
 {
 }
 
-void PlayerMove::Update(std::shared_ptr<Input> pInput, float cameraAngle)
+void PlayerMove::Update(const std::shared_ptr<Input>& pInput, float cameraAngle)
 {
 	// 移動の方向に代入
 	_mx = pInput->GetLeftStickX();
