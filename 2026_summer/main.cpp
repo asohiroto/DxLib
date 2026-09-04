@@ -6,6 +6,12 @@
 
 using namespace GameDefine;
 
+namespace
+{
+	// 1フレームにかける時間（マイクロ秒）60FPS固定用
+	constexpr LONGLONG TARGET_FRAME_TIME_MICRO_SEC = 16667;
+}
+
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_  LPSTR lpCmdLine, _In_ int nCmdShow)
 {
 
@@ -31,7 +37,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	}
 
 	// 引数には画面に表示する最大パーティクル数を設定する。
-	if (Effkseer_Init(EffectParticleLimit) == -1)
+	if (Effkseer_Init(EFFECT_PARTICLE_LIMIT) == -1)
 	{
 		DxLib_End();
 	}
@@ -93,7 +99,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		}
 
 		// FPS60に固定する
-		while (GetNowHiPerformanceCount() - start < 16667)
+		while (GetNowHiPerformanceCount() - start < TARGET_FRAME_TIME_MICRO_SEC)
 		{
 			// 16.66ミリ秒(16667マイクロ秒)経過するまで待つ
 

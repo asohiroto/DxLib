@@ -20,6 +20,8 @@ namespace
 	constexpr int CHARGE_AMOUNT = 8;
 	// ヒットストップするフレーム数
 	constexpr int HIT_STOP_FRAME = 2;
+	// 当たり判定描画用の色
+	constexpr int COLOR = 0xff0000;
 }
 
 
@@ -41,7 +43,7 @@ void MagicMissile::Init()
 	_magicMissile.type = MagicType::MagicMissile;
 	_magicMissile.isExist = false;
 	_magicMissile.isEnemy = false;
-	_magicMissile.color = 0xff0000;
+	_magicMissile.color = COLOR;
 	_magicMissile.velo = VGet(0.0f, 0.0f, 0.0f);
 	// ステータス決定
 	_magicMissile.damage = DAMAGE;

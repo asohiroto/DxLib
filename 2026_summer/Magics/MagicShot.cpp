@@ -21,6 +21,8 @@ namespace
 	constexpr int CHARGE_AMOUNT = 5;
 	// ヒットストップするフレーム数
 	constexpr int HIT_STOP_FRAME = 1;
+	// 当たり判定描画用の色
+	constexpr int COLOR = 0xffffff;
 }
 
 MagicShot::MagicShot() :
@@ -41,7 +43,7 @@ void MagicShot::Init()
 	_magicShot.type = MagicType::MagicShot;
 	_magicShot.isExist = false;
 	_magicShot.isEnemy = false;
-	_magicShot.color = 0xffffff;
+	_magicShot.color = COLOR;
 	// ステータス決定
 	_magicShot.damage = DAMAGE;
 	_magicShot.useMp = USE_MP;

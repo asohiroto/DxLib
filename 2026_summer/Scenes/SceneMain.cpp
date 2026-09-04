@@ -17,6 +17,26 @@ namespace
 	constexpr float GRID_NUM = 60;
 	// リポップするまでのフレーム数
 	constexpr int REPOP_FRAME = 60;
+	// 床の厚み（下方向のオフセット）
+	constexpr float FLOOR_HEIGHT = -20.0f;
+	// 床の色
+	constexpr int FLOOR_COLOR = 0xffffff;
+	// グリッド線の色
+	constexpr int GRID_LINE_COLOR = 0x000000;
+	// リポップ演出時の暗転色
+	constexpr int OVERLAY_COLOR = 0x000000;
+	// KILL数の縁取り色
+	constexpr int KILL_OUTLINE_COLOR = 0xff0000;
+	// KILL数の文字色
+	constexpr int KILL_TEXT_COLOR = 0xffffff;
+	// リポップ演出時のKILL数フォントサイズ
+	constexpr int BIG_KILL_FONT_SIZE = 400;
+	// 通常時のKILL数フォントサイズ
+	constexpr int SMALL_KILL_FONT_SIZE = 40;
+	// デフォルトのフォントサイズ
+	constexpr int NORMAL_FONT_SIZE = 20;
+	// 大気エフェクトのループ再生周期
+	constexpr int ATMOS_LOOP_FRAME = 240;
 }
 
 SceneMain::SceneMain() :
@@ -116,10 +136,10 @@ void SceneMain::Update(std::shared_ptr<Input> pInput)
 
 	_hitStopCount = p_MColl->GetHitStopFrame();
 
-	if (_atmosCount % 240 == 0)
+	if (_atmosCount % ATMOS_LOOP_FRAME == 0)
 		_atmosPlayingH = PlayEffekseer3DEffect(_atmosH);
 
-	if (_atmosCount % 240 == 239)
+	if (_atmosCount % ATMOS_LOOP_FRAME == ATMOS_LOOP_FRAME - 1)
 		StopEffekseer3DEffect(_atmosPlayingH);
 }
 
@@ -138,19 +158,20 @@ void SceneMain::Draw()
 
 	if (_repopCount > 0)
 	{
-		DrawBox(0, 200, 1600, 800, 0x000000, true);
+		DrawBox(0, 200, 1600, 800, OVERLAY_COLOR, true);
 
-		SetFontSize(400);
-		DrawFormatString(60, 310, 0xff0000, "%d KILL", _killCount);
-		DrawFormatString(50, 300, 0xffffff, "%d KILL", _killCount);
-		SetFontSize(20);
+		SetFontSize(BIG_KILL_FONT_SIZE);
+		DrawFormatString(60, 310, KILL_OUTLINE_COLOR, "%d KILL", _killCount);
+		DrawFormatString(50, 300, KILL_TEXT_COLOR, "%d KILL", _killCount);
+		SetFontSize(NORMAL_FONT_SIZE);
 	}
 	else
 	{
-		SetFontSize(65);
-		DrawFormatString(920, 10, 0xff0000, "%d KILL", _killCount);
-		DrawFormatString(915, 5, 0xffffff, "%d KILL", _killCount);
-		SetFontSize(20);
+		SetFontSize(SMALL_KILL_FONT_SIZE);
+		// 敵体力ゲージの素材内余白を考慮し、ゲージ本体に重なる位置まで右上へ寄せて配置
+		DrawFormatString(895, 135, KILL_OUTLINE_COLOR, "%d KILL", _killCount);
+		DrawFormatString(890, 130, KILL_TEXT_COLOR, "%d KILL", _killCount);
+		SetFontSize(NORMAL_FONT_SIZE);
 	}
 
 
@@ -164,9 +185,9 @@ void SceneMain::DrawStage()
 	// ステージの床を描画
 	DrawCube3D
 	(
-		VGet(-(GRID_NUM / 2 * GRID_SIZE), -20.0f, -(GRID_NUM / 2 * GRID_SIZE)),
+		VGet(-(GRID_NUM / 2 * GRID_SIZE), FLOOR_HEIGHT, -(GRID_NUM / 2 * GRID_SIZE)),
 		VGet(GRID_NUM / 2 * GRID_SIZE, 0, GRID_NUM / 2 * GRID_SIZE),
-		0xffffff, 0xffffff, true
+		FLOOR_COLOR, FLOOR_COLOR, true
 	);
 
 	float lineStartX = GRID_SIZE * -(GRID_NUM * 0.5f);
@@ -175,7 +196,7 @@ void SceneMain::DrawStage()
 	for (int z = 0; z <= GRID_NUM; z++)
 	{
 		float lineZ = GRID_SIZE * z - GRID_SIZE * GRID_NUM * 0.5f;
-		DrawLine3D(VGet(lineStartX, 0, lineZ), VGet(lineEndX, 0, lineZ), 0x000000);
+		DrawLine3D(VGet(lineStartX, 0, lineZ), VGet(lineEndX, 0, lineZ), GRID_LINE_COLOR);
 	}
 
 	float lineStartZ = GRID_SIZE * -(GRID_NUM * 0.5f);
@@ -184,7 +205,7 @@ void SceneMain::DrawStage()
 	for (int x = 0; x <= GRID_NUM; x++)
 	{
 		float lineX = GRID_SIZE * x - GRID_SIZE * GRID_NUM * 0.5f;
-		DrawLine3D(VGet(lineX, 0, lineStartZ), VGet(lineX, 0, lineEndZ), 0x00000);
+		DrawLine3D(VGet(lineX, 0, lineStartZ), VGet(lineX, 0, lineEndZ), GRID_LINE_COLOR);
 	}
 }
 

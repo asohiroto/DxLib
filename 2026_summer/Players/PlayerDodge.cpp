@@ -19,6 +19,12 @@ namespace
 	constexpr int BAR_WIDTH = 200;
 	// クールダウンバーの太さ
 	constexpr int BAR_THICKNESS = 30;
+	// 開始時点でクールダウン済みとみなすカウント初期値
+	constexpr int INITIAL_COOL_COUNT = 60;
+	// バーの背景色
+	constexpr int BG_COLOR = 0x000000;
+	// バーの塗りつぶし色
+	constexpr int FILL_COLOR = 0xffffff;
 }
 
 PlayerDodge::PlayerDodge() :
@@ -26,7 +32,7 @@ PlayerDodge::PlayerDodge() :
 	_isDodge(false),
 	_dodgeDistance(0.0f),
 	_dodgedPos(VGet(0.0f, 0.0f, 0.0f)),
-	_dodgeCoolCount(60)
+	_dodgeCoolCount(INITIAL_COOL_COUNT)
 {
 }
 
@@ -98,8 +104,8 @@ void PlayerDodge::DodgeCoolBar()
 	float rate = static_cast<float>(_dodgeCoolCount) / static_cast<float>(DODGE_COOLDOWN);
 	rate = std::clamp(rate, 0.0f, 1.0f);
 
-	DrawBox(WIDTH_OFFSET, HEIGHT_OFFSET, WIDTH_OFFSET + BAR_WIDTH, HEIGHT_OFFSET + BAR_THICKNESS, 0x000000, true);
-	DrawBox(WIDTH_OFFSET, HEIGHT_OFFSET, WIDTH_OFFSET + (BAR_WIDTH * rate), HEIGHT_OFFSET + BAR_THICKNESS, 0xffffff, true);
+	DrawBox(WIDTH_OFFSET, HEIGHT_OFFSET, WIDTH_OFFSET + BAR_WIDTH, HEIGHT_OFFSET + BAR_THICKNESS, BG_COLOR, true);
+	DrawBox(WIDTH_OFFSET, HEIGHT_OFFSET, WIDTH_OFFSET + (BAR_WIDTH * rate), HEIGHT_OFFSET + BAR_THICKNESS, FILL_COLOR, true);
 }
 
 void PlayerDodge::ResetDodgeCoolCount()

@@ -13,6 +13,12 @@ namespace
 	constexpr int BAR_WIDTH = 200;
 	// MPバーの太さ
 	constexpr int BAR_THICKNESS = 30;
+	// バーの背景色
+	constexpr int BG_COLOR = 0x000000;
+	// 滑らかに減るMPの色
+	constexpr int SMOOTH_COLOR = 0xff0000;
+	// 直ちに減るMPの色
+	constexpr int IMMEDIATE_COLOR = 0x0000ff;
 }
 
 PlayerMpBar::PlayerMpBar() :
@@ -47,11 +53,11 @@ void PlayerMpBar::Update(float nowMp)
 void PlayerMpBar::Draw()
 {
 	// MPバーの最大値
-	DrawMpBar(1.0f, 0x000000);
+	DrawMpBar(1.0f, BG_COLOR);
 	// 滑らかに減るMP
-	DrawMpBar(_dispRate, 0xff0000);
+	DrawMpBar(_dispRate, SMOOTH_COLOR);
 	// 直ちに減るMP
-	DrawMpBar(_nowRate, 0x0000ff);
+	DrawMpBar(_nowRate, IMMEDIATE_COLOR);
 }
 
 void PlayerMpBar::DrawMpBar(float rate, int color)

@@ -10,6 +10,18 @@ namespace
 	constexpr float ROTATE_SPEED = 0.005f;
 	// フォントサイズ
 	constexpr int FONT_SIZE = 120;
+	// デフォルトのフォントサイズ
+	constexpr int NORMAL_FONT_SIZE = 20;
+	// 案内文字の色
+	constexpr int PROMPT_COLOR = 0xff00ff;
+	// 縁取り文字の色
+	constexpr int SHADOW_COLOR = 0x000000;
+	// 上下に揺れるアニメーションの速さ
+	constexpr float BOB_SPEED = 0.1f;
+	// 「Press」の揺れ幅
+	constexpr float BOB_AMPLITUDE_1 = 25.0f;
+	// 「to Start...」の揺れ幅
+	constexpr float BOB_AMPLITUDE_2 = 30.0f;
 }
 
 StartScene::StartScene() :
@@ -46,8 +58,8 @@ void StartScene::Update(std::shared_ptr<Input> pInput)
 	_angle += ROTATE_SPEED;
 	_count++;
 
-	_startY1 = static_cast<int>(sin(_count * 0.1f) * 25);
-	_startY2 = static_cast<int>(sin(_count * 0.1f) * 30);
+	_startY1 = static_cast<int>(sin(_count * BOB_SPEED) * BOB_AMPLITUDE_1);
+	_startY2 = static_cast<int>(sin(_count * BOB_SPEED) * BOB_AMPLITUDE_2);
 
 	p_Dome->Update();
 	p_Dome->SetRotate(_angle);
@@ -62,10 +74,10 @@ void StartScene::Draw()
 	DrawGraph(200, 50, _logoH, true);
 
 	SetFontSize(FONT_SIZE);
-	DrawFormatString(100 + _startY1, 750, 0xff00ff, "Press");
-	DrawFormatString(100 + _startY2, 750, 0x000000, "Press");
+	DrawFormatString(100 + _startY1, 750, PROMPT_COLOR, "Press");
+	DrawFormatString(100 + _startY2, 750, SHADOW_COLOR, "Press");
 	DrawGraph(550 + _startY1, 710, _xButtonH, true);
-	DrawFormatString(770 + _startY1, 750, 0xff00ff, "to Start...");
-	DrawFormatString(770 + _startY2, 750, 0x000000, "to Start...");
-	SetFontSize(20);
+	DrawFormatString(770 + _startY1, 750, PROMPT_COLOR, "to Start...");
+	DrawFormatString(770 + _startY2, 750, SHADOW_COLOR, "to Start...");
+	SetFontSize(NORMAL_FONT_SIZE);
 }

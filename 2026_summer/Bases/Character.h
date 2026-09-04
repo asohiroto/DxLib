@@ -2,6 +2,35 @@
 #include "Anims/AnimInfo.h"
 #include <DxLib.h>
 
+namespace
+{
+	// 各ステートに対応するアニメーション番号
+	constexpr int ANIM_DODGE_LEFT = 0;
+	constexpr int ANIM_DODGE_RIGHT = 1;
+	constexpr int ANIM_WAIT = 2;
+	constexpr int ANIM_FURY = 3;
+	constexpr int ANIM_MISSILE = 4;
+	constexpr int ANIM_BEAM = 4;
+	constexpr int ANIM_SHOT = 5;
+	constexpr int ANIM_MOVE_AWAY = 6;
+	constexpr int ANIM_APPROACH = 7;
+	constexpr int ANIM_MOVE_LEFT = 8;
+	constexpr int ANIM_MOVE_RIGHT = 9;
+	constexpr int ANIM_HIT_STUN = 10;
+	constexpr int ANIM_DEAD = 11;
+
+	// 各ステートのアニメーション再生フレーム数
+	constexpr int MOVE_ANIM_FRAME = 60;
+	constexpr int SHOT_ANIM_FRAME = 20;
+	constexpr int MISSILE_ANIM_FRAME = 30;
+	constexpr int FURY_ANIM_FRAME = 30;
+	constexpr int BEAM_ANIM_FRAME = 30;
+	constexpr int DODGE_ANIM_FRAME = 30;
+	constexpr int DEAD_ANIM_FRAME = 30;
+	constexpr int HIT_STUN_ANIM_FRAME = 5;
+	constexpr int WAIT_ANIM_FRAME = 30;
+}
+
 class Character
 {
 public:
@@ -91,31 +120,31 @@ protected:
 		switch (state)
 		{
 		case CharacterState::Approach:
-			return { 7, true, 60 };
+			return { ANIM_APPROACH, true, MOVE_ANIM_FRAME };
 		case CharacterState::MoveAway:
-			return { 6, true, 60 };
+			return { ANIM_MOVE_AWAY, true, MOVE_ANIM_FRAME };
 		case CharacterState::MoveLeft:
-			return { 8, true, 60 };
+			return { ANIM_MOVE_LEFT, true, MOVE_ANIM_FRAME };
 		case CharacterState::MoveRight:
-			return { 9, true, 60 };
+			return { ANIM_MOVE_RIGHT, true, MOVE_ANIM_FRAME };
 		case CharacterState::Shot:
-			return { 5, false, 20 };
+			return { ANIM_SHOT, false, SHOT_ANIM_FRAME };
 		case CharacterState::Missile:
-			return { 4, false, 30 };
+			return { ANIM_MISSILE, false, MISSILE_ANIM_FRAME };
 		case CharacterState::Fury:
-			return { 3, false, 30 };
+			return { ANIM_FURY, false, FURY_ANIM_FRAME };
 		case CharacterState::Beam:
-			return { 4, false, 30 };
+			return { ANIM_BEAM, false, BEAM_ANIM_FRAME };
 		case CharacterState::DodgeLeft:
-			return { 0, false, 30 };
+			return { ANIM_DODGE_LEFT, false, DODGE_ANIM_FRAME };
 		case CharacterState::DodgeRight:
-			return { 1, false, 30 };
+			return { ANIM_DODGE_RIGHT, false, DODGE_ANIM_FRAME };
 		case CharacterState::Dead:
-			return { 11, false, 30 };
+			return { ANIM_DEAD, false, DEAD_ANIM_FRAME };
 		case CharacterState::HitStun:
-			return { 10, false, 5 };
+			return { ANIM_HIT_STUN, false, HIT_STUN_ANIM_FRAME };
 		default:
-			return { 2, true, 30 };
+			return { ANIM_WAIT, true, WAIT_ANIM_FRAME };
 		}
 	}
 };

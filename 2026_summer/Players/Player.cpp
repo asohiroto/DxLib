@@ -62,6 +62,11 @@ namespace
 	constexpr int HP_HEAL_AMOUNT = 200;
 	// 必殺技チャージの最大量
 	constexpr float MAX_ULT_CHARGE = 100.0f;
+	// 初期座標
+	constexpr float INITIAL_POS_X = 1000.0f;
+	constexpr float INITIAL_POS_Z = 1000.0f;
+	// モデルの拡大率
+	constexpr float MODEL_SCALE = 2.5f;
 }
 
 Player::Player() :
@@ -93,7 +98,7 @@ void Player::Init(int handle, EffectHandles playerMagics, SeHandles se)
 {
 	// プレイヤーのキャラクターデータの初期設定
 	_playerUnit.modelH = handle;
-	_playerUnit.pos = VGet(1000.0f, 0.0f, 1000.0f);
+	_playerUnit.pos = VGet(INITIAL_POS_X, 0.0f, INITIAL_POS_Z);
 	_playerUnit.radius = RADIUS;
 	_playerUnit.isHit = false;
 	_playerUnit.color = NORM_COLOR;
@@ -113,7 +118,7 @@ void Player::Init(int handle, EffectHandles playerMagics, SeHandles se)
 	_playerMagics = playerMagics;
 
 	// モデルの拡大
-	MV1SetScale(_playerUnit.modelH, VGet(2.5f, 2.5f, 2.5f));
+	MV1SetScale(_playerUnit.modelH, VGet(MODEL_SCALE, MODEL_SCALE, MODEL_SCALE));
 
 	// 各ポインタの初期化
 	p_Move = std::make_shared<PlayerMove>();

@@ -5,14 +5,26 @@ namespace
 {
 	// 補間度
 	constexpr float LERP_RATE = 0.15f;
-	// 画面の左端からずらす幅
-	constexpr int WIDTH_OFFSET = 80;
-	// 画面の上端からずらす高さ
-	constexpr int HEIGHT_OFFSET = 760;
-	// HPバーの幅
-	constexpr int BAR_WIDTH = 380;
-	// HPバーの太さ
-	constexpr int BAR_THICKNESS = 50;
+	// 画面の左端からずらす幅(右端を1520に揃えたアイコン左端1145からの相対オフセット)
+	constexpr int WIDTH_OFFSET = 1205;
+	// 画面の上端からずらす高さ(1.5倍サイズにした分、必殺技ゲージとの積み上げ位置を再計算)
+	constexpr int HEIGHT_OFFSET = 686;
+	// HPバーの幅(直前の190から1.5倍)
+	constexpr int BAR_WIDTH = 285;
+	// HPバーの太さ(直前の25から1.5倍)
+	constexpr int BAR_THICKNESS = 38;
+	// バーの背景色
+	constexpr int BG_COLOR = 0x000000;
+	// 滑らかに減るHPの色
+	constexpr int SMOOTH_COLOR = 0xff0000;
+	// 直ちに減るHPの色
+	constexpr int IMMEDIATE_COLOR = 0x00ff00;
+	// アイコンの表示座標(右5%セーフゾーンに沿って右端を1520に配置、縦位置は必殺技ゲージの上のまま)
+	constexpr int ICON_POS_X = 1145;
+	constexpr int ICON_POS_Y = 641;
+	// アイコンの表示サイズ(直前の250x82から1.5倍)
+	constexpr int ICON_WIDTH = 375;
+	constexpr int ICON_HEIGHT = 123;
 }
 
 PlayerHpBar::PlayerHpBar() :
@@ -48,16 +60,16 @@ void PlayerHpBar::Update(float nowHp)
 void PlayerHpBar::Draw()
 {
 	// HPバーの最大値
-	DrawHpBar(1.0f, 0x000000);
+	DrawHpBar(1.0f, BG_COLOR);
 	// 滑らかに減るHP
-	DrawHpBar(_dispRate, 0xff0000);
+	DrawHpBar(_dispRate, SMOOTH_COLOR);
 	// 直ちに減るHP
-	DrawHpBar(_nowRate, 0x00ff00);
+	DrawHpBar(_nowRate, IMMEDIATE_COLOR);
 
-	DrawGraph(0, 700, _playerHpBarH, true);
+	DrawExtendGraph(ICON_POS_X, ICON_POS_Y, ICON_POS_X + ICON_WIDTH, ICON_POS_Y + ICON_HEIGHT, _playerHpBarH, true);
 }
 
 void PlayerHpBar::DrawHpBar(float rate, int color)
 {
-	DrawBox(WIDTH_OFFSET, HEIGHT_OFFSET, WIDTH_OFFSET + (BAR_WIDTH * rate), HEIGHT_OFFSET + BAR_THICKNESS, color, true);
+	DrawBox(WIDTH_OFFSET, HEIGHT_OFFSET, WIDTH_OFFSET + static_cast<int>(BAR_WIDTH * rate), HEIGHT_OFFSET + BAR_THICKNESS, color, true);
 }

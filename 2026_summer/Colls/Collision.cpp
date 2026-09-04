@@ -3,6 +3,14 @@
 #include "Players/Player.h"
 #include "Enemys/Enemy.h"
 
+namespace
+{
+	// 接触中の当たり判定の色
+	constexpr int TOUCH_COLOR = 0x00ffff;
+	// 離れた瞬間の当たり判定の色
+	constexpr int SEPARATE_COLOR = 0xff0000;
+}
+
 Collision::Collision() :
 	_isTouchNow(false),
 	_isTouchLast(false)
@@ -31,8 +39,8 @@ void Collision::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Enemy> p
 
 	if (IsTouch())
 	{
-		pPlayer->SetColor(0x00ffff);
-		pEnemy->SetColor(0x00ffff);
+		pPlayer->SetColor(TOUCH_COLOR);
+		pEnemy->SetColor(TOUCH_COLOR);
 	}
 
 	if (IsTouching())
@@ -42,8 +50,8 @@ void Collision::Update(std::shared_ptr<Player> pPlayer, std::shared_ptr<Enemy> p
 
 	if (IsSeparate())
 	{
-		pPlayer->SetColor(0xff0000);
-		pEnemy->SetColor(0xff0000);
+		pPlayer->SetColor(SEPARATE_COLOR);
+		pEnemy->SetColor(SEPARATE_COLOR);
 	}
 }
 

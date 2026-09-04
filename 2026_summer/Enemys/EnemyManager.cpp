@@ -22,6 +22,10 @@ namespace
 	constexpr int MAGIC_FRAME_OFFSET = 15;
 	// 行動ルーチンにハードルーチンを追加する体力割合
 	constexpr float HARD_RATE = 0.3f;
+	// ハードルーチンに切り替わるスコアの下限
+	constexpr int HARD_ROUTINE_SCORE = 10;
+	// 近距離・遠距離ルーチンに切り替わるスコアの下限
+	constexpr int SPECIAL_ROUTINE_SCORE = 3;
 }
 
 EnemyManager::EnemyManager() :
@@ -166,17 +170,17 @@ float EnemyManager::GetNowHp() const
 
 void EnemyManager::SetRoutine()
 {
-	if (p_Enemy->GetNowHp() <= p_Enemy->GetMaxHp() * HARD_RATE && _nowRoutine != HARD_ROUTINE && _score > 10)
+	if (p_Enemy->GetNowHp() <= p_Enemy->GetMaxHp() * HARD_RATE && _nowRoutine != HARD_ROUTINE && _score > HARD_ROUTINE_SCORE)
 	{
 		_nowRoutine = HARD_ROUTINE;
 		return;
 	}
-	else if (_tooNear && _nowRoutine != NEAR_ROUTINE && _score > 3)
+	else if (_tooNear && _nowRoutine != NEAR_ROUTINE && _score > SPECIAL_ROUTINE_SCORE)
 	{
 		_nowRoutine = NEAR_ROUTINE;
 		return;
 	}
-	else if (_tooAway && _nowRoutine != AWAY_ROUTINE && _score > 3)
+	else if (_tooAway && _nowRoutine != AWAY_ROUTINE && _score > SPECIAL_ROUTINE_SCORE)
 	{
 		_nowRoutine = AWAY_ROUTINE;
 		return;

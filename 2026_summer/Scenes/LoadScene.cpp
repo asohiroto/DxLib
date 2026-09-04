@@ -26,6 +26,16 @@ namespace
 	constexpr int FONT_SIZE = 50;
 	// 回避のエフェクトのサイズ
 	constexpr float DODGE_EFFECT_SIZE = 12.0f;
+	// ローディング表示の点滅周期
+	constexpr int LOADING_CYCLE_FRAME = 60;
+	// ドット1個目までのフレーム
+	constexpr int DOT_STAGE1_FRAME = 20;
+	// ドット2個目までのフレーム
+	constexpr int DOT_STAGE2_FRAME = 40;
+	// ローディング文字の色
+	constexpr int LOADING_TEXT_COLOR = 0xffffff;
+	// デフォルトのフォントサイズ
+	constexpr int NORMAL_FONT_SIZE = 20;
 }
 
 LoadScene::LoadScene() :
@@ -134,17 +144,17 @@ void LoadScene::Update(std::shared_ptr<Input> pInput)
 void LoadScene::Draw()
 {
 	int xOffset = 0;
-	if (_count % 60 <= 20)
+	if (_count % LOADING_CYCLE_FRAME <= DOT_STAGE1_FRAME)
 		xOffset = 0;
-	else if (_count % 60 > 40)
+	else if (_count % LOADING_CYCLE_FRAME > DOT_STAGE2_FRAME)
 		xOffset = 2;
 	else
 		xOffset = 1;
 
 	SetFontSize(FONT_SIZE);
-	DrawFormatString(700, 300, 0xffffff, "Now Loading");
-	DrawFormatString(750 + (7 * FONT_SIZE) + (xOffset * FONT_SIZE), 300, 0xffffff, ".");
-	SetFontSize(20);
+	DrawFormatString(700, 300, LOADING_TEXT_COLOR, "Now Loading");
+	DrawFormatString(750 + (7 * FONT_SIZE) + (xOffset * FONT_SIZE), 300, LOADING_TEXT_COLOR, ".");
+	SetFontSize(NORMAL_FONT_SIZE);
 
 #ifdef _DEBUG
 	DrawFormatString(800, 450, 0xffffff, "%d / %d", _totalRequestNum, MAX_LOAD_NUM);

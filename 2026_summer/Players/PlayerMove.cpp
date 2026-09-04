@@ -43,7 +43,7 @@ void PlayerMove::Update(std::shared_ptr<Input> pInput, float cameraAngle)
 	float length = VSize(_move);
 
 	// 0.0~1.0の間の値に変換
-	float rate = length * 0.001f;
+	float rate = length * INPUT_COR;
 	rate = std::clamp(rate, 0.0f, 1.0f);
 
 	// 正規化し、方向を取得

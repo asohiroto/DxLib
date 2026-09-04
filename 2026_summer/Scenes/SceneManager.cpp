@@ -5,7 +5,26 @@
 #include "ResultScene.h"
 #include "ExplainScene.h"
 #include "Inputs/Input.h"
+#include "GameDefine.h"
 #include <DxLib.h>
+
+using namespace GameDefine;
+
+namespace
+{
+	// フェードにかけるカウンタの増加量
+	constexpr int FADE_SPEED = 5;
+	// フェード用アルファ値の最大値
+	constexpr int ALPHA_MAX = 255;
+	// 音量の最大値
+	constexpr int VOLUME_MAX = 255;
+	// 音量割合計算の基数
+	constexpr int VOLUME_PERCENT_BASE = 100;
+	// BGMの音量割合
+	constexpr int BGM_VOLUME_PERCENT = 80;
+	// フェード時の色
+	constexpr int FADE_COLOR = 0x000000;
+}
 
 SceneManager::SceneManager() :
 	p_Main(nullptr),
@@ -42,10 +61,10 @@ void SceneManager::Init()
 	_gameBgm = p_Load->GetBGMHanadles();
 	_gameSe = p_Load->GetSeHandles();
 
-	ChangeVolumeSoundMem(255 / 100 * 80, _gameBgm.startBgmH);
-	ChangeVolumeSoundMem(255 / 100 * 80, _gameBgm.explainBgmH);
-	ChangeVolumeSoundMem(255 / 100 * 80, _gameBgm.mainBgmH);
-	ChangeVolumeSoundMem(255 / 100 * 80, _gameBgm.resultBgmH);
+	ChangeVolumeSoundMem(VOLUME_MAX / VOLUME_PERCENT_BASE * BGM_VOLUME_PERCENT, _gameBgm.startBgmH);
+	ChangeVolumeSoundMem(VOLUME_MAX / VOLUME_PERCENT_BASE * BGM_VOLUME_PERCENT, _gameBgm.explainBgmH);
+	ChangeVolumeSoundMem(VOLUME_MAX / VOLUME_PERCENT_BASE * BGM_VOLUME_PERCENT, _gameBgm.mainBgmH);
+	ChangeVolumeSoundMem(VOLUME_MAX / VOLUME_PERCENT_BASE * BGM_VOLUME_PERCENT, _gameBgm.resultBgmH);
 }
 
 void SceneManager::End()
@@ -55,7 +74,7 @@ void SceneManager::End()
 void SceneManager::Update()
 {
 	p_Input->Update();
-	_count += 5;
+	_count += FADE_SPEED;
 
 	switch (_nowScene)
 	{
@@ -188,9 +207,9 @@ void SceneManager::ChangeScene(SceneState nextScene)
 void SceneManager::Fade(int count)
 {
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, count);
-	DrawBox(0, 0, 1600, 900, 0x000000, true);
+	DrawBox(0, 0, WIDTH, HEIGHT, FADE_COLOR, true);
 
-	if (count > 255)
+	if (count > ALPHA_MAX)
 	{
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, count);
 	}

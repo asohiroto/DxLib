@@ -2,6 +2,24 @@
 #include "Inputs/Input.h"
 #include <DxLib.h>
 
+namespace
+{
+	// 操作説明を読み飛ばせるようになるまでのフレーム数
+	constexpr int SKIP_WAIT_FRAME = 60;
+	// 「Press X to Game Start...」の点滅周期
+	constexpr int BLINK_CYCLE_FRAME = 40;
+	// 点滅表示を行うフレーム数
+	constexpr int BLINK_ON_FRAME = 20;
+	// 案内文字のフォントサイズ
+	constexpr int PROMPT_FONT_SIZE = 60;
+	// デフォルトのフォントサイズ
+	constexpr int NORMAL_FONT_SIZE = 20;
+	// 案内文字の色
+	constexpr int PROMPT_COLOR = 0xffffff;
+	// 縁取り文字の色
+	constexpr int SHADOW_COLOR = 0x000000;
+}
+
 ExplainScene::ExplainScene() :
 	_explainH(-1),
 	_canSceneChange(false),
@@ -27,7 +45,7 @@ void ExplainScene::Update(std::shared_ptr<Input> pInput)
 {
 	_count++;
 
-	if (_count > 60)
+	if (_count > SKIP_WAIT_FRAME)
 	{
 		if (pInput->IsTrigger(PAD_INPUT_1))
 		{
@@ -40,11 +58,11 @@ void ExplainScene::Draw()
 {
 	DrawGraph(0, 0, _explainH, false);
 
-	if (_count % 40 < 20)
+	if (_count % BLINK_CYCLE_FRAME < BLINK_ON_FRAME)
 	{
-		SetFontSize(60);
-		DrawFormatString(355, 625, 0xffffff, "Press X to Game Start...");
-		DrawFormatString(350, 620, 0x000000, "Press X to Game Start...");
-		SetFontSize(20);
+		SetFontSize(PROMPT_FONT_SIZE);
+		DrawFormatString(355, 625, PROMPT_COLOR, "Press X to Game Start...");
+		DrawFormatString(350, 620, SHADOW_COLOR, "Press X to Game Start...");
+		SetFontSize(NORMAL_FONT_SIZE);
 	}
 }

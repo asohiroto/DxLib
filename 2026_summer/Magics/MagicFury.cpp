@@ -18,6 +18,10 @@ namespace
 	constexpr int DAMAGE = 200;
 	// ヒットストップするフレーム数
 	constexpr int HIT_STOP_FRAME = 2;
+	// 当たり判定描画用の色
+	constexpr int COLOR = 0x0000ff;
+	// 発生エフェクトのY方向スケール
+	constexpr float EFFECT_SCALE_Y = 1.5f;
 }
 
 MagicFury::MagicFury() :
@@ -37,7 +41,7 @@ void MagicFury::Init()
 	_magicFury.type = MagicType::MagicFury;
 	_magicFury.isExist = false;
 	_magicFury.isEnemy = true;
-	_magicFury.color = 0x0000ff;
+	_magicFury.color = COLOR;
 	_magicFury.segmentStPos = VGet(0.0f, 0.0f, 0.0f);
 	_magicFury.segmentEndPos = VGet(0.0f, 0.0f, 0.0f);
 	_magicFury.isArrived = false;
@@ -69,7 +73,7 @@ void MagicFury::GenerateFury(VECTOR pos, VECTOR front, bool isEnemy, std::shared
 	_magicFury.isEnemy = isEnemy;
 	_magicFury.moveDirection = VNorm(front);
 	_magicFury.effectH = PlayEffekseer3DEffect(_magicFury.effectResourceH);
-	SetScalePlayingEffekseer3DEffect(_magicFury.effectH, 1.0f, 1.5f, 1.0f);
+	SetScalePlayingEffekseer3DEffect(_magicFury.effectH, 1.0f, EFFECT_SCALE_Y, 1.0f);
 
 	pManager->EntryList(_magicFury);
 	pManager->LockOn();

@@ -16,6 +16,8 @@ namespace
 	constexpr int DAMAGE = 75;
 	// ヒットストップするフレーム数
 	constexpr int HIT_STOP_FRAME = 3;
+	// 当たり判定描画用の色
+	constexpr int COLOR = 0x0000ff;
 }
 
 MagicBeam::MagicBeam() :
@@ -35,7 +37,7 @@ void MagicBeam::Init()
 	_magicBeam.type = MagicType::MagicBeam;
 	_magicBeam.isExist = false;
 	_magicBeam.isEnemy = true;
-	_magicBeam.color = 0x0000ff;
+	_magicBeam.color = COLOR;
 	_magicBeam.segmentStPos = VGet(0.0f, 0.0f, 0.0f);
 	_magicBeam.segmentEndPos = VGet(0.0f, 0.0f, 0.0f);
 	_magicBeam.damage = DAMAGE;

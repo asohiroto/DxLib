@@ -1,0 +1,23 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "c:/DxLib_VC/プロジェクトに追加すべきファイル_VC用",
+                "C:/EffekseerForDXLib_1.80.7_324f/プロジェクトに追加すべきファイル_VC用"
+            ],
+            "defines": [
+                "_DEBUG",
+                "_WINDOWS",
+                "_MBCS",
+                "DX_NON_NAMESPACE"
+            ],
+            "cStandard": "c17",
+            "cppStandard": "c++20",
+            "intelliSenseMode": "windows-msvc-x64",
+            "compilerPath": "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe"
+        }
+    ],
+    "version": 4
+}

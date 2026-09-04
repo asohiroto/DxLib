@@ -1,0 +1,7 @@
+{
+    // C/C++拡張機能によるセマンティックカラー分け（関数・変数・メンバ・マクロ等を種類ごとに色分け）を有効化
+    "C_Cpp.enhancedColorization": "Enabled",
+    "editor.semanticHighlighting.enabled": true,
+    // Visual Studioと同等の配色で、関数・変数・メンバ変数・マクロ・型などを色分けするテーマ
+    "workbench.colorTheme": "Dark (Visual Studio - C/C++)"
+}

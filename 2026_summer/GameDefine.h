@@ -11,5 +11,5 @@ namespace GameDefine
 	// 消失点の高さ
 	constexpr float SCREEN_CENTER_Y = HEIGHT / 2;
 	// 画面に表示できる最大パーティクル数
-	const int	EffectParticleLimit = 20000;
+	constexpr int EFFECT_PARTICLE_LIMIT = 20000;
 }

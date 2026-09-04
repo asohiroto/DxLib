@@ -1,0 +1,65 @@
+{
+    "version": "2.0.0",
+    "options": {
+        "shell": {
+            "executable": "powershell.exe"
+        }
+    },
+    "tasks": [
+        {
+            "label": "Build x64 Debug",
+            "type": "shell",
+            "command": "& (& \"${env:ProgramFiles(x86)}\\Microsoft Visual Studio\\Installer\\vswhere.exe\" -latest -requires Microsoft.Component.MSBuild -find MSBuild\\**\\Bin\\MSBuild.exe | Select-Object -First 1) \"${workspaceFolder}\\2026_summer.vcxproj\" /p:Configuration=Debug /p:Platform=x64 /m",
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Build x64 Release",
+            "type": "shell",
+            "command": "& (& \"${env:ProgramFiles(x86)}\\Microsoft Visual Studio\\Installer\\vswhere.exe\" -latest -requires Microsoft.Component.MSBuild -find MSBuild\\**\\Bin\\MSBuild.exe | Select-Object -First 1) \"${workspaceFolder}\\2026_summer.vcxproj\" /p:Configuration=Release /p:Platform=x64 /m",
+            "group": "build",
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Clean x64",
+            "type": "shell",
+            "command": "& (& \"${env:ProgramFiles(x86)}\\Microsoft Visual Studio\\Installer\\vswhere.exe\" -latest -requires Microsoft.Component.MSBuild -find MSBuild\\**\\Bin\\MSBuild.exe | Select-Object -First 1) \"${workspaceFolder}\\2026_summer.vcxproj\" /t:Clean /p:Configuration=Debug /p:Platform=x64",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "type": "cppbuild",
+            "label": "C/C++: cl.exe アクティブなファイルのビルド",
+            "command": "cl.exe",
+            "args": [
+                "/Zi",
+                "/EHsc",
+                "/nologo",
+                "/Fe${fileDirname}\\${fileBasenameNoExtension}.exe",
+                "${file}"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$msCompile"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "デバッガーによって生成されたタスク。"
+        }
+    ]
+}

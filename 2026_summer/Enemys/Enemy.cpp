@@ -25,6 +25,16 @@ namespace
 	constexpr float POS_LIMIT_Z = 3000.0f;
 	// スケールするHPの増加量
 	constexpr int HP_BASE = 150;
+	// 初期座標
+	constexpr float INITIAL_POS_X = -1000.0f;
+	constexpr float INITIAL_POS_Z = -1000.0f;
+	// モデルの拡大率
+	constexpr float MODEL_SCALE = 2.5f;
+	// 敵の色味補正（青みがかった色にする）
+	constexpr float TINT_R = 0.5f;
+	constexpr float TINT_G = 0.4f;
+	constexpr float TINT_B = 1.0f;
+	constexpr float TINT_A = 1.0f;
 }
 
 Enemy::Enemy() :
@@ -41,7 +51,7 @@ Enemy::~Enemy()
 
 void Enemy::Init(int handle, int score)
 {
-	_enemyUnit.pos = VGet(-1000.0f, 0.0f, -1000.0f);
+	_enemyUnit.pos = VGet(INITIAL_POS_X, 0.0f, INITIAL_POS_Z);
 	_enemyUnit.modelH = handle;
 	_enemyUnit.radius = RADIUS;
 	_enemyUnit.color = NORM_COLOR;
@@ -56,9 +66,9 @@ void Enemy::Init(int handle, int score)
 	p_AManager->Init(_enemyUnit.modelH);
 
 	// モデルを拡大
-	MV1SetScale(_enemyUnit.modelH, VGet(2.5f, 2.5f, 2.5f));
+	MV1SetScale(_enemyUnit.modelH, VGet(MODEL_SCALE, MODEL_SCALE, MODEL_SCALE));
 	// 敵は青みがかった色にする
-	MV1SetDifColorScale(_enemyUnit.modelH, GetColorF(0.5f, 0.4f, 1.0f, 1.0f));
+	MV1SetDifColorScale(_enemyUnit.modelH, GetColorF(TINT_R, TINT_G, TINT_B, TINT_A));
 }
 
 void Enemy::End()
