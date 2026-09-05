@@ -50,12 +50,16 @@ void PlayerDodge::End()
 
 void PlayerDodge::Update(const std::shared_ptr<Input>& pInput, float cameraAngle)
 {
+	// 回避方向を計算
 	CalDirection(pInput, cameraAngle);
+	// クールダウンカウントを進める
 	_dodgeCoolCount++;
 
+	// クールダウン完了後にボタン入力で回避開始
 	if (pInput->IsTrigger(PAD_INPUT_2) && _dodgeCoolCount >= DODGE_COOLDOWN)
 		_isDodge = true;
 
+	// 回避中は距離が最大distanceに達するまで移動を続ける
 	if (_isDodge)
 	{
 		_dodgeDistance += SPEED;
@@ -66,6 +70,7 @@ void PlayerDodge::Update(const std::shared_ptr<Input>& pInput, float cameraAngle
 		}
 		else if (_dodgeDistance > MAX_DISTANCE)
 		{
+			// 最大距離に達したら回避終了しクールダウンをリセット
 			_dodgedPos = VGet(0.0f, 0.0f, 0.0f);
 			_isDodge = false;
 			_dodgeDistance = 0.0f;
@@ -101,10 +106,13 @@ void PlayerDodge::CalDirection(const std::shared_ptr<Input>& pInput, float camer
 
 void PlayerDodge::DodgeCoolBar()
 {
+	// クールダウンの進行度を0.0~1.0の割合に変換
 	float rate = static_cast<float>(_dodgeCoolCount) / static_cast<float>(DODGE_COOLDOWN);
 	rate = std::clamp(rate, 0.0f, 1.0f);
 
+	// バーの背景を描画
 	DrawBox(WIDTH_OFFSET, HEIGHT_OFFSET, WIDTH_OFFSET + BAR_WIDTH, HEIGHT_OFFSET + BAR_THICKNESS, BG_COLOR, true);
+	// 進行度に応じてバーを塗りつぶす
 	DrawBox(WIDTH_OFFSET, HEIGHT_OFFSET, WIDTH_OFFSET + (BAR_WIDTH * rate), HEIGHT_OFFSET + BAR_THICKNESS, FILL_COLOR, true);
 }
 

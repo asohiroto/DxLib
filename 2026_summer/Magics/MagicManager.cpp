@@ -21,6 +21,7 @@ MagicManager::MagicManager() :
 
 MagicManager::~MagicManager()
 {
+	// 再生中の全エフェクトを停止
 	for (auto& magic : _playerMagics)
 		StopEffekseer3DEffect(magic.effectH);
 
@@ -43,6 +44,7 @@ void MagicManager::Update(VECTOR playerPos, VECTOR enemyPos)
 {
 	_enePos = enemyPos;
 
+	// プレイヤーが使用した魔法の移動処理
 	for (int i = 0; i < _playerMagics.size(); i++)
 	{
 		if (_playerMagics[i].isExist)
@@ -57,6 +59,7 @@ void MagicManager::Update(VECTOR playerPos, VECTOR enemyPos)
 				p_MagicMove->BeamMove(_playerMagics[i], enemyPos, VAdd(playerPos, VGet(0.0f, PLAYER_HEIGHT_OFFSET, 0.0f)));
 		}
 
+		// 到達した魔法（フューリー）はロックオンを解除して消去
 		if (_playerMagics[i].isArrived)
 		{
 			_enemyLock = false;
@@ -64,6 +67,7 @@ void MagicManager::Update(VECTOR playerPos, VECTOR enemyPos)
 		}
 	}
 
+	// 敵が使用した魔法の移動処理
 	for (int i = 0; i < _enemyMagics.size(); i++)
 	{
 		if (_enemyMagics[i].isExist)
@@ -104,6 +108,7 @@ void MagicManager::EntryList(MagicBase::MagicData data)
 
 void MagicManager::RemoveList()
 {
+	// 存在しなくなった魔法のエフェクトを停止
 	for (auto& magic : _playerMagics)
 		if (!magic.isExist && magic.effectH != -1)
 			StopEffekseer3DEffect(magic.effectH);
@@ -112,12 +117,14 @@ void MagicManager::RemoveList()
 		if (!eneMagic.isExist && eneMagic.effectH != -1)
 			StopEffekseer3DEffect(eneMagic.effectH);
 
+	// 存在しなくなった魔法をリストから削除
 	std::erase_if(_playerMagics, [](const MagicBase::MagicData& data) {return !data.isExist; });
 	std::erase_if(_enemyMagics, [](const MagicBase::MagicData& data) {return !data.isExist; });
 }
 
 void MagicManager::DrawMagicHitBox(MagicBase::MagicData data)
 {
+	// ビーム・フューリーは線分（カプセル）、それ以外は球で当たり判定を描画
 	if (data.type == MagicBase::MagicType::MagicBeam || data.type == MagicBase::MagicType::MagicFury)
 	{
 		DrawCapsule3D(data.segmentStPos, data.segmentEndPos, data.radius, 16, data.color, data.color, false);

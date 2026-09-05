@@ -14,5 +14,6 @@ public:
 	void SetRotate(float angle) { MV1SetRotationXYZ(_domeH, VGet(0.0f, angle, 0.0f)); }
 
 private:
+	// ドームのモデルハンドル
 	int _domeH;
 };

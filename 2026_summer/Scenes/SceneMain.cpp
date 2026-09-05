@@ -106,6 +106,7 @@ void SceneMain::Update(const std::shared_ptr<Input>& pInput)
 
 	p_Camera->Update(p_Player, p_EManager->GetEnemyPointer(), pInput);
 
+	// リポップ演出中はロックオンカメラに固定し、他の更新は行わない
 	if (_repopCount > 0)
 	{
 		p_Camera->SetCameraMode(true);
@@ -115,6 +116,7 @@ void SceneMain::Update(const std::shared_ptr<Input>& pInput)
 		return;
 	}
 
+	// ヒットストップ中は他の更新を止める
 	if (_hitStopCount > 0)
 	{
 		_hitStopCount--;
@@ -136,6 +138,7 @@ void SceneMain::Update(const std::shared_ptr<Input>& pInput)
 
 	_hitStopCount = p_MColl->GetHitStopFrame();
 
+	// 大気表現のエフェクトを一定周期でループ再生する
 	if (_atmosCount % ATMOS_LOOP_FRAME == 0)
 		_atmosPlayingH = PlayEffekseer3DEffect(_atmosH);
 
@@ -156,6 +159,7 @@ void SceneMain::Draw()
 	p_EffectManager->Draw();
 	p_UI->Draw();
 
+	// リポップ演出中は画面を暗転させKILL数を大きく表示する
 	if (_repopCount > 0)
 	{
 		DrawBox(0, 200, 1600, 800, OVERLAY_COLOR, true);

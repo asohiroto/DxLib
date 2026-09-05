@@ -19,6 +19,7 @@ void Input::Init()
 
 void Input::Update()
 {
+	// 現在の入力状態を１フレーム前の入力状態として保存してから更新する
 	_lastKey = _nowKey;
 	_nowKey = GetJoypadInputState(DX_INPUT_PAD1);
 

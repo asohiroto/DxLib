@@ -28,6 +28,8 @@ public:
 	void End();
 	void Update();
 	void Draw();
+
+private:
 	// シーンを切り替え
 	void ChangeScene(SceneState nextScene);
 	// フェードインを行う関数

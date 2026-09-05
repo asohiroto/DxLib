@@ -66,6 +66,7 @@ void MagicMissile::Draw()
 
 void MagicMissile::GenerateMissile(VECTOR pos, VECTOR front, bool isEnemy, const std::shared_ptr<MagicManager>& pManager)
 {
+	// 生成位置を正面方向・高さ方向に補正
 	VECTOR tempPos = VAdd(pos, VScale(VNorm(front), POSITION_OFFSET));
 	tempPos.y += HEIGHT_OFFSET;
 	_magicMissile.pos = tempPos;

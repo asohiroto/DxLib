@@ -65,6 +65,7 @@ void MagicFury::Draw()
 
 void MagicFury::GenerateFury(VECTOR pos, VECTOR front, bool isEnemy, const std::shared_ptr<MagicManager>& pManager)
 {
+	// 上空に発生位置を設定（後で目標に向かって落下する）
 	VECTOR tempPos = VAdd(pos, VGet(0.0f, FURY_HEIGHT, 0.0f));
 
 	_magicFury.segmentEndPos = tempPos;
@@ -73,8 +74,10 @@ void MagicFury::GenerateFury(VECTOR pos, VECTOR front, bool isEnemy, const std::
 	_magicFury.isEnemy = isEnemy;
 	_magicFury.moveDirection = VNorm(front);
 	_magicFury.effectH = PlayEffekseer3DEffect(_magicFury.effectResourceH);
+	// エフェクトを縦方向に拡大
 	SetScalePlayingEffekseer3DEffect(_magicFury.effectH, 1.0f, EFFECT_SCALE_Y, 1.0f);
 
 	pManager->EntryList(_magicFury);
+	// フューリー発動中は敵をロックオンする
 	pManager->LockOn();
 }

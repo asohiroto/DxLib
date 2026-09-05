@@ -55,6 +55,7 @@ void EnemyMove::Approach(const std::shared_ptr<Enemy>& pEnemy)
 
 	_movedDistance += SPEED;
 
+	// 規定距離移動したら行動終了とする
 	if (_movedDistance >= APPROACH_DISTANCE)
 	{
 		_isActionFinished = true;
@@ -64,6 +65,7 @@ void EnemyMove::Approach(const std::shared_ptr<Enemy>& pEnemy)
 
 void EnemyMove::MoveAway(const std::shared_ptr<Enemy>& pEnemy)
 {
+	// プレイヤーと逆方向のベクトル
 	VECTOR opposite = VGet(-_toPlayerDir.x, 0.0f, -_toPlayerDir.z);
 	pEnemy->SetPos(VAdd(pEnemy->GetPos(), VScale(opposite, SPEED)));
 

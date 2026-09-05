@@ -22,9 +22,11 @@ public:
 	int GetLeftStickX() const { return _lx; }
 	int GetLeftStickY() const { return _ly; }
 	// 左スティックに入力があるか
-	bool IsTiltingL() { return (std::abs(_lx) > 0 || std::abs(_ly) > 0); }
-	// 左スティックに入力があるか
 	bool IsTiltingR() { return (std::abs(_rx) > 0 || std::abs(_ry) > 0); }
+
+private:
+	// 左スティックに入力があるか
+	bool IsTiltingL() { return (std::abs(_lx) > 0 || std::abs(_ly) > 0); }
 
 protected:
 	// １フレーム前の入力状態

@@ -37,6 +37,7 @@ public:
 private:
 	// アニメマネージャーの共有ポインタ
 	std::shared_ptr<AnimManager> p_AManager;
+	// 敵のキャラクターデータ
 	CharacterData _enemyUnit;
 	// やられのカウンタ
 	int _damagedCount;

@@ -28,6 +28,10 @@ namespace
 	constexpr float CAMERA_PITCH = -0.8f;
 	// 注視点までの距離
 	constexpr float TARGET_DISTANCE = 15000000.0f;
+	// レイキャスト用の手前側のスクリーン奥行き値(Zバッファ値)
+	constexpr float RAY_NEAR_Z = 0.0f;
+	// レイキャスト用の奥側のスクリーン奥行き値(Zバッファ値)
+	constexpr float RAY_FAR_Z = 1.0f;
 }
 
 Camera::Camera() :
@@ -37,7 +41,9 @@ Camera::Camera() :
 	_targetPos(VGet(0.0f, 0.0f, 0.0f)),
 	_cameraMode(true),
 	_dirToEnemy(VGet(0.0f, 0.0f, 0.0f)),
-	_cameraCount(0)
+	_cameraCount(0),
+	_isRayHitEnemy(false),
+	_rayHitEnemyPos(VGet(0.0f, 0.0f, 0.0f))
 {
 }
 
@@ -59,8 +65,10 @@ void Camera::Update(const std::shared_ptr<Player>& pPlayer, const std::shared_pt
 	int rx = pInput->GetRightStickX();
 	int ry = -(pInput->GetRightStickY());
 
+	// 初回フレームかどうかを判定するためカウントを進める
 	_cameraCount++;
 
+	// 初回フレームは強制的に通常カメラモードから始める
 	if (_cameraCount == 1)
 		_cameraMode = false;
 
@@ -68,6 +76,9 @@ void Camera::Update(const std::shared_ptr<Player>& pPlayer, const std::shared_pt
 		LockOnCam(pPlayer, pEnemy);
 	else
 		NormalCam(pPlayer);
+
+	// 画面中心から正面方向へのレイキャストが敵に当たっているか判定
+	CheckRayCastHitEnemy(pEnemy);
 }
 
 void Camera::Draw()
@@ -136,4 +147,45 @@ void Camera::LockOnCam(const std::shared_ptr<Player>& pPlayer, const std::shared
 	// 線形補間をかける
 	_cameraPos = VAdd(_cameraPos, VScale(VSub(targetCamPos, _cameraPos), LERP_RATE));
 	_targetPos = VAdd(_targetPos, VScale(VSub(targetLookPos, _targetPos), LERP_RATE));
+}
+
+void Camera::CheckRayCastHitEnemy(const std::shared_ptr<Enemy>& pEnemy)
+{
+	_isRayHitEnemy = false;
+
+	if (pEnemy == nullptr) return;
+
+	// 画面中心の座標
+	float screenCenterX = static_cast<float>(WIDTH) / 2.0f;
+	float screenCenterY = static_cast<float>(HEIGHT) / 2.0f;
+
+	// 画面中心を通る手前の点と奥の点をワールド座標に変換し、レイの始点と方向を求める
+	VECTOR rayStart = ConvScreenPosToWorldPos(VGet(screenCenterX, screenCenterY, RAY_NEAR_Z));
+	VECTOR rayEnd = ConvScreenPosToWorldPos(VGet(screenCenterX, screenCenterY, RAY_FAR_Z));
+	VECTOR rayDir = VNorm(VSub(rayEnd, rayStart));
+
+	// レイの始点から敵座標へのベクトルをレイ方向に投影し、レイ上の最近接点を求める
+	VECTOR toEnemy = VSub(pEnemy->GetPos(), rayStart);
+	float projLength = VDot(toEnemy, rayDir);
+	// 敵がカメラより後方にある場合は当たっていない
+	if (projLength < 0.0f) return;
+
+	VECTOR closestPos = VAdd(rayStart, VScale(rayDir, projLength));
+
+	// クロスヘアの隙間ぶんだけ横にずらした位置からもレイを求め、
+	// 同じ奥行き(projLength)における2本のレイの位置差から
+	// 「クロスヘアの隙間(ピクセル)」に相当するワールド空間上の許容距離を算出する
+	VECTOR gapRayStart = ConvScreenPosToWorldPos(VGet(screenCenterX + CROSSHAIR_GAP, screenCenterY, RAY_NEAR_Z));
+	VECTOR gapRayEnd = ConvScreenPosToWorldPos(VGet(screenCenterX + CROSSHAIR_GAP, screenCenterY, RAY_FAR_Z));
+	VECTOR gapRayDir = VNorm(VSub(gapRayEnd, gapRayStart));
+	VECTOR gapPos = VAdd(gapRayStart, VScale(gapRayDir, projLength));
+	float gapTolerance = VSize(VSub(gapPos, closestPos));
+
+	// レイ上の最近接点と敵座標との距離が「敵の当たり判定の半径+クロスヘアの隙間分の許容距離」以内なら命中とみなす
+	float dist = VSize(VSub(pEnemy->GetPos(), closestPos));
+	if (dist <= pEnemy->GetEnemyData().radius + gapTolerance)
+	{
+		_isRayHitEnemy = true;
+		_rayHitEnemyPos = pEnemy->GetPos();
+	}
 }

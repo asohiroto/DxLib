@@ -73,12 +73,15 @@ void MagicMove::ShotMove(MagicBase::MagicData& data)
 
 void MagicMove::MissileMove(MagicBase::MagicData& data, VECTOR targetPos)
 {
+	// ターゲットまでの方向と距離を計算
 	VECTOR toTarget = VSub(VGet(targetPos.x, HEIGHT_OFFSET, targetPos.z), data.pos);
 	VECTOR toTargetDir = VNorm(toTarget);
 	float toTargetDist = VSize(toTarget);
 
+	// 距離に応じた加速率（近いほど急旋回する）
 	float rate = ACCEL_OFFSET / toTargetDist;
 
+	// 誘導方向に加速して速度に反映（ホーミング）
 	data.velo = VAdd(data.velo, VScale(toTargetDir, ACCEL_RATE * rate));
 
 	// 座標を更新	
@@ -101,8 +104,10 @@ void MagicMove::BeamMove(MagicBase::MagicData& data, VECTOR targetPos, VECTOR st
 	data.chargeCount++;
 	data.existCount++;
 
+	// 狙いを定めるフェーズ
 	if (data.chargeCount <= BEAM_AIM_COUNT)
 	{
+		// ターゲット方向を計算（水平面のみ）
 		VECTOR toTarget = VSub(targetPos, startPos);
 		toTarget.y = 0.0f;
 		if (VSize(toTarget) > 1.0f)
@@ -112,22 +117,27 @@ void MagicMove::BeamMove(MagicBase::MagicData& data, VECTOR targetPos, VECTOR st
 		}
 		data.segmentEndPos = data.segmentStPos;
 	}
+	// 発射フェーズ
 	else if (data.chargeCount >= BEAM_FIRE_COUNT)
 	{
+		// 発射開始時に経過カウントをリセット
 		if (data.chargeCount == BEAM_FIRE_COUNT) data.existCount = 0;
 
 		data.segmentStPos = startPos;
 		if (data.isEnemy)
 		{
+			// 敵の場合は狙いを定めた方向に固定して伸ばす
 			data.segmentEndPos = VAdd(startPos, data.beamTargetPos);
 
 		}
 		else
 		{
+			// プレイヤーの場合はターゲット座標まで伸ばす
 			data.segmentEndPos = targetPos;
 			data.segmentEndPos.y += HEIGHT_OFFSET;
 		}
 
+		// 発射から一定時間経過したら消滅
 		if (data.existCount >= BEAM_EXIST_COUNT)
 		{
 			data.isExist = false;
@@ -137,6 +147,7 @@ void MagicMove::BeamMove(MagicBase::MagicData& data, VECTOR targetPos, VECTOR st
 		}
 	}
 
+	// ビームの向きに合わせてエフェクトの位置・回転を更新
 	float dirAngle = atan2f(data.moveDirection.x, data.moveDirection.z);
 	SetPosPlayingEffekseer3DEffect(data.effectH, startPos.x, startPos.y, startPos.z);
 	SetRotationPlayingEffekseer3DEffect(data.effectH, 0.0f, dirAngle + DX_PI_F, 0.0f);
@@ -144,6 +155,7 @@ void MagicMove::BeamMove(MagicBase::MagicData& data, VECTOR targetPos, VECTOR st
 
 void MagicMove::FuryMove(MagicBase::MagicData& data, VECTOR targetPos)
 {
+	// 目標座標へ線形補間しながら落下させる
 	data.segmentEndPos = VAdd(data.segmentEndPos, VScale(VSub(targetPos, data.segmentEndPos), FURY_LERP_RATE));
 
 	//if (data.effectH != -1)
@@ -151,6 +163,7 @@ void MagicMove::FuryMove(MagicBase::MagicData& data, VECTOR targetPos)
 
 	SetPosPlayingEffekseer3DEffect(data.effectH, data.segmentEndPos.x, data.segmentEndPos.y, data.segmentEndPos.z);
 
+	// 目標の高さまで到達したかを判定
 	if (data.segmentEndPos.y - targetPos.y <= ARRIVED_LENGTH)
 	{
 		data.isArrived = true;

@@ -112,6 +112,7 @@ void SceneManager::Update()
 		}
 		else if (p_Main->GetEnemyHp() <= 0)
 		{
+			// 倒した数に応じてスコアを加算し、Mainシーンを再初期化してリポップさせる
 			_defeatNum++;
 			_score += _defeatNum;
 			ChangeScene(SceneManager::SceneState::Main);
@@ -191,6 +192,7 @@ void SceneManager::ChangeScene(SceneState nextScene)
 		p_Main->Init(_score, _defeatNum,
 			p_Load->GetPlayerHpBarH(), p_Load->GetEnemyHpBarH(), p_Load->GetUltGaugeH());
 
+		// リポップ時にBGMが最初から再生し直されないよう、初回のみ再生する
 		if (_defeatNum == 0)
 			PlaySoundMem(_gameBgm.mainBgmH, DX_PLAYTYPE_LOOP);
 		break;

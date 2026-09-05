@@ -69,6 +69,7 @@ void EnemyManager::End()
 
 void EnemyManager::Update(VECTOR playerPos, const std::shared_ptr<MagicManager>& pMManager)
 {
+	// 進行方向ベクトルから向きの角度を算出
 	VECTOR rota = p_Move->GetDir();
 	float angle = atan2f(rota.x, rota.z);
 
@@ -77,6 +78,7 @@ void EnemyManager::Update(VECTOR playerPos, const std::shared_ptr<MagicManager>&
 
 	_actionCount++;
 
+	// 前フレームのロック状態を保存
 	_wasLock = _isLock;
 	_isLock = pMManager->IsLockOn();
 
@@ -86,7 +88,9 @@ void EnemyManager::Update(VECTOR playerPos, const std::shared_ptr<MagicManager>&
 	else { _tooNear = false; _tooAway = false; }
 
 
+	// ロックオン中は敵を硬直させる
 	if (_isLock) p_Enemy->ChangeState(Enemy::CharacterState::HitStun);
+	// ロックが解除された瞬間に次の行動へ進める
 	if (_wasLock && !_isLock) ProceedNextAction();
 
 	if (p_Move->IsActionFinished())
@@ -112,22 +116,28 @@ void EnemyManager::Update(VECTOR playerPos, const std::shared_ptr<MagicManager>&
 
 			break;
 		case Enemy::CharacterState::Shot:
+			// モーションに合わせたタイミングで発射
 			if (_actionCount == (MAGIC_COUNT - MAGIC_FRAME_OFFSET))
 				p_Shot->GenerateShot(p_Enemy->GetPos(), p_Move->GetDir(), true, pMManager);
+			// 行動時間経過で終了
 			if (_actionCount >= MAGIC_COUNT)
 				p_Move->SetActionFinished(true);
 
 			break;
 		case Enemy::CharacterState::Missile:
+			// モーションに合わせたタイミングで発射
 			if (_actionCount == (MAGIC_COUNT - MAGIC_FRAME_OFFSET))
 				p_Missile->GenerateMissile(p_Enemy->GetPos(), p_Move->GetDir(), true, pMManager);
+			// 行動時間経過で終了
 			if (_actionCount >= MAGIC_COUNT)
 				p_Move->SetActionFinished(true);
 
 			break;
 		case Enemy::CharacterState::Beam:
+			// モーションに合わせたタイミングで発射
 			if (_actionCount == (MAGIC_COUNT - MAGIC_FRAME_OFFSET))
 				p_Beam->GenerateBeam(p_Enemy->GetPos(), p_Move->GetDir(), true, pMManager);
+			// 行動時間経過で終了
 			if (_actionCount >= MAGIC_COUNT)
 				p_Move->SetActionFinished(true);
 			break;
@@ -170,21 +180,25 @@ float EnemyManager::GetNowHp() const
 
 void EnemyManager::SetRoutine()
 {
+	// HPが低下し、かつスコア条件を満たせばハードルーチンへ
 	if (p_Enemy->GetNowHp() <= p_Enemy->GetMaxHp() * HARD_RATE && _nowRoutine != HARD_ROUTINE && _score > HARD_ROUTINE_SCORE)
 	{
 		_nowRoutine = HARD_ROUTINE;
 		return;
 	}
+	// プレイヤーに近すぎる場合は近距離ルーチンへ
 	else if (_tooNear && _nowRoutine != NEAR_ROUTINE && _score > SPECIAL_ROUTINE_SCORE)
 	{
 		_nowRoutine = NEAR_ROUTINE;
 		return;
 	}
+	// プレイヤーから離れすぎている場合は遠距離ルーチンへ
 	else if (_tooAway && _nowRoutine != AWAY_ROUTINE && _score > SPECIAL_ROUTINE_SCORE)
 	{
 		_nowRoutine = AWAY_ROUTINE;
 		return;
 	}
+	// それ以外は通常ルーチンへ
 	else
 	{
 		_nowRoutine = NORM_ROUTINE;
@@ -194,9 +208,11 @@ void EnemyManager::SetRoutine()
 
 void EnemyManager::ProceedNextAction()
 {
+	// ルーチンの先頭行動を実行し、リストから取り除く
 	p_Enemy->ChangeState(_nowRoutine.front());
 	_nowRoutine.erase(_nowRoutine.begin());
 
+	// ルーチンを全て消化したら次のルーチンを選択
 	if (_nowRoutine.empty())
 		SetRoutine();
 

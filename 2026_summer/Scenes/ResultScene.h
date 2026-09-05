@@ -17,9 +17,14 @@ public:
 	bool CanSceneChange()const { return _canSceneChange; }
 
 private:
+	// シーンの遷移を行うか
 	bool _canSceneChange;
+	// スコア
 	int _score;
+	// スカイドームのモデルハンドル
 	int _domeH;
+	// ドーム回転用の角度
 	float _count;
+	// UI点滅表示用のカウンタ
 	int _uiCount;
 };

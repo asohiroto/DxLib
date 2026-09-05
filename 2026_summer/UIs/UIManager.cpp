@@ -3,6 +3,18 @@
 #include "PlayerHpBar.h"
 #include "PlayerMpBar.h"
 #include "PlayerUltGauge.h"
+#include "GameDefine.h"
+#include <DxLib.h>
+
+namespace
+{
+	// クロスヘアの色(白)
+	constexpr int CROSSHAIR_COLOR = 0xffffff;
+	// クロスヘアの太さ
+	constexpr int CROSSHAIR_THICKNESS = 2;
+	// クロスヘアの腕の長さ
+	constexpr int CROSSHAIR_ARM_LENGTH = 12;
+}
 
 UIManager::UIManager() :
 	p_EneHpBar(nullptr),
@@ -50,4 +62,19 @@ void UIManager::Draw()
 	p_PlayHpBar->Draw();
 	//p_PlayMpBar->Draw();
 	p_PlayUltGauge->Draw();
+
+	DrawCrosshair();
+}
+
+void UIManager::DrawCrosshair()
+{
+	// 画面中央座標
+	int centerX = GameDefine::WIDTH / 2;
+	int centerY = GameDefine::HEIGHT / 2;
+
+	// 上下左右4本の線を中心から隙間を空けて描画する
+	DrawLine(centerX - GameDefine::CROSSHAIR_GAP - CROSSHAIR_ARM_LENGTH, centerY, centerX - GameDefine::CROSSHAIR_GAP, centerY, CROSSHAIR_COLOR, CROSSHAIR_THICKNESS);
+	DrawLine(centerX + GameDefine::CROSSHAIR_GAP, centerY, centerX + GameDefine::CROSSHAIR_GAP + CROSSHAIR_ARM_LENGTH, centerY, CROSSHAIR_COLOR, CROSSHAIR_THICKNESS);
+	DrawLine(centerX, centerY - GameDefine::CROSSHAIR_GAP - CROSSHAIR_ARM_LENGTH, centerX, centerY - GameDefine::CROSSHAIR_GAP, CROSSHAIR_COLOR, CROSSHAIR_THICKNESS);
+	DrawLine(centerX, centerY + GameDefine::CROSSHAIR_GAP, centerX, centerY + GameDefine::CROSSHAIR_GAP + CROSSHAIR_ARM_LENGTH, CROSSHAIR_COLOR, CROSSHAIR_THICKNESS);
 }

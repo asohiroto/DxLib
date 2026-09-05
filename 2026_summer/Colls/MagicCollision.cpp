@@ -59,6 +59,7 @@ void MagicCollision::Update(const std::shared_ptr<Player>& pPlayer, const std::s
 	_hitEnemyMagicInd = PlayerHitCheck(player, enemyList);
 	_hitPlayerMagicInd = EnemyHitCheck(enemy, playerList);
 
+	// 回避中は被弾扱いにしない
 	if (_hitEnemyMagicInd >= 0 && !pPlayer->IsDodge()) _isPlayerHit = true;
 	else _isPlayerHit = false;
 
@@ -76,6 +77,7 @@ void MagicCollision::Update(const std::shared_ptr<Player>& pPlayer, const std::s
 		int handle = PlayEffekseer3DEffect(_hitEffectH);
 		SetPosPlayingEffekseer3DEffect(handle, effectPos.x, effectPos.y + EFFECT_HEIGHT_OFFSET, effectPos.z);
 
+		// ビームは持続する魔法なので当たっても消さない
 		if (magic.type == MagicBase::MagicType::MagicBeam)
 		{
 
@@ -103,6 +105,7 @@ void MagicCollision::Update(const std::shared_ptr<Player>& pPlayer, const std::s
 		int handle = PlayEffekseer3DEffect(_hitEffectH);
 		SetPosPlayingEffekseer3DEffect(handle, effectPos.x, effectPos.y + EFFECT_HEIGHT_OFFSET, effectPos.z);
 
+		// フューリー・ビームは持続する魔法なので当たっても消さない
 		if (magic.type == MagicBase::MagicType::MagicFury || magic.type == MagicBase::MagicType::MagicBeam)
 		{
 
@@ -131,6 +134,7 @@ int MagicCollision::PlayerHitCheck(const Character::CharacterData& player, const
 
 		float distance = 0.0f;
 
+		// フューリー・ビームは線状の当たり判定なので線分同士の距離で計測
 		if (enemyList[i].type == MagicBase::MagicType::MagicFury || enemyList[i].type == MagicBase::MagicType::MagicBeam)
 		{
 			distance = Segment_Segment_MinLength
@@ -166,13 +170,14 @@ int MagicCollision::PlayerHitCheck(const Character::CharacterData& player, const
 
 int MagicCollision::EnemyHitCheck(const Character::CharacterData& enemy, const MagicList& playerList)
 {
-
+	// プレイヤーが撃った魔法全てで順に計算
 	for (int i = 0; i < playerList.size(); i++)
 	{
 		if (!playerList[i].isExist) continue;
 
 		float distance = 0.0f;
 
+		// フューリー・ビームは線状の当たり判定なので線分同士の距離で計測
 		if (playerList[i].type == MagicBase::MagicType::MagicFury || playerList[i].type == MagicBase::MagicType::MagicBeam)
 		{
 			distance = Segment_Segment_MinLength
@@ -181,11 +186,14 @@ int MagicCollision::EnemyHitCheck(const Character::CharacterData& enemy, const M
 		}
 		else
 		{
+			// 距離を計測
 			distance = Segment_Point_MinLength(enemy.segmentStPos, enemy.segmentEndPos, playerList[i].pos);
 		}
 
+		// めり込みの深さを計算
 		float dipth = enemy.radius + playerList[i].radius - distance;
 
+		// 当たっている番号を返す
 		if (dipth >= 0)
 		{
 			return i;

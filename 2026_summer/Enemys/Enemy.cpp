@@ -51,6 +51,7 @@ Enemy::~Enemy()
 
 void Enemy::Init(int handle, int score)
 {
+	// 初期設定
 	_enemyUnit.pos = VGet(INITIAL_POS_X, 0.0f, INITIAL_POS_Z);
 	_enemyUnit.modelH = handle;
 	_enemyUnit.radius = RADIUS;
@@ -91,9 +92,11 @@ void Enemy::Update(float angle)
 	//if (pEManager->CanAnimChange())
 	//	p_AManager->AnimChange(TranslateState(_enemyUnit.nowState), false, 60);
 
+	// 移動範囲を制限
 	_enemyUnit.pos.x = std::clamp(_enemyUnit.pos.x, -POS_LIMIT_X, POS_LIMIT_X);
 	_enemyUnit.pos.z = std::clamp(_enemyUnit.pos.z, -POS_LIMIT_Z, POS_LIMIT_Z);
 
+	// 被弾時のカラー演出を経過フレームで切り替え
 	if (_enemyUnit.isHit)
 	{
 		if (_damagedCount <= DAMAGED_FRAME)

@@ -26,8 +26,6 @@ public:
 	void End() override;
 	void Update(const std::shared_ptr<Input>& pInput) override;
 	void Draw() override;
-	// グリッドを描画する関数
-	void DrawStage();
 	// プレイヤーのHPのゲッター
 	int GetPlayerHp() const;
 	// エネミーのHPのゲッター
@@ -38,6 +36,10 @@ public:
 	void SetOtherH(int hitH, int atmosH) { _hitTempH = hitH; _atmosH = atmosH; }
 	void SetMagics(EffectHandles playerMagicTemp) { _playerMagicsTemp = playerMagicTemp; }
 	void SetSE(SeHandles se) { _gameSE = se; }
+
+private:
+	// グリッドを描画する関数
+	void DrawStage();
 
 private:
 	// プレイヤークラスの共有ポインタ

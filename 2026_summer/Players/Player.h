@@ -53,8 +53,6 @@ public:
 	float GetNowCharge() const { return _playerUnit.ultCharge; }
 	// 必殺技の最大チャージ量
 	float GetMaxCharge() const { return _playerUnit.maxUltCharge; }
-	// プレイヤーの今のステートを返す
-	Character::CharacterState GetNowState() const { return _playerUnit.nowState; }
 	// 必殺技をチャージする
 	void SetUltCharge(int amount);
 	// プレイヤーのモデルを回転
@@ -63,6 +61,8 @@ public:
 private:
 	// 状況に応じてステートを変化させる
 	void UpdateState(const std::shared_ptr<Input>& pInput);
+	// プレイヤーの今のステートを返す
+	Character::CharacterState GetNowState() const { return _playerUnit.nowState; }
 
 private:
 	// プレイヤー
@@ -107,5 +107,6 @@ private:
 	// SE
 	SeHandles _gameSE;
 
+	// プレイヤーの魔法用エフェクトハンドル一式
 	EffectHandles _playerMagics;
 };

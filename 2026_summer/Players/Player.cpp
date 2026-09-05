@@ -60,7 +60,7 @@ namespace
 	// マジックフューリーが出るときの魔法陣の拡大率
 	constexpr float ULT_CIRCLE_FURY_SCALE = 1.5f;
 	// ジャスト回避エフェクトの拡大率
-	constexpr float DODGE_EFFECT_SCALE = 2.0f;
+	constexpr float DODGE_EFFECT_SCALE = 3.0f;
 	// 通常時のジャスト回避判定の半径（存在しないため０）
 	constexpr float NORM_JUST_RADIUS = 0.0f;
 	// ジャスト回避判定の半径
@@ -105,6 +105,7 @@ Player::Player() :
 
 Player::~Player()
 {
+	// 再生中の各エフェクトを停止
 	StopEffekseer3DEffect(_circlePlayingH);
 	StopEffekseer3DEffect(_ultCirclePlayingH);
 	StopEffekseer3DEffect(_dodgeEffectPlayingH);
@@ -170,6 +171,7 @@ void Player::End()
 
 void Player::Update(const std::shared_ptr<Input>& pInput, const std::shared_ptr<Camera>& pCamera, const std::shared_ptr<MagicManager>& pManager)
 {
+	// 各種経過フレームカウンタを進める
 	_pressFrame++;
 	_ultPressFrame++;
 	_damagedCount++;
@@ -179,6 +181,7 @@ void Player::Update(const std::shared_ptr<Input>& pInput, const std::shared_ptr<
 	if (_playerUnit.mp >= _playerUnit.maxMp)
 		_playerUnit.mp = _playerUnit.maxMp;
 
+	// 右スティックの入力を取得
 	int rx = pInput->GetRightStickX();
 
 	// 回避中ならジャスト回避判定の半径を有効化する
@@ -190,6 +193,7 @@ void Player::Update(const std::shared_ptr<Input>& pInput, const std::shared_ptr<
 	// 埋まり防止用
 	if (_playerUnit.pos.y <= 0.0f) _playerUnit.pos.y = 0.0f;
 
+	// 被弾後は一定フレームだけ色を変え、経過後に元の色と非被弾状態に戻す
 	if (_playerUnit.isHit)
 	{
 		if (_damagedCount <= DAMAGED_FRAME)
@@ -229,6 +233,7 @@ void Player::Update(const std::shared_ptr<Input>& pInput, const std::shared_ptr<
 		_frontVec.y = 0.0f;
 	}
 
+	// ロックオン中は向きと正面ベクトルを敵方向に固定する
 	if (pCamera->GetCameraMode())
 	{
 		_angle = pCamera->GetCameraYaw();
@@ -288,8 +293,14 @@ void Player::Update(const std::shared_ptr<Input>& pInput, const std::shared_ptr<
 			if (remainMp >= 0)
 			{
 				_playerUnit.mp = remainMp;
-				VECTOR camFront = VGet(GetCameraFrontVector().x, 0.0f, GetCameraFrontVector().z);
 				_frontVec = GetCameraFrontVector();
+
+				// 画面中心からのレイキャストが敵に当たっていれば、その敵に向かって飛ばす
+				if (pCamera->IsRayHitEnemy())
+				{
+					_frontVec = VNorm(VSub(pCamera->GetRayHitEnemyPos(), shotPos));
+				}
+
 				PlaySoundMem(_gameSE.shotH, DX_PLAYTYPE_BACK);
 				p_Shot->GenerateShot(shotPos, _frontVec, false, pManager);
 				_playerUnit.nowState = CharacterState::Shot;
@@ -382,6 +393,7 @@ void Player::Update(const std::shared_ptr<Input>& pInput, const std::shared_ptr<
 
 void Player::Draw()
 {
+	// プレイヤーモデルを描画
 	MV1DrawModel(_playerUnit.modelH);
 
 	p_Dodge->Draw();
@@ -389,11 +401,14 @@ void Player::Draw()
 
 #ifdef _DEBUG
 	DrawHitBox(_playerUnit);
+	// ショットが存在していれば弾も描画
 	if (p_Shot->IsExist()) p_Shot->Draw();
 
+	// HP/MPの数値をデバッグ表示
 	DrawFormatString(0, 60, 0xffffff, "NowHp : %d / MaxHp : %d", _playerUnit.hp, _playerUnit.maxHp);
 	DrawFormatString(0, 80, 0xffffff, "NowMp : %.2f / MaxMp : %.2f", _playerUnit.mp, _playerUnit.maxMp);
 
+	// モデルが持つ全アニメーション名を一覧表示
 	int animNum = MV1GetAnimNum(_playerUnit.modelH);
 	DrawFormatString(0, 200, 0xffffff, "AnimNum : %d", animNum);
 
@@ -405,6 +420,7 @@ void Player::Draw()
 
 void Player::SetHit(int damage)
 {
+	// 既に被弾処理中でなければダメージを適用する
 	if (!_playerUnit.isHit)
 	{
 		_playerUnit.isHit = true;
@@ -421,43 +437,53 @@ void Player::SetHit(int damage)
 
 void Player::JustDodgeEffect()
 {
+	// 閾値をまたいだかどうかを判定するため変化前のチャージ量を保存
 	int ultTemp = _playerUnit.ultCharge;
 	_playerUnit.ultCharge += ULT_CHARGE_AMOUNT;
+	// チャージが最大に達したら専用SEを再生し、上限でクランプ
 	if (_playerUnit.ultCharge >= _playerUnit.maxUltCharge)
 	{
 		PlaySoundMem(_gameSE.secondChargeH, DX_PLAYTYPE_BACK);
 		_playerUnit.ultCharge = _playerUnit.maxUltCharge;
 	}
+	// チャージが半分に達した瞬間なら専用SEを再生
 	else if (ultTemp < _playerUnit.maxUltCharge / 2 && _playerUnit.ultCharge >= _playerUnit.maxUltCharge / 2)
 	{
 		PlaySoundMem(_gameSE.firstChargeH, DX_PLAYTYPE_BACK);
 	}
 
+	// HPを回復（上限あり）
 	_playerUnit.hp += HP_HEAL_AMOUNT;
 	if (_playerUnit.hp >= _playerUnit.maxHp)
 		_playerUnit.hp = _playerUnit.maxHp;
 
+	// MPを回復（上限あり）
 	_playerUnit.mp += MP_GAIN_AMOUNT;
 	if (_playerUnit.mp >= _playerUnit.maxMp)
 		_playerUnit.mp = _playerUnit.maxMp;
 
+	// ジャスト回避エフェクトを再生
 	_dodgeEffectPlayingH = PlayEffekseer3DEffect(_playerMagics.dodgeHandle);
 	SetPosPlayingEffekseer3DEffect(_dodgeEffectPlayingH, _playerUnit.pos.x, _playerUnit.pos.y, _playerUnit.pos.z);
 	SetScalePlayingEffekseer3DEffect(_dodgeEffectPlayingH, DODGE_EFFECT_SCALE, DODGE_EFFECT_SCALE, DODGE_EFFECT_SCALE);
 
+	// 回避成功SEを再生し、クールダウンをリセット
 	PlaySoundMem(_gameSE.dodgeH, DX_PLAYTYPE_BACK);
 	p_Dodge->ResetDodgeCoolCount();
 }
 
 void Player::SetUltCharge(int amount)
 {
+	// 閾値をまたいだかどうかを判定するため変化前のチャージ量を保存
 	int ultTemp = _playerUnit.ultCharge;
 	_playerUnit.ultCharge += amount;
+	// チャージが最大に達したら専用SEを再生し、上限でクランプ
 	if (_playerUnit.ultCharge >= _playerUnit.maxUltCharge)
 	{
 		PlaySoundMem(_gameSE.secondChargeH, DX_PLAYTYPE_BACK);
 		_playerUnit.ultCharge = _playerUnit.maxUltCharge;
 	}
+	// チャージが半分に達した瞬間なら専用SEを再生
 	else if (ultTemp < _playerUnit.maxUltCharge / 2 && _playerUnit.ultCharge >= _playerUnit.maxUltCharge / 2)
 	{
 		PlaySoundMem(_gameSE.firstChargeH, DX_PLAYTYPE_BACK);
@@ -466,9 +492,11 @@ void Player::SetUltCharge(int amount)
 
 void Player::UpdateState(const std::shared_ptr<Input>& pInput)
 {
+	// 左スティックの入力を取得
 	int lx = pInput->GetLeftStickX();
 	int ly = pInput->GetLeftStickY();
 
+	// HPが0以下なら死亡ステートに固定する
 	if (_playerUnit.hp <= 0)
 	{
 		_playerUnit.nowState = CharacterState::Dead;
@@ -477,17 +505,20 @@ void Player::UpdateState(const std::shared_ptr<Input>& pInput)
 
 	AnimInfo nowAnim = TranslateState(_playerUnit.nowState);
 
+	// ループしないアニメーション（攻撃等）は再生完了までステートを変えない
 	if (nowAnim.isLoop == false)
 	{
 		if (!p_AManager->IsFinished()) return;
 	}
 
+	// 被弾中なら硬直ステートにする
 	if (_playerUnit.isHit)
 	{
 		_playerUnit.nowState = CharacterState::HitStun;
 		return;
 	}
 
+	// 回避中は入力方向に応じて左右いずれかの回避ステートにする
 	if (_isDodge)
 	{
 		if (lx >= 0) _playerUnit.nowState = CharacterState::DodgeRight;
@@ -496,12 +527,14 @@ void Player::UpdateState(const std::shared_ptr<Input>& pInput)
 		return;
 	}
 
+	// 入力が無ければ待機ステートにする
 	if (lx == 0 && ly == 0)
 	{
 		_playerUnit.nowState = CharacterState::Wait;
 		return;
 	}
 
+	// 縦横のうち入力の大きい方の軸を採用して移動ステートを決定する
 	if (ly > 0 && std::abs(ly) > std::abs(lx))
 	{
 		_playerUnit.nowState = CharacterState::MoveAway;

@@ -12,4 +12,6 @@ namespace GameDefine
 	constexpr float SCREEN_CENTER_Y = HEIGHT / 2;
 	// 画面に表示できる最大パーティクル数
 	constexpr int EFFECT_PARTICLE_LIMIT = 20000;
+	// 照準(クロスヘア)の中心の隙間(ピクセル)。ここを起点にレイキャストの命中判定も拡張する
+	constexpr int CROSSHAIR_GAP = 6;
 }

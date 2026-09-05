@@ -29,6 +29,8 @@ public:
 	float GetMaxHp() const;
 	// 敵の現在HPのゲッター
 	float GetNowHp() const;
+
+private:
 	// ルーチンテーブルをセットする
 	void SetRoutine();
 	// 次の行動に進める
