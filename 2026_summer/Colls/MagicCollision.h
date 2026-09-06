@@ -23,6 +23,8 @@ public:
 	void Draw();
 	// ヒットストップするフレーム数を取得する
 	int GetHitStopFrame();
+	// 今のフレームで敵にプレイヤーの魔法がヒットした瞬間かどうかを取得する
+	bool IsEnemyHitThisFrame() const { return (_isEnemyHit && !_wasEnemyHit); }
 
 private:
 	// プレイヤーに何番目の敵の魔法が当たったか

@@ -12,7 +12,7 @@ public:
 
 private:
 	// HPバーを描画
-	void DrawHpBar(float rate, int color);
+	void DrawHpBar(float rate, int color, int xOffset);
 
 private:
 	// 現在のHP

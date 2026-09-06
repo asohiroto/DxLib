@@ -21,10 +21,27 @@ private:
 	bool _canSceneChange;
 	// スコア
 	int _score;
+	// Xボタンのハンドル
+	int _xButtonH;
 	// スカイドームのモデルハンドル
 	int _domeH;
 	// ドーム回転用の角度
 	float _count;
 	// UI点滅表示用のカウンタ
 	int _uiCount;
+
+	// 外周セーフゾーンに収まるよう調整した後の値
+	// タイトル文字
+	int _titleFontSize;
+	int _titleX;
+	// スコア文字
+	int _scoreFontSize;
+	int _scoreX;
+	// 案内文字・Xボタンアイコン
+	int _promptFontSize;
+	int _promptX;
+	int _promptY;
+	int _iconSize;
+	int _iconMargin;
+	int _iconY;
 };

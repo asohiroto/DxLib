@@ -17,6 +17,8 @@ public:
 private:
 	// 紹介画像ハンドル
 	int _explainH;
+	// Xボタンのハンドル
+	int _xButtonH;
 	// シーンの遷移を行うか
 	bool _canSceneChange;
 	// カウンタ

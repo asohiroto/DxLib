@@ -20,7 +20,7 @@ namespace
 	// 滑らかに増えるチャージの色
 	constexpr int SMOOTH_COLOR = 0xff00ff;
 	// チャージ中（最大未満）の色
-	constexpr int CHARGING_COLOR = 0x00ff00;
+	constexpr int CHARGING_COLOR = 0xffffff;
 	// チャージ最大時の色
 	constexpr int FULL_COLOR = 0xffff00;
 	// 半分の割合

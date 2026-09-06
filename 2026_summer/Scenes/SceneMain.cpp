@@ -8,6 +8,7 @@
 #include "UIs/UIManager.h"
 #include "SkyDome.h"
 #include "Effects/EffectManager.h"
+#include "GameDefine.h"
 
 namespace
 {
@@ -132,7 +133,7 @@ void SceneMain::Update(const std::shared_ptr<Input>& pInput)
 	p_MManager->RemoveList();
 
 	p_UI->Update(p_EManager->GetNowHp(), p_Player->GetNowHp(),
-		p_Player->GetNowMp(), p_Player->GetNowCharge());
+		p_Player->GetNowMp(), p_Player->GetNowCharge(), p_MColl->IsEnemyHitThisFrame());
 
 	p_EffectManager->Update();
 
@@ -162,7 +163,7 @@ void SceneMain::Draw()
 	// リポップ演出中は画面を暗転させKILL数を大きく表示する
 	if (_repopCount > 0)
 	{
-		DrawBox(0, 200, 1600, 800, OVERLAY_COLOR, true);
+		DrawBox(0, 200, GameDefine::WIDTH, 800, OVERLAY_COLOR, true);
 
 		SetFontSize(BIG_KILL_FONT_SIZE);
 		DrawFormatString(60, 310, KILL_OUTLINE_COLOR, "%d KILL", _killCount);

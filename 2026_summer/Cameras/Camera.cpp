@@ -84,7 +84,7 @@ void Camera::Update(const std::shared_ptr<Player>& pPlayer, const std::shared_pt
 void Camera::Draw()
 {
 	// 消失点を画面下部に設定する
-	SetCameraScreenCenter(WIDTH / 2, SCREEN_CENTER_Y);
+	SetCameraScreenCenter(SCREEN_CENTER_X, SCREEN_CENTER_Y);
 	// カメラを設置
 	SetCameraPositionAndTargetAndUpVec(_cameraPos, _targetPos, VGet(0.0f, 1.0f, 0.0f));
 
@@ -156,8 +156,8 @@ void Camera::CheckRayCastHitEnemy(const std::shared_ptr<Enemy>& pEnemy)
 	if (pEnemy == nullptr) return;
 
 	// 画面中心の座標
-	float screenCenterX = static_cast<float>(WIDTH) / 2.0f;
-	float screenCenterY = static_cast<float>(HEIGHT) / 2.0f;
+	float screenCenterX = SCREEN_CENTER_X;
+	float screenCenterY = SCREEN_CENTER_Y;
 
 	// 画面中心を通る手前の点と奥の点をワールド座標に変換し、レイの始点と方向を求める
 	VECTOR rayStart = ConvScreenPosToWorldPos(VGet(screenCenterX, screenCenterY, RAY_NEAR_Z));

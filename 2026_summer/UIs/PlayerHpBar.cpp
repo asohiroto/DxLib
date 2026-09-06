@@ -5,12 +5,12 @@ namespace
 {
 	// 補間度
 	constexpr float LERP_RATE = 0.15f;
-	// 画面の左端からずらす幅(右端を1520に揃えたアイコン左端1145からの相対オフセット)
-	constexpr int WIDTH_OFFSET = 1205;
+	// 画面の左端からずらす幅(アイコン画像の窓部分が始まる位置に合わせ、隠れて見えない左側の余白を削った)
+	constexpr int WIDTH_OFFSET = 1241;
 	// 画面の上端からずらす高さ(1.5倍サイズにした分、必殺技ゲージとの積み上げ位置を再計算)
 	constexpr int HEIGHT_OFFSET = 686;
-	// HPバーの幅(直前の190から1.5倍)
-	constexpr int BAR_WIDTH = 285;
+	// HPバーの幅(左側の余白を削った分だけ短縮し、右端の位置は変えていない)
+	constexpr int BAR_WIDTH = 249;
 	// HPバーの太さ(直前の25から1.5倍)
 	constexpr int BAR_THICKNESS = 38;
 	// バーの背景色

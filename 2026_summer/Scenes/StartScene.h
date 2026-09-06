@@ -30,4 +30,12 @@ private:
 	int _count;
 	// Xボタンのハンドル
 	int _xButtonH;
+	// 左右の揺れを含めても外周セーフゾーンに収まるよう調整した後の文字サイズ
+	int _fontSize;
+	// 同上、Xボタンアイコンのサイズ
+	int _iconSize;
+	// 同上、文字とアイコンの間隔
+	int _iconMargin;
+	// 文字の縦中心とアイコンの縦中心が一致するよう調整した後のアイコンY座標
+	int _iconY;
 };

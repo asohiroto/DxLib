@@ -60,7 +60,7 @@ namespace
 	// マジックフューリーが出るときの魔法陣の拡大率
 	constexpr float ULT_CIRCLE_FURY_SCALE = 1.5f;
 	// ジャスト回避エフェクトの拡大率
-	constexpr float DODGE_EFFECT_SCALE = 3.0f;
+	constexpr float DODGE_EFFECT_SCALE = 4.0f;
 	// 通常時のジャスト回避判定の半径（存在しないため０）
 	constexpr float NORM_JUST_RADIUS = 0.0f;
 	// ジャスト回避判定の半径
