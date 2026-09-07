@@ -99,7 +99,8 @@ Player::Player() :
 	_ultCirclePlayingH(-1),
 	_targetPlayingH(-1),
 	_dodgeEffectPlayingH(-1),
-	_isDodge(false), _playerMagics()
+	_isDodge(false), _playerMagics(),
+	_gameSE()
 {
 }
 
