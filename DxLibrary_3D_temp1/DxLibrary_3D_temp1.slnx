@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="DxLibrary_3D_temp1/DxLibrary_3D_temp1.vcxproj" />
+</Solution>
