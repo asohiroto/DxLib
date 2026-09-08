@@ -170,11 +170,10 @@ void Camera::CheckRayCastHitEnemy(const std::shared_ptr<Enemy>& pEnemy)
 	// 敵がカメラより後方にある場合は当たっていない
 	if (projLength < 0.0f) return;
 
+	// レイ上の最近接点を求める
 	VECTOR closestPos = VAdd(rayStart, VScale(rayDir, projLength));
 
-	// クロスヘアの隙間ぶんだけ横にずらした位置からもレイを求め、
-	// 同じ奥行き(projLength)における2本のレイの位置差から
-	// 「クロスヘアの隙間(ピクセル)」に相当するワールド空間上の許容距離を算出する
+	// レイの中心からクロスヘアの隙間分だけ右にずらした位置のレイを作り、最近接点との距離を求める
 	VECTOR gapRayStart = ConvScreenPosToWorldPos(VGet(screenCenterX + CROSSHAIR_GAP, screenCenterY, RAY_NEAR_Z));
 	VECTOR gapRayEnd = ConvScreenPosToWorldPos(VGet(screenCenterX + CROSSHAIR_GAP, screenCenterY, RAY_FAR_Z));
 	VECTOR gapRayDir = VNorm(VSub(gapRayEnd, gapRayStart));
