@@ -1,0 +1,38 @@
+{
+  "name": "dxlib-env-setup",
+  "displayName": "DxLib環境セットアップ",
+  "description": "DxLib / EffekseerForDXLib を使ったC++プロジェクトの開発環境をワンクリックで検証・修復する",
+  "version": "0.1.0",
+  "publisher": "local",
+  "private": true,
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "dxlibEnvSetup.run",
+        "title": "DxLib: 開発環境をセットアップ/検証",
+        "icon": "$(tools)"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -w -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.4.0",
+    "@vscode/vsce": "^2.32.0"
+  }
+}
