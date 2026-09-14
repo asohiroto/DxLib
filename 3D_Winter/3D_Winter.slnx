@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="3D_Winter.vcxproj" Id="a950d348-72da-473e-aaf6-cfd964473638" />
+</Solution>
