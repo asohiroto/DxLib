@@ -1,12 +1,14 @@
 #pragma once
+#include "Vec3.h"
 
 /// キャラクターの基底クラス
 class Character 
 {
-    public:
+public:
     struct CharacterInfo
     {
-        
+        Vec3 pos;
+        int handle;
     };
 
 public:
