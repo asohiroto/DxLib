@@ -12,7 +12,7 @@
             "command": "& (& \"${env:ProgramFiles(x86)}\\Microsoft Visual Studio\\Installer\\vswhere.exe\" -latest -requires Microsoft.Component.MSBuild -find MSBuild\\**\\Bin\\MSBuild.exe | Select-Object -First 1) \"${workspaceFolder}\\2026_summer.vcxproj\" /p:Configuration=Debug /p:Platform=x64 /m",
             "group": {
                 "kind": "build",
-                "isDefault": false
+                "isDefault": true
             },
             "problemMatcher": "$msCompile",
             "presentation": {
@@ -37,29 +37,6 @@
             "command": "& (& \"${env:ProgramFiles(x86)}\\Microsoft Visual Studio\\Installer\\vswhere.exe\" -latest -requires Microsoft.Component.MSBuild -find MSBuild\\**\\Bin\\MSBuild.exe | Select-Object -First 1) \"${workspaceFolder}\\2026_summer.vcxproj\" /t:Clean /p:Configuration=Debug /p:Platform=x64",
             "group": "build",
             "problemMatcher": []
-        },
-        {
-            "type": "cppbuild",
-            "label": "C/C++: cl.exe アクティブなファイルのビルド",
-            "command": "cl.exe",
-            "args": [
-                "/Zi",
-                "/EHsc",
-                "/nologo",
-                "/Fe${fileDirname}\\${fileBasenameNoExtension}.exe",
-                "${file}"
-            ],
-            "options": {
-                "cwd": "${fileDirname}"
-            },
-            "problemMatcher": [
-                "$msCompile"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "detail": "デバッガーによって生成されたタスク。"
         }
     ]
 }
