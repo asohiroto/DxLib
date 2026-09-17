@@ -45,10 +45,10 @@ void MagicCollision::End()
 {
 }
 
-void MagicCollision::Update(const std::shared_ptr<Player>& pPlayer, const std::shared_ptr<Enemy>& pEnemy, MagicList& playerList, MagicList& enemyList)
+void MagicCollision::Update(const std::shared_ptr<Player>& pPlayer, Enemy& pEnemy, MagicList& playerList, MagicList& enemyList)
 {
 	Character::CharacterData player = pPlayer->GetPlayerData();
-	Character::CharacterData enemy = pEnemy->GetEnemyData();
+	Character::CharacterData enemy = pEnemy.GetEnemyData();
 
 	_wasJustDodge = _isJustDodge;
 	_wasPlayerHit = _isPlayerHit;
@@ -94,13 +94,13 @@ void MagicCollision::Update(const std::shared_ptr<Player>& pPlayer, const std::s
 		const auto& magic = playerList[_hitPlayerMagicInd];
 
 		if (magic.type == MagicBase::MagicType::MagicBeam)
-			pEnemy->SetHit(BEAM_DAMAGE);
+			pEnemy.SetHit(BEAM_DAMAGE);
 		else
-			pEnemy->SetHit(magic.damage);
+			pEnemy.SetHit(magic.damage);
 
 		pPlayer->SetUltCharge(magic.chargeAmount);
 
-		VECTOR effectPos = pEnemy->GetPos();
+		VECTOR effectPos = pEnemy.GetPos();
 
 		int handle = PlayEffekseer3DEffect(_hitEffectH);
 		SetPosPlayingEffekseer3DEffect(handle, effectPos.x, effectPos.y + EFFECT_HEIGHT_OFFSET, effectPos.z);

@@ -11,18 +11,18 @@ public:
 	virtual ~EnemyMove();
 	void Init();
 	void End();
-	void Update(VECTOR playerPos, const std::shared_ptr<Enemy>& pEnemy);
+	void Update(VECTOR playerPos, Enemy& pEnemy);
 	void Draw();
 	// 近づく
-	void Approach(const std::shared_ptr<Enemy>& pEnemy);
+	void Approach(Enemy& pEnemy);
 	// 離れる
-	void MoveAway(const std::shared_ptr<Enemy>& pEnemy);
+	void MoveAway(Enemy& pEnemy);
 	// 左移動
-	void MoveLeft(const std::shared_ptr<Enemy>& pEnemy);
+	void MoveLeft(Enemy& pEnemy);
 	// 右移動
-	void MoveRight(const std::shared_ptr<Enemy>& pEnemy);
+	void MoveRight(Enemy& pEnemy);
 	// 距離と方向を計算する
-	void CalDistDir(VECTOR playerPos, const std::shared_ptr<Enemy>& pEnemy);
+	void CalDistDir(VECTOR playerPos, Enemy& pEnemy);
 	// プレイヤー方向のゲッター
 	VECTOR GetDir() const { return _toPlayerDir; }
 	// 行動を終了したか

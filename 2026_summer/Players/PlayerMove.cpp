@@ -30,11 +30,11 @@ void PlayerMove::End()
 {
 }
 
-void PlayerMove::Update(const std::shared_ptr<Input>& pInput, float cameraAngle)
+void PlayerMove::Update(Input& pInput, float cameraAngle)
 {
 	// 移動の方向に代入
-	_mx = pInput->GetLeftStickX();
-	_mz = pInput->GetLeftStickY();
+	_mx = pInput.GetLeftStickX();
+	_mz = pInput.GetLeftStickY();
 
 	// 移動量に代入
 	_move = VGet(static_cast<float>(_mx), 0.0f, static_cast<float>(-_mz));

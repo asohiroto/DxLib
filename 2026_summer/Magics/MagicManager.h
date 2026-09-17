@@ -1,9 +1,8 @@
 ﻿#pragma once
 #include "Bases/MagicBase.h"
+#include "MagicMove.h"
 #include <vector>
-#include <memory>
 
-class MagicMove;
 class MagicCollision;
 
 class MagicManager
@@ -43,8 +42,8 @@ private:
 	MagicList _playerMagics;
 	// 敵が使用した魔法のリスト
 	MagicList _enemyMagics;
-	// マジックムーブの共有ポインタ
-	std::shared_ptr<MagicMove> p_MagicMove;
+	// マジックムーブ
+	MagicMove _MagicMove;
 	// 敵をロックオンしているか
 	bool _enemyLock;
 	// 敵の座標

@@ -39,7 +39,7 @@ void EnemyMove::End()
 {
 }
 
-void EnemyMove::Update(VECTOR playerPos, const std::shared_ptr<Enemy>& pEnemy)
+void EnemyMove::Update(VECTOR playerPos, Enemy& pEnemy)
 {
 	// 距離と方向を計算し代入
 	CalDistDir(playerPos, pEnemy);
@@ -49,9 +49,9 @@ void EnemyMove::Draw()
 {
 }
 
-void EnemyMove::Approach(const std::shared_ptr<Enemy>& pEnemy)
+void EnemyMove::Approach(Enemy& pEnemy)
 {
-	pEnemy->SetPos(VAdd(pEnemy->GetPos(), VScale(_toPlayerDir, SPEED)));
+	pEnemy.SetPos(VAdd(pEnemy.GetPos(), VScale(_toPlayerDir, SPEED)));
 
 	_movedDistance += SPEED;
 
@@ -63,11 +63,11 @@ void EnemyMove::Approach(const std::shared_ptr<Enemy>& pEnemy)
 	}
 }
 
-void EnemyMove::MoveAway(const std::shared_ptr<Enemy>& pEnemy)
+void EnemyMove::MoveAway(Enemy& pEnemy)
 {
 	// プレイヤーと逆方向のベクトル
 	VECTOR opposite = VGet(-_toPlayerDir.x, 0.0f, -_toPlayerDir.z);
-	pEnemy->SetPos(VAdd(pEnemy->GetPos(), VScale(opposite, SPEED)));
+	pEnemy.SetPos(VAdd(pEnemy.GetPos(), VScale(opposite, SPEED)));
 
 	_movedDistance += SPEED;
 
@@ -78,12 +78,12 @@ void EnemyMove::MoveAway(const std::shared_ptr<Enemy>& pEnemy)
 	}
 }
 
-void EnemyMove::MoveLeft(const std::shared_ptr<Enemy>& pEnemy)
+void EnemyMove::MoveLeft(Enemy& pEnemy)
 {
 	// 左側ベクトル
 	VECTOR left = VGet(-_toPlayerDir.z, 0.0f, _toPlayerDir.x);
 
-	pEnemy->SetPos(VAdd(pEnemy->GetPos(), VScale(left, SPEED)));
+	pEnemy.SetPos(VAdd(pEnemy.GetPos(), VScale(left, SPEED)));
 
 	_movedDistance += SPEED;
 
@@ -94,12 +94,12 @@ void EnemyMove::MoveLeft(const std::shared_ptr<Enemy>& pEnemy)
 	}
 }
 
-void EnemyMove::MoveRight(const std::shared_ptr<Enemy>& pEnemy)
+void EnemyMove::MoveRight(Enemy& pEnemy)
 {
 	// 右側ベクトル
 	VECTOR right = VGet(_toPlayerDir.z, 0.0f, -_toPlayerDir.x);
 
-	pEnemy->SetPos(VAdd(pEnemy->GetPos(), VScale(right, SPEED)));
+	pEnemy.SetPos(VAdd(pEnemy.GetPos(), VScale(right, SPEED)));
 
 	_movedDistance += SPEED;
 
@@ -110,10 +110,10 @@ void EnemyMove::MoveRight(const std::shared_ptr<Enemy>& pEnemy)
 	}
 }
 
-void EnemyMove::CalDistDir(VECTOR playerPos, const std::shared_ptr<Enemy>& pEnemy)
+void EnemyMove::CalDistDir(VECTOR playerPos, Enemy& pEnemy)
 {
 	// エネミーからプレイヤーへのベクトルをとる
-	_toPlayerDir = VSub(playerPos, pEnemy->GetPos());
+	_toPlayerDir = VSub(playerPos, pEnemy.GetPos());
 	// その大きさを計算
 	_toPlayerDistance = VSize(_toPlayerDir);
 	// 正規化して、方向を計算

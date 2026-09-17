@@ -29,9 +29,6 @@ namespace
 }
 
 EnemyManager::EnemyManager() :
-	p_Enemy(nullptr),
-	p_Move(nullptr),
-	p_Beam(nullptr), p_Shot(nullptr), p_Missile(nullptr),
 	_wasLock(false),
 	_isLock(false),
 	_nowRoutine(NORM_ROUTINE),
@@ -46,19 +43,14 @@ EnemyManager::~EnemyManager()
 
 void EnemyManager::Init(int handle, EffectHandles enemyMagics, int score)
 {
-	p_Enemy = std::make_shared<Enemy>();
-	p_Enemy->Init(handle, score);
-	p_Move = std::make_shared<EnemyMove>();
-	p_Move->Init();
-	p_Beam = std::make_shared<MagicBeam>();
-	p_Beam->Init();
-	p_Shot = std::make_shared<MagicShot>();
-	p_Shot->Init();
-	p_Missile = std::make_shared<MagicMissile>();
-	p_Missile->Init();
-	p_Beam->SetMagicBeamH(enemyMagics.beamHandle);
-	p_Shot->SetMagicShotH(enemyMagics.shotHandle);
-	p_Missile->SetMagicMissileH(enemyMagics.missileHandle);
+	_Enemy.Init(handle, score);
+	_Move.Init();
+	_Beam.Init();
+	_Shot.Init();
+	_Missile.Init();
+	_Beam.SetMagicBeamH(enemyMagics.beamHandle);
+	_Shot.SetMagicShotH(enemyMagics.shotHandle);
+	_Missile.SetMagicMissileH(enemyMagics.missileHandle);
 
 	_score = score;
 }
@@ -70,11 +62,11 @@ void EnemyManager::End()
 void EnemyManager::Update(VECTOR playerPos, const std::shared_ptr<MagicManager>& pMManager)
 {
 	// 進行方向ベクトルから向きの角度を算出
-	VECTOR rota = p_Move->GetDir();
+	VECTOR rota = _Move.GetDir();
 	float angle = atan2f(rota.x, rota.z);
 
-	p_Enemy->Update(angle);
-	p_Move->Update(playerPos, p_Enemy);
+	_Enemy.Update(angle);
+	_Move.Update(playerPos, _Enemy);
 
 	_actionCount++;
 
@@ -83,63 +75,63 @@ void EnemyManager::Update(VECTOR playerPos, const std::shared_ptr<MagicManager>&
 	_isLock = pMManager->IsLockOn();
 
 	// 距離の判定
-	if (p_Move->GetDistance() <= MIN_DISTANCE) { _tooNear = true; _tooAway = false; }
-	else if (p_Move->GetDistance() >= MAX_DISTANCE) { _tooNear = false; _tooAway = true; }
+	if (_Move.GetDistance() <= MIN_DISTANCE) { _tooNear = true; _tooAway = false; }
+	else if (_Move.GetDistance() >= MAX_DISTANCE) { _tooNear = false; _tooAway = true; }
 	else { _tooNear = false; _tooAway = false; }
 
 
 	// ロックオン中は敵を硬直させる
-	if (_isLock) p_Enemy->ChangeState(Enemy::CharacterState::HitStun);
+	if (_isLock) _Enemy.ChangeState(Enemy::CharacterState::HitStun);
 	// ロックが解除された瞬間に次の行動へ進める
 	if (_wasLock && !_isLock) ProceedNextAction();
 
-	if (p_Move->IsActionFinished())
+	if (_Move.IsActionFinished())
 		ProceedNextAction();
 	else
 	{
-		switch (p_Enemy->GetState())
+		switch (_Enemy.GetState())
 		{
 		case Enemy::CharacterState::Approach:
-			p_Move->Approach(p_Enemy);
+			_Move.Approach(_Enemy);
 
 			break;
 		case Enemy::CharacterState::MoveAway:
-			p_Move->MoveAway(p_Enemy);
+			_Move.MoveAway(_Enemy);
 
 			break;
 		case Enemy::CharacterState::MoveLeft:
-			p_Move->MoveLeft(p_Enemy);
+			_Move.MoveLeft(_Enemy);
 
 			break;
 		case Enemy::CharacterState::MoveRight:
-			p_Move->MoveRight(p_Enemy);
+			_Move.MoveRight(_Enemy);
 
 			break;
 		case Enemy::CharacterState::Shot:
 			// モーションに合わせたタイミングで発射
 			if (_actionCount == (MAGIC_COUNT - MAGIC_FRAME_OFFSET))
-				p_Shot->GenerateShot(p_Enemy->GetPos(), p_Move->GetDir(), true, pMManager);
+				_Shot.GenerateShot(_Enemy.GetPos(), _Move.GetDir(), true, pMManager);
 			// 行動時間経過で終了
 			if (_actionCount >= MAGIC_COUNT)
-				p_Move->SetActionFinished(true);
+				_Move.SetActionFinished(true);
 
 			break;
 		case Enemy::CharacterState::Missile:
 			// モーションに合わせたタイミングで発射
 			if (_actionCount == (MAGIC_COUNT - MAGIC_FRAME_OFFSET))
-				p_Missile->GenerateMissile(p_Enemy->GetPos(), p_Move->GetDir(), true, pMManager);
+				_Missile.GenerateMissile(_Enemy.GetPos(), _Move.GetDir(), true, pMManager);
 			// 行動時間経過で終了
 			if (_actionCount >= MAGIC_COUNT)
-				p_Move->SetActionFinished(true);
+				_Move.SetActionFinished(true);
 
 			break;
 		case Enemy::CharacterState::Beam:
 			// モーションに合わせたタイミングで発射
 			if (_actionCount == (MAGIC_COUNT - MAGIC_FRAME_OFFSET))
-				p_Beam->GenerateBeam(p_Enemy->GetPos(), p_Move->GetDir(), true, pMManager);
+				_Beam.GenerateBeam(_Enemy.GetPos(), _Move.GetDir(), true, pMManager);
 			// 行動時間経過で終了
 			if (_actionCount >= MAGIC_COUNT)
-				p_Move->SetActionFinished(true);
+				_Move.SetActionFinished(true);
 			break;
 		case Enemy::CharacterState::HitStun:
 
@@ -155,33 +147,33 @@ void EnemyManager::Update(VECTOR playerPos, const std::shared_ptr<MagicManager>&
 
 void EnemyManager::Draw()
 {
-	p_Enemy->Draw();
+	_Enemy.Draw();
 }
 
 VECTOR EnemyManager::GetEnemyPos() const
 {
-	return 	p_Enemy->GetPos();
+	return 	_Enemy.GetPos();
 }
 
-std::shared_ptr<Enemy> EnemyManager::GetEnemyPointer() const
+Enemy& EnemyManager::GetEnemy()
 {
-	return p_Enemy;
+	return _Enemy;
 }
 
 float EnemyManager::GetMaxHp() const
 {
-	return p_Enemy->GetMaxHp();
+	return _Enemy.GetMaxHp();
 }
 
 float EnemyManager::GetNowHp() const
 {
-	return p_Enemy->GetNowHp();
+	return _Enemy.GetNowHp();
 }
 
 void EnemyManager::SetRoutine()
 {
 	// HPが低下し、かつスコア条件を満たせばハードルーチンへ
-	if (p_Enemy->GetNowHp() <= p_Enemy->GetMaxHp() * HARD_RATE && _nowRoutine != HARD_ROUTINE && _score > HARD_ROUTINE_SCORE)
+	if (_Enemy.GetNowHp() <= _Enemy.GetMaxHp() * HARD_RATE && _nowRoutine != HARD_ROUTINE && _score > HARD_ROUTINE_SCORE)
 	{
 		_nowRoutine = HARD_ROUTINE;
 		return;
@@ -209,7 +201,7 @@ void EnemyManager::SetRoutine()
 void EnemyManager::ProceedNextAction()
 {
 	// ルーチンの先頭行動を実行し、リストから取り除く
-	p_Enemy->ChangeState(_nowRoutine.front());
+	_Enemy.ChangeState(_nowRoutine.front());
 	_nowRoutine.erase(_nowRoutine.begin());
 
 	// ルーチンを全て消化したら次のルーチンを選択
@@ -217,6 +209,6 @@ void EnemyManager::ProceedNextAction()
 		SetRoutine();
 
 	_actionCount = 0;
-	p_Move->SetActionFinished(false);
+	_Move.SetActionFinished(false);
 }
 

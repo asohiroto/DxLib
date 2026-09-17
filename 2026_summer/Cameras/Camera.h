@@ -14,7 +14,7 @@ public:
 	virtual ~Camera();
 	void Init();
 	void End();
-	void Update(const std::shared_ptr<Player>& pPlayer, const std::shared_ptr<Enemy>& pEnemy, const std::shared_ptr<Input>& pInput);
+	void Update(const std::shared_ptr<Player>& pPlayer, Enemy& pEnemy, Input& pInput);
 	void Draw();
 	// カメラの水平方向の角度のゲッター
 	float GetCameraYaw() const { return _cameraYaw; }
@@ -33,9 +33,9 @@ private:
 	// 通常のカメラ
 	void NormalCam(const std::shared_ptr<Player>& pPlayer);
 	// ロックオン時のカメラ
-	void LockOnCam(const std::shared_ptr<Player>& pPlayer, const std::shared_ptr<Enemy>& pEnemy);
+	void LockOnCam(const std::shared_ptr<Player>& pPlayer, Enemy& pEnemy);
 	// 画面中心から正面方向へレイキャストを行い、敵に当たっているか判定する
-	void CheckRayCastHitEnemy(const std::shared_ptr<Enemy>& pEnemy);
+	void CheckRayCastHitEnemy(Enemy& pEnemy);
 
 private:
 	// 水平方向のカメラの回転角度

@@ -101,11 +101,11 @@ void SceneMain::End()
 
 }
 
-void SceneMain::Update(const std::shared_ptr<Input>& pInput)
+void SceneMain::Update(Input& pInput)
 {
 	_atmosCount++;
 
-	p_Camera->Update(p_Player, p_EManager->GetEnemyPointer(), pInput);
+	p_Camera->Update(p_Player, p_EManager->GetEnemy(), pInput);
 
 	// リポップ演出中はロックオンカメラに固定し、他の更新は行わない
 	if (_repopCount > 0)
@@ -127,9 +127,9 @@ void SceneMain::Update(const std::shared_ptr<Input>& pInput)
 	p_Dome->Update();
 	p_Player->Update(pInput, p_Camera, p_MManager);
 	p_EManager->Update(p_Player->GetPos(), p_MManager);
-	p_Coll->Update(p_Player, p_EManager->GetEnemyPointer());
+	p_Coll->Update(p_Player, p_EManager->GetEnemy());
 	p_MManager->Update(p_Player->GetPos(), p_EManager->GetEnemyPos());
-	p_MColl->Update(p_Player, p_EManager->GetEnemyPointer(), p_MManager->GetPlayerList(), p_MManager->GetEnemyList());
+	p_MColl->Update(p_Player, p_EManager->GetEnemy(), p_MManager->GetPlayerList(), p_MManager->GetEnemyList());
 	p_MManager->RemoveList();
 
 	p_UI->Update(p_EManager->GetNowHp(), p_Player->GetNowHp(),

@@ -2,19 +2,19 @@
 #include "Bases/Character.h"
 #include "Effects/EffectHandles.h"
 #include "Sounds/SoundInfo.h"
+#include "PlayerMove.h"
+#include "PlayerDodge.h"
+#include "Magics/MagicShot.h"
+#include "Magics/MagicMissile.h"
+#include "Magics/MagicFury.h"
+#include "Magics/MagicBeam.h"
+#include "Anims/AnimManager.h"
 #include <DxLib.h>
 #include <memory>
 
 class Input;
-class PlayerMove;
-class PlayerDodge;
 class Camera;
-class MagicShot;
-class MagicMissile;
-class MagicFury;
 class MagicManager;
-class MagicBeam;
-class AnimManager;
 
 class Player : public Character
 {
@@ -23,7 +23,7 @@ public:
 	virtual ~Player() override;
 	void Init(int handle, EffectHandles playerMagics, SeHandles se);
 	void End()override;
-	void Update(const std::shared_ptr<Input>& pInput, const std::shared_ptr<Camera>& pCamera, const std::shared_ptr<MagicManager>& pManager);
+	void Update(Input& pInput, const std::shared_ptr<Camera>& pCamera, const std::shared_ptr<MagicManager>& pManager);
 	void Draw() override;
 	// プレイヤー座標のゲッター
 	VECTOR GetPos() const { return _playerUnit.pos; }
@@ -60,29 +60,29 @@ public:
 
 private:
 	// 状況に応じてステートを変化させる
-	void UpdateState(const std::shared_ptr<Input>& pInput);
+	void UpdateState(Input& pInput);
 	// プレイヤーの今のステートを返す
 	Character::CharacterState GetNowState() const { return _playerUnit.nowState; }
 
 private:
 	// プレイヤー
 	CharacterData _playerUnit;
-	// 移動用クラスの共有ポインタ
-	std::shared_ptr<PlayerMove> p_Move;
-	// 回避用クラスの共有ポインタ
-	std::shared_ptr<PlayerDodge> p_Dodge;
+	// 移動用クラス
+	PlayerMove _Move;
+	// 回避用クラス
+	PlayerDodge _Dodge;
 	// モデルを向ける角度　DX_PI_Fで補正
 	float _angle;
-	// マジックショットの共有ポインタ
-	std::shared_ptr<MagicShot> p_Shot;
-	// マジックミサイルの共有ポインタ
-	std::shared_ptr<MagicMissile> p_Missile;
-	// マジックフューリーの共有ポインタ
-	std::shared_ptr<MagicFury> p_Fury;
-	// マジックビームの共有ポインタ
-	std::shared_ptr<MagicBeam> p_Beam;
-	// アニメーションマネージャーの共有ポインタ
-	std::shared_ptr<AnimManager> p_AManager;
+	// マジックショット
+	MagicShot _Shot;
+	// マジックミサイル
+	MagicMissile _Missile;
+	// マジックフューリー
+	MagicFury _Fury;
+	// マジックビーム
+	MagicBeam _Beam;
+	// アニメーションマネージャー
+	AnimManager _AManager;
 
 	// プレイヤーの正面ベクトル
 	VECTOR _frontVec;

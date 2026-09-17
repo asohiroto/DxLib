@@ -19,7 +19,7 @@ public:
 	virtual ~MagicCollision();
 	void Init(int handle, int score, SeHandles se);
 	void End();
-	void Update(const std::shared_ptr<Player>& pPlayer, const std::shared_ptr<Enemy>& pEnemy, MagicList& playerList, MagicList& enemyList);
+	void Update(const std::shared_ptr<Player>& pPlayer, Enemy& pEnemy, MagicList& playerList, MagicList& enemyList);
 	void Draw();
 	// ヒットストップするフレーム数を取得する
 	int GetHitStopFrame();

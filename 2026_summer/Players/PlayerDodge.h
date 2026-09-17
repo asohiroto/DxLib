@@ -11,7 +11,7 @@ public:
 	virtual ~PlayerDodge();
 	void Init();
 	void End();
-	void Update(const std::shared_ptr<Input>& pInput, float cameraAngle);
+	void Update(Input& pInput, float cameraAngle);
 	void Draw();
 	// 回避位置のゲッター
 	VECTOR GetDodgePos() const { return _dodgedPos; }
@@ -22,7 +22,7 @@ public:
 
 private:
 	// 回避方向の計算
-	void CalDirection(const std::shared_ptr<Input>& pInput, float cameraAngle);
+	void CalDirection(Input& pInput, float cameraAngle);
 	// 回避クールダウンのバー
 	void DodgeCoolBar();
 

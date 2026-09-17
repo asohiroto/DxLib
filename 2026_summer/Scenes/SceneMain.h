@@ -24,7 +24,7 @@ public:
 	virtual ~SceneMain() override;
 	void Init(int score, int killCount, int pHpH, int eHpH, int ultH);
 	void End() override;
-	void Update(const std::shared_ptr<Input>& pInput) override;
+	void Update(Input& pInput) override;
 	void Draw() override;
 	// プレイヤーのHPのゲッター
 	int GetPlayerHp() const;

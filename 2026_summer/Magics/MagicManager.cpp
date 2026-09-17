@@ -13,7 +13,6 @@ namespace
 }
 
 MagicManager::MagicManager() :
-	p_MagicMove(nullptr),
 	_enemyLock(false),
 	_enePos(VGet(0.0f, 0.0f, 0.0f))
 {
@@ -31,8 +30,7 @@ MagicManager::~MagicManager()
 
 void MagicManager::Init()
 {
-	p_MagicMove = std::make_shared<MagicMove>();
-	p_MagicMove->Init();
+	_MagicMove.Init();
 }
 
 void MagicManager::End()
@@ -50,13 +48,13 @@ void MagicManager::Update(VECTOR playerPos, VECTOR enemyPos)
 		if (_playerMagics[i].isExist)
 		{
 			if (_playerMagics[i].type == MagicBase::MagicType::MagicShot)
-				p_MagicMove->ShotMove(_playerMagics[i]);
+				_MagicMove.ShotMove(_playerMagics[i]);
 			else if (_playerMagics[i].type == MagicBase::MagicType::MagicMissile)
-				p_MagicMove->MissileMove(_playerMagics[i], enemyPos);
+				_MagicMove.MissileMove(_playerMagics[i], enemyPos);
 			else if (_playerMagics[i].type == MagicBase::MagicType::MagicFury)
-				p_MagicMove->FuryMove(_playerMagics[i], VAdd(enemyPos, VGet(0.0f, -FURY_DIPTH, 0.0f)));
+				_MagicMove.FuryMove(_playerMagics[i], VAdd(enemyPos, VGet(0.0f, -FURY_DIPTH, 0.0f)));
 			else if (_playerMagics[i].type == MagicBase::MagicType::MagicBeam)
-				p_MagicMove->BeamMove(_playerMagics[i], enemyPos, VAdd(playerPos, VGet(0.0f, PLAYER_HEIGHT_OFFSET, 0.0f)));
+				_MagicMove.BeamMove(_playerMagics[i], enemyPos, VAdd(playerPos, VGet(0.0f, PLAYER_HEIGHT_OFFSET, 0.0f)));
 		}
 
 		// 到達した魔法（フューリー）はロックオンを解除して消去
@@ -73,11 +71,11 @@ void MagicManager::Update(VECTOR playerPos, VECTOR enemyPos)
 		if (_enemyMagics[i].isExist)
 		{
 			if (_enemyMagics[i].type == MagicBase::MagicType::MagicShot)
-				p_MagicMove->ShotMove(_enemyMagics[i]);
+				_MagicMove.ShotMove(_enemyMagics[i]);
 			else if (_enemyMagics[i].type == MagicBase::MagicType::MagicMissile)
-				p_MagicMove->MissileMove(_enemyMagics[i], playerPos);
+				_MagicMove.MissileMove(_enemyMagics[i], playerPos);
 			else if (_enemyMagics[i].type == MagicBase::MagicType::MagicBeam)
-				p_MagicMove->BeamMove(_enemyMagics[i], playerPos, VAdd(enemyPos, VGet(0.0f, ENEMY_HEIGHT_OFFSET, 0.0f)));
+				_MagicMove.BeamMove(_enemyMagics[i], playerPos, VAdd(enemyPos, VGet(0.0f, ENEMY_HEIGHT_OFFSET, 0.0f)));
 		}
 	}
 }

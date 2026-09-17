@@ -13,7 +13,7 @@ public:
 	virtual ~Collision();
 	void Init();
 	void End();
-	void Update(const std::shared_ptr<Player>& pPlayer, const std::shared_ptr<Enemy>& pEnemy);
+	void Update(const std::shared_ptr<Player>& pPlayer, Enemy& pEnemy);
 	void Draw();
 
 private:

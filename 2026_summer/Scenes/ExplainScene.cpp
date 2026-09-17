@@ -55,13 +55,13 @@ void ExplainScene::End()
 {
 }
 
-void ExplainScene::Update(const std::shared_ptr<Input>& pInput)
+void ExplainScene::Update(Input& pInput)
 {
 	_count++;
 
 	if (_count > SKIP_WAIT_FRAME)
 	{
-		if (pInput->IsTrigger(PAD_INPUT_1))
+		if (pInput.IsTrigger(PAD_INPUT_1))
 		{
 			_canSceneChange = true;
 		}

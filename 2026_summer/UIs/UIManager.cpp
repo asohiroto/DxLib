@@ -48,10 +48,6 @@ namespace
 }
 
 UIManager::UIManager() :
-	p_EneHpBar(nullptr),
-	p_PlayHpBar(nullptr),
-	p_PlayMpBar(nullptr),
-	p_PlayUltGauge(nullptr),
 	_crosshairRedTimer(0),
 	_guideYButtonH(-1),
 	_guideBButtonH(-1),
@@ -66,17 +62,10 @@ UIManager::~UIManager()
 void UIManager::Init(float eneMaxHp, float playMaxHp,
 	float playMaxMp, float maxCharge, int pHpH, int eHpH, int ultH)
 {
-	p_EneHpBar = std::make_shared<EnemyHpBar>();
-	p_EneHpBar->Init(eneMaxHp, eHpH);
-
-	p_PlayHpBar = std::make_shared<PlayerHpBar>();
-	p_PlayHpBar->Init(playMaxHp, pHpH);
-
-	p_PlayMpBar = std::make_shared<PlayerMpBar>();
-	p_PlayMpBar->Init(playMaxMp);
-
-	p_PlayUltGauge = std::make_shared<PlayerUltGauge>();
-	p_PlayUltGauge->Init(maxCharge, ultH);
+	_EneHpBar.Init(eneMaxHp, eHpH);
+	_PlayHpBar.Init(playMaxHp, pHpH);
+	_PlayMpBar.Init(playMaxMp);
+	_PlayUltGauge.Init(maxCharge, ultH);
 
 	_guideYButtonH = LoadGraph("data/GUI/xbox_Y.png");
 	_guideBButtonH = LoadGraph("data/GUI/xbox_B.png");
@@ -89,10 +78,10 @@ void UIManager::End()
 
 void UIManager::Update(float eneNowHp, float playNowHp, float playNowMp, float nowCharge, bool isEnemyHit)
 {
-	p_EneHpBar->Update(eneNowHp);
-	p_PlayHpBar->Update(playNowHp);
-	p_PlayMpBar->Update(playNowMp);
-	p_PlayUltGauge->Update(nowCharge);
+	_EneHpBar.Update(eneNowHp);
+	_PlayHpBar.Update(playNowHp);
+	_PlayMpBar.Update(playNowMp);
+	_PlayUltGauge.Update(nowCharge);
 
 	if (isEnemyHit) _crosshairRedTimer = CROSSHAIR_HIT_FRAME;
 	else if (_crosshairRedTimer > 0) _crosshairRedTimer--;
@@ -100,10 +89,10 @@ void UIManager::Update(float eneNowHp, float playNowHp, float playNowMp, float n
 
 void UIManager::Draw()
 {
-	p_EneHpBar->Draw();
-	p_PlayHpBar->Draw();
-	//p_PlayMpBar->Draw();
-	p_PlayUltGauge->Draw();
+	_EneHpBar.Draw();
+	_PlayHpBar.Draw();
+	//_PlayMpBar.Draw();
+	_PlayUltGauge.Draw();
 
 	DrawCrosshair();
 	DrawControlGuide();

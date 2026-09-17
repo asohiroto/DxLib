@@ -1,9 +1,8 @@
 ﻿#pragma once
 #include "Bases/SceneBase.h"
-#include <memory>
+#include "SkyDome.h"
 
 class Input;
-class SkyDome;
 
 class StartScene : public SceneBase
 {
@@ -12,12 +11,12 @@ public:
 	virtual ~StartScene() override;
 	void Init(int domeH);
 	void End() override;
-	void Update(const std::shared_ptr<Input>& pInput)override;
+	void Update(Input& pInput)override;
 	void Draw()override;
 
 private:
-	// スカイドームの共有ポインタ
-	std::shared_ptr<SkyDome> p_Dome;
+	// スカイドーム
+	SkyDome _Dome;
 	// ドーム回転用の角度
 	float _angle;
 	// タイトルロゴ

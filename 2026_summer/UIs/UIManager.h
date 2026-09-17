@@ -1,10 +1,8 @@
 ﻿#pragma once
-#include <memory>
-
-class EnemyHpBar;
-class PlayerHpBar;
-class PlayerMpBar;
-class PlayerUltGauge;
+#include "EnemyHpBar.h"
+#include "PlayerHpBar.h"
+#include "PlayerMpBar.h"
+#include "PlayerUltGauge.h"
 
 class UIManager
 {
@@ -26,13 +24,13 @@ private:
 
 private:
 	// 敵HPバー
-	std::shared_ptr<EnemyHpBar> p_EneHpBar;
+	EnemyHpBar _EneHpBar;
 	// プレイヤーHPバー
-	std::shared_ptr<PlayerHpBar> p_PlayHpBar;
+	PlayerHpBar _PlayHpBar;
 	// プレイヤーMPバー
-	std::shared_ptr<PlayerMpBar> p_PlayMpBar;
+	PlayerMpBar _PlayMpBar;
 	// プレイヤー必殺技ゲージ
-	std::shared_ptr<PlayerUltGauge> p_PlayUltGauge;
+	PlayerUltGauge _PlayUltGauge;
 	// クロスヘアを赤く表示する残りフレーム数
 	int _crosshairRedTimer;
 	// 操作ガイドのYボタン(回避)のハンドル

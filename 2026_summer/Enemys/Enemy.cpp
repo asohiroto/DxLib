@@ -39,8 +39,7 @@ namespace
 
 Enemy::Enemy() :
 	_enemyUnit(),
-	_damagedCount(0),
-	p_AManager(nullptr)
+	_damagedCount(0)
 {
 }
 
@@ -63,8 +62,7 @@ void Enemy::Init(int handle, int score)
 	_enemyUnit.maxHp = MAX_HP + (HP_BASE * score);
 	_enemyUnit.hp = _enemyUnit.maxHp;
 
-	p_AManager = std::make_shared<AnimManager>();
-	p_AManager->Init(_enemyUnit.modelH);
+	_AManager.Init(_enemyUnit.modelH);
 
 	// モデルを拡大
 	MV1SetScale(_enemyUnit.modelH, VGet(MODEL_SCALE, MODEL_SCALE, MODEL_SCALE));
@@ -111,8 +109,8 @@ void Enemy::Update(float angle)
 	}
 
 	MV1SetRotationXYZ(_enemyUnit.modelH, VGet(0.0f, angle + DX_PI_F, 0.0f));
-	p_AManager->AnimChange(TranslateState(_enemyUnit.nowState));
-	p_AManager->Update();
+	_AManager.AnimChange(TranslateState(_enemyUnit.nowState));
+	_AManager.Update();
 }
 
 void Enemy::Draw()

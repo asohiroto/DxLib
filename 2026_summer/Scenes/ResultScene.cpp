@@ -149,14 +149,14 @@ void ResultScene::End()
 {
 }
 
-void ResultScene::Update(const std::shared_ptr<Input>& pInput)
+void ResultScene::Update(Input& pInput)
 {
 	_count += DOME_ROTATE_SPEED;
 	_uiCount++;
 
 	MV1SetRotationXYZ(_domeH, VGet(0.0f, _count, 0.0f));
 
-	if (pInput->IsTrigger(PAD_INPUT_1))
+	if (pInput.IsTrigger(PAD_INPUT_1))
 	{
 		_canSceneChange = true;
 	}

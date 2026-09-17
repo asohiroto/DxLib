@@ -1,9 +1,8 @@
 ﻿#pragma once
 #include "Bases/Character.h"
-#include <memory>
+#include "Anims/AnimManager.h"
 
 class EnemyManager;
-class AnimManager;
 
 class Enemy : public Character
 {
@@ -35,8 +34,8 @@ public:
 	int GetNowHp() const { return _enemyUnit.hp; }
 
 private:
-	// アニメマネージャーの共有ポインタ
-	std::shared_ptr<AnimManager> p_AManager;
+	// アニメマネージャー
+	AnimManager _AManager;
 	// 敵のキャラクターデータ
 	CharacterData _enemyUnit;
 	// やられのカウンタ

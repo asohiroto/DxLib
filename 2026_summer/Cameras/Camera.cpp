@@ -59,11 +59,11 @@ void Camera::End()
 {
 }
 
-void Camera::Update(const std::shared_ptr<Player>& pPlayer, const std::shared_ptr<Enemy>& pEnemy, const std::shared_ptr<Input>& pInput)
+void Camera::Update(const std::shared_ptr<Player>& pPlayer, Enemy& pEnemy, Input& pInput)
 {
 	// 右スティックの入力を保存
-	int rx = pInput->GetRightStickX();
-	int ry = -(pInput->GetRightStickY());
+	int rx = pInput.GetRightStickX();
+	int ry = -(pInput.GetRightStickY());
 
 	// 初回フレームかどうかを判定するためカウントを進める
 	_cameraCount++;
@@ -93,8 +93,6 @@ void Camera::Draw()
 
 void Camera::NormalCam(const std::shared_ptr<Player>& pPlayer)
 {
-	if (pPlayer == nullptr) return;
-
 	// GetPlayerAngle()はモデル表示用に+DX_PI_Fされた角度なので、補正を外して実際の向きに戻す
 	_cameraYaw = pPlayer->GetPlayerAngle();
 
@@ -120,13 +118,10 @@ void Camera::NormalCam(const std::shared_ptr<Player>& pPlayer)
 	_targetPos = VAdd(_targetPos, VScale(VSub(targetLookPos, _targetPos), LERP_RATE));
 }
 
-void Camera::LockOnCam(const std::shared_ptr<Player>& pPlayer, const std::shared_ptr<Enemy>& pEnemy)
+void Camera::LockOnCam(const std::shared_ptr<Player>& pPlayer, Enemy& pEnemy)
 {
-	// 注視点を設定
-	if (pEnemy == nullptr || pPlayer == nullptr) return;
-
 	// 敵までの方向（水平成分のみ）
-	_dirToEnemy = VSub(pEnemy->GetPos(), pPlayer->GetPos());
+	_dirToEnemy = VSub(pEnemy.GetPos(), pPlayer->GetPos());
 	_dirToEnemy.y = 0.0f;
 	_dirToEnemy = VNorm(_dirToEnemy);
 
@@ -142,18 +137,16 @@ void Camera::LockOnCam(const std::shared_ptr<Player>& pPlayer, const std::shared
 	targetCamPos.y = LOCKON_HEIGHT;
 
 	// 注視点は敵にする
-	VECTOR targetLookPos = VAdd(pEnemy->GetPos(), VGet(0.0f, TARGET_HEIGHT, 0.0f));
+	VECTOR targetLookPos = VAdd(pEnemy.GetPos(), VGet(0.0f, TARGET_HEIGHT, 0.0f));
 
 	// 線形補間をかける
 	_cameraPos = VAdd(_cameraPos, VScale(VSub(targetCamPos, _cameraPos), LERP_RATE));
 	_targetPos = VAdd(_targetPos, VScale(VSub(targetLookPos, _targetPos), LERP_RATE));
 }
 
-void Camera::CheckRayCastHitEnemy(const std::shared_ptr<Enemy>& pEnemy)
+void Camera::CheckRayCastHitEnemy(Enemy& pEnemy)
 {
 	_isRayHitEnemy = false;
-
-	if (pEnemy == nullptr) return;
 
 	// 画面中心の座標
 	float screenCenterX = SCREEN_CENTER_X;
@@ -165,7 +158,7 @@ void Camera::CheckRayCastHitEnemy(const std::shared_ptr<Enemy>& pEnemy)
 	VECTOR rayDir = VNorm(VSub(rayEnd, rayStart));
 
 	// レイの始点から敵座標へのベクトルをレイ方向に投影し、レイ上の最近接点を求める
-	VECTOR toEnemy = VSub(pEnemy->GetPos(), rayStart);
+	VECTOR toEnemy = VSub(pEnemy.GetPos(), rayStart);
 	float projLength = VDot(toEnemy, rayDir);
 	// 敵がカメラより後方にある場合は当たっていない
 	if (projLength < 0.0f) return;
@@ -181,10 +174,10 @@ void Camera::CheckRayCastHitEnemy(const std::shared_ptr<Enemy>& pEnemy)
 	float gapTolerance = VSize(VSub(gapPos, closestPos));
 
 	// レイ上の最近接点と敵座標との距離が「敵の当たり判定の半径+クロスヘアの隙間分の許容距離」以内なら命中とみなす
-	float dist = VSize(VSub(pEnemy->GetPos(), closestPos));
-	if (dist <= pEnemy->GetEnemyData().radius + gapTolerance)
+	float dist = VSize(VSub(pEnemy.GetPos(), closestPos));
+	if (dist <= pEnemy.GetEnemyData().radius + gapTolerance)
 	{
 		_isRayHitEnemy = true;
-		_rayHitEnemyPos = pEnemy->GetPos();
+		_rayHitEnemyPos = pEnemy.GetPos();
 	}
 }

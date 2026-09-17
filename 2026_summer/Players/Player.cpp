@@ -82,14 +82,7 @@ namespace
 
 Player::Player() :
 	_playerUnit(),
-	p_Move(nullptr),
-	p_Dodge(nullptr),
 	_angle(0.0f),
-	p_Shot(nullptr),
-	p_Missile(nullptr),
-	p_Fury(nullptr),
-	p_Beam(nullptr),
-	p_AManager(nullptr),
 	_frontVec(VGet(0.0f, 0.0f, 0.0f)),
 	_pressFrame(0),
 	_ultPressFrame(0),
@@ -138,29 +131,22 @@ void Player::Init(int handle, EffectHandles playerMagics, SeHandles se)
 	// モデルの拡大
 	MV1SetScale(_playerUnit.modelH, VGet(MODEL_SCALE, MODEL_SCALE, MODEL_SCALE));
 
-	// 各ポインタの初期化
-	p_Move = std::make_shared<PlayerMove>();
-	p_Move->Init();
-	p_Dodge = std::make_shared<PlayerDodge>();
-	p_Dodge->Init();
-	p_Shot = std::make_shared<MagicShot>();
-	p_Shot->Init();
-	p_Shot->SetMagicShotH(_playerMagics.shotHandle);
-	p_Missile = std::make_shared<MagicMissile>();
-	p_Missile->Init();
-	p_Missile->SetMagicMissileH(_playerMagics.missileHandle);
-	p_Fury = std::make_shared<MagicFury>();
-	p_Fury->Init();
-	p_Fury->SetMagicFuryH(_playerMagics.furyHandle);
-	p_Beam = std::make_shared<MagicBeam>();
-	p_Beam->Init();
-	p_Beam->SetMagicBeamH(_playerMagics.beamHandle);
-	p_AManager = std::make_shared<AnimManager>();
-	p_AManager->Init(_playerUnit.modelH);
+	// 各クラスの初期化
+	_Move.Init();
+	_Dodge.Init();
+	_Shot.Init();
+	_Shot.SetMagicShotH(_playerMagics.shotHandle);
+	_Missile.Init();
+	_Missile.SetMagicMissileH(_playerMagics.missileHandle);
+	_Fury.Init();
+	_Fury.SetMagicFuryH(_playerMagics.furyHandle);
+	_Beam.Init();
+	_Beam.SetMagicBeamH(_playerMagics.beamHandle);
+	_AManager.Init(_playerUnit.modelH);
 
 	_magicCircleH = _playerMagics.circleHandle;
 
-	p_AManager->AnimChange(TranslateState(_playerUnit.nowState));
+	_AManager.AnimChange(TranslateState(_playerUnit.nowState));
 
 	_gameSE = se;
 }
@@ -170,7 +156,7 @@ void Player::End()
 
 }
 
-void Player::Update(const std::shared_ptr<Input>& pInput, const std::shared_ptr<Camera>& pCamera, const std::shared_ptr<MagicManager>& pManager)
+void Player::Update(Input& pInput, const std::shared_ptr<Camera>& pCamera, const std::shared_ptr<MagicManager>& pManager)
 {
 	// 各種経過フレームカウンタを進める
 	_pressFrame++;
@@ -183,10 +169,10 @@ void Player::Update(const std::shared_ptr<Input>& pInput, const std::shared_ptr<
 		_playerUnit.mp = _playerUnit.maxMp;
 
 	// 右スティックの入力を取得
-	int rx = pInput->GetRightStickX();
+	int rx = pInput.GetRightStickX();
 
 	// 回避中ならジャスト回避判定の半径を有効化する
-	if (p_Dodge->IsDodge())
+	if (_Dodge.IsDodge())
 		_playerUnit.justRadius = JUST_DODGE_RADIUS;
 	else
 		_playerUnit.justRadius = NORM_JUST_RADIUS;
@@ -207,16 +193,16 @@ void Player::Update(const std::shared_ptr<Input>& pInput, const std::shared_ptr<
 	}
 
 	// プレイヤーの挙動の更新
-	p_Move->Update(pInput, pCamera->GetCameraYaw());
-	p_Dodge->Update(pInput, pCamera->GetCameraYaw());
+	_Move.Update(pInput, pCamera->GetCameraYaw());
+	_Dodge.Update(pInput, pCamera->GetCameraYaw());
 
 	// プレイヤー座標の更新
-	_playerUnit.pos = VAdd(_playerUnit.pos, p_Move->GetMovement());
-	_playerUnit.pos = VAdd(_playerUnit.pos, p_Dodge->GetDodgePos());
+	_playerUnit.pos = VAdd(_playerUnit.pos, _Move.GetMovement());
+	_playerUnit.pos = VAdd(_playerUnit.pos, _Dodge.GetDodgePos());
 
 	// 回避を行っているかを更新する
 	bool wasDodge = _isDodge;
-	_isDodge = p_Dodge->IsDodge();
+	_isDodge = _Dodge.IsDodge();
 
 	// 回避が終了した瞬間にジャスト回避エフェクトを止める
 	if (wasDodge && !_isDodge)
@@ -227,7 +213,7 @@ void Player::Update(const std::shared_ptr<Input>& pInput, const std::shared_ptr<
 	_playerUnit.pos.z = std::clamp(_playerUnit.pos.z, -POS_LIMIT_Z, POS_LIMIT_Z);
 
 	// モデルの向く方向を定める
-	if (pInput->IsTiltingR())
+	if (pInput.IsTiltingR())
 	{
 		_angle += static_cast<float>(ROTATE_SPEED * std::clamp(rx * INPUT_COR, -1.0f, 1.0f));
 		_frontVec = GetCameraFrontVector();
@@ -260,7 +246,7 @@ void Player::Update(const std::shared_ptr<Input>& pInput, const std::shared_ptr<
 	VECTOR circlePos = VAdd(VAdd(_playerUnit.pos, VScale(_frontVec, CIRCLE_FRONT_OFFSET)), VScale(right, SHOT_RIGHT_OFFSET));
 
 	// Bを推している時間を計測
-	if (pInput->IsTrigger(PAD_INPUT_3))
+	if (pInput.IsTrigger(PAD_INPUT_3))
 	{
 		_pressFrame = 0;
 
@@ -274,7 +260,7 @@ void Player::Update(const std::shared_ptr<Input>& pInput, const std::shared_ptr<
 	}
 
 	// マジックミサイル生成になればカメラがロックオン
-	if (pInput->IsPress(PAD_INPUT_3))
+	if (pInput.IsPress(PAD_INPUT_3))
 	{
 		SetPosPlayingEffekseer3DEffect(_circlePlayingH, circlePos.x, circlePos.y + CIRCLE_HEIGHT_OFFSET, circlePos.z);
 
@@ -285,12 +271,12 @@ void Player::Update(const std::shared_ptr<Input>& pInput, const std::shared_ptr<
 	}
 
 	// 離したときの時間で生成する魔法を切り替え
-	if (pInput->IsRelease(PAD_INPUT_3))
+	if (pInput.IsRelease(PAD_INPUT_3))
 	{
 		StopSoundMem(_gameSE.circleH);
 		if (_pressFrame < SHOT_SWITCH)
 		{
-			float remainMp = _playerUnit.mp - p_Shot->GetUseMp();
+			float remainMp = _playerUnit.mp - _Shot.GetUseMp();
 			if (remainMp >= 0)
 			{
 				_playerUnit.mp = remainMp;
@@ -303,21 +289,21 @@ void Player::Update(const std::shared_ptr<Input>& pInput, const std::shared_ptr<
 				}
 
 				PlaySoundMem(_gameSE.shotH, DX_PLAYTYPE_BACK);
-				p_Shot->GenerateShot(shotPos, _frontVec, false, pManager);
+				_Shot.GenerateShot(shotPos, _frontVec, false, pManager);
 				_playerUnit.nowState = CharacterState::Shot;
-				p_AManager->AnimChange(TranslateState(_playerUnit.nowState));
+				_AManager.AnimChange(TranslateState(_playerUnit.nowState));
 			}
 		}
 		else
 		{
-			float remainMp = _playerUnit.mp - p_Missile->GetUseMp();
+			float remainMp = _playerUnit.mp - _Missile.GetUseMp();
 			if (remainMp >= 0)
 			{
 				_playerUnit.mp = remainMp;
 				PlaySoundMem(_gameSE.missileH, DX_PLAYTYPE_BACK);
-				p_Missile->GenerateMissile(shotPos, _frontVec, false, pManager);
+				_Missile.GenerateMissile(shotPos, _frontVec, false, pManager);
 				_playerUnit.nowState = CharacterState::Missile;
-				p_AManager->AnimChange(TranslateState(_playerUnit.nowState));
+				_AManager.AnimChange(TranslateState(_playerUnit.nowState));
 			}
 		}
 		StopEffekseer3DEffect(_circlePlayingH);
@@ -329,7 +315,7 @@ void Player::Update(const std::shared_ptr<Input>& pInput, const std::shared_ptr<
 	if (_playerUnit.ultCharge >= _playerUnit.maxUltCharge / 2)
 	{
 		// Aを押した瞬間からロックオンカメラにし、黄色い魔法陣を出す
-		if (pInput->IsTrigger(PAD_INPUT_4))
+		if (pInput.IsTrigger(PAD_INPUT_4))
 		{
 			_ultPressFrame = 0;
 			pCamera->SetCameraMode(true);
@@ -347,7 +333,7 @@ void Player::Update(const std::shared_ptr<Input>& pInput, const std::shared_ptr<
 		}
 
 		// 押している間は魔法陣を追従させる
-		if (pInput->IsPress(PAD_INPUT_4))
+		if (pInput.IsPress(PAD_INPUT_4))
 		{
 			SetPosPlayingEffekseer3DEffect(_ultCirclePlayingH, circlePos.x, circlePos.y + CIRCLE_HEIGHT_OFFSET, circlePos.z);
 			SetRotationPlayingEffekseer3DEffect(_ultCirclePlayingH, 0.0f, facing, 0.0f);
@@ -360,22 +346,22 @@ void Player::Update(const std::shared_ptr<Input>& pInput, const std::shared_ptr<
 		}
 
 		// 離したときの押していた時間で発動する必殺技を切り替え
-		if (pInput->IsRelease(PAD_INPUT_4))
+		if (pInput.IsRelease(PAD_INPUT_4))
 		{
 			if (_ultPressFrame >= SHOT_SWITCH && _playerUnit.ultCharge >= _playerUnit.maxUltCharge)
 			{
-				p_Fury->GenerateFury(pManager->GetEnePos(), VGet(0.0f, -1.0f, 0.0f), false, pManager);
+				_Fury.GenerateFury(pManager->GetEnePos(), VGet(0.0f, -1.0f, 0.0f), false, pManager);
 				_playerUnit.nowState = CharacterState::Fury;
 				PlaySoundMem(_gameSE.furyH, DX_PLAYTYPE_BACK);
-				p_AManager->AnimChange(TranslateState(_playerUnit.nowState));
+				_AManager.AnimChange(TranslateState(_playerUnit.nowState));
 				_playerUnit.ultCharge = 0;
 			}
 			else
 			{
-				p_Beam->GenerateBeam(shotPos, _frontVec, false, pManager);
+				_Beam.GenerateBeam(shotPos, _frontVec, false, pManager);
 				_playerUnit.nowState = CharacterState::Beam;
 				PlaySoundMem(_gameSE.beamH, DX_PLAYTYPE_BACK);
-				p_AManager->AnimChange(TranslateState(_playerUnit.nowState));
+				_AManager.AnimChange(TranslateState(_playerUnit.nowState));
 				_playerUnit.ultCharge -= (_playerUnit.maxUltCharge / 2);
 			}
 
@@ -388,8 +374,8 @@ void Player::Update(const std::shared_ptr<Input>& pInput, const std::shared_ptr<
 	UpdateState(pInput);
 
 	// アニメションの更新
-	p_AManager->AnimChange(TranslateState(_playerUnit.nowState));
-	p_AManager->Update();
+	_AManager.AnimChange(TranslateState(_playerUnit.nowState));
+	_AManager.Update();
 }
 
 void Player::Draw()
@@ -397,13 +383,13 @@ void Player::Draw()
 	// プレイヤーモデルを描画
 	MV1DrawModel(_playerUnit.modelH);
 
-	p_Dodge->Draw();
-	p_AManager->Draw();
+	_Dodge.Draw();
+	_AManager.Draw();
 
 #ifdef _DEBUG
 	DrawHitBox(_playerUnit);
 	// ショットが存在していれば弾も描画
-	if (p_Shot->IsExist()) p_Shot->Draw();
+	if (_Shot.IsExist()) _Shot.Draw();
 
 	// HP/MPの数値をデバッグ表示
 	DrawFormatString(0, 60, 0xffffff, "NowHp : %d / MaxHp : %d", _playerUnit.hp, _playerUnit.maxHp);
@@ -470,7 +456,7 @@ void Player::JustDodgeEffect()
 
 	// 回避成功SEを再生し、クールダウンをリセット
 	PlaySoundMem(_gameSE.dodgeH, DX_PLAYTYPE_BACK);
-	p_Dodge->ResetDodgeCoolCount();
+	_Dodge.ResetDodgeCoolCount();
 }
 
 void Player::SetUltCharge(int amount)
@@ -491,11 +477,11 @@ void Player::SetUltCharge(int amount)
 	}
 }
 
-void Player::UpdateState(const std::shared_ptr<Input>& pInput)
+void Player::UpdateState(Input& pInput)
 {
 	// 左スティックの入力を取得
-	int lx = pInput->GetLeftStickX();
-	int ly = pInput->GetLeftStickY();
+	int lx = pInput.GetLeftStickX();
+	int ly = pInput.GetLeftStickY();
 
 	// HPが0以下なら死亡ステートに固定する
 	if (_playerUnit.hp <= 0)
@@ -509,7 +495,7 @@ void Player::UpdateState(const std::shared_ptr<Input>& pInput)
 	// ループしないアニメーション（攻撃等）は再生完了までステートを変えない
 	if (nowAnim.isLoop == false)
 	{
-		if (!p_AManager->IsFinished()) return;
+		if (!_AManager.IsFinished()) return;
 	}
 
 	// 被弾中なら硬直ステートにする

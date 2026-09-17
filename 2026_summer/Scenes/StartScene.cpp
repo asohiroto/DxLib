@@ -40,7 +40,6 @@ namespace
 }
 
 StartScene::StartScene() :
-	p_Dome(nullptr),
 	_logoH(-1),
 	_angle(0.0f),
 	_startY1(0), _startY2(0),
@@ -59,8 +58,7 @@ StartScene::~StartScene()
 
 void StartScene::Init(int domeH)
 {
-	p_Dome = std::make_shared<SkyDome>();
-	p_Dome->Init(domeH);
+	_Dome.Init(domeH);
 
 	_logoH = LoadGraph("data/2026_summer_Logo.png");
 	_xButtonH = LoadGraph("data/GUI/xbox_X.png");
@@ -103,7 +101,7 @@ void StartScene::End()
 {
 }
 
-void StartScene::Update(const std::shared_ptr<Input>& pInput)
+void StartScene::Update(Input& pInput)
 {
 	_angle += ROTATE_SPEED;
 	_count++;
@@ -111,16 +109,16 @@ void StartScene::Update(const std::shared_ptr<Input>& pInput)
 	_startY1 = static_cast<int>(sin(_count * BOB_SPEED) * BOB_AMPLITUDE_1);
 	_startY2 = static_cast<int>(sin(_count * BOB_SPEED) * BOB_AMPLITUDE_2);
 
-	p_Dome->Update();
-	p_Dome->SetRotate(_angle);
+	_Dome.Update();
+	_Dome.SetRotate(_angle);
 
-	if (pInput->IsTrigger(PAD_INPUT_1))
+	if (pInput.IsTrigger(PAD_INPUT_1))
 		_isSceneChange = true;
 }
 
 void StartScene::Draw()
 {
-	p_Dome->Draw();
+	_Dome.Draw();
 	DrawGraph(200, 50, _logoH, true);
 
 	SetFontSize(_fontSize);

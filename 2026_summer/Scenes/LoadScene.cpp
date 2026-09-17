@@ -133,7 +133,7 @@ void LoadScene::End()
 
 }
 
-void LoadScene::Update(const std::shared_ptr<Input>& pInput)
+void LoadScene::Update(Input& pInput)
 {
 	_count++;
 

@@ -27,11 +27,6 @@ namespace
 }
 
 SceneManager::SceneManager() :
-	p_Main(nullptr),
-	p_Input(nullptr),
-	p_Load(nullptr),
-	p_Start(nullptr),
-	p_Result(nullptr),
 	_nowScene(SceneState::Load),
 	_score(0),
 	_defeatNum(0),
@@ -48,18 +43,11 @@ void SceneManager::Init()
 {
 	_count = 0;
 
-	p_Main = std::make_shared<SceneMain>();
-	p_Load = std::make_shared<LoadScene>();
-	p_Start = std::make_shared<StartScene>();
-	p_Result = std::make_shared<ResultScene>();
-	p_Explain = std::make_shared<ExplainScene>();
-	p_Input = std::make_shared<Input>();
+	_Load.Init();
+	_Input.Init();
 
-	p_Load->Init();
-	p_Input->Init();
-
-	_gameBgm = p_Load->GetBGMHanadles();
-	_gameSe = p_Load->GetSeHandles();
+	_gameBgm = _Load.GetBGMHanadles();
+	_gameSe = _Load.GetSeHandles();
 
 	ChangeVolumeSoundMem(VOLUME_MAX / VOLUME_PERCENT_BASE * BGM_VOLUME_PERCENT, _gameBgm.startBgmH);
 	ChangeVolumeSoundMem(VOLUME_MAX / VOLUME_PERCENT_BASE * BGM_VOLUME_PERCENT, _gameBgm.explainBgmH);
@@ -73,44 +61,44 @@ void SceneManager::End()
 
 void SceneManager::Update()
 {
-	p_Input->Update();
+	_Input.Update();
 	_count += FADE_SPEED;
 
 	switch (_nowScene)
 	{
 	case SceneManager::SceneState::Load:
-		p_Load->Update(p_Input);
+		_Load.Update(_Input);
 
-		if (p_Load->CanSceneChange())
+		if (_Load.CanSceneChange())
 			ChangeScene(SceneManager::SceneState::Start);
 		break;
 	case SceneManager::SceneState::Start:
-		p_Start->Update(p_Input);
+		_Start.Update(_Input);
 
-		if (p_Start->CanSceneChange())
+		if (_Start.CanSceneChange())
 		{
 			StopSoundMem(_gameBgm.startBgmH);
 			ChangeScene(SceneManager::SceneState::Explain);
 		}
 		break;
 	case SceneManager::SceneState::Explain:
-		p_Explain->Update(p_Input);
+		_Explain.Update(_Input);
 
-		if (p_Explain->CanSceneChange())
+		if (_Explain.CanSceneChange())
 		{
 			StopSoundMem(_gameBgm.explainBgmH);
 			ChangeScene(SceneManager::SceneState::Main);
 		}
 		break;
 	case SceneManager::SceneState::Main:
-		p_Main->Update(p_Input);
+		_Main.Update(_Input);
 
-		if (p_Main->GetPlayerHp() <= 0)
+		if (_Main.GetPlayerHp() <= 0)
 		{
 			StopSoundMem(_gameBgm.mainBgmH);
 			ChangeScene(SceneManager::SceneState::Result);
 		}
-		else if (p_Main->GetEnemyHp() <= 0)
+		else if (_Main.GetEnemyHp() <= 0)
 		{
 			// 倒した数に応じてスコアを加算し、Mainシーンを再初期化してリポップさせる
 			_defeatNum++;
@@ -119,9 +107,9 @@ void SceneManager::Update()
 		}
 		break;
 	case SceneManager::SceneState::Result:
-		p_Result->Update(p_Input);
+		_Result.Update(_Input);
 
-		if (p_Result->CanSceneChange())
+		if (_Result.CanSceneChange())
 		{
 			_defeatNum = 0;
 			_score = 0;
@@ -138,25 +126,25 @@ void SceneManager::Update()
 
 void SceneManager::Draw()
 {
-	p_Input->Draw();
+	_Input.Draw();
 	Fade(_count);
 
 	switch (_nowScene)
 	{
 	case SceneManager::SceneState::Load:
-		p_Load->Draw();
+		_Load.Draw();
 		break;
 	case SceneManager::SceneState::Start:
-		p_Start->Draw();
+		_Start.Draw();
 		break;
 	case SceneManager::SceneState::Explain:
-		p_Explain->Draw();
+		_Explain.Draw();
 		break;
 	case SceneManager::SceneState::Main:
-		p_Main->Draw();
+		_Main.Draw();
 		break;
 	case SceneManager::SceneState::Result:
-		p_Result->Draw();
+		_Result.Draw();
 		break;
 	default:
 		break;
@@ -171,33 +159,33 @@ void SceneManager::ChangeScene(SceneState nextScene)
 	switch (_nowScene)
 	{
 	case SceneManager::SceneState::Load:
-		p_Load->Init();
+		_Load.Init();
 		break;
 	case SceneManager::SceneState::Start:
-		p_Start->Init(p_Load->GetNightDomeH());
+		_Start.Init(_Load.GetNightDomeH());
 
 		PlaySoundMem(_gameBgm.startBgmH, DX_PLAYTYPE_LOOP);
 		break;
 	case SceneManager::SceneState::Explain:
-		p_Explain->Init();
+		_Explain.Init();
 
 		PlaySoundMem(_gameBgm.explainBgmH, DX_PLAYTYPE_LOOP);
 		break;
 	case SceneManager::SceneState::Main:
-		p_Main->SetCharacterH(p_Load->GetPlayerH(), p_Load->GetEnemyH());
-		p_Main->SetSkyDomeH(p_Load->GetNightDomeH());
-		p_Main->SetOtherH(p_Load->GetHitEffectH(), p_Load->GetAtmosH());
-		p_Main->SetMagics(p_Load->GetEffectHandles());
-		p_Main->SetSE(_gameSe);
-		p_Main->Init(_score, _defeatNum,
-			p_Load->GetPlayerHpBarH(), p_Load->GetEnemyHpBarH(), p_Load->GetUltGaugeH());
+		_Main.SetCharacterH(_Load.GetPlayerH(), _Load.GetEnemyH());
+		_Main.SetSkyDomeH(_Load.GetNightDomeH());
+		_Main.SetOtherH(_Load.GetHitEffectH(), _Load.GetAtmosH());
+		_Main.SetMagics(_Load.GetEffectHandles());
+		_Main.SetSE(_gameSe);
+		_Main.Init(_score, _defeatNum,
+			_Load.GetPlayerHpBarH(), _Load.GetEnemyHpBarH(), _Load.GetUltGaugeH());
 
 		// リポップ時にBGMが最初から再生し直されないよう、初回のみ再生する
 		if (_defeatNum == 0)
 			PlaySoundMem(_gameBgm.mainBgmH, DX_PLAYTYPE_LOOP);
 		break;
 	case SceneManager::SceneState::Result:
-		p_Result->Init(_defeatNum, p_Load->GetSunnyDomeH());
+		_Result.Init(_defeatNum, _Load.GetSunnyDomeH());
 
 		PlaySoundMem(_gameBgm.resultBgmH, DX_PLAYTYPE_LOOP);
 		break;

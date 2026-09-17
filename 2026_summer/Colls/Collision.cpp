@@ -29,10 +29,10 @@ void Collision::End()
 {
 }
 
-void Collision::Update(const std::shared_ptr<Player>& pPlayer, const std::shared_ptr<Enemy>& pEnemy)
+void Collision::Update(const std::shared_ptr<Player>& pPlayer, Enemy& pEnemy)
 {
 	Character::CharacterData player = pPlayer->GetPlayerData();
-	Character::CharacterData enemy = pEnemy->GetEnemyData();
+	Character::CharacterData enemy = pEnemy.GetEnemyData();
 
 	_isTouchLast = _isTouchNow;
 	_isTouchNow = CharacterHitCheck(player, enemy);
@@ -40,7 +40,7 @@ void Collision::Update(const std::shared_ptr<Player>& pPlayer, const std::shared
 	if (IsTouch())
 	{
 		pPlayer->SetColor(TOUCH_COLOR);
-		pEnemy->SetColor(TOUCH_COLOR);
+		pEnemy.SetColor(TOUCH_COLOR);
 	}
 
 	if (IsTouching())
@@ -51,7 +51,7 @@ void Collision::Update(const std::shared_ptr<Player>& pPlayer, const std::shared
 	if (IsSeparate())
 	{
 		pPlayer->SetColor(SEPARATE_COLOR);
-		pEnemy->SetColor(SEPARATE_COLOR);
+		pEnemy.SetColor(SEPARATE_COLOR);
 	}
 }
 

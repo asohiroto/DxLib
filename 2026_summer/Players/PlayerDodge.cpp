@@ -48,7 +48,7 @@ void PlayerDodge::End()
 {
 }
 
-void PlayerDodge::Update(const std::shared_ptr<Input>& pInput, float cameraAngle)
+void PlayerDodge::Update(Input& pInput, float cameraAngle)
 {
 	// 回避方向を計算
 	CalDirection(pInput, cameraAngle);
@@ -56,7 +56,7 @@ void PlayerDodge::Update(const std::shared_ptr<Input>& pInput, float cameraAngle
 	_dodgeCoolCount++;
 
 	// クールダウン完了後にボタン入力で回避開始
-	if (pInput->IsTrigger(PAD_INPUT_2) && _dodgeCoolCount >= DODGE_COOLDOWN)
+	if (pInput.IsTrigger(PAD_INPUT_2) && _dodgeCoolCount >= DODGE_COOLDOWN)
 		_isDodge = true;
 
 	// 回避中は距離が最大distanceに達するまで移動を続ける
@@ -84,11 +84,11 @@ void PlayerDodge::Draw()
 	//DodgeCoolBar();
 }
 
-void PlayerDodge::CalDirection(const std::shared_ptr<Input>& pInput, float cameraAngle)
+void PlayerDodge::CalDirection(Input& pInput, float cameraAngle)
 {
 	// 移動の方向に代入
-	int _mx = pInput->GetLeftStickX();
-	int _mz = pInput->GetLeftStickY();
+	int _mx = pInput.GetLeftStickX();
+	int _mz = pInput.GetLeftStickY();
 
 	// 回避方向を決定
 	VECTOR input = VGet(static_cast<float>(_mx), 0.0f, static_cast<float>(-_mz));

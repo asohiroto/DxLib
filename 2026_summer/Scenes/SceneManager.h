@@ -1,13 +1,11 @@
 ﻿#pragma once
 #include "Sounds/SoundInfo.h"
-#include <memory>
-
-class SceneMain;
-class LoadScene;
-class StartScene;
-class ResultScene;
-class ExplainScene;
-class Input;
+#include "SceneMain.h"
+#include "LoadScene.h"
+#include "StartScene.h"
+#include "ResultScene.h"
+#include "ExplainScene.h"
+#include "Inputs/Input.h"
 
 class SceneManager
 {
@@ -36,18 +34,18 @@ private:
 	void Fade(int count);
 
 private:
-	// メインシーンの共有ポインタ
-	std::shared_ptr<SceneMain> p_Main;
-	// ロードシーンの共有ポインタ
-	std::shared_ptr<LoadScene> p_Load;
-	// インプットクラスの共有ポインタ
-	std::shared_ptr<Input> p_Input;
-	// スタートシーンの共有ポインタ
-	std::shared_ptr<StartScene> p_Start;
-	// リザルトシーンの共有ポインタ
-	std::shared_ptr<ResultScene> p_Result;
-	// 説明シーンの共有ポインタ
-	std::shared_ptr<ExplainScene> p_Explain;
+	// メインシーン
+	SceneMain _Main;
+	// ロードシーン
+	LoadScene _Load;
+	// インプットクラス
+	Input _Input;
+	// スタートシーン
+	StartScene _Start;
+	// リザルトシーン
+	ResultScene _Result;
+	// 説明シーン
+	ExplainScene _Explain;
 
 	// 現在のシーン
 	SceneState _nowScene;
