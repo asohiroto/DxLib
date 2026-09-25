@@ -155,9 +155,11 @@
     <ClInclude Include="AsoDxLib\Circle.h" />
     <ClInclude Include="AsoDxLib\Color.h" />
     <ClInclude Include="AsoDxLib\LibIncluder.h" />
+    <ClInclude Include="AsoDxLib\Matrix4.h" />
     <ClInclude Include="AsoDxLib\Mouse.h" />
     <ClInclude Include="AsoDxLib\Pad.h" />
     <ClInclude Include="AsoDxLib\Vec2.h" />
+    <ClInclude Include="AsoDxLib\Vec3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

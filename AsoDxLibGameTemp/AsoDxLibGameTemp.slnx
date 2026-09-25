@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="AsoDxLibGameTemp.vcxproj" />
+  <Project Path="AsoDxLibGameTemp.vcxproj" Id="8e9de22e-c384-4142-bea8-566b1e1ed839" />
 </Solution>
