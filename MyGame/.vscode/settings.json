@@ -1,7 +1,7 @@
 {
 	"files.encoding": "utf8bom",
 	"files.eol": "\n",
-	"editor.formatOnSave": false,
+	"editor.formatOnSave": true,
 	"editor.insertSpaces": false,
 	"editor.tabSize": 4,
 	"[cpp]": {
@@ -18,7 +18,5 @@
 		"*.hlsli": "hlsl"
 	},
 	"C_Cpp.default.configurationProvider": "mahirocreative.dxlib-devenv",
-	"C_Cpp.debugShortcut": false,
-	"dxlib.vsProject": "2026_summer.vcxproj",
-	"dxlib.vsPlatform": "x64"
+	"C_Cpp.debugShortcut": false
 }

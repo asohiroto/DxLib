@@ -8,6 +8,7 @@ namespace
 	constexpr float MOVE_SPEED = 12.0f;
 	// 入力値変換用の値
 	constexpr float INPUT_COR = 0.001f;
+	
 }
 
 PlayerMove::PlayerMove() :

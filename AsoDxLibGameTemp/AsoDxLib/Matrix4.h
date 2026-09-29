@@ -286,6 +286,30 @@ public:
 		const Matrix4& a = *this;
 		return Vec3(a(2, 0), a(2, 1), a(2, 2));
 	}
+	// ローカルのX軸を定める
+	void SetRight(const Vec3& axis)
+	{
+		Matrix4& a = *this;
+		a(0, 0) = axis.x;
+		a(0, 1) = axis.y;
+		a(0, 2) = axis.z;
+	}
+	// ローカルのY軸を定める
+	void SetUp(const Vec3& axis)
+	{
+		Matrix4& a = *this;
+		a(1, 0) = axis.x;
+		a(1, 1) = axis.y;
+		a(1, 2) = axis.z;
+	}
+	// ローカルのZ軸を定める
+	void SetForward(const Vec3& axis)
+	{
+		Matrix4& a = *this;
+		a(2, 0) = axis.x;
+		a(2, 1) = axis.y;
+		a(2, 2) = axis.z;
+	}
 	// 各軸の大きさを取り出す
 	Vec3 GetScale() const
 	{
@@ -296,9 +320,94 @@ public:
 	// SetCameraViewMatrix に渡して使う。
 	static Matrix4 LookAtLH(const Vec3& eye, const Vec3& target, const Vec3& up)
 	{
+		Matrix4 out = LookRotation(target - eye, up);
+		out.SetPosition(eye);
+		return out.InverseAffine();
 	}
 	// forwardの方向を向く回転行列を作る
 	static Matrix4 LookRotation(const Vec3& forward, const Vec3& up)
 	{
+		assert(forward.SqLength() > 0.0f);
+		assert(up.SqLength() > 0.0f);
+		Vec3 zAxis = forward.GetNormalize();
+		Vec3 xAxis = up.Cross(zAxis);
+		assert(xAxis.SqLength() > 0.0f);
+		xAxis.Normalize();
+		Vec3 yAxis = zAxis.Cross(xAxis);
+		Matrix4 out = Identity();
+		out.SetRight(xAxis);
+		out.SetUp(yAxis);
+		out.SetForward(zAxis);
+		return out;
+	}
+	// 透視投影行列を作る。遠くの物ほど小さく見える、普通の 3D 表示用。
+	// fovY:縦の視野角、aspect:画面の横/縦、zNear/zFar:描画する奥行きの範囲
+	static Matrix4 PerspectiveFovLH(float fovY, float aspect, float zNear, float zFar)
+	{
+		assert(zFar > zNear);
+		assert(zNear > 0.0f);
+		assert(aspect > 0.0f);
+		assert(fovY > 0.0f);
+		assert(fovY < DX_PI_F);
+		float yScale = 1.0f / tanf(fovY / 2.0f);
+		float xScale = yScale / aspect;
+		Matrix4 out;
+		out(0, 0) = xScale;
+		out(1, 1) = yScale;
+		out(2, 2) = zFar / (zFar - zNear);
+		out(2, 3) = 1.0f;
+		out(3, 2) = -zFar * zNear / (zFar - zNear);
+		return out;
+	}
+	// 正射影行列を作る。距離で大きさが変わらない表示用(2D 風表示やミニマップなど)。
+	static Matrix4 OrthoLH(float width, float height, float zNear, float zFar)
+	{
+		assert(width > 0.0f);
+		assert(height > 0.0f);
+		assert(zFar > zNear);
+		Matrix4 out = Identity();
+		out(0, 0) = 2.0f / width;
+		out(1, 1) = 2.0f / height;
+		out(2, 2) = 1.0f / (zFar - zNear);
+		out(3, 2) = -zNear / (zFar - zNear);
+		return out;
+	}
+	// 全要素が完全に一致するか比較する。
+	// float の誤差があるので、計算結果の比較には NearlyEquals を使うほうが安全。
+	bool operator==(const Matrix4& rhs) const
+	{
+		const Matrix4& a = *this;
+		for (int i = 0; i < 4; ++i)
+		{
+			for (int j = 0; j < 4; ++j)
+			{
+				if (a(i, j) != rhs(i, j))
+					return false;
+			}
+		}
+		return true;
+	}
+	// いずれかの要素が不一致かを返す
+	bool operator!=(const Matrix4& rhs) const
+	{
+		const Matrix4& a = *this;
+		if (a == rhs)
+			return false;
+		else
+			return true;
+	}
+	// 全要素の差が eps 以内なら等しいとみなす。テストやデバッグで使う。
+	bool NearlyEquals(const Matrix4& rhs, float eps = 1e-5f) const
+	{
+		const Matrix4& a = *this;
+		for (int i = 0; i < 4; ++i)
+		{
+			for (int j = 0; j < 4; ++j)
+			{
+				if (fabsf(a(i, j) - rhs(i, j)) > eps)
+					return false;
+			}
+		}
+		return true;
 	}
 };

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TempGame", "TempGame.vcxproj", "{A5B7370F-E5F6-4847-B0E5-14CEEE8336B3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A5B7370F-E5F6-4847-B0E5-14CEEE8336B3}.Debug|x64.ActiveCfg = Debug|x64
+		{A5B7370F-E5F6-4847-B0E5-14CEEE8336B3}.Debug|x64.Build.0 = Debug|x64
+		{A5B7370F-E5F6-4847-B0E5-14CEEE8336B3}.Release|x64.ActiveCfg = Release|x64
+		{A5B7370F-E5F6-4847-B0E5-14CEEE8336B3}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {71908899-EA86-4DBE-9C9A-E17D91FD7BAD}
+	EndGlobalSection
+EndGlobal

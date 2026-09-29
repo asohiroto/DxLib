@@ -1,0 +1,9 @@
+build/
+Log.txt
+*.pdb
+*.ilk
+*.obj
+.vs/
+dist/
+*.vcxproj.user
+dxlib.props

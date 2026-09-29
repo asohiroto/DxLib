@@ -19,6 +19,6 @@
 	},
 	"C_Cpp.default.configurationProvider": "mahirocreative.dxlib-devenv",
 	"C_Cpp.debugShortcut": false,
-	"dxlib.vsProject": "2026_summer.vcxproj",
+	"dxlib.vsProject": "Simulation.vcxproj",
 	"dxlib.vsPlatform": "x64"
 }
