@@ -1,0 +1,13 @@
+BasedOnStyle: Microsoft
+UseTab: ForIndentation
+IndentWidth: 4
+TabWidth: 4
+BreakBeforeBraces: Allman
+ColumnLimit: 0
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: WithoutElse
+PointerAlignment: Left
+SortIncludes: false
+NamespaceIndentation: All
+AlignConsecutiveBitFields: Consecutive
+AccessModifierOffset: -4

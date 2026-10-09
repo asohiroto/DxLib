@@ -1,0 +1,22 @@
+{
+	"files.encoding": "utf8bom",
+	"files.eol": "\n",
+	"editor.formatOnSave": true,
+	"editor.insertSpaces": false,
+	"editor.tabSize": 4,
+	"[cpp]": {
+		"editor.defaultFormatter": "ms-vscode.cpptools"
+	},
+	"[c]": {
+		"editor.defaultFormatter": "ms-vscode.cpptools"
+	},
+	"[hlsl]": {
+		"editor.defaultFormatter": "mahirocreative.dxlib-devenv"
+	},
+	"files.associations": {
+		"*.fx": "hlsl",
+		"*.hlsli": "hlsl"
+	},
+	"C_Cpp.default.configurationProvider": "mahirocreative.dxlib-devenv",
+	"C_Cpp.debugShortcut": false
+}

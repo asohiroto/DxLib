@@ -1,0 +1,41 @@
+#アルカナフォージ  ARCANA FORGE
+企画・プログラム・ゲームデザイン
+  Claude (Anthropic)
+
+#グラフィック
+16x16 DungeonTileset II
+  0x72 (Robert) / recolor: GrafxKid
+  CC0
+  https://0x72.itch.io/dungeontileset-ii
+カード・レリックのアイコン
+  下絵を画像生成AI（Google Gemini）で生成し、
+  開発者がパレット変換・縮小・縁取りを加工
+
+#フォント
+Probly12 Font  by Problyme
+  SIL Open Font License 1.1
+  (一部グリフ: Ark Pixel Font / TakWolf,
+  Galmuri / Lee Minseo)
+  https://problyme.itch.io/probly12-font
+
+#サウンド
+blip8 sounds  by sindriax
+  CC0
+  https://sindriax.itch.io/blip8-sounds
+The Game Creator's Pack (Audio)
+  by Jonathan So   CC0
+  https://jonathan-so.itch.io/creatorpack
+
+#ライブラリ
+DXライブラリ  Copyright (C) 山田 巧
+  libpng, zlib
+  libjpeg (Independent JPEG Group)
+  Ogg Vorbis / Theora
+  (Xiph.Org Foundation)
+  Bullet Physics ほか、DXライブラリ同梱のライブラリ
+Effekseer / EffekseerForDXLib
+  Copyright (c) Effekseer Project
+  MIT License
+
+#
+Thank you for playing!

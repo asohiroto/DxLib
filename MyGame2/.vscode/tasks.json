@@ -1,0 +1,22 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "dxlib",
+			"config": "debug",
+			"label": "DxLib: Debug ビルド",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": []
+		},
+		{
+			"type": "dxlib",
+			"config": "release",
+			"label": "DxLib: Release ビルド",
+			"group": "build",
+			"problemMatcher": []
+		}
+	]
+}

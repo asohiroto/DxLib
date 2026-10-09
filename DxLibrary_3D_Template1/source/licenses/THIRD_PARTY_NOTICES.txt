@@ -1,0 +1,136 @@
+ARCANA FORGE - Third-party notices / 使用素材・ライブラリの表記
+======================================================================
+
+本ソフトウェアは以下の素材・ライブラリを使用しています。
+This software uses the following assets and libraries.
+
+----------------------------------------------------------------------
+1. DX Library (DXライブラリ) Ver 3.24f
+----------------------------------------------------------------------
+DX Library Copyright (C) 2001-2025 Takumi Yamada.
+https://dxlib.xsrv.jp/
+
+DXライブラリが内部で使用する以下のライブラリの著作権表示:
+
+libpng  Copyright (C) 2004, 2006-2012 Glenn Randers-Pehrson.
+zlib    Copyright (C) 1995-2012 Jean-loup Gailly and Mark Adler.
+
+libjpeg  Copyright (C) 1991-2013, Thomas G. Lane, Guido Vollbeding.
+This software is based in part on the work of the Independent JPEG Group.
+
+Bullet Physics  Copyright (c) 2003-2006 Erwin Coumans.
+
+Ogg Vorbis / Ogg Theora
+Copyright (C) 2002-2009 Xiph.org Foundation
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+- Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+
+- Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.
+
+- Neither the name of the Xiph.org Foundation nor the names of its
+contributors may be used to endorse or promote products derived from
+this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE FOUNDATION
+OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+Mersenne Twister
+Copyright (C) 1997 - 2002, Makoto Matsumoto and Takuji Nishimura,
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+1. Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.
+
+3. The name of the author may not be used to endorse or promote products
+derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+----------------------------------------------------------------------
+2. Effekseer / EffekseerForDXLib
+----------------------------------------------------------------------
+The MIT License (MIT)
+
+Copyright (c) 2011 Effekseer Project
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+----------------------------------------------------------------------
+3. Probly12 Font (data/font/Probly12-CJK.ttf)
+----------------------------------------------------------------------
+By Problyme. Licensed under the SIL Open Font License, Version 1.1.
+Some glyphs derive from Ark Pixel Font (TakWolf) and Galmuri (Lee Minseo).
+The full licence text is in data/font/Probly12_LICENSE.txt.
+https://problyme.itch.io/probly12-font
+
+----------------------------------------------------------------------
+4. Graphics / Sound (CC0 1.0 Universal - Public Domain Dedication)
+----------------------------------------------------------------------
+- 16x16 DungeonTileset II by 0x72 (Robert), recolor by GrafxKid
+  https://0x72.itch.io/dungeontileset-ii                 CC0
+- blip8 sounds by sindriax                                  CC0
+  https://sindriax.itch.io/blip8-sounds  (data/sfx/blip8_LICENSE.txt)
+- The Game Creator's Pack (Audio) by Jonathan So            CC0
+  https://jonathan-so.itch.io/creatorpack
+
+These works are dedicated to the public domain under CC0 1.0.
+https://creativecommons.org/publicdomain/zero/1.0/
+Credit is not required; it is given here with thanks.
+
+----------------------------------------------------------------------
+5. AI-generated content / AI生成物について
+----------------------------------------------------------------------
+Some card, relic and UI icons were drafted with Google Gemini (image
+generation) and then converted to the game's pixel-art palette, downscaled
+and outlined. Characters, enemies, tiles, sound effects and music are the
+CC0 assets listed above (not AI-generated). The game's design and code were
+produced with an AI assistant (Claude by Anthropic).

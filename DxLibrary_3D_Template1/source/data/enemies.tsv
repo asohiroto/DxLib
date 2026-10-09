@@ -1,0 +1,15 @@
+id	name	ai	hp	speed	radius	dmg	cd	bspeed	weak	resist	freeze	kb	color	gold	sprite	scale	tint
+slime	スライム	chase	30	66	7	10	0.8	0	fire	none	1	1	90,210,110	2	swampy	1.0	-
+minislime	ちびスライム	chase	10	84	5	6	0.8	0	fire	none	1	0.8	140,230,150	0	tiny_slug	0.8	-
+archer	ゴブリン弓兵	archer	24	48	6	10	1.4	145	ice	none	1	1	230,200,90	3	goblin	1.0	-
+charger	仮面オーク	charger	60	38	9	18	1.2	280	earth	none	1.5	2	220,80,70	4	masked_orc	1.15	-
+mage	オーク呪術師	caster	45	30	7	9	2.8	100	thunder	none	1	1.2	170,100,230	4	orc_shaman	1.0	-
+splitter	泥スライム	splitter	50	50	9	12	0.8	0	fire	ice	1.3	1.2	60,170,140	4	muddy	1.3	-
+bomber	爆弾インプ	bomber	22	92	6	22	1.0	0	ice	fire	1	0.8	255,140,60	3	imp	1.0	-
+shield	オーク盾兵	shield	70	34	8	9	1.2	120	thunder	earth	1.5	3	150,160,190	5	orc_warrior	1.1	-
+sniper	骸骨射手	sniper	28	44	6	16	3.0	380	earth	none	1	1	220,220,120	4	skelet	1.0	-
+summoner	死霊術師	summoner	50	32	7	8	4.0	0	fire	thunder	1	1.2	200,90,160	5	necromancer	1.0	-
+turret	魔導砲台	turret	80	0	9	8	0.16	115	earth	ice	2	99	140,140,170	5	chort	1.2	190,160,255
+boss_slime	スライムキング	boss_slime	3000	50	18	18	3.0	0	fire	ice	3	8	60,200,90	40	swampy	3.0	-
+boss_lich	フロストリッチ	boss_lich	2600	34	14	11	2.0	95	fire	ice	4	8	140,200,255	50	necromancer	2.0	200,235,255
+boss_golem	アルカナデーモン	boss_golem	5400	38	18	30	2.0	300	none	none	5	10	200,170,120	60	big_demon	1.6	-
