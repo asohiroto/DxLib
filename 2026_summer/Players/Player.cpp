@@ -401,7 +401,6 @@ void Player::Draw()
 
 	for (int i = 0; i < animNum; i++)
 		DrawFormatString(0, 220 + (i * 20), 0xffffff, "[%d], %s", i, MV1GetAnimName(_playerUnit.modelH, i));
-
 #endif
 }
 

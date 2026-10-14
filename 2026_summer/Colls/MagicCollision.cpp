@@ -80,7 +80,7 @@ void MagicCollision::Update(const std::shared_ptr<Player>& pPlayer, Enemy& pEnem
 		// ビームは持続する魔法なので当たっても消さない
 		if (magic.type == MagicBase::MagicType::MagicBeam)
 		{
-
+			
 		}
 		else
 			enemyList[_hitEnemyMagicInd].isExist = false;
